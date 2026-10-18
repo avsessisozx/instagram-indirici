@@ -33,6 +33,9 @@ class IntegrationTests(unittest.TestCase):
         os.environ["INSTAGRAM_INDIRICI_IDLE"] = "4"
         os.environ["INSTAGRAM_INDIRICI_DELAY"] = "0-0.05"
         os.environ["INSTAGRAM_INDIRICI_BACKOFF"] = "1,2"
+        os.environ["INSTAGRAM_INDIRICI_BREAK"] = "0"
+        os.environ["INSTAGRAM_INDIRICI_RESUME_WAIT"] = "8"
+        os.environ["INSTAGRAM_INDIRICI_RESUME_ROUNDS"] = "3"
 
     @classmethod
     def tearDownClass(cls):
@@ -41,6 +44,10 @@ class IntegrationTests(unittest.TestCase):
 
     def setUp(self):
         self.fake.reset()
+        from instagram_indirici.history import History
+        h = History()   # her test temiz geçmişle başlasın
+        h.clear()
+        h.close()
 
     # ------------------------------------------------------------ yardımcılar
     def run_job(self, link, mode, timeout=180, out=None, **settings):
@@ -48,8 +55,10 @@ class IntegrationTests(unittest.TestCase):
 
         out = out or Path(self.tmp.name) / f"out_{time.monotonic_ns()}"
         engine = Engine()
+        # Geçmiş ve "sadece yeni" testler arasında birbirini etkilemesin diye varsayılan kapalı;
+        # bu özellikleri deneyen testler açıkça açar.
         base = {"out_dir": str(out), "content": "all", "limit": 0, "posts": True, "stories": True,
-                "highlights": True, "avatar": True, "only_new": True}
+                "highlights": True, "avatar": True, "only_new": False, "history": False, "auto_continue": False}
         base.update(settings)
         error = engine.start(Job(link, mode, base))
         self.assertIsNone(error, error and error.key)
@@ -187,7 +196,6 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(snap["phase"], "stopped")
         self.assertLess(snap["files_done"], 20)
         self.assert_clean(out)
-        self.assertFalse((out / fi.PROFILE_OK / ".instagram-indirici.json").exists())
 
     # ------------------------------------------------------------ giriş
     def test_b1_login(self):
@@ -218,7 +226,10 @@ class IntegrationTests(unittest.TestCase):
         is_proje = [f for f in files if f.startswith(prefix + "Öne Çıkanlar/İş Proje/")]
         self.assertEqual((len(tatil), len(is_proje)), (2, 3), files)
         self.assertIn(prefix + "Profil Fotoğrafı/9988776655.jpg", files)
-        posts = [f for f in files if f.count("/") == 1]
+        posts = [f for f in files if f.startswith((prefix + "Fotoğraflar/", prefix + "Videolar/"))]
+        self.assertTrue(all(f.endswith(".mp4") for f in files if f.startswith(prefix + "Videolar/")))
+        self.assertFalse(any(f.endswith(".mp4") for f in files if f.startswith(prefix + "Fotoğraflar/")))
+        self.assertEqual([f for f in files if f.count("/") == 1], [], "kişinin klasöründe başıboş dosya kalmamalı")
         # 41 gönderi: 8 albüm (3 dosya), 8 video, 1 videosuz (atlanır), geri kalanı tek resim
         albums = sum(1 for i in range(fi.TOTAL_POSTS) if i % 5 == 2)
         videos = sum(1 for i in range(fi.TOTAL_POSTS) if i % 5 == 1)
@@ -227,14 +238,15 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(len(posts), albums * 3 + videos + singles, len(posts))
         self.assertEqual(snap["files_failed"], 0)
         self.assert_clean(out)
-        marker = json.loads((out / fi.PROFILE_OK / ".instagram-indirici.json").read_text(encoding="utf-8"))
-        self.assertEqual(marker["user_id"], "1001")
-        self.assertEqual(marker["complete"]["all"], fi.BASE_TS)
+        from instagram_indirici.history import History
+        h = History()
+        self.assertEqual(h.complete_newest("1001", "all"), fi.BASE_TS)
+        h.close()
         type(self).full_out = out
 
         # Aynı klasöre tekrar: sadece yeni gönderilere bakar, hiçbir şey tekrar inmez
         self.fake.reset()
-        snap2, _ = self.run_job(fi.PROFILE_OK, "profile", out=out, stories=False, highlights=False)
+        snap2, _ = self.run_job(fi.PROFILE_OK, "profile", out=out, stories=False, highlights=False, only_new=True)
         self.assertEqual(snap2["phase"], "done", snap2["summary"])
         self.assertIn("engine.only_new", self.keys(snap2))
         self.assertIn("engine.up_to_date", self.keys(snap2))
@@ -300,7 +312,6 @@ class IntegrationTests(unittest.TestCase):
         files = self.files(out)
         self.assertTrue(files)
         self.assertTrue(all(f.endswith(".mp4") for f in files), files)
-        self.assertFalse((out / fi.PROFILE_OK / ".instagram-indirici.json").exists())
 
     def test_c7_single_items_logged_in(self):
         self.ensure_login()
@@ -330,6 +341,83 @@ class IntegrationTests(unittest.TestCase):
                                  stories=False, highlights=False, avatar=False)
         self.assertEqual(snap["phase"], "done", snap["summary"])
         self.assertEqual(snap["found_posts"], fi.TOTAL_POSTS + 1)
+
+
+    # ------------------------------------------------------------ 1.1: klasör düzeni, geçmiş, devam
+    def test_d1_old_layout_files_are_moved(self):
+        self.ensure_login()
+        out = Path(self.tmp.name) / "eski_duzen"
+        first = self.fake.data.posts[fi.PROFILE_OK][1]   # i=0, tek resim
+        from instagram_indirici.media import build_post
+        stem = build_post(first, content="all").stem
+        old = out / fi.PROFILE_OK / f"{stem}.jpg"
+        old.parent.mkdir(parents=True)
+        old.write_bytes(b"eski dosya")
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", out=out, stories=False, highlights=False, avatar=False,
+                                 limit=3)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertFalse(old.exists())
+        moved = list((out / fi.PROFILE_OK / "Fotoğraflar").glob(f"{stem}.*"))
+        self.assertEqual(len(moved), 1, moved)
+        self.assertEqual(moved[0].read_bytes(), b"eski dosya")
+
+    def test_d2_session_killed_then_continue_with_other_account(self):
+        """Kullanıcının yaşadığı: ~150 gönderiden sonra Instagram oturumu kapatıyor."""
+        self.ensure_login()
+        self.fake.session_kill_after = 2
+        snap, out1 = self.run_job(fi.PROFILE_OK, "profile", stories=False, highlights=False, avatar=False,
+                                  history=True)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertTrue(snap["login_wall"])
+        self.assertIn("engine.session_expired_partial", [n["key"] for n in snap["notes"]])
+        self.assertEqual(snap["found_posts"], 2 * fi.PAGE)
+        first_files = self.files(out1)
+        self.assertTrue(first_files)
+
+        # Başka hesapla (burada aynı sahte hesap) giriş, başka bir klasöre: kaldığı yerden devam.
+        self.fake.reset()
+        self.ensure_login()
+        snap, out2 = self.run_job(fi.PROFILE_OK, "profile", stories=False, highlights=False, avatar=False,
+                                  history=True)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        keys = self.keys(snap)
+        self.assertIn("engine.history_known", keys)
+        self.assertIn("engine.resume_found", keys)
+        self.assertIn("browser.resuming", keys)
+        feed_calls = [p for p, _ in self.fake.api_calls if p.startswith("/api/v1/feed/user/")]
+        self.assertEqual(len(feed_calls), 3, feed_calls)       # baştan 1 sayfa + kalan 2 sayfa
+        second_files = self.files(out2)
+        names1 = {Path(f).name for f in first_files}
+        self.assertFalse(names1 & {Path(f).name for f in second_files}, "önceden inenler tekrar indi")
+        # Baştaki sayfa (sabitlenmiş + 11 gönderi, 1'i videosuz) geçmişte bulundu, sonra atlandı
+        self.assertEqual(snap["posts_known"], fi.PAGE - 1)
+        self.assertEqual(snap["found_posts"], fi.PAGE + fi.TOTAL_POSTS + 1 - 2 * fi.PAGE)
+        # Liste bitti: artık tamamlandı sayılır, devam noktası silinir
+        from instagram_indirici.history import History
+        h = History()
+        self.assertIsNone(h.resume_point("1001", "all"))
+        self.assertEqual(h.complete_newest("1001", "all"), fi.BASE_TS)
+        h.clear()
+        h.close()
+
+    def test_d3_rate_limited_waits_and_continues(self):
+        self.ensure_login()
+        self.fake.rate_after = 2
+        self.fake.rate_window = 12
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", stories=False, highlights=False, avatar=False,
+                                 history=True, auto_continue=True, timeout=240)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        keys = self.keys(snap)
+        self.assertIn("engine.auto_wait", keys)
+        self.assertIn("engine.auto_resume", keys)
+        self.assertEqual(snap["found_posts"], fi.TOTAL_POSTS + 1)
+        self.assertEqual(snap["files_failed"], 0)
+        self.assertFalse(snap["rate_limited"])
+        self.assertGreaterEqual(snap["files_done"], 50)
+        from instagram_indirici.history import History
+        h = History()
+        h.clear()
+        h.close()
 
 
 if __name__ == "__main__":

@@ -24,18 +24,31 @@ Gereken tek şey Microsoft Edge (Windows 10/11'de zaten yüklü) ya da Google Ch
 
 İndirme sırasında bir Edge penceresi açılıp Instagram'ı kendisi açar. **O pencereyi iş bitene kadar kapatma.**
 
-Dosyalar varsayılan olarak `İndirilenler\Instagram\<kullanıcı adı>\` klasörüne iner:
+Dosyalar varsayılan olarak `İndirilenler\Instagram\<kullanıcı adı>\` klasörüne, türüne göre ayrı klasörlere iner:
 
 ```
 İndirilenler\Instagram\kullaniciadi\
-    2026-10-01_gönderi açıklaması_DAbc123XyZ.jpg
-    2026-10-03_reels başlığı_DAbd456XyZ.mp4
-    2026-10-05_albüm_DAbe789XyZ_01.jpg
-    2026-10-05_albüm_DAbe789XyZ_02.mp4
+    Fotoğraflar\2026-10-01_gönderi açıklaması_DAbc123XyZ.jpg
+    Fotoğraflar\2026-10-05_albüm_DAbe789XyZ_01.jpg
+    Videolar\2026-10-03_reels başlığı_DAbd456XyZ.mp4
+    Videolar\2026-10-05_albüm_DAbe789XyZ_02.mp4
     Hikayeler\2026-10-18_3500000000000000000.jpg
     Öne Çıkanlar\Tatil\2026-07-01_3600000000000000000.jpg
     Profil Fotoğrafı\9988776655.jpg
 ```
+
+Albümlerin parçaları türüne göre Fotoğraflar ya da Videolar'a gider; aynı albümden geldikleri dosya adındaki koddan ve `_01`, `_02` sırasından belli olur.
+
+## Kaldığı yerden devam ve indirme geçmişi
+
+Instagram toplu gezinmede bir süre sonra mola istiyor ya da oturumu kapatıp yeniden giriş istiyor (genelde birkaç yüz gönderiden sonra). Program bunun için:
+
+- **İndirme geçmişi tutar.** Hangi profilden hangi gönderinin indiğini bilir. Geçmiş Instagram hesabına değil profile bağlıdır: aylar sonra, başka bir hesapla giriş yapıp, hatta başka bir klasöre indirsen bile önceden inenler tekrar inmez.
+- **Listede nerede kaldığını hatırlar.** Tekrar başlattığında önce yeni gönderilere bakar, sonra yarıda kalan yere atlayıp oradan devam eder; baştan yüzlerce gönderiyi tekrar taramaz.
+- **Kendi kendine mola verir.** Belli aralıklarla kısa molalar verir. Instagram yine de durdurursa 15 dakika bekleyip kendiliğinden devam eder (ayarlardan kapatılabilir).
+- Instagram oturumu kapatırsa bulduklarını indirir; tekrar giriş yapıp (istersen başka hesapla) aynı linkle başlatman yeterli.
+
+Geçmişi ayarlardaki **Geçmişi temizle** ile silebilirsin (indirilen dosyalar silinmez).
 
 ## Giriş yapmak gerekiyor mu?
 

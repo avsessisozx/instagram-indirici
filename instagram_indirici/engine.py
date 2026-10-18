@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import sys
 import threading
 import time
@@ -16,6 +17,7 @@ from . import links
 from .browser import (ApiError, BrowserError, FeedResult, InstagramBrowser, LoginRequired, NotFound,
                       ProfileInfo, RateLimited)
 from .fetcher import Cancelled, existing_file, ext_from_content_type, fetch, write_bytes
+from .history import History
 from .i18n import Msg, msg
 from .media import (KIND_AVATAR, KIND_HIGHLIGHT, KIND_POST, KIND_STORY, STORIES_DIR, MediaFile, Post, author_folder,
                     build_avatar, build_post, highlight_folder, is_pinned, owner_of, taken_at_of)
@@ -106,6 +108,20 @@ def needs_repair(item: Dict[str, Any], post: Post) -> bool:
                 and "video_versions" not in item and post.code)
 
 
+def resume_wait() -> float:
+    try:
+        return float(os.environ.get("INSTAGRAM_INDIRICI_RESUME_WAIT", "900"))
+    except ValueError:
+        return 900.0
+
+
+def max_rounds() -> int:
+    try:
+        return int(os.environ.get("INSTAGRAM_INDIRICI_RESUME_ROUNDS", "4"))
+    except ValueError:
+        return 4
+
+
 class Engine:
     def __init__(self) -> None:
         self._lock = threading.Lock()
@@ -140,7 +156,17 @@ class Engine:
         self.collecting = False
         self.summary: Optional[Msg] = None
         self.notes: List[Msg] = []
-        self._pending_marker: Optional[tuple] = None
+        self._pending_complete: Optional[tuple] = None
+        self.posts_known = 0
+        self.wait_until = 0.0
+        self.wait_kind = ""
+        self.history: Optional[History] = None
+        self._use_history = True
+        self._known: set = set()
+        self._enqueued: set = set()
+        self._pages: List[Dict[str, Any]] = []
+        self._progress_ctx: Optional[tuple] = None   # (user_id, content, username) için imleç kaydı
+        self._jumped = False
         self.started_at = 0.0
         self.logs = []
 
@@ -175,6 +201,9 @@ class Engine:
                 "posts_done": self.posts_done,
                 "posts_skipped": self.posts_skipped,
                 "posts_unavailable": self.posts_unavailable,
+                "posts_known": self.posts_known,
+                "waiting": max(0, int(self.wait_until - time.time())) if self.wait_until else 0,
+                "wait_kind": self.wait_kind,
                 "collecting": self.collecting,
                 "files_total": self.files_total,
                 "files_done": self.files_done,
@@ -239,9 +268,24 @@ class Engine:
     # ------------------------------------------------------------ iş akışı
     async def _run(self, job: Job) -> None:
         settings = clean_settings(job.settings)
+        self._use_history = bool(settings.get("history", True))
+        try:
+            self.history = History()
+        except Exception as exc:  # geçmiş açılamazsa yine de çalış
+            self.history = None
+            self.log("warn", msg("engine.history_failed", error=str(exc)))
+        try:
+            await self._run_browser(job, settings)
+        finally:
+            if self.history is not None:
+                self.history.close()
+                self.history = None
+
+    async def _run_browser(self, job: Job, settings: Dict[str, Any]) -> None:
         try:
             async with InstagramBrowser(app_data_dir(), log=self.log, cancel=self._cancel,
                                         on_verify=self._set_verify) as browser:
+                browser.on_wait = self._set_wait
                 if job.mode == MODE_LOGIN:
                     ok = await browser.login_session()
                     self.logged_in = ok
@@ -272,6 +316,10 @@ class Engine:
 
     def _set_verify(self, value: bool) -> None:
         self.verify = value
+
+    def _set_wait(self, until: float) -> None:
+        self.wait_until = until
+        self.wait_kind = "pause" if until else ""
 
     async def _download_job(self, browser: InstagramBrowser, job: Job, settings: Dict[str, Any]) -> None:
         parsed = links.parse_link(job.link)
@@ -307,6 +355,13 @@ class Engine:
                 self.rate_limited = True
                 collect_error = exc
                 self.log("error", exc.message)
+            except LoginRequired as exc:
+                if not self.files_total and not self.posts_known:
+                    raise
+                # Instagram oturumu iş ortasında kapattı: bulunanları indir, kalanı sonra devam eder.
+                self.login_wall = True
+                collect_error = exc
+                self.log("error", exc.message)
             self.collecting = False
             for _ in workers:
                 queue.put_nowait(None)
@@ -321,17 +376,17 @@ class Engine:
         if self._cancel.is_set():
             self._finish_stopped()
             return
-        if self._pending_marker and self.files_failed == 0 and collect_error is None:
-            write_marker(*self._pending_marker)
-        if collect_error is not None and self.files_done == 0 and self.files_skipped == 0:
+        if self._pending_complete and self.files_failed == 0 and collect_error is None and self.history:
+            self.history.set_complete(*self._pending_complete)
+        if collect_error is not None and self.files_done == 0 and self.files_skipped == 0 and self.posts_known == 0:
             self.phase = "error"
             self.summary = collect_error.message
             return
         self.phase = "done"
         self.summary = msg("summary", done=self.files_done, skipped=self.files_skipped,
                            failed=self.files_failed, unmatched=self.posts_skipped,
-                           unavailable=self.posts_unavailable)
-        if self.files_done == 0 and self.files_skipped == 0:
+                           unavailable=self.posts_unavailable, known=self.posts_known)
+        if self.files_done == 0 and self.files_skipped == 0 and self.posts_known == 0:
             self.phase = "error" if self.files_failed or self.found_posts == 0 else "done"
             if self.found_posts == 0 and self.notes:
                 self.summary = self.notes[0]
@@ -345,7 +400,7 @@ class Engine:
             item = await browser.get_post(parsed.shortcode, logged_in=logged_in)
             owner = owner_of(item)
             self.author = str(owner.get("username") or "")
-            self._enqueue(queue, build_post(item, content=content, username=self.author))
+            self._enqueue(queue, build_post(item, content=content, username=self.author), content=content)
             return
         if parsed.kind == links.STORY:
             if not logged_in:
@@ -359,7 +414,8 @@ class Engine:
                 raise NotFound(msg("engine.no_stories"))
             for item in items:
                 self._enqueue(queue, build_post(item, content=content, kind=KIND_STORY,
-                                                subdir=STORIES_DIR, username=info.username))
+                                                subdir=STORIES_DIR, username=info.username),
+                              content=content, user_id=info.user_id)
             return
         if parsed.kind == links.HIGHLIGHT:
             if not logged_in:
@@ -372,7 +428,7 @@ class Engine:
                 folder = highlight_folder(reel["title"], parsed.highlight_id)
                 for item in reel["items"]:
                     self._enqueue(queue, build_post(item, content=content, kind=KIND_HIGHLIGHT,
-                                                    subdir=folder, username=self.author))
+                                                    subdir=folder, username=self.author), content=content)
             return
         raise BrowserError(msg("engine.single_needs_post"))
 
@@ -408,6 +464,10 @@ class Engine:
         else:
             self.log("info", msg("engine.profile_found", name=label))
         self.log("debug", f"user_id={info.user_id} sources={','.join(info.sources)}")
+        if self.history and self._use_history:
+            self._known = self.history.known(info.user_id, content)
+            if self._known:
+                self.log("info", msg("engine.history_known", n=len(self._known)))
 
         if settings["avatar"]:
             try:
@@ -450,7 +510,8 @@ class Engine:
         self.log("info", msg("engine.stories_found", n=len(items)))
         for item in items:
             self._enqueue(queue, build_post(item, content=content, kind=KIND_STORY,
-                                            subdir=STORIES_DIR, username=info.username))
+                                            subdir=STORIES_DIR, username=info.username),
+                          content=content, user_id=info.user_id)
 
     async def _highlights(self, browser: InstagramBrowser, info: ProfileInfo, content: str,
                           queue: asyncio.Queue, logged_in: bool) -> None:
@@ -474,61 +535,139 @@ class Engine:
             folder = highlight_folder(title, hid.split(":")[-1])
             for item in reel["items"]:
                 self._enqueue(queue, build_post(item, content=content, kind=KIND_HIGHLIGHT,
-                                                subdir=folder, username=info.username))
+                                                subdir=folder, username=info.username),
+                              content=content, user_id=info.user_id)
 
     async def _posts(self, browser: InstagramBrowser, info: ProfileInfo, settings: Dict[str, Any],
                      queue: asyncio.Queue, logged_in: bool, folder: Path) -> None:
         content = settings["content"]
         limit = settings["limit"]
-        marker = read_marker(folder)
-        if marker.get("user_id") and str(marker.get("user_id")) != info.user_id:
-            marker = {}   # aynı klasörde başka bir hesap (kullanıcı adı el değiştirmiş)
-        newest_known = known_newest(marker, content) if settings.get("only_new", True) else 0
+        uid = info.user_id
+        newest_known = 0
+        if settings.get("only_new", True):
+            newest_known = self.history.complete_newest(uid, content) if self.history else 0
+            marker = read_marker(folder)   # 1.0.x sürümünün klasöre yazdığı not
+            if not newest_known and str(marker.get("user_id") or "") == uid:
+                newest_known = known_newest(marker, content)
         if newest_known:
             self.log("info", msg("engine.only_new"))
+        resume = None
+        if self.history and self._use_history and not newest_known and not limit:
+            resume = self.history.resume_point(uid, content)
+            if resume:
+                self.log("info", msg("engine.resume_found"))
+        if not limit:
+            self._progress_ctx = (uid, content, info.username)
         newest_seen = {"ts": 0}
+        repairs: List[Post] = []
+        repair_keys: set = set()
 
-        def on_page(items: List[Dict[str, Any]]) -> bool:
+        def on_page(items: List[Dict[str, Any]], cursor_kind: str = "", next_cursor: str = "") -> str:
+            page = {"cursor_kind": cursor_kind, "cursor": next_cursor, "pending": set(), "failed": False}
+            self._pages.append(page)
             reached_old = False
+            regular = 0
+            regular_known = 0
             for item in items:
                 ts = taken_at_of(item)
+                post = build_post(item, content=content, username=info.username)
                 if not is_pinned(item):
                     newest_seen["ts"] = max(newest_seen["ts"], ts)
                     if newest_known and ts and ts <= newest_known:
                         reached_old = True
-                post = build_post(item, content=content, username=info.username)
-                if needs_repair(item, post):
-                    repairs.append(post)
+                    regular += 1
+                    if post.key in self._known or post.skipped_reason:
+                        regular_known += 1
+                if needs_repair(item, post) and post.key not in self._known:
+                    if post.key not in repair_keys:
+                        repair_keys.add(post.key)
+                        repairs.append(post)
                     continue
-                self._enqueue(queue, post)
-            return reached_old
+                self._enqueue(queue, post, content=content, user_id=uid, page=page)
+            self._advance_pages()
+            if reached_old:
+                return "stop"
+            if (resume and not self._jumped and next_cursor and resume[0] == cursor_kind
+                    and regular and regular_known == regular):
+                # Bu bölge önceden inmiş: yarım kalan taramanın devam noktasına atla.
+                self._jumped = True
+                page["cursor"] = resume[1]
+                return "jump"
+            return ""
 
-        repairs: List[Post] = []
-        self.collecting = True
-        result: FeedResult = await browser.collect_posts(info, logged_in=logged_in, limit=limit, on_page=on_page)
-        self.log("debug", f"posts via={result.via} reason={result.reason} n={result.collected}")
+        rounds = 0
+        while True:
+            self.collecting = True
+            try:
+                result: FeedResult = await browser.collect_posts(
+                    info, logged_in=logged_in, limit=limit, on_page=on_page, resume=resume)
+            except RateLimited:
+                result = FeedResult(collected=0, reason="rate_limited")
+            self.log("debug", f"posts via={result.via} reason={result.reason} n={result.collected}")
+            if result.reason == "rate_limited" and settings.get("auto_continue", True) and rounds < max_rounds():
+                rounds += 1
+                await self._wait_and_continue(rounds)
+                # Bekleme sırasında inenler geçmişe yazıldı; kaldığı yerden devam edilir.
+                if self.history and self._use_history:
+                    self._known |= self.history.known(uid, content)
+                resume = self.history.resume_point(uid, content) if self.history and not limit else None
+                self._jumped = False
+                continue
+            break
+        if result.reason == "rate_limited" and result.collected == 0 and not self.files_total and not self.posts_known:
+            self.collecting = False
+            raise RateLimited("feed")
         self._report_posts(result, info)
         if repairs:
-            await self._repair(browser, repairs, content, queue, logged_in, info.username)
+            await self._repair(browser, repairs, content, queue, logged_in, info.username, uid)
         self.collecting = False
 
         if result.reason in ("end", "up_to_date") and not limit:
-            complete = dict(marker.get("complete")) if isinstance(marker.get("complete"), dict) else {}
             newest = newest_seen["ts"]
             if result.reason == "up_to_date":
-                newest = max(newest, known_newest(marker, content))
-            try:
-                newest = max(newest, int(complete.get(content) or 0))
-            except (TypeError, ValueError):
-                pass
-            if newest:
-                complete[content] = newest
+                newest = max(newest, newest_known)
             # İndirmeler hatasız biterse yazılır (bkz. _download_job).
-            self._pending_marker = (folder, {"user_id": info.user_id, "username": info.username,
-                                             "complete": complete, "updated": int(time.time())})
+            self._pending_complete = (uid, content, newest, info.username)
+
+    async def _wait_and_continue(self, round_no: int) -> None:
+        seconds = resume_wait()
+        self.log("warn", msg("engine.auto_wait", m=max(1, round(seconds / 60)), n=round_no, total=max_rounds()))
+        self.wait_until = time.time() + seconds
+        self.wait_kind = "rate"
+        try:
+            end = time.monotonic() + seconds
+            while time.monotonic() < end:
+                if self._cancel.is_set():
+                    raise asyncio.CancelledError()
+                await asyncio.sleep(min(1.0, end - time.monotonic()))
+        finally:
+            self.wait_until = 0.0
+            self.wait_kind = ""
+        self.log("info", msg("engine.auto_resume"))
+
+    def _advance_pages(self) -> None:
+        """Tamamen inen sayfaların imlecini kaydeder (yarıda kalırsa oradan devam etmek için)."""
+        while self._pages and not self._pages[0]["pending"] and not self._pages[0]["failed"]:
+            page = self._pages.pop(0)
+            if self._progress_ctx and self.history and page["cursor"] and page["cursor_kind"]:
+                uid, content, username = self._progress_ctx
+                self.history.set_resume_point(uid, content, page["cursor_kind"], page["cursor"], username)
+
+    def post_finished(self, post: Post, ok: bool) -> None:
+        """İndirme havuzu bir gönderiyi bitirince çağırır."""
+        if ok and self.history and post.kind != KIND_AVATAR and post.owner_id:
+            self.history.mark(post.owner_id, post.key, post.history_content or CONTENT_ALL, post.kind, post.username)
+            if post.history_content:
+                self._known.add(post.key)
+        page = post.page
+        if page is not None:
+            page["pending"].discard(post.key)
+            if not ok:
+                page["failed"] = True
+            self._advance_pages()
 
     async def _repair(self, browser: InstagramBrowser, repairs: List[Post], content: str,
-                      queue: asyncio.Queue, logged_in: bool, username: str) -> None:
+                      queue: asyncio.Queue, logged_in: bool, username: str, user_id: str) -> None:
         """Listede video adresi olmadan gelen gönderileri tek tek açıp tamamlar."""
         self.log("info", msg("engine.repairing", n=len(repairs)))
         for post in repairs:
@@ -538,15 +677,20 @@ class Engine:
                 item = await browser.get_post(post.code, logged_in=logged_in)
                 fixed = build_post(item, content=content, username=username)
                 if not fixed.skipped_reason:
-                    self._enqueue(queue, fixed)
+                    self._enqueue(queue, fixed, content=content, user_id=user_id)
                     continue
             except (ApiError, NotFound, LoginRequired, RateLimited) as exc:
                 self.log("debug", f"repair {post.code}: {exc.message.key}")
-            self._enqueue(queue, post)
+            self._enqueue(queue, post, content=content, user_id=user_id)
 
     def _report_posts(self, result: FeedResult, info: ProfileInfo) -> None:
         n, total = result.collected, info.media_count
-        if result.reason == "rate_limited":
+        if result.reason == "session_expired":
+            self.login_wall = True
+            note = msg("engine.session_expired_partial", n=n)
+            self.notes.append(note)
+            self.log("warn", note)
+        elif result.reason == "rate_limited":
             self.rate_limited = True
             note = msg("engine.rate_limited_partial", n=n)
             self.notes.append(note)
@@ -573,9 +717,16 @@ class Engine:
                 self.log("ok", msg("engine.profile_scanned", n=n))
 
     # ------------------------------------------------------------ kuyruk
-    def _enqueue(self, queue: asyncio.Queue, post: Post, quiet_skip: bool = False) -> None:
+    def _enqueue(self, queue: asyncio.Queue, post: Post, quiet_skip: bool = False, *, content: str = "",
+                 user_id: str = "", page: Optional[Dict[str, Any]] = None) -> None:
         if not post.key:
             return
+        if user_id and not post.owner_id:
+            post.owner_id = user_id
+        dedupe = f"{post.kind}:{post.key}"
+        if dedupe in self._enqueued:
+            return   # aynı iş içinde ikinci kez listelendi (ör. bekleyip devam ederken)
+        self._enqueued.add(dedupe)
         if post.kind == KIND_POST:
             self.found_posts += 1
         if not self.author and post.username:
@@ -589,6 +740,14 @@ class Engine:
             if not quiet_skip:
                 self.log("skip", msg("engine.skipped_post", reason=post.skipped_reason, name=post.stem))
             return
+        if post.kind != KIND_AVATAR and post.key in self._known:
+            # Geçmişe göre daha önce (belki başka hesapla, başka klasöre) inmiş.
+            self.posts_known += 1
+            return
+        post.history_content = content
+        if page is not None:
+            post.page = page
+            page["pending"].add(post.key)
         self.files_total += len(post.files)
         queue.put_nowait(post)
 
@@ -626,6 +785,7 @@ class DownloadPool:
                 return
             results.append(await self._download_file(folder, media_file))
         eng.posts_done += 1
+        eng.post_finished(post, bool(results) and all(r != "failed" for r in results))
         if results and all(r != "failed" for r in results):
             if any(r == "downloaded" for r in results):
                 kinds = {f.kind for f in post.files}
@@ -646,6 +806,17 @@ class DownloadPool:
         if existing_file(stem_path, media_file.ext):
             eng.files_skipped += 1
             return "skipped"
+        if media_file.legacy_stem:
+            # 1.0.x sürümü gönderileri doğrudan kişinin klasörüne koyuyordu: yeni yerine taşı.
+            old = existing_file(folder / media_file.legacy_stem, media_file.ext)
+            if old is not None:
+                try:
+                    stem_path.parent.mkdir(parents=True, exist_ok=True)
+                    os.replace(old, stem_path.with_name(stem_path.name + old.suffix))
+                    eng.files_skipped += 1
+                    return "skipped"
+                except OSError:
+                    pass
         eng.current = stem_path.name
         eng.current_bytes = 0
         eng.current_total = media_file.expected_size

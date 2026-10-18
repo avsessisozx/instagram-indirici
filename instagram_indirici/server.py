@@ -187,6 +187,18 @@ def make_handler(state: AppState):
                     return self._json({"error": error.to_json()}, 400)
                 return self._json({"ok": True})
 
+            if path == "/api/clear-history":
+                if state.engine.running:
+                    return self._json({"error": msg("engine.already_running").to_json()}, 400)
+                try:
+                    from .history import History
+                    h = History()
+                    n = h.clear()
+                    h.close()
+                except Exception as exc:
+                    return self._json({"error": msg("engine.history_failed", error=str(exc)).to_json()}, 500)
+                return self._json({"ok": True, "message": msg("server.history_cleared", n=n).to_json()})
+
             if path == "/api/stop":
                 state.engine.stop()
                 return self._json({"ok": True})

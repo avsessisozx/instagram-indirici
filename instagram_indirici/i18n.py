@@ -117,11 +117,11 @@ def strings_for(lang: str) -> Dict[str, str]:
 
 
 def compose_summary(lang: str, done: int = 0, skipped: int = 0, failed: int = 0, unmatched: int = 0,
-                    unavailable: int = 0, **_: Any) -> str:
+                    unavailable: int = 0, known: int = 0, **_: Any) -> str:
     """"Bitti: 3 dosya indirildi, 2 dosya zaten vardı." gibi özet cümlesi kurar."""
     parts = [translate("summary.done", lang, n=done)]
     for key, value in (("summary.skipped", skipped), ("summary.failed", failed), ("summary.unmatched", unmatched),
-                       ("summary.unavailable", unavailable)):
+                       ("summary.unavailable", unavailable), ("summary.known", known)):
         if value:
             parts.append(translate(key, lang, n=value))
     return translate("summary.wrap", lang, parts=", ".join(parts))

@@ -65,6 +65,8 @@ DEFAULT_SETTINGS: Dict[str, Any] = {
     "highlights": True,
     "avatar": True,
     "only_new": True,
+    "history": True,
+    "auto_continue": True,
     "lang": "auto",
 }
 
@@ -95,7 +97,7 @@ def clean_settings(settings: Dict[str, Any]) -> Dict[str, Any]:
     except (TypeError, ValueError):
         limit = 0
     out["limit"] = max(0, min(limit, 100000))
-    for key in ("posts", "stories", "highlights", "avatar", "only_new"):
+    for key in ("posts", "stories", "highlights", "avatar", "only_new", "history", "auto_continue"):
         out[key] = bool(settings.get(key, DEFAULT_SETTINGS[key]))
     lang = str(settings.get("lang") or "auto")
     from .i18n import available_languages

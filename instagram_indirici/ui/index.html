@@ -156,6 +156,8 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
   .folder-row { flex-wrap: wrap; }
   .folder-row input { flex-basis: 100%; }
 }
+.small-gap { margin: 6px 0 0 28px; }
+.hint { color: var(--muted); font-size: 13px; margin-left: 10px; }
 .foot select { height: 30px; font-size: 13px; padding: 0 6px; }
 .foot label { display: inline-flex; gap: 6px; align-items: center; }
 .folder-static { padding: 9px 12px; border-radius: 9px; background: var(--bg); border: 1.5px solid var(--line); font-size: 14px; }
@@ -239,6 +241,26 @@ body.loading main { visibility: hidden; }
           <label class="check"><input type="checkbox" id="onlynew">
             <span><span data-i18n="ui.only_new_title"></span>
               <small data-i18n="ui.only_new_desc"></small>
+            </span>
+          </label>
+        </div>
+        <div class="row" id="row-history">
+          <span class="lbl"></span>
+          <div>
+            <label class="check"><input type="checkbox" id="history">
+              <span><span data-i18n="ui.history_title"></span>
+                <small data-i18n="ui.history_desc"></small>
+              </span>
+            </label>
+            <button class="linklike small-gap" id="clear-history" type="button" data-i18n="ui.history_clear"></button>
+            <span class="hint" id="history-msg" aria-live="polite"></span>
+          </div>
+        </div>
+        <div class="row" id="row-auto">
+          <span class="lbl"></span>
+          <label class="check"><input type="checkbox" id="autocont">
+            <span><span data-i18n="ui.auto_title"></span>
+              <small data-i18n="ui.auto_desc"></small>
             </span>
           </label>
         </div>
@@ -328,6 +350,7 @@ body.loading main { visibility: hidden; }
     if (p.failed) parts.push(t('summary.failed', { n: p.failed }));
     if (p.unmatched) parts.push(t('summary.unmatched', { n: p.unmatched }));
     if (p.unavailable) parts.push(t('summary.unavailable', { n: p.unavailable }));
+    if (p.known) parts.push(t('summary.known', { n: p.known }));
     return t('summary.wrap', { parts: parts.join(', ') });
   }
   function renderMsg(m) {
@@ -385,7 +408,7 @@ body.loading main { visibility: hidden; }
   }
   function updateModeRows() {
     const isProfile = $('mode-profile').checked;
-    for (const id of ['row-what', 'row-content', 'row-limit', 'row-onlynew']) $(id).hidden = !isProfile;
+    for (const id of ['row-what', 'row-content', 'row-limit', 'row-onlynew', 'row-history', 'row-auto']) $(id).hidden = !isProfile;
     const owner = linkKind && linkKind !== 'profile';
     $('profile-hint').textContent = t(owner ? 'ui.mode_profile_desc_owner' : 'ui.mode_profile_desc');
     const singleKey = { story: 'ui.mode_single_desc_story', highlight: 'ui.mode_single_desc_highlight' }[linkKind] || 'ui.mode_single_desc';
@@ -442,6 +465,8 @@ body.loading main { visibility: hidden; }
       highlights: $('w-highlights').checked,
       avatar: $('w-avatar').checked,
       only_new: $('onlynew').checked,
+      history: $('history').checked,
+      auto_continue: $('autocont').checked,
       out_dir: $('outdir').value.trim(),
       lang: $('lang').value || 'auto',
     };
@@ -456,13 +481,20 @@ body.loading main { visibility: hidden; }
     $('w-highlights').checked = !!s.highlights;
     $('w-avatar').checked = !!s.avatar;
     $('onlynew').checked = !!s.only_new;
+    $('history').checked = s.history !== false;
+    $('autocont').checked = s.auto_continue !== false;
     if (document.activeElement !== $('outdir')) $('outdir').value = s.out_dir || '';
   }
   const saveSettings = () => api('/api/settings', readSettings()).then(r => applySettings(r.settings)).catch(() => {});
-  ['limit', 'w-posts', 'w-stories', 'w-highlights', 'w-avatar', 'onlynew', 'outdir'].forEach(id => $(id).addEventListener('change', saveSettings));
+  ['limit', 'w-posts', 'w-stories', 'w-highlights', 'w-avatar', 'onlynew', 'history', 'autocont', 'outdir'].forEach(id => $(id).addEventListener('change', saveSettings));
   document.querySelectorAll('input[name=content]').forEach(el => el.addEventListener('change', saveSettings));
   $('lang').addEventListener('change', async () => { await saveSettings(); await loadStrings(); });
 
+  $('clear-history').addEventListener('click', async () => {
+    if (!window.confirm(t('ui.history_confirm'))) return;
+    try { const r = await api('/api/clear-history', {}); $('history-msg').textContent = renderMsg(r.message); }
+    catch (e) { $('history-msg').textContent = errText(e); }
+  });
   $('choose').addEventListener('click', async () => {
     $('choose').disabled = true;
     try { const r = await api('/api/choose-folder', {}); applySettings(r.settings); }
@@ -512,7 +544,7 @@ body.loading main { visibility: hidden; }
     running = s.running;
     $('start').textContent = t(running ? 'ui.stop' : 'ui.start');
     $('start').classList.toggle('stop', running);
-    ['link', 'paste', 'choose', 'outdir', 'login', 'lang'].forEach(id => { $(id).disabled = running; });
+    ['link', 'paste', 'choose', 'outdir', 'login', 'lang', 'clear-history'].forEach(id => { $(id).disabled = running; });
     document.querySelectorAll('#step2 input, #step3 input, #step3 select').forEach(e => {
       e.disabled = running || (e.id === 'mode-single' && linkKind === 'profile');
     });
@@ -536,6 +568,10 @@ body.loading main { visibility: hidden; }
     } else if (s.phase === 'starting') {
       status = t('ui.status_starting');
       sub = t('ui.sub_starting');
+    } else if (running && s.waiting > 0) {
+      const mm = Math.floor(s.waiting / 60), ss = String(s.waiting % 60).padStart(2, '0');
+      status = t(s.wait_kind === 'pause' ? 'ui.status_waiting_pause' : 'ui.status_waiting_rate', { t: `${mm}:${ss}` });
+      sub = s.current ? t('ui.sub_downloading', { name: s.current }) : '';
     } else if (running) {
       if (s.collecting) status = t('ui.status_scanning', { who, n: s.found_posts });
       else if (s.phase === 'collecting') status = t('ui.status_fetching_post');
@@ -566,6 +602,7 @@ body.loading main { visibility: hidden; }
       if (s.files_skipped) add('ui.count_skipped', s.files_skipped);
       if (s.posts_skipped) add('ui.count_unmatched', s.posts_skipped);
       if (s.posts_unavailable) add('ui.count_unavailable', s.posts_unavailable);
+      if (s.posts_known) add('ui.count_known', s.posts_known);
       if (s.files_failed) add('ui.count_failed', s.files_failed);
     }
 

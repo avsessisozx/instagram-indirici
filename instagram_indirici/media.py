@@ -28,6 +28,8 @@ KIND_AVATAR = "avatar"
 STORIES_DIR = "Hikayeler"
 HIGHLIGHTS_DIR = "Öne Çıkanlar"
 AVATAR_DIR = "Profil Fotoğrafı"
+PHOTOS_DIR = "Fotoğraflar"
+VIDEOS_DIR = "Videolar"
 
 
 @dataclass
@@ -37,12 +39,14 @@ class MediaFile:
     rel_stem: str             # klasöre göre yol, uzantısız (ör. "Hikayeler/2026-10-01_123")
     ext: str = ""             # boşsa sunucunun bildirdiği türe göre seçilir
     expected_size: int = 0
+    legacy_stem: str = ""     # 1.0.x sürümünün aynı dosyayı koyduğu yer (varsa buradan taşınır)
 
 
 @dataclass
 class Post:
     key: str = ""
     code: str = ""
+    owner_id: str = ""
     kind: str = KIND_POST
     username: str = ""
     author_name: str = ""
@@ -51,6 +55,8 @@ class Post:
     stem: str = ""
     files: List[MediaFile] = field(default_factory=list)
     skipped_reason: Optional[Msg] = None
+    history_content: str = ""       # geçmişe hangi içerik seçimiyle yazılacağı
+    page: Optional[Dict[str, Any]] = field(default=None, repr=False)   # motorun sayfa takibi
 
     @property
     def is_gallery(self) -> bool:
@@ -289,6 +295,7 @@ def build_post(item: Dict[str, Any], *, content: str, kind: str = KIND_POST,
     else:
         pk = str(item.get("pk") or str(item.get("id") or "").split("_")[0] or post.key)
         post.stem = f"{date_from_timestamp(post.taken_at)}_{pk}"
+    post.owner_id = str(owner.get("pk") or owner.get("id") or owner.get("pk_id") or "")
     prefix = f"{subdir}/" if subdir else ""
 
     nodes = children(item) or [item]
@@ -296,10 +303,15 @@ def build_post(item: Dict[str, Any], *, content: str, kind: str = KIND_POST,
     unmatched = 0
     missing_video = 0
     for index, node in enumerate(nodes, 1):
-        rel = f"{prefix}{post.stem}_{index:02d}" if len(nodes) > 1 else f"{prefix}{post.stem}"
-        media = _file_for(node, rel)
+        name = f"{post.stem}_{index:02d}" if len(nodes) > 1 else post.stem
+        media = _file_for(node, f"{prefix}{name}")
         if media is None:
             continue
+        if kind == KIND_POST:
+            # Gönderiler türüne göre ayrı klasöre: Fotoğraflar / Videolar
+            folder = VIDEOS_DIR if media.kind == "video" else PHOTOS_DIR
+            media.rel_stem = f"{folder}/{name}"
+            media.legacy_stem = name
         if not _wanted(media.kind, content):
             unmatched += 1
             continue

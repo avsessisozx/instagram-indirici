@@ -187,6 +187,40 @@ class MarkerTests(unittest.TestCase):
             self.assertEqual(known_newest(read_marker(folder), "video"), 200)
 
 
+class HistoryTests(unittest.TestCase):
+    def test_history(self):
+        from instagram_indirici.history import History
+        with tempfile.TemporaryDirectory() as tmp:
+            h = History(Path(tmp) / "g.sqlite3")
+            h.mark("1", "A", "all", "post", "x")
+            h.mark("1", "B", "video", "post", "x")
+            self.assertEqual(h.known("1", "video"), {"A", "B"})
+            self.assertEqual(h.known("1", "image"), {"A"})     # video seçimiyle inenler resimleri kapsamaz
+            self.assertEqual(h.known("2", "all"), set())
+            h.set_resume_point("1", "all", "rest", "24", "x")
+            self.assertEqual(h.resume_point("1", "all"), ("rest", "24"))
+            self.assertEqual(h.resume_point("1", "video"), ("rest", "24"))
+            h.set_complete("1", "all", 500, "x")
+            self.assertIsNone(h.resume_point("1", "all"))
+            self.assertEqual(h.complete_newest("1", "image"), 500)
+            h.set_complete("1", "all", 300, "x")
+            self.assertEqual(h.complete_newest("1", "all"), 500)
+            self.assertEqual(h.clear(), 2)
+            self.assertEqual(h.known("1", "all"), set())
+            h.close()
+
+    def test_post_folders(self):
+        data = fi.Data("https://cdn.test")
+        album = data.posts[fi.PROFILE_OK][3]
+        post = media.build_post(album, content="all")
+        self.assertEqual([f.rel_stem.split("/")[0] for f in post.files], ["Fotoğraflar", "Videolar", "Fotoğraflar"])
+        self.assertTrue(all(f.legacy_stem and "/" not in f.legacy_stem for f in post.files))
+        story = media.build_post(data.stories(fi.PROFILE_OK)[2], content="all", kind=media.KIND_STORY,
+                                 subdir=media.STORIES_DIR)
+        self.assertTrue(story.files[0].rel_stem.startswith("Hikayeler/"))
+        self.assertEqual(story.files[0].legacy_stem, "")
+
+
 class NamingAndTextTests(unittest.TestCase):
     def test_sanitize(self):
         self.assertEqual(sanitize('a<b>c:"d"/e\\f|g?h*'), "a b c d e f g h")

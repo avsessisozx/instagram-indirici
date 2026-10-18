@@ -227,6 +227,11 @@ class FakeInstagram:
         self.page_429_once = False     # profil sayfası bir kez boş 429 döner (yoğunluk)
         self.profile_api_refused = False  # web_profile_info ve arama hep "biraz bekle" der (gerçekte bazı oturumlarda böyle)
         self.feed_rate_always = False  # REST gönderi listesi hep 429
+        self.session_kill_after = 0    # bu kadar liste sayfasından sonra oturumu kapatır (Instagram'ın yaptığı gibi)
+        self.rate_after = 0            # bu kadar liste sayfasından sonra her liste isteği 429 …
+        self.rate_window = 0.0         # … bu kadar saniye boyunca
+        self.feed_pages = 0
+        self.rate_started = 0.0
         self.requests: List[str] = []
         self.api_calls: List[Tuple[str, bool]] = []   # (yol, giriş var mı)
 
@@ -389,6 +394,9 @@ def make_handler(fake: FakeInstagram):
         def scroll_page(self, query) -> None:
             """Profil sayfasının kaydırınca kendi yüklediği gönderiler (son çare yolunu denemek için)."""
             d = fake.data
+            blocked = self.list_blocked()
+            if blocked:
+                return self.blocked_response(blocked)
             try:
                 page = int((query.get("scroll") or ["1"])[0])
             except ValueError:
@@ -422,6 +430,24 @@ def make_handler(fake: FakeInstagram):
             return self.send(200, JPEG + base.encode(), "image/jpeg")
 
         # ---- API
+        def list_blocked(self) -> Optional[str]:
+            """Liste isteği (REST, GraphQL, kaydırma) için oturum kapatma / kısıtlama durumu."""
+            if fake.session_kill_after and fake.feed_pages >= fake.session_kill_after and self.logged_in():
+                return "kill"
+            if fake.rate_after and fake.feed_pages >= fake.rate_after:
+                if not fake.rate_started:
+                    fake.rate_started = time.monotonic()
+                if time.monotonic() - fake.rate_started < fake.rate_window:
+                    return "rate"
+            return None
+
+        def blocked_response(self, kind: str) -> None:
+            if kind == "kill":
+                return self.json({"message": "login_required", "require_login": True, "status": "fail"}, 401,
+                                 headers={"Set-Cookie": "sessionid=; Path=/; Max-Age=0"})
+            return self.json({"message": "Please wait a few minutes before you try again.", "require_login": True,
+                              "status": "fail"}, 401)
+
         def api_get(self, path: str, query) -> None:
             d = fake.data
             if fake.profile_api_refused and path in ("/api/v1/users/web_profile_info/", "/web/search/topsearch/"):
@@ -458,8 +484,12 @@ def make_handler(fake: FakeInstagram):
             if m:
                 if fake.break_rest:
                     return self.html("<html><body>Bir hata oluştu</body></html>", 500)
+                blocked = self.list_blocked()
+                if blocked:
+                    return self.blocked_response(blocked)
                 if not self.logged_in():
                     return self.login_required()
+                fake.feed_pages += 1
                 if fake.challenge_once:
                     fake.challenge_once = False
                     return self.json({"message": "challenge_required", "challenge": {"url": f"{d.base}/challenge/AbC123/", "lock": False},
@@ -520,6 +550,9 @@ def make_handler(fake: FakeInstagram):
 
         def graphql(self, form) -> None:
             d = fake.data
+            blocked = self.list_blocked()
+            if blocked:
+                return self.blocked_response(blocked)
             doc_id = (form.get("doc_id") or [""])[0]
             try:
                 variables = json.loads((form.get("variables") or ["{}"])[0])

@@ -240,6 +240,8 @@ class InstagramBrowser:
         self.channel_name = ""
         self._last_call = 0.0
         self.api_calls = 0
+        self.list_pages = 0
+        self.on_wait: Callable[[float], None] = lambda until: None
 
     # ------------------------------------------------------------ açılış
     async def __aenter__(self) -> "InstagramBrowser":
@@ -527,6 +529,8 @@ class InstagramBrowser:
         diğerlerinde hemen vazgeçilip başka yoldan devam edilir.
         """
         backoff = _backoff_steps() if essential else []
+        if essential:
+            await self._pace()
         attempt = 0
         connection_errors = 0
         verified = False
@@ -571,6 +575,26 @@ class InstagramBrowser:
                 raise NotFound()
             snippet = res.text[:160].replace("\n", " ")
             raise ApiError(f"{what or path}: HTTP {res.status} {snippet}")
+
+    async def _pace(self) -> None:
+        """Belli sayıda liste sayfasından sonra kısa mola verir (Instagram'ı yormamak için)."""
+        raw = os.environ.get("INSTAGRAM_INDIRICI_BREAK", "5:60-120")
+        try:
+            every_s, _, span = raw.partition(":")
+            every = int(every_s)
+            lo, _, hi = span.partition("-")
+            low, high = float(lo or 0), float(hi or lo or 0)
+        except ValueError:
+            every, low, high = 5, 60.0, 120.0
+        self.list_pages += 1
+        if every > 0 and self.list_pages > 1 and (self.list_pages - 1) % every == 0 and high > 0:
+            seconds = random.uniform(low, max(low, high))
+            self.log("info", msg("browser.pause", s=int(seconds)))
+            self.on_wait(time.time() + seconds)
+            try:
+                await self._sleep(seconds)
+            finally:
+                self.on_wait(0)
 
     # ------------------------------------------------------------ profil
     async def _embedded_data(self) -> List[Any]:
@@ -728,10 +752,15 @@ class InstagramBrowser:
         *,
         logged_in: bool,
         limit: int,
-        on_page: Callable[[List[Dict[str, Any]]], bool],
+        on_page: Callable[..., str],
+        resume: Optional[Tuple[str, str]] = None,
     ) -> FeedResult:
-        """Profilin gönderilerini sayfa sayfa toplar. on_page True dönerse (hepsi zaten var) durur."""
-        state = _FeedState(limit=limit, on_page=on_page)
+        """Profilin gönderilerini sayfa sayfa toplar.
+
+        on_page(gönderiler, yol türü, sonraki imleç) "stop" dönerse durur, "jump" dönerse yarım kalan
+        önceki taramanın devam noktasına (resume) atlar.
+        """
+        state = _FeedState(limit=limit, on_page=on_page, resume=resume)
         result = FeedResult()
 
         def finish(reason: str, via: str) -> FeedResult:
@@ -742,7 +771,7 @@ class InstagramBrowser:
 
         # İlk sayfa elimizde varsa (sayfaya gömülü ya da profil bilgisiyle gelen) önce onu ver.
         if not logged_in and info.first_items:
-            if state.accept(info.first_items):
+            if state.accept(info.first_items, "graphql_out", info.end_cursor) == "stop":
                 return finish("up_to_date", "page")
             if state.done:
                 return finish("end", "page")
@@ -771,7 +800,10 @@ class InstagramBrowser:
                 continue
             except LoginRequired:
                 if logged_in:
-                    raise LoginRequired(msg("browser.session_expired"))
+                    # Instagram oturumu kapattı (çok gezinince oluyor). Bulunanlar yine iner.
+                    if not state.seen:
+                        raise LoginRequired(msg("browser.session_expired"))
+                    return finish("session_expired", name)
                 last_reason = "login_wall"
                 continue
             if reason in ("end", "up_to_date", "limit"):
@@ -789,23 +821,39 @@ class InstagramBrowser:
 
     async def _feed_rest(self, info: ProfileInfo, state: "_FeedState") -> str:
         max_id = ""
-        pages = 0
+        fallback = None     # atlama başarısız olursa dönülecek imleç
         while True:
             self._check_cancel()
             params = [("count", "30")]
             if max_id:
                 params.append(("max_id", max_id))
-            data = await self.call(f"/api/v1/feed/user/{info.user_id}/", params=params, what="feed", essential=True)
-            if not isinstance(data, dict) or "items" not in data:
-                raise ApiError("feed: no items")
-            pages += 1
+            try:
+                data = await self.call(f"/api/v1/feed/user/{info.user_id}/", params=params, what="feed", essential=True)
+                if not isinstance(data, dict) or "items" not in data:
+                    raise ApiError("feed: no items")
+            except (ApiError, NotFound):
+                if fallback is None:
+                    raise
+                self.log("info", msg("browser.resume_failed"))
+                max_id, fallback = fallback, None
+                continue
+            fallback = None
             items = [i for i in data.get("items") or [] if media.is_media(i)]
-            if state.accept(items):
+            next_id = str(data.get("next_max_id") or "")
+            more = bool(data.get("more_available")) and bool(next_id) and next_id != max_id
+            decision = state.accept(items, "rest", next_id if more else "")
+            if decision == "stop":
                 return "up_to_date"
             if state.done:
                 return "limit"
-            next_id = str(data.get("next_max_id") or "")
-            if not data.get("more_available") or not next_id or next_id == max_id:
+            if decision == "jump" and more:
+                target = state.jump_target("rest")
+                if target and target != next_id:
+                    self.log("info", msg("browser.resuming"))
+                    fallback = next_id
+                    max_id = target
+                    continue
+            if not more:
                 return "end"
             max_id = next_id
 
@@ -847,13 +895,22 @@ class InstagramBrowser:
             if page_info is None and not items:
                 raise ApiError("graphql: no posts in response")
             pages += 1
-            if state.accept(items):
+            kind = "graphql_in" if logged_in else "graphql_out"
+            has_next = bool(page_info and page_info.get("has_next_page"))
+            next_cursor = str((page_info or {}).get("end_cursor") or "")
+            decision = state.accept(items, kind, next_cursor if has_next else "")
+            if decision == "stop":
                 return "up_to_date"
             if state.done:
                 return "limit"
-            if not page_info or not page_info.get("has_next_page"):
+            if decision == "jump" and has_next:
+                target = state.jump_target(kind)
+                if target and target != next_cursor:
+                    self.log("info", msg("browser.resuming"))
+                    cursor = target
+                    continue
+            if not has_next:
                 return "end"
-            next_cursor = str(page_info.get("end_cursor") or "")
             if not next_cursor or next_cursor == cursor:
                 return "end" if items else "login_wall"
             if not items and pages > 1:
@@ -883,7 +940,7 @@ class InstagramBrowser:
             items = [i for i in media.find_media(data)
                      if str(media.owner_of(i).get("username") or info.username).lower() == info.username]
             before = len(state.seen)
-            if state.accept(items):
+            if state.accept(items) == "stop":
                 box["up_to_date"] = True
             if len(state.seen) > before:
                 box["last"] = time.monotonic()
@@ -899,7 +956,7 @@ class InstagramBrowser:
             for data in await self._embedded_data():
                 items = [i for i in media.find_media(data)
                          if str(media.owner_of(i).get("username") or info.username).lower() == info.username]
-                if state.accept(items):
+                if state.accept(items) == "stop":
                     return "up_to_date"
             box["last"] = time.monotonic()
             while True:
@@ -1117,7 +1174,9 @@ class InstagramBrowser:
 @dataclass
 class _FeedState:
     limit: int
-    on_page: Callable[[List[Dict[str, Any]]], bool]
+    on_page: Callable[..., str]
+    resume: Optional[Tuple[str, str]] = None   # (yol türü, imleç): önceki yarım taramanın devam noktası
+    jumped: bool = False
     seen: Dict[str, bool] = field(default_factory=dict)
     limit_hit: bool = False
 
@@ -1125,8 +1184,12 @@ class _FeedState:
     def done(self) -> bool:
         return self.limit_hit
 
-    def accept(self, items: List[Dict[str, Any]]) -> bool:
-        """Yeni gönderileri motora verir. Motor "hepsi zaten indirilmiş" derse True döner."""
+    def accept(self, items: List[Dict[str, Any]], cursor_kind: str = "", next_cursor: str = "") -> str:
+        """Yeni gönderileri motora verir.
+
+        Dönüş: "" (devam), "stop" (geri kalan zaten indirilmiş) ya da "jump" (bu bölge önceden
+        indirilmiş; yarım kalan taramanın devam noktasına atlanabilir).
+        """
         new: List[Dict[str, Any]] = []
         for item in items:
             key = media.media_key(item)
@@ -1140,5 +1203,12 @@ class _FeedState:
         if self.limit and len(self.seen) >= self.limit:
             self.limit_hit = True
         if not new:
-            return False
-        return bool(self.on_page(new))
+            return ""
+        return str(self.on_page(new, cursor_kind, next_cursor if not self.limit_hit else "") or "")
+
+    def jump_target(self, kind: str) -> str:
+        """Bu yol için atlanacak imleç (bir kez)."""
+        if self.jumped or not self.resume or self.resume[0] != kind:
+            return ""
+        self.jumped = True
+        return self.resume[1]
