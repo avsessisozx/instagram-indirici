@@ -1,6 +1,6 @@
 # Instagram İndirici
 
-Herkese açık Instagram profillerindeki fotoğraf ve videoları toplu indiren, Türkçe ve İngilizce arayüzlü **Windows programı**. Sunucu gerekmez; her şey senin bilgisayarında çalışır.
+Herkese açık Instagram profillerindeki fotoğraf ve videoları toplu indiren, Türkçe ve İngilizce arayüzlü **Windows programı** ve **Android uygulaması**. Sunucu gerekmez; her şey senin cihazında çalışır.
 
 - **Profilin tamamı:** bir kişinin bütün gönderilerini (fotoğraf, video, reels, kaydırmalı albümler) toplu indirir.
 - **Hikayeler, öne çıkanlar ve profil fotoğrafı** da indirilebilir (hikaye ve öne çıkanlar için giriş gerekir).
@@ -16,6 +16,15 @@ Herkese açık Instagram profillerindeki fotoğraf ve videoları toplu indiren, 
 3. İlk açılışta Windows **"Bilgisayarınız korundu"** diyebilir: **Ek bilgi → Yine de çalıştır**. (Program imzalı olmadığı için bu uyarı çıkar.)
 
 Gereken tek şey Microsoft Edge (Windows 10/11'de zaten yüklü) ya da Google Chrome. Edge'in kurulumu bozuksa program Chrome'u ya da kendi indirdiği tarayıcıyı kullanır.
+
+### Android
+1. Telefondan [Releases](../../releases) sayfasını aç, `InstagramIndirici-<sürüm>.apk` dosyasına dokun.
+2. Telefon "bilinmeyen kaynaktan yükleme" izni isterse ver, sonra **Yükle**.
+3. Yeni sürümler eskisinin üzerine kurulur; ayarlar, geçmiş ve Instagram girişi silinmez.
+
+Android 10 ve üstü gerekir. Her şey uygulamanın içinde olur, ayrı tarayıcı açılmaz. Instagram'a giriş ya da doğrulama gerektiğinde uygulamanın içinde bir pencere açılır: **Gizle** pencereyi küçültür (iş beklemeye devam eder, arayüzdeki düğmeyle tekrar açılır), giriş penceresindeki **Kapat** girişten vazgeçer.
+
+En kolay yol: Instagram'da bir gönderide ya da profilde **Paylaş → Instagram İndirici**; link kutuya kendiliğinden gelir. İndirme sürerken uygulamadan çıkabilir ya da ekranı kapatabilirsin; ilerleme bildirimde görünür. Dosyalar galeride **DCIM › Instagram › <kullanıcı adı>** altında, Windows'takiyle aynı alt klasörlere (Fotoğraflar, Videolar, Hikayeler, Öne Çıkanlar, Profil Fotoğrafı) iner.
 
 ## Kullanım
 
