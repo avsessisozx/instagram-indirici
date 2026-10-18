@@ -225,6 +225,8 @@ class FakeInstagram:
         self.graphql_video_urls = True # eski biçimde video adresi gelsin mi (gerçekte bazen gelmiyor)
         self.slow_cdn = 0.0            # her dosyada bekleme (durdurma testi için)
         self.page_429_once = False     # profil sayfası bir kez boş 429 döner (yoğunluk)
+        self.profile_api_refused = False  # web_profile_info ve arama hep "biraz bekle" der (gerçekte bazı oturumlarda böyle)
+        self.feed_rate_always = False  # REST gönderi listesi hep 429
         self.requests: List[str] = []
         self.api_calls: List[Tuple[str, bool]] = []   # (yol, giriş var mı)
 
@@ -298,7 +300,7 @@ def make_handler(fake: FakeInstagram):
             if self.headers.get("X-IG-App-ID") != APP_ID:
                 self.json({"message": "useragent mismatch", "status": "fail"}, 400)
                 return False
-            if fake.rate_limit_once:
+            if fake.rate_limit_once and self.path.startswith("/api/v1/feed/user/"):
                 fake.rate_limit_once = False
                 self.json({"message": "Please wait a few minutes before you try again.", "require_login": True,
                            "status": "fail"}, 401)
@@ -422,6 +424,11 @@ def make_handler(fake: FakeInstagram):
         # ---- API
         def api_get(self, path: str, query) -> None:
             d = fake.data
+            if fake.profile_api_refused and path in ("/api/v1/users/web_profile_info/", "/web/search/topsearch/"):
+                return self.json({"message": "Please wait a few minutes before you try again.",
+                                  "require_login": True, "status": "fail"}, 401)
+            if fake.feed_rate_always and path.startswith("/api/v1/feed/user/"):
+                return self.json({"message": "rate limited", "status": "fail"}, 429)
             if path == "/api/v1/users/web_profile_info/":
                 if fake.break_profile_api:
                     return self.json({"message": "", "status": "fail"}, 400)

@@ -413,7 +413,7 @@ class Engine:
             try:
                 urls = await browser.avatar_urls(info, logged_in=logged_in)
                 self._enqueue(queue, build_avatar(info.user, urls, content=content), quiet_skip=True)
-            except (ApiError, NotFound) as exc:
+            except (ApiError, NotFound, RateLimited) as exc:
                 self.log("warn", msg("engine.avatar_failed", error=exc.message))
 
         if info.locked:
@@ -438,7 +438,7 @@ class Engine:
             return
         try:
             items = await browser.stories(info.user_id)
-        except (ApiError, NotFound) as exc:
+        except (ApiError, NotFound, RateLimited) as exc:
             self.log("warn", msg("engine.stories_failed", error=exc.message))
             return
         except LoginRequired:
@@ -465,7 +465,7 @@ class Engine:
         except LoginRequired:
             self.log("info", msg("engine.highlights_skipped_login") if not logged_in else msg("browser.session_expired"))
             return
-        except (ApiError, NotFound) as exc:
+        except (ApiError, NotFound, RateLimited) as exc:
             self.log("warn", msg("engine.highlights_failed", error=exc.message))
             return
         for reel in reels:
@@ -540,13 +540,18 @@ class Engine:
                 if not fixed.skipped_reason:
                     self._enqueue(queue, fixed)
                     continue
-            except (ApiError, NotFound, LoginRequired) as exc:
+            except (ApiError, NotFound, LoginRequired, RateLimited) as exc:
                 self.log("debug", f"repair {post.code}: {exc.message.key}")
             self._enqueue(queue, post)
 
     def _report_posts(self, result: FeedResult, info: ProfileInfo) -> None:
         n, total = result.collected, info.media_count
-        if result.reason == "login_wall":
+        if result.reason == "rate_limited":
+            self.rate_limited = True
+            note = msg("engine.rate_limited_partial", n=n)
+            self.notes.append(note)
+            self.log("warn", note)
+        elif result.reason == "login_wall":
             self.login_wall = True
             key = "engine.login_wall_total" if total > 0 else "engine.login_wall"
             note = msg(key, n=n, total=total)

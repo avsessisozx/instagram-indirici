@@ -125,6 +125,15 @@ class IntegrationTests(unittest.TestCase):
         self.assertIn("browser.page_refused", self.keys(snap))
         self.assertEqual(snap["found_posts"], 3)
 
+    def test_a1c_profile_api_refused_logged_out(self):
+        self.fake.profile_api_refused = True
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", stories=False, highlights=False)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertIn("browser.refused", self.keys(snap))
+        self.assertNotIn("browser.slow_down", self.keys(snap))
+        self.assertEqual(snap["found_posts"], 2 * fi.PAGE)
+        self.assertTrue(snap["login_wall"])
+
     def test_a2_not_found(self):
         snap, out = self.run_job("@yok.boyle.biri", "profile", timeout=90)
         self.assertEqual(snap["phase"], "error")
@@ -251,6 +260,20 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(snap["phase"], "done", snap["summary"])
         self.assertIn("browser.scrolling", self.keys(snap))
         self.assertEqual(snap["found_posts"], fi.TOTAL_POSTS + 1)
+
+    def test_c3b_profile_api_and_feed_refused(self):
+        """Kullanıcının ilk denemesinde görülen durum: Instagram profil bilgisini hiç vermiyor."""
+        self.ensure_login()
+        self.fake.profile_api_refused = True
+        self.fake.feed_rate_always = True
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", timeout=120)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertFalse(snap["rate_limited"])
+        keys = self.keys(snap)
+        self.assertIn("browser.refused", keys)
+        self.assertEqual(snap["found_posts"], fi.TOTAL_POSTS + 1)
+        files = self.files(out)
+        self.assertEqual(len([f for f in files if "/Hikayeler/" in f]), 3)
 
     def test_c4_private_profile(self):
         self.ensure_login()

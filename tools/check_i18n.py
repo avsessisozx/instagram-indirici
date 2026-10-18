@@ -22,7 +22,7 @@ USE_PATTERNS = [
     re.compile(r"""\bmsg\(\s*["']([a-z_]+\.[a-z0-9_.]+)["']"""),
     re.compile(r"""\b(?:t|pick|translate|tr|text|Msg)\(\s*(?:\w+\s*,\s*)?["']([a-z_]+\.[a-z0-9_.]+)["']"""),
     re.compile(r"""data-i18n(?:-placeholder)?=["']([a-z_]+\.[a-z0-9_.]+)["']"""),
-    re.compile(r"""["']((?:ui|engine|browser|link|fetch|skip|summary|chromium|server|app|android)\.[a-z0-9_]+)["']"""),
+    re.compile(r"""["']((?:ui|engine|browser|link|fetch|skip|summary|chromium|server|app|android|what)\.[a-z0-9_]+)["']"""),
 ]
 # Platforma göre sonuna _desktop / _mobile eklenen anahtarlar (pick() ile kullanılır)
 PICKED = re.compile(r"""\bpick\(\s*["']([a-z_]+\.[a-z0-9_.]+)["']""")

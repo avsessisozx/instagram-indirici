@@ -92,8 +92,10 @@ class LoginRequired(BrowserError):
 
 
 class RateLimited(BrowserError):
-    def __init__(self) -> None:
+    def __init__(self, what: str = "", status: int = 0) -> None:
         super().__init__(msg("browser.rate_limited"))
+        self.what = what
+        self.status = status
 
 
 class NotFound(BrowserError):
@@ -133,11 +135,11 @@ def _delay_range() -> Tuple[float, float]:
 
 
 def _backoff_steps() -> List[float]:
-    raw = os.environ.get("INSTAGRAM_INDIRICI_BACKOFF", "45,90,180,300")
+    raw = os.environ.get("INSTAGRAM_INDIRICI_BACKOFF", "30,90")
     try:
         return [float(x) for x in raw.split(",") if x.strip()]
     except ValueError:
-        return [45, 90, 180, 300]
+        return [30, 90]
 
 
 def parse_json_text(text: str) -> Any:
@@ -517,9 +519,14 @@ class InstagramBrowser:
                          text, parse_json_text(text), str(raw.get("error") or ""))
 
     async def call(self, path: str, *, params: Optional[List[Tuple[str, str]]] = None,
-                   form: Optional[Dict[str, str]] = None, what: str = "") -> Any:
-        """API çağrısı: hız sınırında bekleyip tekrar dener, doğrulama isterse kullanıcıyı bekler."""
-        backoff = _backoff_steps()
+                   form: Optional[Dict[str, str]] = None, what: str = "", essential: bool = False) -> Any:
+        """API çağrısı: doğrulama isterse kullanıcıyı bekler.
+
+        Instagram bazı adresleri (ör. profil bilgisi) bazı oturumlara hiç vermiyor ve bunu "biraz bekle"
+        diye söylüyor. Bu yüzden sadece vazgeçilmez çağrılarda (gönderi listesi) beklenip tekrar denenir;
+        diğerlerinde hemen vazgeçilip başka yoldan devam edilir.
+        """
+        backoff = _backoff_steps() if essential else []
         attempt = 0
         connection_errors = 0
         verified = False
@@ -540,10 +547,12 @@ class InstagramBrowser:
                 raise ApiError(f"{what or path}: {res.error or 'no response'}")
             if kind == "rate":
                 if attempt >= len(backoff):
-                    raise RateLimited()
+                    self.log("info", msg("browser.refused", what=msg(f"what.{what or 'other'}"), code=res.status or "?"))
+                    raise RateLimited(what, res.status)
                 seconds = backoff[attempt]
                 attempt += 1
-                self.log("warn", msg("browser.slow_down", s=int(seconds)))
+                self.log("warn", msg("browser.slow_down", what=msg(f"what.{what or 'other'}"),
+                                     code=res.status or "?", s=int(seconds)))
                 await self._sleep(seconds)
                 continue
             if kind == "challenge":
@@ -616,6 +625,7 @@ class InstagramBrowser:
                 info.sources.append("html")
 
         # 2) Profil bilgisi isteği (sayılar, gizlilik, ilk gönderiler)
+        rate_hit = False
         try:
             data = await self.call("/api/v1/users/web_profile_info/", params=[("username", username)], what="profile")
             user = ((data or {}).get("data") or {}).get("user") if isinstance(data, dict) else None
@@ -628,7 +638,9 @@ class InstagramBrowser:
         except NotFound:
             if not info.user_id:
                 raise NotFound(msg("browser.user_not_found", name=username))
-        except (ApiError, LoginRequired) as exc:
+        except (ApiError, LoginRequired, RateLimited) as exc:
+            if isinstance(exc, RateLimited):
+                rate_hit = True
             self.log("debug", f"web_profile_info: {exc.message.key}")
 
         # 3) Arama (kimlik hâlâ yoksa)
@@ -639,10 +651,14 @@ class InstagramBrowser:
                 if user:
                     self._merge_user(info, user)
                     info.sources.append("search")
-            except (ApiError, LoginRequired, NotFound) as exc:
+            except (ApiError, LoginRequired, NotFound, RateLimited) as exc:
+                if isinstance(exc, RateLimited):
+                    rate_hit = True
                 self.log("debug", f"topsearch: {exc.message.key}")
 
         if not info.user_id:
+            if rate_hit:
+                raise RateLimited("profile")
             if status == 404 or "page not found" in (html or "").lower()[:4000]:
                 raise NotFound(msg("browser.user_not_found", name=username))
             raise BrowserError(msg("browser.profile_failed", name=username))
@@ -696,7 +712,7 @@ class InstagramBrowser:
                     urls.extend(media.avatar_urls(user))
                     if user.get("profile_pic_id") and not info.user.get("profile_pic_id"):
                         info.user["profile_pic_id"] = user["profile_pic_id"]
-            except (ApiError, LoginRequired, NotFound) as exc:
+            except (ApiError, LoginRequired, NotFound, RateLimited) as exc:
                 self.log("debug", f"user info: {exc.message.key}")
         urls.extend(media.avatar_urls(info.user))
         out: List[str] = []
@@ -740,12 +756,18 @@ class InstagramBrowser:
         strategies.append(("scroll", lambda: self._feed_scroll(info, state)))
 
         last_reason = "stalled"
+        rate_hits = 0
         for name, run in strategies:
             self._check_cancel()
             try:
                 reason = await run()
             except ApiError as exc:
                 self.log("info", msg("browser.strategy_failed", detail=exc.detail))
+                continue
+            except RateLimited:
+                # Bu yol kısıtlandı; sıradaki yol (en son sayfanın kendi istekleri) denenir.
+                last_reason = "rate_limited"
+                rate_hits += 1
                 continue
             except LoginRequired:
                 if logged_in:
@@ -757,6 +779,10 @@ class InstagramBrowser:
             last_reason = reason
             if reason == "login_wall" and name != "graphql":
                 break
+        if rate_hits and (info.media_count < 0 or len(state.seen) < info.media_count):
+            if not state.seen:
+                raise RateLimited("feed")
+            return finish("rate_limited", "")
         if not logged_in and (info.media_count < 0 or len(state.seen) < info.media_count):
             return finish("login_wall", "")
         return finish(last_reason if state.seen else "stalled", "")
@@ -769,7 +795,7 @@ class InstagramBrowser:
             params = [("count", "30")]
             if max_id:
                 params.append(("max_id", max_id))
-            data = await self.call(f"/api/v1/feed/user/{info.user_id}/", params=params, what="feed")
+            data = await self.call(f"/api/v1/feed/user/{info.user_id}/", params=params, what="feed", essential=True)
             if not isinstance(data, dict) or "items" not in data:
                 raise ApiError("feed: no items")
             pages += 1
@@ -813,7 +839,7 @@ class InstagramBrowser:
                 variables["first"] = 12
             form = {"doc_id": doc_id, "variables": json.dumps(variables, separators=(",", ":")),
                     "server_timestamps": "true"}
-            data = await self.call("/graphql/query", form=form, what="graphql")
+            data = await self.call("/graphql/query", form=form, what="graphql", essential=pages > 0)
             if isinstance(data, dict) and data.get("errors") and not data.get("data"):
                 raise ApiError("graphql: " + str(data.get("errors"))[:120])
             items = media.find_media(data)
@@ -963,7 +989,7 @@ class InstagramBrowser:
                     return items[0]
             except NotFound:
                 raise NotFound(msg("browser.post_not_found"))
-            except (ApiError, LoginRequired) as exc:
+            except (ApiError, LoginRequired, RateLimited) as exc:
                 self.log("debug", f"media info: {exc.message.key}")
         return await self._post_from_page(shortcode)
 

@@ -174,7 +174,7 @@
   "browser.post_login_required": "Instagram doesn't show this post to visitors who aren't logged in. Log in once with 'Log in to Instagram' and start again.",
   "browser.session_expired": "The Instagram session seems to have ended. Log in again with 'Log in to Instagram'.",
   "browser.rate_limited": "Instagram isn't allowing more requests for now because there were too many in a short time. Wait a while and try again.",
-  "browser.slow_down": "Instagram asked us to slow down; waiting {s} seconds…",
+  "browser.slow_down": "Instagram refused the {what} request (HTTP {code}); retrying in {s} seconds…",
   "browser.retrying": "No response from Instagram, retrying… ({detail})",
   "browser.not_found": "Not found on Instagram.",
   "browser.user_not_found": "No Instagram account named @{name} was found. Check the name; the account may have been deleted or renamed.",
@@ -206,5 +206,16 @@
   "summary.unavailable": "{n} posts couldn't be downloaded because they were deleted or restricted",
   "ui.count_unavailable": "Restricted",
   "ui.note_login_tip": "Using a secondary account instead of your main one is safer.",
-  "browser.page_refused": "Instagram refused to open the page (HTTP {code}); retrying in {s} seconds…"
+  "browser.page_refused": "Instagram refused to open the page (HTTP {code}); retrying in {s} seconds…",
+  "browser.refused": "Instagram refused the {what} request (HTTP {code}); continuing another way.",
+  "what.profile": "profile info",
+  "what.feed": "post list",
+  "what.graphql": "post list (2nd way)",
+  "what.search": "search",
+  "what.avatar": "profile picture",
+  "what.stories": "stories",
+  "what.highlights": "highlights",
+  "what.post": "post",
+  "what.other": "a",
+  "engine.rate_limited_partial": "Instagram didn't give the rest of the list for now; {n} posts were found and downloaded. Start again with the same link after a while (at least half an hour) to get the rest; files already downloaded won't be downloaded again."
 }

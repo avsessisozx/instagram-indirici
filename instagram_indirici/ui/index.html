@@ -570,7 +570,7 @@ body.loading main { visibility: hidden; }
     }
 
     // Notlar sadece değiştiğinde yeniden çizilir (yoksa düğmeye basılırken kaybolabilir).
-    const errText2 = (!running && s.phase === 'error' && s.summary) ? renderMsg(s.summary) : '';
+    const errText2 = (!running && s.phase === 'error' && s.summary && !s.rate_limited) ? renderMsg(s.summary) : '';
     const noteMsgs = running ? [] : (s.notes || []);
     const wallMsg = noteMsgs.find(m => m && String(m.key || '').startsWith('engine.login_wall'));
     const engineNotes = noteMsgs.filter(m => m !== wallMsg).map(renderMsg).filter(x => x && x !== errText2);

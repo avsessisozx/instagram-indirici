@@ -174,7 +174,7 @@
   "browser.post_login_required": "Instagram, giriş yapmayanlara bu gönderiyi göstermiyor. 'Instagram'a giriş yap' ile bir kez giriş yapıp tekrar başlat.",
   "browser.session_expired": "Instagram oturumu kapanmış görünüyor. 'Instagram'a giriş yap' ile tekrar giriş yap.",
   "browser.rate_limited": "Instagram kısa sürede çok istek geldiği için şimdilik izin vermiyor. Bir süre bekleyip tekrar dene.",
-  "browser.slow_down": "Instagram yavaşlamamızı istedi; {s} saniye bekleniyor…",
+  "browser.slow_down": "Instagram {what} isteğini kabul etmedi (HTTP {code}); {s} saniye bekleyip tekrar denenecek…",
   "browser.retrying": "Instagram'dan yanıt gelmedi, tekrar deneniyor… ({detail})",
   "browser.not_found": "Aranan şey Instagram'da bulunamadı.",
   "browser.user_not_found": "@{name} adında bir Instagram hesabı bulunamadı. Adı kontrol et; hesap silinmiş ya da adı değişmiş olabilir.",
@@ -206,5 +206,16 @@
   "summary.unavailable": "{n} gönderi silinmiş ya da kısıtlanmış olduğu için inemedi",
   "ui.count_unavailable": "Kısıtlı",
   "ui.note_login_tip": "Ana hesabın yerine yedek bir hesap kullanman daha güvenli.",
-  "browser.page_refused": "Instagram sayfayı açmadı (HTTP {code}); {s} saniye bekleyip tekrar denenecek…"
+  "browser.page_refused": "Instagram sayfayı açmadı (HTTP {code}); {s} saniye bekleyip tekrar denenecek…",
+  "browser.refused": "Instagram {what} isteğini kabul etmedi (HTTP {code}); başka yoldan devam ediliyor.",
+  "what.profile": "profil bilgisi",
+  "what.feed": "gönderi listesi",
+  "what.graphql": "gönderi listesi (2. yol)",
+  "what.search": "arama",
+  "what.avatar": "profil fotoğrafı",
+  "what.stories": "hikaye",
+  "what.highlights": "öne çıkan",
+  "what.post": "gönderi",
+  "what.other": "bir",
+  "engine.rate_limited_partial": "Instagram listenin devamını şimdilik vermedi; {n} gönderi bulundu ve indirildi. Bir süre (en az yarım saat) sonra aynı linkle tekrar başlatırsan kalanlar iner, inenler tekrar inmez."
 }
