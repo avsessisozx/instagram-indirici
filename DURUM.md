@@ -3,7 +3,7 @@
 > Claude'un çalışma notu. Yalnızca `durum` dalında durur; `main`'e, README'ye ve sürüm notlarına girmez.
 > Yeni sohbette önce bunu oku, repoyu baştan tarama. Her sürümden sonra güncelle.
 
-Son güncelleme: 2026-10-18 · Son sürüm: **v1.0.1** (2026-10-18)
+Son güncelleme: 2026-10-18 · Son sürüm: **v1.1.0** (2026-10-18)
 
 ## Ne yapıyor
 Herkese açık Instagram profillerini toplu indirir: gönderiler/reels/albümler, hikayeler, öne çıkanlar,
@@ -27,8 +27,16 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   Doğrulama (challenge) → pencereyi öne getirip kullanıcıyı bekler.
 - Giriş: "Instagram'a giriş yap" pencerede instagram.com/accounts/login açar; `sessionid` çerezi gelince kendisi kapanır.
   Durum `oturum.json`'da (arayüz altında yeşil nokta).
-- "Sadece yeni": profil klasöründe gizli `.instagram-indirici.json` (tamamı taranınca, hata yoksa yazılır);
-  sonraki taramada bu tarihten eski gönderiye gelince durur.
+- Klasör: <kişi>/Fotoğraflar, Videolar, Hikayeler, Öne Çıkanlar/<başlık>, Profil Fotoğrafı (1.1.0'dan beri;
+  1.0.x'in kök klasördeki dosyaları `legacy_stem` ile yeni yerine taşınır).
+- Geçmiş: `history.py`, `<veri>/gecmis.sqlite3`. `downloaded(user_id, key, content)` (hesaptan bağımsız, profil
+  kimliğine bağlı) + `progress(user_id, content)`: `newest` (tam tarama bittiyse "sadece yeni" için) ve
+  devam imleci (`rest` / `graphql_in` / `graphql_out`). İmleç, sayfadaki tüm gönderiler inince kaydedilir
+  (`engine._advance_pages`); tekrar başlatınca baştaki sayfa tamamen geçmişteyse imlece atlar ("jump").
+  Eski `.instagram-indirici.json` sadece okunur.
+- Oturum iş ortasında kapanırsa (Instagram ~150+ gönderide yapıyor) bulunanlar iner, not gösterilir.
+- Mola: her 5 liste sayfasında 60–120 sn (`INSTAGRAM_INDIRICI_BREAK`); kısıtlanınca 15 dk × en çok 4 tur
+  bekleyip devam (`auto_continue` ayarı, `INSTAGRAM_INDIRICI_RESUME_WAIT/_ROUNDS`).
 - Çeviriler: `ceviriler/tr.json`, `en.json` (`tools/check_i18n.py`)
 - Testler: `tests/test_units.py`, `tests/test_integration.py` (gerçek tarayıcı + `tests/fake_instagram.py`)
 - CI: `build.yml` her dalda (testler + EXE + EXE öz testi); `main`'e push → Release.
@@ -44,8 +52,11 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
 - v1.0.1: Kullanıcının ilk gerçek denemesinde (girişli, Chrome; Edge'i bozuk) profil bilgisi isteği hep
   "biraz bekle" döndü → v1.0.0 10 dk bekleyip vazgeçti. Düzeltildi; kayıtta reddedilen istek + HTTP kodu yazıyor.
 
+- v1.1.0: alt klasörler, geçmiş, kaldığı yerden devam, otomatik mola (kullanıcı 150 gönderide oturum
+  kapanması yaşadı). 21 uçtan uca + 21 birim testi.
+
 ## Yarım / sıradaki
-- v1.0.1'in kullanıcıda denenmesi bekleniyor (gerçek Instagram'a buradan erişim yok). Gönderi listesi de
+- v1.1.0'ın kullanıcıda denenmesi bekleniyor (gerçek Instagram'a buradan erişim yok). Gönderi listesi de
   reddedilirse kaydındaki "isteğini kabul etmedi (HTTP …)" satırlarına bak.
 - Windows'ta çalışırsa: Android sürümü (Douyin'deki gibi Kotlin + gizli WebView, aynı API yolları).
 
