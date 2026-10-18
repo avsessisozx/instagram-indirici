@@ -118,6 +118,13 @@ class IntegrationTests(unittest.TestCase):
         # Dosya adında tarih ve başlık
         self.assertTrue(any("2025-10-0" in f and "Gönderi 1" in f for f in files), files)
 
+    def test_a1b_page_429_is_retried(self):
+        self.fake.page_429_once = True
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", limit=3, stories=False, highlights=False, avatar=False)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertIn("browser.page_refused", self.keys(snap))
+        self.assertEqual(snap["found_posts"], 3)
+
     def test_a2_not_found(self):
         snap, out = self.run_job("@yok.boyle.biri", "profile", timeout=90)
         self.assertEqual(snap["phase"], "error")

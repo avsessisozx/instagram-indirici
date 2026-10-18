@@ -205,5 +205,6 @@
   "engine.repairing": "{n} videos had no address in the list; opening them one by one…",
   "summary.unavailable": "{n} posts couldn't be downloaded because they were deleted or restricted",
   "ui.count_unavailable": "Restricted",
-  "ui.note_login_tip": "Using a secondary account instead of your main one is safer."
+  "ui.note_login_tip": "Using a secondary account instead of your main one is safer.",
+  "browser.page_refused": "Instagram refused to open the page (HTTP {code}); retrying in {s} seconds…"
 }

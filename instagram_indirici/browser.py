@@ -385,23 +385,57 @@ class InstagramBrowser:
 
     # ------------------------------------------------------------ sayfa gezinme
     async def goto(self, url: str) -> int:
-        """Sayfayı açar; HTTP durum kodunu döner (bilinmiyorsa 0)."""
-        self._check_alive()
-        try:
-            response = await self.page.goto(rebase(url), wait_until="domcontentloaded", timeout=60000)
-            return response.status if response is not None else 0
-        except Exception as exc:
-            if self.cancel.is_set():
-                raise asyncio.CancelledError()
-            if self.page.is_closed():
-                raise BrowserError(msg("browser.closed"))
-            message = str(exc).splitlines()[0]
-            if "ERR_INTERNET_DISCONNECTED" in message or "ERR_NAME_NOT_RESOLVED" in message:
-                raise BrowserError(msg("browser.no_internet"))
-            if "Timeout" not in message:
-                raise BrowserError(msg("browser.page_failed", error=message))
-            self.log("warn", msg("browser.slow"))
-            return 0
+        """Sayfayı açar; HTTP durum kodunu döner (bilinmiyorsa 0).
+
+        Instagram yoğun istekte sayfayı boş bir hata koduyla (429/5xx) döndürebiliyor; tarayıcı bunu
+        ERR_HTTP_RESPONSE_CODE_FAILURE olarak bildirir. O zaman bekleyip tekrar denenir.
+        """
+        target = rebase(url)
+        backoff = _backoff_steps()
+        attempt = 0
+        while True:
+            self._check_alive()
+            seen: Dict[str, int] = {}
+
+            def on_response(response) -> None:
+                try:
+                    if response.request.is_navigation_request() and response.request.frame == self.page.main_frame:
+                        seen["status"] = response.status
+                except Exception:
+                    pass
+
+            self.page.on("response", on_response)
+            try:
+                response = await self.page.goto(target, wait_until="domcontentloaded", timeout=60000)
+                status = response.status if response is not None else 0
+                if status not in (429, 500, 502, 503, 504):
+                    return status
+                refused = status
+            except Exception as exc:
+                if self.cancel.is_set():
+                    raise asyncio.CancelledError()
+                if self.page.is_closed():
+                    raise BrowserError(msg("browser.closed"))
+                message = str(exc).splitlines()[0]
+                if "ERR_INTERNET_DISCONNECTED" in message or "ERR_NAME_NOT_RESOLVED" in message:
+                    raise BrowserError(msg("browser.no_internet"))
+                if "ERR_HTTP_RESPONSE_CODE_FAILURE" not in message:
+                    if "Timeout" not in message:
+                        raise BrowserError(msg("browser.page_failed", error=message))
+                    self.log("warn", msg("browser.slow"))
+                    return 0
+                refused = seen.get("status", 0)
+                self.log("debug", f"page {target} -> HTTP {refused or '?'} (boş hata sayfası)")
+                if refused in (404, 410):
+                    return refused
+            finally:
+                self.page.remove_listener("response", on_response)
+            if attempt >= len(backoff):
+                raise RateLimited()
+            seconds = backoff[attempt]
+            attempt += 1
+            self.log("warn", msg("browser.page_refused", code=refused or "?", s=int(seconds)))
+            await self._sleep(seconds)
 
     def _page_path(self) -> str:
         try:

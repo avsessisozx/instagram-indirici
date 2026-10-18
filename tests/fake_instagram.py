@@ -224,6 +224,7 @@ class FakeInstagram:
         self.embed_posts = True        # profil sayfasına ilk gönderiler gömülsün mü
         self.graphql_video_urls = True # eski biçimde video adresi gelsin mi (gerçekte bazen gelmiyor)
         self.slow_cdn = 0.0            # her dosyada bekleme (durdurma testi için)
+        self.page_429_once = False     # profil sayfası bir kez boş 429 döner (yoğunluk)
         self.requests: List[str] = []
         self.api_calls: List[Tuple[str, bool]] = []   # (yol, giriş var mı)
 
@@ -359,6 +360,9 @@ def make_handler(fake: FakeInstagram):
                     return self.html("<html><body>Sorry, this page isn't available.</body></html>", 404)
                 return self.html("<html><body>" + _relay({"xdt_api__v1__media__shortcode__web_info": {"items": [item]}}) + "</body></html>")
             m = re.match(r"^/([A-Za-z0-9._]+)/?$", path)
+            if m and fake.page_429_once:
+                fake.page_429_once = False
+                return self.send(429, b"", "text/html; charset=utf-8")
             if m:
                 name = m.group(1).lower()
                 if name not in USER_IDS:

@@ -205,5 +205,6 @@
   "engine.repairing": "{n} videonun adresi listede yoktu; tek tek açılıyor…",
   "summary.unavailable": "{n} gönderi silinmiş ya da kısıtlanmış olduğu için inemedi",
   "ui.count_unavailable": "Kısıtlı",
-  "ui.note_login_tip": "Ana hesabın yerine yedek bir hesap kullanman daha güvenli."
+  "ui.note_login_tip": "Ana hesabın yerine yedek bir hesap kullanman daha güvenli.",
+  "browser.page_refused": "Instagram sayfayı açmadı (HTTP {code}); {s} saniye bekleyip tekrar denenecek…"
 }
