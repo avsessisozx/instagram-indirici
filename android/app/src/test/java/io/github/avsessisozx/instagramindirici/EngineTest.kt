@@ -158,7 +158,9 @@ class EngineTest {
         assertEquals(snap.toString(), "done", snap.getString("phase"))
         assertTrue(snap.getBoolean("logged_in"))
         val keys = e.logKeys()
-        assertTrue("browser.slow_down" in keys)
+        // İlk liste isteği reddedilince beklemeden GraphQL'e geçilir.
+        assertTrue(keys.toString(), "browser.refused" in keys)
+        assertFalse(keys.toString(), "browser.slow_down" in keys)
         assertTrue("browser.verify_done" in keys)
         assertTrue(web.verifyShown > 0)
         assertEquals(totalPosts + 1, snap.getInt("found_posts"))
@@ -228,6 +230,31 @@ class EngineTest {
         assertEquals("done", snap.getString("phase"))
         assertEquals(12, snap.getInt("found_posts"))
         assertTrue(files().isNotEmpty() && files().all { it.endsWith(".mp4") })
+    }
+
+    /** Telefonda görülen durum: REST liste ve öne çıkan listesi hep reddediliyor. Beklemeden diğer yollar. */
+    @Test
+    fun b6_refusedListsDoNotWait() {
+        login()
+        set("rest_refused" to 1, "highlights_tray_refused" to 1)
+        TestHooks.backoffSeconds = listOf(30L, 90L)
+        try {
+            val e = engine()
+            val started = System.currentTimeMillis()
+            val snap = run(e, profile, s = settings(autoContinue = true), timeoutMs = 60_000)
+            val took = System.currentTimeMillis() - started
+            assertEquals(snap.toString(), "done", snap.getString("phase"))
+            val keys = e.logKeys()
+            assertFalse(keys.toString(), "browser.slow_down" in keys)
+            assertFalse(keys.toString(), "engine.auto_wait" in keys)
+            assertTrue(keys.toString(), "browser.highlights_from_page" in keys)
+            assertEquals(1, feedCalls())
+            assertEquals(totalPosts + 1, snap.getInt("found_posts"))
+            assertEquals(2, files().count { it.startsWith("$profile/Öne Çıkanlar/Tatil/") })
+            assertTrue("sürdü: $took ms", took < 30_000)
+        } finally {
+            TestHooks.backoffSeconds = listOf(1L, 2L)
+        }
     }
 
     @Test

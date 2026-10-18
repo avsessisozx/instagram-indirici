@@ -231,13 +231,15 @@ class Insta(private val web: IgWeb) {
             }
             if (kind == "rate") {
                 val label = msg("what.${what.ifEmpty { "other" }}")
+                debug("${what.ifEmpty { path }} HTTP ${res.status}: ${res.text.take(200).replace("\n", " ")}")
                 if (attempt >= steps.size) {
                     log("info", msg("browser.refused", "what" to label, "code" to (if (res.status != 0) res.status else "?")))
                     throw RateLimited(what, res.status)
                 }
                 val seconds = steps[attempt++]
                 log("warn", msg("browser.slow_down", "what" to label, "code" to (if (res.status != 0) res.status else "?"), "s" to seconds))
-                sleep(seconds * 1000)
+                web.listener?.waitUntil(System.currentTimeMillis() + seconds * 1000, "rate")
+                try { sleep(seconds * 1000) } finally { web.listener?.waitUntil(0, "") }
                 continue
             }
             if (kind == "challenge") {
@@ -466,13 +468,16 @@ class Insta(private val web: IgWeb) {
     private suspend fun feedRest(info: ProfileInfo, state: FeedState): String {
         var maxId = ""
         var fallback: String? = null
+        var pages = 0
         while (true) {
             checkCancel()
             val params = mutableListOf("count" to "30")
             if (maxId.isNotEmpty()) params += "max_id" to maxId
             val data: JSONObject
             try {
-                val d = call("/api/v1/feed/user/${info.userId}/", params, what = "feed", essential = true)
+                // İlk istek reddedilirse beklemeden sıradaki yola geçilir (Instagram bazı oturumlarda bu
+                // listeyi hep reddediyor; beklemek düzeltmiyor). Liste başladıktan sonraki retler beklenir.
+                val d = call("/api/v1/feed/user/${info.userId}/", params, what = "feed", essential = pages > 0)
                 if (d !is JSONObject || !d.has("items")) throw ApiError("feed: no items")
                 data = d
             } catch (e: IgError) {
@@ -483,6 +488,7 @@ class Insta(private val web: IgWeb) {
                 continue
             }
             fallback = null
+            pages++
             val arr = data.optJSONArray("items")
             val items = if (arr == null) emptyList() else (0 until arr.length()).mapNotNull { arr.opt(it) as? JSONObject }.filter { Media.isMedia(it) }
             val nextId = Media.pyStr(Media.or(Media.opt(data, "next_max_id"), ""))
@@ -628,7 +634,8 @@ class Insta(private val web: IgWeb) {
     suspend fun highlightsTray(userId: String, username: String = ""): List<JSONObject> {
         var error: IgError = ApiError("highlights: no tray")
         try {
-            val data = call("/api/v1/highlights/$userId/highlights_tray/", what = "highlights", essential = true)
+            // Reddedilirse beklemeden profil sayfasından okunur.
+            val data = call("/api/v1/highlights/$userId/highlights_tray/", what = "highlights")
             val tray = (data as? JSONObject)?.opt("tray")
             if (tray is JSONArray) return if (tray.length() > 0) Media.findHighlights(tray) else emptyList()
             error = ApiError("highlights: no tray")
