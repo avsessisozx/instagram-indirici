@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Instagram İndirici</title>
+<style>
+:root {
+  --bg: #e9edf2;
+  --surface: #ffffff;
+  --ink: #182033;
+  --muted: #5a6478;
+  --line: #d3dae4;
+  --accent: #3f3fc9;
+  --accent-ink: #ffffff;
+  --accent-soft: #e9e9fb;
+  --ok: #0e7a5f;
+  --ok-soft: #e2f4ee;
+  --warn: #8a5800;
+  --warn-soft: #fff1cc;
+  --err: #b3122b;
+  --err-soft: #fbe9ec;
+  --focus: #2f6fed;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12161e; --surface: #1b212c; --ink: #e6eaf1; --muted: #98a2b5; --line: #2c3443;
+    --accent: #8f94ff; --accent-ink: #0b0c2a; --accent-soft: #23254a;
+    --ok: #3dcb9b; --ok-soft: #12302a; --warn: #ffcf66; --warn-soft: #3a2f12; --err: #ff6b7d; --err-soft: #3a1820;
+    --focus: #7aa7ff;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 15px/1.5 "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+main { max-width: 700px; margin: 0 auto; padding: 28px 18px 40px; }
+h1 { font: 650 26px/1.2 "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif; margin: 0; letter-spacing: -0.01em; }
+.lead { color: var(--muted); margin: 4px 0 22px; }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; margin-bottom: 14px; }
+.step { display: grid; grid-template-columns: 30px 1fr; gap: 0 12px; }
+.step > div { min-width: 0; }
+.step-num { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--line); display: grid; place-items: center; font-weight: 650; font-size: 14px; color: var(--muted); }
+.step.done .step-num { border-color: var(--ok); color: var(--ok); }
+.step h2 { font-size: 16px; font-weight: 650; margin: 2px 0 10px; }
+
+/* Link alanı: programın kalbi */
+.link-row { display: flex; gap: 8px; }
+.link-row input {
+  flex: 1; min-width: 0; height: 52px; padding: 0 16px; font-size: 16px;
+  background: var(--bg); border: 1.5px solid var(--line); border-radius: 10px;
+}
+.link-row input:focus { border-color: var(--focus); outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 22%, transparent); }
+.detect { min-height: 22px; margin-top: 8px; font-size: 14px; color: var(--muted); }
+.detect.ok { color: var(--ok); }
+.detect.err { color: var(--err); }
+
+.btn {
+  height: 40px; padding: 0 16px; border-radius: 9px; border: 1.5px solid var(--line);
+  background: var(--surface); cursor: pointer; font-weight: 600; white-space: nowrap;
+}
+.btn:hover { border-color: var(--muted); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.link-row .btn { height: 52px; }
+
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.choice { position: relative; }
+.choice input { position: absolute; opacity: 0; pointer-events: none; }
+.choice label {
+  display: block; height: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 10px; cursor: pointer;
+}
+.choice label b { display: block; font-weight: 650; }
+.choice label span { display: block; color: var(--muted); font-size: 13.5px; margin-top: 2px; }
+.choice input:checked + label { border-color: var(--accent); background: var(--accent-soft); }
+.choice input:focus-visible + label { outline: 2px solid var(--focus); outline-offset: 2px; }
+.choice input:disabled + label { opacity: .45; cursor: not-allowed; }
+
+.rows { display: grid; gap: 12px; }
+.row { display: grid; grid-template-columns: 150px 1fr; align-items: center; gap: 10px; }
+.row > .lbl { color: var(--muted); font-size: 14px; }
+.seg { display: inline-flex; flex-wrap: wrap; border: 1.5px solid var(--line); border-radius: 9px; overflow: hidden; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label { padding: 7px 13px; cursor: pointer; font-size: 14px; border-right: 1px solid var(--line); }
+.seg label:last-of-type { border-right: 0; }
+.seg input:checked + label { background: var(--ink); color: var(--surface); }
+.seg input:focus-visible + label { outline: 2px solid var(--focus); outline-offset: -2px; }
+select { height: 38px; padding: 0 10px; border-radius: 9px; border: 1.5px solid var(--line); background: var(--surface); }
+.check { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+.check input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--accent); }
+.check small { display: block; color: var(--muted); font-size: 13px; }
+.folder-row { display: flex; gap: 8px; }
+.folder-row input { flex: 1; min-width: 0; height: 40px; padding: 0 12px; border-radius: 9px; border: 1.5px solid var(--line); background: var(--bg); font-size: 14px; }
+
+.start {
+  width: 100%; height: 56px; border-radius: 12px; border: 0; cursor: pointer;
+  background: var(--accent); color: var(--accent-ink); font-size: 17px; font-weight: 650;
+}
+.start:hover { filter: brightness(1.06); }
+.start.stop { background: var(--ink); color: var(--surface); }
+.start:disabled { opacity: .5; cursor: not-allowed; }
+.form-error { color: var(--err); font-size: 14px; margin: 8px 2px 0; min-height: 20px; }
+
+/* İlerleme */
+#progress[hidden] { display: none; }
+.status { font-size: 17px; font-weight: 650; margin: 0 0 4px; }
+.sub { color: var(--muted); font-size: 14px; margin: 0 0 12px; overflow-wrap: anywhere; }
+.bar { height: 10px; border-radius: 6px; background: var(--bg); border: 1px solid var(--line); overflow: hidden; }
+.bar > i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .3s ease; }
+.bar.indet > i { width: 30%; animation: slide 1.2s ease-in-out infinite; }
+@keyframes slide { 0% { margin-left: -30%; } 100% { margin-left: 100%; } }
+@media (prefers-reduced-motion: reduce) { .bar.indet > i { animation: none; width: 100%; opacity: .35; } .bar > i { transition: none; } }
+.counts { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 12px; font-size: 14px; color: var(--muted); }
+.counts b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.note { border-radius: 10px; padding: 12px 14px; margin-top: 12px; font-size: 14.5px; }
+.note.warn { background: var(--warn-soft); color: var(--warn); }
+.note.ok { background: var(--ok-soft); color: var(--ok); }
+.note.err { background: var(--err-soft); color: var(--err); }
+.what { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; }
+.account { display: inline-flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.account .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); display: inline-block; }
+.account.on .dot { background: var(--ok); }
+@media (max-width: 560px) { .what { grid-template-columns: 1fr; } }
+.note .btn { margin-top: 10px; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+
+details { margin-top: 14px; }
+summary { cursor: pointer; color: var(--muted); font-size: 14px; }
+.log { margin-top: 8px; max-height: 240px; overflow: auto; font-size: 13px; line-height: 1.45; border-top: 1px solid var(--line); padding-top: 8px; }
+.log div { padding: 2px 0; overflow-wrap: anywhere; }
+.log time { color: var(--muted); margin-right: 8px; font-variant-numeric: tabular-nums; }
+.log .error { color: var(--err); }
+.log .warn { color: var(--warn); }
+.log .ok { color: var(--ok); }
+.log .debug { display: none; }
+
+.foot { color: var(--muted); font-size: 13.5px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+.linklike { background: none; border: 0; padding: 0; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; font-size: 13.5px; }
+.linklike:disabled { opacity: .5; cursor: not-allowed; }
+
+@media (max-width: 560px) {
+  .choices { grid-template-columns: 1fr; }
+  .row { grid-template-columns: 1fr; gap: 6px; }
+  .link-row { flex-direction: column; }
+  .link-row input { flex: none; }
+  .link-row .btn { height: 44px; }
+  .folder-row { flex-wrap: wrap; }
+  .folder-row input { flex-basis: 100%; }
+}
+.foot select { height: 30px; font-size: 13px; padding: 0 6px; }
+.foot label { display: inline-flex; gap: 6px; align-items: center; }
+.folder-static { padding: 9px 12px; border-radius: 9px; background: var(--bg); border: 1.5px solid var(--line); font-size: 14px; }
+.is-mobile .desktop-only { display: none !important; }
+.is-desktop .mobile-only { display: none !important; }
+body.loading main { visibility: hidden; }
+</style>
+</head>
+<body class="loading">
+<main>
+  <h1 data-i18n="ui.app_title"></h1>
+  <p class="lead" data-i18n="ui.lead"></p>
+
+  <section class="panel step" id="step1">
+    <div class="step-num">1</div>
+    <div>
+      <h2 data-i18n="ui.step1_title"></h2>
+      <div class="link-row">
+        <input id="link" type="text" autocomplete="off" spellcheck="false" inputmode="url"
+               data-i18n-placeholder="ui.link_placeholder" aria-describedby="detect">
+        <button class="btn" id="paste" type="button" data-i18n="ui.paste"></button>
+      </div>
+      <div class="detect" id="detect" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="panel step" id="step2">
+    <div class="step-num">2</div>
+    <div>
+      <h2 id="step2-title" data-i18n="ui.step2_title"></h2>
+      <div class="choices" role="radiogroup" aria-labelledby="step2-title">
+        <div class="choice">
+          <input type="radio" name="mode" id="mode-single" value="single">
+          <label for="mode-single"><b data-i18n="ui.mode_single_title"></b><span id="single-hint"></span></label>
+        </div>
+        <div class="choice">
+          <input type="radio" name="mode" id="mode-profile" value="profile">
+          <label for="mode-profile"><b data-i18n="ui.mode_profile_title"></b><span id="profile-hint"></span></label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel step" id="step3">
+    <div class="step-num">3</div>
+    <div>
+      <h2 data-i18n="ui.step3_title"></h2>
+      <div class="rows">
+        <div class="row" id="row-what">
+          <span class="lbl" data-i18n="ui.what_label"></span>
+          <div class="what">
+            <label class="check"><input type="checkbox" id="w-posts"><span data-i18n="ui.what_posts"></span></label>
+            <label class="check"><input type="checkbox" id="w-stories"><span><span data-i18n="ui.what_stories"></span><small data-i18n="ui.needs_login"></small></span></label>
+            <label class="check"><input type="checkbox" id="w-highlights"><span><span data-i18n="ui.what_highlights"></span><small data-i18n="ui.needs_login"></small></span></label>
+            <label class="check"><input type="checkbox" id="w-avatar"><span data-i18n="ui.what_avatar"></span></label>
+          </div>
+        </div>
+        <div class="row" id="row-content">
+          <span class="lbl" id="lbl-content" data-i18n="ui.content_label"></span>
+          <div class="seg" role="radiogroup" aria-labelledby="lbl-content">
+            <input type="radio" name="content" id="c-all" value="all"><label for="c-all" data-i18n="ui.content_all"></label>
+            <input type="radio" name="content" id="c-video" value="video"><label for="c-video" data-i18n="ui.content_video"></label>
+            <input type="radio" name="content" id="c-image" value="image"><label for="c-image" data-i18n="ui.content_image"></label>
+          </div>
+        </div>
+        <div class="row" id="row-limit">
+          <label class="lbl" for="limit" data-i18n="ui.limit_label"></label>
+          <div>
+            <select id="limit">
+              <option value="0" data-i18n="ui.limit_all"></option>
+              <option value="12" data-i18n="ui.limit_n" data-n="12"></option>
+              <option value="30" data-i18n="ui.limit_n" data-n="30"></option>
+              <option value="50" data-i18n="ui.limit_n" data-n="50"></option>
+              <option value="100" data-i18n="ui.limit_n" data-n="100"></option>
+              <option value="300" data-i18n="ui.limit_n" data-n="300"></option>
+            </select>
+          </div>
+        </div>
+        <div class="row" id="row-onlynew">
+          <span class="lbl"></span>
+          <label class="check"><input type="checkbox" id="onlynew">
+            <span><span data-i18n="ui.only_new_title"></span>
+              <small data-i18n="ui.only_new_desc"></small>
+            </span>
+          </label>
+        </div>
+        <div class="row">
+          <label class="lbl" for="outdir" data-i18n="ui.folder_label"></label>
+          <div class="folder-row desktop-only">
+            <input id="outdir" type="text" spellcheck="false">
+            <button class="btn" id="choose" type="button" data-i18n="ui.folder_change"></button>
+            <button class="btn" id="openout" type="button" data-i18n="ui.folder_open"></button>
+          </div>
+          <div class="folder-static mobile-only" data-i18n="ui.folder_mobile_value"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <button class="start" id="start" type="button" data-i18n="ui.start"></button>
+  <div class="form-error" id="form-error" role="alert"></div>
+
+  <section class="panel" id="progress" hidden aria-live="polite">
+    <p class="status" id="status"></p>
+    <p class="sub" id="sub"></p>
+    <div class="bar" id="bar"><i></i></div>
+    <div class="counts" id="counts"></div>
+    <div id="notes"></div>
+    <div class="actions" id="done-actions" hidden>
+      <button class="btn" id="open-result" type="button"></button>
+    </div>
+    <details id="details">
+      <summary data-i18n="ui.details"></summary>
+      <div class="log" id="log"></div>
+    </details>
+  </section>
+
+  <div class="foot">
+    <span class="account" id="account"><i class="dot" aria-hidden="true"></i><span id="account-text"></span>
+      <button class="linklike" id="login" type="button"></button></span>
+    <label><span data-i18n="ui.language_label"></span>
+      <select id="lang" aria-label="Language"></select>
+    </label>
+    <span id="version"></span>
+  </div>
+</main>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+
+  // ---------------- köprü: Windows'ta yerel sunucu, Android'de uygulamanın kendisi
+  const bridge = window.InstagramApp;
+  async function api(path, body) {
+    let status, data;
+    if (bridge) {
+      const raw = bridge.call(path, body === undefined ? '' : JSON.stringify(body));
+      const res = JSON.parse(raw);
+      status = res.status; data = res.body || {};
+    } else {
+      const res = await fetch(path, body === undefined ? {} : {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+      });
+      status = res.status;
+      data = await res.json().catch(() => ({}));
+    }
+    if (status >= 400) {
+      const err = new Error('request failed');
+      err.msg = data.error;
+      throw err;
+    }
+    return data;
+  }
+
+  // ---------------- çeviri
+  let S = {}, platform = 'desktop';
+  const t = (key, params) => {
+    if (key === 'summary') return summaryText(params || {});
+    let text = S[key];
+    if (text === undefined) text = key;
+    return text.replace(/\{(\w+)\}/g, (m, name) => {
+      if (!params || !(name in params)) return m;
+      const v = params[name];
+      return (v && typeof v === 'object') ? renderMsg(v) : String(v);
+    });
+  };
+  function summaryText(p) {
+    const parts = [t('summary.done', { n: p.done || 0 })];
+    if (p.skipped) parts.push(t('summary.skipped', { n: p.skipped }));
+    if (p.failed) parts.push(t('summary.failed', { n: p.failed }));
+    if (p.unmatched) parts.push(t('summary.unmatched', { n: p.unmatched }));
+    if (p.unavailable) parts.push(t('summary.unavailable', { n: p.unavailable }));
+    return t('summary.wrap', { parts: parts.join(', ') });
+  }
+  function renderMsg(m) {
+    if (!m) return '';
+    if (typeof m === 'string') return m;
+    return t(m.key, m.params || {});
+  }
+  const pick = (base) => t(base + (platform === 'mobile' ? '_mobile' : '_desktop'));
+  const errText = (e) => e && e.msg ? renderMsg(e.msg) : String(e && e.message || e);
+
+  function applyStatic() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      el.textContent = t(el.dataset.i18n, el.dataset.n ? { n: el.dataset.n } : undefined);
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { el.placeholder = t(el.dataset.i18nPlaceholder); });
+    document.title = t('ui.app_title');
+    document.body.classList.toggle('is-mobile', platform === 'mobile');
+    document.body.classList.toggle('is-desktop', platform !== 'mobile');
+    $('open-result').textContent = pick('ui.open_result');
+  }
+  async function loadStrings() {
+    const r = await api('/api/strings');
+    S = r.strings || {};
+    platform = r.platform || 'desktop';
+    document.documentElement.lang = r.lang || 'en';
+    const sel = $('lang');
+    sel.textContent = '';
+    const auto = document.createElement('option'); auto.value = 'auto'; auto.textContent = t('ui.language_auto'); sel.appendChild(auto);
+    for (const l of r.languages || []) { const o = document.createElement('option'); o.value = l.code; o.textContent = l.name; sel.appendChild(o); }
+    sel.value = r.setting || 'auto';
+    applyStatic();
+    renderDetect();
+    updateModeRows();
+    renderLog();
+    if (lastState) render(lastState, true);
+  }
+
+  let notesKey = '';
+  let linkKind = null, running = false, logNext = 0, lastFolder = '', lastState = null;
+  let settingsLoaded = false, parseTimer = null, parseSeq = 0, lastPhase = '', detectMsg = null, detectClass = '';
+
+  // ---------------- link algılama
+  const detect = $('detect');
+  function renderDetect() {
+    detect.className = 'detect ' + detectClass;
+    detect.textContent = detectMsg ? renderMsg(detectMsg) : t('ui.detect_hint');
+  }
+  function setModeAvailability() {
+    const single = $('mode-single'), profile = $('mode-profile');
+    single.disabled = linkKind === 'profile';
+    if (linkKind === 'profile') profile.checked = true;
+    else if (linkKind && !single.checked && !profile.checked) single.checked = true;
+    if (single.disabled && single.checked) profile.checked = true;
+    updateModeRows();
+  }
+  function updateModeRows() {
+    const isProfile = $('mode-profile').checked;
+    for (const id of ['row-what', 'row-content', 'row-limit', 'row-onlynew']) $(id).hidden = !isProfile;
+    const owner = linkKind && linkKind !== 'profile';
+    $('profile-hint').textContent = t(owner ? 'ui.mode_profile_desc_owner' : 'ui.mode_profile_desc');
+    const singleKey = { story: 'ui.mode_single_desc_story', highlight: 'ui.mode_single_desc_highlight' }[linkKind] || 'ui.mode_single_desc';
+    $('single-hint').textContent = t(singleKey);
+    $('step2').classList.toggle('done', $('mode-single').checked || isProfile);
+  }
+  async function parseLink() {
+    const value = $('link').value.trim();
+    const seq = ++parseSeq;
+    if (!value) {
+      linkKind = null; detectMsg = null; detectClass = '';
+      renderDetect();
+      $('step1').classList.remove('done');
+      updateModeRows();
+      return;
+    }
+    try {
+      const r = await api('/api/parse', { link: value });
+      if (seq !== parseSeq) return;
+      linkKind = r.ok ? r.kind : null;
+      detectMsg = r.message; detectClass = r.ok ? 'ok' : 'err';
+      renderDetect();
+      $('step1').classList.toggle('done', !!r.ok);
+      setModeAvailability();
+    } catch (e) {
+      detectMsg = e.msg || String(e); detectClass = 'err';
+      renderDetect();
+    }
+  }
+  window.igSetLink = (text) => { $('link').value = text; parseLink(); };
+  $('link').addEventListener('input', () => { clearTimeout(parseTimer); parseTimer = setTimeout(parseLink, 200); });
+  $('link').addEventListener('keydown', (e) => { if (e.key === 'Enter') startOrStop(); });
+  $('paste').addEventListener('click', async () => {
+    let text = '';
+    try {
+      if (bridge) text = (await api('/api/clipboard')).text || '';
+      else text = await navigator.clipboard.readText();
+    } catch (e) { /* izin yoksa elle yapıştırma */ }
+    if (text) { $('link').value = text.trim(); parseLink(); return; }
+    $('link').focus();
+    detectMsg = { key: platform === 'mobile' ? 'ui.paste_hint_mobile' : 'ui.paste_hint_desktop' }; detectClass = '';
+    renderDetect();
+  });
+  document.querySelectorAll('input[name=mode]').forEach(el => el.addEventListener('change', updateModeRows));
+
+  // ---------------- ayarlar
+  function readSettings() {
+    const content = document.querySelector('input[name=content]:checked');
+    return {
+      content: content ? content.value : 'all',
+      limit: parseInt($('limit').value, 10) || 0,
+      posts: $('w-posts').checked,
+      stories: $('w-stories').checked,
+      highlights: $('w-highlights').checked,
+      avatar: $('w-avatar').checked,
+      only_new: $('onlynew').checked,
+      out_dir: $('outdir').value.trim(),
+      lang: $('lang').value || 'auto',
+    };
+  }
+  function applySettings(s) {
+    const c = document.querySelector(`input[name=content][value="${s.content}"]`);
+    if (c) c.checked = true;
+    $('limit').value = String(s.limit);
+    if (!$('limit').value) $('limit').value = '0';
+    $('w-posts').checked = !!s.posts;
+    $('w-stories').checked = !!s.stories;
+    $('w-highlights').checked = !!s.highlights;
+    $('w-avatar').checked = !!s.avatar;
+    $('onlynew').checked = !!s.only_new;
+    if (document.activeElement !== $('outdir')) $('outdir').value = s.out_dir || '';
+  }
+  const saveSettings = () => api('/api/settings', readSettings()).then(r => applySettings(r.settings)).catch(() => {});
+  ['limit', 'w-posts', 'w-stories', 'w-highlights', 'w-avatar', 'onlynew', 'outdir'].forEach(id => $(id).addEventListener('change', saveSettings));
+  document.querySelectorAll('input[name=content]').forEach(el => el.addEventListener('change', saveSettings));
+  $('lang').addEventListener('change', async () => { await saveSettings(); await loadStrings(); });
+
+  $('choose').addEventListener('click', async () => {
+    $('choose').disabled = true;
+    try { const r = await api('/api/choose-folder', {}); applySettings(r.settings); }
+    catch (e) { $('form-error').textContent = errText(e); }
+    finally { $('choose').disabled = running; }
+  });
+  $('openout').addEventListener('click', () => api('/api/open-folder', { path: $('outdir').value.trim() }).catch(e => { $('form-error').textContent = errText(e); }));
+  $('open-result').addEventListener('click', () => api('/api/open-folder', { path: lastFolder || $('outdir').value.trim() }).catch(e => { $('form-error').textContent = errText(e); }));
+
+  // ---------------- başlat / durdur
+  async function startOrStop() {
+    $('form-error').textContent = '';
+    if (running) { api('/api/stop', {}).catch(() => {}); return; }
+    if (!$('link').value.trim()) { $('form-error').textContent = t('ui.form_need_link'); $('link').focus(); return; }
+    await parseLink();
+    if (!linkKind) { $('form-error').textContent = detect.textContent; $('link').focus(); return; }
+    const mode = document.querySelector('input[name=mode]:checked');
+    if (!mode) { $('form-error').textContent = t('ui.form_need_mode'); return; }
+    try {
+      $('start').disabled = true;
+      await api('/api/start', { link: $('link').value.trim(), mode: mode.value, settings: readSettings() });
+      clearLog();
+      $('progress').hidden = false;
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      $('progress').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      poll(true);
+    } catch (e) {
+      $('form-error').textContent = errText(e);
+    } finally {
+      $('start').disabled = false;
+    }
+  }
+  $('start').addEventListener('click', startOrStop);
+  $('login').addEventListener('click', async () => {
+    $('form-error').textContent = '';
+    try { await api('/api/login', {}); clearLog(); $('progress').hidden = false; poll(true); }
+    catch (e) { $('form-error').textContent = errText(e); }
+  });
+
+  // ---------------- durum
+  const fmtMB = (b) => (b / 1048576).toFixed(b > 104857600 ? 0 : 1) + ' MB';
+  function note(kind, nodes) { const d = document.createElement('div'); d.className = 'note ' + kind; for (const n of nodes) d.appendChild(n); return d; }
+  function el(tag, text) { const e = document.createElement(tag); if (text !== undefined) e.textContent = text; return e; }
+
+  function render(s, relabelOnly) {
+    lastState = s;
+    running = s.running;
+    $('start').textContent = t(running ? 'ui.stop' : 'ui.start');
+    $('start').classList.toggle('stop', running);
+    ['link', 'paste', 'choose', 'outdir', 'login', 'lang'].forEach(id => { $(id).disabled = running; });
+    document.querySelectorAll('#step2 input, #step3 input, #step3 select').forEach(e => {
+      e.disabled = running || (e.id === 'mode-single' && linkKind === 'profile');
+    });
+    if (s.version) $('version').textContent = t('ui.version', { v: s.version });
+    const acc = s.logged_in === true;
+    $('account').classList.toggle('on', acc);
+    $('account-text').textContent = t(acc ? 'ui.account_on' : 'ui.account_off');
+    $('login').textContent = t(acc ? 'ui.account_switch' : 'ui.login_link');
+    if (s.settings && !settingsLoaded) { applySettings(s.settings); settingsLoaded = true; }
+
+    if (s.phase === 'idle') return;
+    $('progress').hidden = false;
+    if (s.folder) lastFolder = s.folder;
+
+    const total = s.files_total, finished = s.files_done + s.files_skipped + s.files_failed;
+    let status = '', sub = '', pct = null;
+    const who = s.author ? `${s.author}: ` : '';
+    if (s.mode === 'login') {
+      status = t(running ? 'ui.status_login_open' : 'ui.status_login_closed');
+      sub = running ? pick('ui.sub_login_open') : renderMsg(s.summary);
+    } else if (s.phase === 'starting') {
+      status = t('ui.status_starting');
+      sub = t('ui.sub_starting');
+    } else if (running) {
+      if (s.collecting) status = t('ui.status_scanning', { who, n: s.found_posts });
+      else if (s.phase === 'collecting') status = t('ui.status_fetching_post');
+      else status = t('ui.status_progress', { who, done: finished, total });
+      if (total > 0) pct = Math.min(100, finished / total * 100);
+      if (s.current) {
+        sub = t('ui.sub_downloading', { name: s.current }) + (s.current_total ? ` (${fmtMB(s.current_bytes)} / ${fmtMB(s.current_total)})` : (s.current_bytes ? ` (${fmtMB(s.current_bytes)})` : ''));
+      } else {
+        sub = s.collecting ? t('ui.sub_collecting') : '';
+      }
+    } else {
+      status = t(s.phase === 'done' ? 'ui.status_done' : s.phase === 'stopped' ? 'ui.status_stopped' : 'ui.status_failed');
+      sub = renderMsg(s.summary);
+      pct = s.phase === 'done' ? 100 : (total ? finished / total * 100 : 0);
+    }
+    $('status').textContent = status;
+    $('sub').textContent = sub;
+    const bar = $('bar');
+    bar.classList.toggle('indet', running && pct === null);
+    bar.firstElementChild.style.width = (pct === null ? 0 : pct) + '%';
+
+    const counts = $('counts');
+    counts.textContent = '';
+    if (s.mode !== 'login') {
+      const add = (key, n) => { const sp = el('span', t(key) + ' '); sp.appendChild(el('b', String(n))); counts.appendChild(sp); };
+      add('ui.count_found', s.found_posts);
+      add('ui.count_done', s.files_done);
+      if (s.files_skipped) add('ui.count_skipped', s.files_skipped);
+      if (s.posts_skipped) add('ui.count_unmatched', s.posts_skipped);
+      if (s.posts_unavailable) add('ui.count_unavailable', s.posts_unavailable);
+      if (s.files_failed) add('ui.count_failed', s.files_failed);
+    }
+
+    // Notlar sadece değiştiğinde yeniden çizilir (yoksa düğmeye basılırken kaybolabilir).
+    const errText2 = (!running && s.phase === 'error' && s.summary) ? renderMsg(s.summary) : '';
+    const noteMsgs = running ? [] : (s.notes || []);
+    const wallMsg = noteMsgs.find(m => m && String(m.key || '').startsWith('engine.login_wall'));
+    const engineNotes = noteMsgs.filter(m => m !== wallMsg).map(renderMsg).filter(x => x && x !== errText2);
+    const nk = [s.verify, s.login_wall && !running, wallMsg ? renderMsg(wallMsg) : '', s.rate_limited && !running, errText2, engineNotes.join('#'), platform, JSON.stringify(S['ui.start'] || '')].join('|');
+    if (nk !== notesKey) {
+      notesKey = nk;
+      const notes = $('notes');
+      notes.textContent = '';
+      if (s.verify) {
+        notes.appendChild(note('warn', [el('b', t('ui.note_verify_title')), el('br'), document.createTextNode(pick('ui.note_verify_body'))]));
+      }
+      for (const text of engineNotes) notes.appendChild(note('warn', [document.createTextNode(text)]));
+      if (errText2) notes.appendChild(note('err', [document.createTextNode(errText2)]));
+      if (s.rate_limited && !running) notes.appendChild(note('warn', [document.createTextNode(t('ui.note_rate_limited'))]));
+      if (s.login_wall && !running) {
+        const b = el('button', t('ui.login_button')); b.className = 'btn'; b.onclick = () => $('login').click();
+        const text = wallMsg ? renderMsg(wallMsg) + ' ' + t('ui.note_login_tip') : t('ui.note_login_wall');
+        notes.appendChild(note('warn', [document.createTextNode(text), el('br'), b]));
+      }
+    }
+
+    $('done-actions').hidden = running || s.mode === 'login' || !(s.files_done || s.files_skipped);
+
+    if (!relabelOnly && s.logs && s.logs.length) {
+      const log = $('log');
+      const atBottom = log.scrollTop + log.clientHeight >= log.scrollHeight - 10;
+      for (const line of s.logs) {
+        logEntries.push(line);
+        log.appendChild(logLine(line));
+      }
+      while (logEntries.length > 800) { logEntries.shift(); log.firstElementChild.remove(); }
+      if (atBottom) log.scrollTop = log.scrollHeight;
+    }
+    if (!relabelOnly) logNext = s.log_next;
+    if (lastPhase !== s.phase && s.phase === 'error') $('details').open = true;
+    lastPhase = s.phase;
+  }
+
+  const logEntries = [];
+  function logLine(line) {
+    const d = el('div');
+    d.className = line.level;
+    d.appendChild(el('time', line.t));
+    d.appendChild(document.createTextNode(line.msg ? renderMsg(line.msg) : (line.text || '')));
+    return d;
+  }
+  function renderLog() {
+    const log = $('log');
+    log.textContent = '';
+    for (const line of logEntries) log.appendChild(logLine(line));
+  }
+  function clearLog() { logEntries.length = 0; $('log').textContent = ''; }
+
+  let pollTimer = null;
+  async function poll() {
+    clearTimeout(pollTimer);
+    try { render(await api('/api/state?since=' + logNext)); } catch (e) { /* sunucu kapandıysa sessiz */ }
+    pollTimer = setTimeout(poll, running ? 600 : 1500);
+  }
+  window.addEventListener('beforeunload', (e) => { if (running && !bridge) { e.preventDefault(); e.returnValue = ''; } });
+  window.igRefresh = () => poll();
+
+  (async () => {
+    try { await loadStrings(); } catch (e) { S = {}; applyStatic(); }
+    renderDetect();
+    updateModeRows();
+    document.body.classList.remove('loading');
+    poll();
+    if (!bridge) $('link').focus();
+  })();
+})();
+</script>
+</body>
+</html>

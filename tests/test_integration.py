@@ -1,0 +1,306 @@
+"""Uçtan uca testler: gerçek tarayıcı + sahte Instagram sunucusu.
+
+Çalıştırmak için Playwright'ın bir tarayıcıya erişebilmesi gerekir:
+  * Linux/geliştirme: INSTAGRAM_INDIRICI_BROWSER=chromium
+  * Windows (GitHub derlemesi): INSTAGRAM_INDIRICI_BROWSER=msedge
+
+Testler alfabetik sırayla çalışır: önce giriş yapılmadan (a_), sonra giriş (b_), sonra
+giriş yapılmış hesapla (c_) senaryolar.
+"""
+
+import json
+import os
+import sys
+import tempfile
+import time
+import unittest
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from tests import fake_instagram as fi  # noqa: E402
+
+
+class IntegrationTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.fake = fi.FakeInstagram().start()
+        cls.tmp = tempfile.TemporaryDirectory(ignore_cleanup_errors=True)
+        os.environ["INSTAGRAM_INDIRICI_BASE"] = cls.fake.base
+        os.environ["INSTAGRAM_INDIRICI_DATA"] = str(Path(cls.tmp.name) / "data")
+        os.environ.setdefault("INSTAGRAM_INDIRICI_BROWSER", "chromium")
+        os.environ["INSTAGRAM_INDIRICI_HEADLESS"] = "1"
+        os.environ["INSTAGRAM_INDIRICI_IDLE"] = "4"
+        os.environ["INSTAGRAM_INDIRICI_DELAY"] = "0-0.05"
+        os.environ["INSTAGRAM_INDIRICI_BACKOFF"] = "1,2"
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.fake.stop()
+        cls.tmp.cleanup()
+
+    def setUp(self):
+        self.fake.reset()
+
+    # ------------------------------------------------------------ yardımcılar
+    def run_job(self, link, mode, timeout=180, out=None, **settings):
+        from instagram_indirici.engine import Engine, Job
+
+        out = out or Path(self.tmp.name) / f"out_{time.monotonic_ns()}"
+        engine = Engine()
+        base = {"out_dir": str(out), "content": "all", "limit": 0, "posts": True, "stories": True,
+                "highlights": True, "avatar": True, "only_new": True}
+        base.update(settings)
+        error = engine.start(Job(link, mode, base))
+        self.assertIsNone(error, error and error.key)
+        deadline = time.monotonic() + timeout
+        verify_seen = False
+        while engine.running and time.monotonic() < deadline:
+            verify_seen = verify_seen or engine.verify
+            time.sleep(0.2)
+        self.assertFalse(engine.running, "iş zamanında bitmedi")
+        snap = engine.snapshot()
+        snap["verify_seen"] = verify_seen
+        if os.environ.get("TEST_VERBOSE"):
+            print(f"\n--- {self._testMethodName}: {snap['phase']} {snap['summary']}")
+            for line in snap["logs"]:
+                text = line.get("text") or json.dumps(line.get("msg"), ensure_ascii=False)
+                print(f"  [{line['level']}] {text[:300]}")
+        return snap, out
+
+    def keys(self, snap):
+        return [(line.get("msg") or {}).get("key") for line in snap["logs"]]
+
+    def files(self, out):
+        return sorted(str(p.relative_to(out)).replace("\\", "/") for p in out.rglob("*")
+                      if p.is_file() and not p.name.startswith(".instagram-indirici"))
+
+    def assert_clean(self, out):
+        files = self.files(out)
+        self.assertFalse(any(f.endswith(".part") for f in files), files)
+
+    def ensure_login(self):
+        from instagram_indirici.engine import MODE_LOGIN
+
+        self.fake.autologin = True
+        snap, _ = self.run_job("", MODE_LOGIN, timeout=60)
+        self.fake.autologin = False
+        self.assertEqual(snap["summary"]["key"], "engine.login_done_ok", snap["logs"])
+        return snap
+
+    # ------------------------------------------------------------ giriş yapılmadan
+    def test_a1_logged_out_profile_login_wall(self):
+        snap, out = self.run_job(f"https://www.instagram.com/{fi.PROFILE_OK}/", "profile")
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertIs(snap["logged_in"], False)
+        self.assertTrue(snap["login_wall"])
+        keys = self.keys(snap)
+        self.assertIn("engine.stories_skipped_login", keys)
+        self.assertIn("engine.highlights_skipped_login", keys)
+        # Giriş yapmadan 2 sayfa (24 gönderi) görünüyor
+        self.assertEqual(snap["found_posts"], 2 * fi.PAGE)
+        files = self.files(out)
+        self.assertTrue(all(f.startswith(f"{fi.PROFILE_OK}/") for f in files), files)
+        # Profil fotoğrafı (giriş yapmadan: en büyük açık adres)
+        self.assertTrue(any(f.startswith(f"{fi.PROFILE_OK}/Profil Fotoğrafı/") for f in files), files)
+        # Kısıtlanmış video atlandı (i=8)
+        self.assertEqual(snap["posts_unavailable"], 1)
+        self.assert_clean(out)
+        # Albüm parçaları ve en yüksek kalite video
+        albums = [f for f in files if "_01." in f or "_02." in f or "_03." in f]
+        self.assertTrue(albums, files)
+        videos = [out / f for f in files if f.endswith(".mp4")]
+        self.assertTrue(videos)
+        for v in videos:
+            self.assertIn(b"_1080.mp4", v.read_bytes(), v.name)
+        # Uzantı içerik türünden: webp gelen resim .webp kaydedilir
+        self.assertTrue(any(f.endswith(".webp") for f in files), files)
+        # Dosya adında tarih ve başlık
+        self.assertTrue(any("2025-10-0" in f and "Gönderi 1" in f for f in files), files)
+
+    def test_a2_not_found(self):
+        snap, out = self.run_job("@yok.boyle.biri", "profile", timeout=90)
+        self.assertEqual(snap["phase"], "error")
+        self.assertEqual(snap["summary"]["key"], "browser.user_not_found", snap["summary"])
+
+    def test_a3_profile_needs_login(self):
+        snap, out = self.run_job(fi.PROFILE_FORCE_LOGIN, "profile", timeout=90)
+        self.assertEqual(snap["phase"], "error")
+        self.assertEqual(snap["summary"]["key"], "browser.profile_login_required")
+        self.assertTrue(snap["login_wall"])
+
+    def test_a4_single_post_logged_out(self):
+        item = self.fake.data.posts[fi.PROFILE_OK][3]   # i=2: albüm
+        snap, out = self.run_job(f"https://www.instagram.com/p/{item['code']}/?igsh=abc", "single", timeout=90)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        files = self.files(out)
+        self.assertEqual(len(files), 3, files)
+        self.assertTrue(any(f.endswith("_02.mp4") for f in files), files)
+
+    def test_a5_stories_need_login(self):
+        snap, out = self.run_job(f"https://www.instagram.com/stories/{fi.PROFILE_OK}/", "single", timeout=60)
+        self.assertEqual(snap["phase"], "error")
+        self.assertEqual(snap["summary"]["key"], "engine.stories_need_login")
+
+    def test_a6_graphql_without_video_urls_is_repaired(self):
+        self.fake.embed_posts = False
+        self.fake.graphql_video_urls = False
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", limit=12, stories=False, highlights=False, avatar=False)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertIn("engine.repairing", self.keys(snap))
+        files = self.files(out)
+        videos = [f for f in files if f.endswith(".mp4")]
+        # İlk 12 gönderide (sabitlenmiş + 0..10): 2 video (1, 6) + 2 albümde 1'er video (2, 7); 8 videosuz
+        self.assertEqual(len(videos), 4, files)
+        self.assertEqual(snap["posts_unavailable"], 1)
+
+    def test_a7_stop(self):
+        from instagram_indirici.engine import Engine, Job
+
+        self.fake.slow_cdn = 0.5
+        out = Path(self.tmp.name) / "stop"
+        engine = Engine()
+        engine.start(Job(fi.PROFILE_OK, "profile", {"out_dir": str(out), "stories": False, "highlights": False}))
+        deadline = time.monotonic() + 60
+        while engine.files_done < 2 and time.monotonic() < deadline:
+            time.sleep(0.1)
+        engine.stop()
+        engine.wait(30)
+        snap = engine.snapshot()
+        self.assertFalse(snap["running"])
+        self.assertEqual(snap["phase"], "stopped")
+        self.assertLess(snap["files_done"], 20)
+        self.assert_clean(out)
+        self.assertFalse((out / fi.PROFILE_OK / ".instagram-indirici.json").exists())
+
+    # ------------------------------------------------------------ giriş
+    def test_b1_login(self):
+        snap = self.ensure_login()
+        self.assertIs(snap["logged_in"], True)
+
+    # ------------------------------------------------------------ giriş yapılmış
+    def test_c1_full_profile_with_rate_limit_and_challenge(self):
+        self.ensure_login()
+        self.fake.rate_limit_once = True
+        self.fake.challenge_once = True
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", timeout=240)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertIs(snap["logged_in"], True)
+        self.assertFalse(snap["login_wall"])
+        keys = self.keys(snap)
+        self.assertIn("browser.slow_down", keys)
+        self.assertIn("browser.verify", keys)
+        self.assertIn("browser.verify_done", keys)
+        self.assertTrue(snap["verify_seen"])
+        self.assertEqual(snap["found_posts"], fi.TOTAL_POSTS + 1)
+        files = self.files(out)
+        prefix = f"{fi.PROFILE_OK}/"
+        stories = [f for f in files if f.startswith(prefix + "Hikayeler/")]
+        self.assertEqual(len(stories), 3, files)
+        self.assertEqual(len([f for f in stories if f.endswith(".mp4")]), 1)
+        tatil = [f for f in files if f.startswith(prefix + "Öne Çıkanlar/Tatil/")]
+        is_proje = [f for f in files if f.startswith(prefix + "Öne Çıkanlar/İş Proje/")]
+        self.assertEqual((len(tatil), len(is_proje)), (2, 3), files)
+        self.assertIn(prefix + "Profil Fotoğrafı/9988776655.jpg", files)
+        posts = [f for f in files if f.count("/") == 1]
+        # 41 gönderi: 8 albüm (3 dosya), 8 video, 1 videosuz (atlanır), geri kalanı tek resim
+        albums = sum(1 for i in range(fi.TOTAL_POSTS) if i % 5 == 2)
+        videos = sum(1 for i in range(fi.TOTAL_POSTS) if i % 5 == 1)
+        broken = 1
+        singles = fi.TOTAL_POSTS - albums - videos - broken + 1  # +1 sabitlenmiş
+        self.assertEqual(len(posts), albums * 3 + videos + singles, len(posts))
+        self.assertEqual(snap["files_failed"], 0)
+        self.assert_clean(out)
+        marker = json.loads((out / fi.PROFILE_OK / ".instagram-indirici.json").read_text(encoding="utf-8"))
+        self.assertEqual(marker["user_id"], "1001")
+        self.assertEqual(marker["complete"]["all"], fi.BASE_TS)
+        type(self).full_out = out
+
+        # Aynı klasöre tekrar: sadece yeni gönderilere bakar, hiçbir şey tekrar inmez
+        self.fake.reset()
+        snap2, _ = self.run_job(fi.PROFILE_OK, "profile", out=out, stories=False, highlights=False)
+        self.assertEqual(snap2["phase"], "done", snap2["summary"])
+        self.assertIn("engine.only_new", self.keys(snap2))
+        self.assertIn("engine.up_to_date", self.keys(snap2))
+        self.assertEqual(snap2["files_done"], 0)
+        feed_calls = [p for p, _ in self.fake.api_calls if p.startswith("/api/v1/feed/user/")]
+        self.assertEqual(len(feed_calls), 1, feed_calls)
+
+    def test_c2_rest_broken_uses_graphql(self):
+        self.ensure_login()
+        self.fake.break_rest = True
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", stories=False, highlights=False, avatar=False)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertEqual(snap["found_posts"], fi.TOTAL_POSTS + 1)
+        self.assertIn("browser.strategy_failed", self.keys(snap))
+        self.assertTrue(any(p.startswith("/graphql/query") and li for p, li in self.fake.api_calls))
+
+    def test_c3_everything_broken_scrolls(self):
+        self.ensure_login()
+        self.fake.break_rest = True
+        self.fake.break_graphql = True
+        self.fake.break_profile_api = True
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", stories=False, highlights=False, avatar=False)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertIn("browser.scrolling", self.keys(snap))
+        self.assertEqual(snap["found_posts"], fi.TOTAL_POSTS + 1)
+
+    def test_c4_private_profile(self):
+        self.ensure_login()
+        snap, out = self.run_job(fi.PROFILE_PRIVATE, "profile")
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertEqual(snap["notes"][0]["key"], "engine.private_logged_in")
+        files = self.files(out)
+        self.assertEqual(len(files), 1, files)
+        self.assertIn("Profil Fotoğrafı", files[0])
+
+    def test_c5_empty_profile(self):
+        self.ensure_login()
+        snap, out = self.run_job(fi.PROFILE_EMPTY, "profile", avatar=False)
+        self.assertEqual(snap["found_posts"], 0)
+        self.assertEqual(snap["summary"]["key"], "engine.empty", snap["summary"])
+
+    def test_c6_video_only_with_limit(self):
+        self.ensure_login()
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", content="video", limit=12,
+                                 stories=False, highlights=False, avatar=False)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertEqual(snap["found_posts"], 12)
+        self.assertIn("engine.limit_reached", self.keys(snap))
+        files = self.files(out)
+        self.assertTrue(files)
+        self.assertTrue(all(f.endswith(".mp4") for f in files), files)
+        self.assertFalse((out / fi.PROFILE_OK / ".instagram-indirici.json").exists())
+
+    def test_c7_single_items_logged_in(self):
+        self.ensure_login()
+        video = self.fake.data.posts[fi.PROFILE_OK][2]   # i=1: video
+        self.fake.cdn_403 = {video["video_versions"][1]["url"].split("/cdn/")[1].split("?")[0]}
+        snap, out = self.run_job(f"https://www.instagram.com/reel/{video['code']}/", "single")
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        files = self.files(out)
+        self.assertEqual(len(files), 1, files)
+        # En iyi adres 403 verdi; sıradaki (720p) indi
+        self.assertIn(b"_720.mp4", (out / files[0]).read_bytes())
+        self.assertTrue(any(p.startswith("/api/v1/media/") for p, _ in self.fake.api_calls))
+
+        snap, out = self.run_job(f"https://www.instagram.com/stories/{fi.PROFILE_OK}/3500000000000000001/", "single")
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertEqual(self.files(out), [f"{fi.PROFILE_OK}/Hikayeler/2025-10-09_3500000000000000001.jpg"]
+                         if time.localtime(fi.BASE_TS + 3600).tm_mday == 9 else self.files(out))
+
+        snap, out = self.run_job("https://www.instagram.com/stories/highlights/17900000000000002/", "single")
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        files = self.files(out)
+        self.assertEqual(len(files), 3, files)
+        self.assertTrue(all("/Öne Çıkanlar/İş Proje/" in f for f in files), files)
+
+        # Gönderi linkinden sahibinin profilinin tamamı
+        snap, out = self.run_job(f"https://www.instagram.com/p/{video['code']}/", "profile",
+                                 stories=False, highlights=False, avatar=False)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertEqual(snap["found_posts"], fi.TOTAL_POSTS + 1)
+
+
+if __name__ == "__main__":
+    unittest.main()

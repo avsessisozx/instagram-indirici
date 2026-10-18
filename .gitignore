@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+build/
+dist/
+*.spec
+selftest.txt
+.venv/
+
+# Android
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+ci-out/
+canli-deneme.txt
+selftest*.txt

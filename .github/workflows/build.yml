@@ -1,0 +1,140 @@
+name: Derle ve test et (Windows)
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    env:
+      PYTHONIOENCODING: utf-8
+      PYTHONUTF8: "1"
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Bağımlılıkları kur
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt "pyinstaller>=6.10"
+
+      - name: Çeviri dosyalarını denetle
+        run: python tools/check_i18n.py
+
+      - name: Birim testleri
+        run: python tools/run_tests.py tests.test_units
+
+      - name: Uçtan uca testler (gerçek Microsoft Edge + sahte Instagram)
+        env:
+          INSTAGRAM_INDIRICI_BROWSER: msedge
+        run: python tools/run_tests.py tests.test_integration
+
+      - name: Gerçek Instagram denemesi (bilgi amaçlı, giriş yapmadan)
+        continue-on-error: true
+        timeout-minutes: 12
+        env:
+          INSTAGRAM_INDIRICI_BROWSER: msedge
+          INSTAGRAM_INDIRICI_HEADLESS: "1"
+        run: python tools/canli_deneme.py instagram
+
+      - name: EXE derle
+        run: >
+          pyinstaller --noconfirm --clean --onefile --windowed
+          --name InstagramIndirici
+          --icon assets/icon.ico
+          --add-data "instagram_indirici/ui;instagram_indirici/ui"
+          --add-data "ceviriler;ceviriler"
+          --collect-all playwright
+          main.py
+
+      - name: EXE'yi dene
+        shell: pwsh
+        run: |
+          trap {
+            $m = ($_ | Out-String) -replace "%", "%25" -replace "`r", "" -replace "`n", "%0A"
+            Write-Host "::error title=EXE testi::$m"
+            exit 1
+          }
+          function Run-Exe([string]$arg, [string]$label) {
+            $out = "$PWD\selftest-$label.txt"
+            $env:INSTAGRAM_INDIRICI_SELFTEST_OUT = $out
+            Remove-Item $out -ErrorAction SilentlyContinue
+            $p = Start-Process -FilePath "dist\InstagramIndirici.exe" -ArgumentList $arg -PassThru
+            if (-not $p.WaitForExit(600000)) { $p.Kill(); throw "$label : zaman aşımı" }
+            $r = Get-Content $out -Raw
+            Write-Host "$label => $r"
+            if (-not $r.StartsWith("OK")) { throw "$label başarısız: $r" }
+            return $r.Trim()
+          }
+          "{0:N1} MB" -f ((Get-Item dist\InstagramIndirici.exe).Length / 1MB)
+
+          # 1) Normal bilgisayar: Edge sağlam
+          Run-Exe "--self-test" "normal-tarayici"
+          Run-Exe "--self-test-window" "normal-pencere"
+
+          # 2) Edge de Chrome da yok sayılırsa: program kendi tarayıcısını indirip kullanmalı
+          $env:INSTAGRAM_INDIRICI_FORCE_BUNDLED = "1"
+          $env:INSTAGRAM_INDIRICI_DATA = "$env:RUNNER_TEMP\ii-bundled"
+          $r = Run-Exe "--self-test-window" "indirilen-pencere"
+          if ($r -notin @("OK chromium", "OK download")) { throw "indirilen tarayıcı kullanılmadı: $r" }
+          Run-Exe "--self-test" "indirilen-tarayici"
+          Remove-Item Env:INSTAGRAM_INDIRICI_FORCE_BUNDLED
+          Remove-Item Env:INSTAGRAM_INDIRICI_DATA
+
+          # 3) Edge güncellemesi yarım kalmışsa (msedge_elf.dll eksik) program takılmamalı
+          Stop-Process -Name msedge -Force -ErrorAction SilentlyContinue
+          Start-Sleep 3
+          $broken = 0
+          Get-ChildItem "${env:ProgramFiles(x86)}\Microsoft\Edge\Application\*\msedge_elf.dll", "$env:ProgramFiles\Microsoft\Edge\Application\*\msedge_elf.dll" -ErrorAction SilentlyContinue | ForEach-Object {
+            Rename-Item $_.FullName "msedge_elf.dll.bozuk"; $broken++
+          }
+          if ($broken -eq 0) { throw "Edge bozulamadı (test kurulumu)" }
+          $r = Run-Exe "--self-test-window" "bozuk-edge-pencere"
+          if ($r -eq "OK edge") { throw "bozuk Edge kullanılmaya çalışıldı" }
+          $r = Run-Exe "--self-test" "bozuk-edge-tarayici"
+          if ($r -match "Edge") { throw "bozuk Edge ile tarayıcı açılmaya çalışıldı: $r" }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: InstagramIndirici
+          path: dist/InstagramIndirici.exe
+
+  release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [windows]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sürüm numarasını oku
+        id: ver
+        run: echo "version=$(python3 -c 'import instagram_indirici as d; print(d.__version__)')" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+
+      - name: Sürüm yayınla
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.ver.outputs.version }}
+          target_commitish: ${{ github.sha }}
+          name: Instagram İndirici ${{ steps.ver.outputs.version }}
+          make_latest: true
+          files: |
+            dist/InstagramIndirici/InstagramIndirici.exe
+          body: |
+            **Windows:** `InstagramIndirici.exe` dosyasını indir, çift tıklayıp aç. Kurulum gerekmez.
+            İlk açılışta Windows "Bilgisayarınız korundu" uyarısı verebilir: **Ek bilgi → Yine de çalıştır**.
+
+            Profilin tamamını, hikayeleri ve öne çıkanları indirmek için programın altındaki **Instagram'a giriş yap** ile bir kez giriş yap. Ana hesabın yerine yedek bir hesap kullanman daha güvenli.
