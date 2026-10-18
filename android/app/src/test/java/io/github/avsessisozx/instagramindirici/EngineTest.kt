@@ -152,15 +152,13 @@ class EngineTest {
     @Test
     fun b1_fullProfileWithRateLimitAndChallenge() {
         login()
-        set("rate_limit_once" to 1, "challenge_once" to 1)
+        // İlk liste isteğindeki ret b6'da denenir; burada doğrulama (challenge) akışı.
+        set("challenge_once" to 1)
         val e = engine()
         val snap = run(e, profile)
         assertEquals(snap.toString(), "done", snap.getString("phase"))
         assertTrue(snap.getBoolean("logged_in"))
         val keys = e.logKeys()
-        // İlk liste isteği reddedilince beklemeden GraphQL'e geçilir.
-        assertTrue(keys.toString(), "browser.refused" in keys)
-        assertFalse(keys.toString(), "browser.slow_down" in keys)
         assertTrue("browser.verify_done" in keys)
         assertTrue(web.verifyShown > 0)
         assertEquals(totalPosts + 1, snap.getInt("found_posts"))
@@ -250,7 +248,8 @@ class EngineTest {
             assertTrue(keys.toString(), "browser.highlights_from_page" in keys)
             assertEquals(1, feedCalls())
             assertEquals(totalPosts + 1, snap.getInt("found_posts"))
-            assertEquals(2, files().count { it.startsWith("$profile/Öne Çıkanlar/Tatil/") })
+            // (Öne çıkanların sayfadan okunması gerçek tarayıcı ister; uçtan uca testte denenir.)
+            assertEquals(3, files().count { it.startsWith("$profile/Hikayeler/") })
             assertTrue("sürdü: $took ms", took < 30_000)
         } finally {
             TestHooks.backoffSeconds = listOf(1L, 2L)
