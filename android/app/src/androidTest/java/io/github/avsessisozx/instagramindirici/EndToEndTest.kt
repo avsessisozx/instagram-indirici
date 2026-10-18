@@ -129,9 +129,14 @@ class EndToEndTest {
         js("(function(){var s=document.getElementById('$id'); s.value='$value'; s.dispatchEvent(new Event('change')); return true;})()")
 
     private fun startAndWait(timeoutMs: Long = 180_000, during: (() -> Unit)? = null): JSONObject {
+        // Önceki iş (ör. giriş) bitmiş ve arayüz bunu görmüş olsun; yoksa düğme "Durdur" gibi davranır.
+        assertTrue(waitUntil(15_000) { !Core.engine.running })
+        assertTrue("arayüz hâlâ iş sürüyor sanıyor",
+            waitUntil(10_000) { jsText("document.getElementById('start').textContent") == "İndirmeyi başlat" })
+        val before = Core.engine.snapshot(0).optInt("log_next")
         clickId("start")
         assertTrue("indirme başlamadı: " + jsText("document.getElementById('form-error').textContent"),
-            waitUntil(10_000) { Core.engine.running || Core.engine.phase != "idle" })
+            waitUntil(10_000) { Core.engine.running || Core.engine.snapshot(0).optInt("log_next") != before })
         val end = System.currentTimeMillis() + timeoutMs
         while (Core.engine.running && System.currentTimeMillis() < end) {
             during?.invoke()
