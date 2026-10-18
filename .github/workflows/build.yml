@@ -47,6 +47,23 @@ jobs:
           INSTAGRAM_INDIRICI_HEADLESS: "1"
         run: python tools/canli_deneme.py instagram
 
+      - name: Deneme sonucunu ci-sonuc dalına koy
+        if: always()
+        continue-on-error: true
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p ci-out
+          cp canli-deneme.txt ci-out/ 2>/dev/null || echo "deneme dosyası yok" > ci-out/canli-deneme.txt
+          branch="ci-sonuc-${GITHUB_REF_NAME//\//-}"
+          cd ci-out
+          git init -q
+          git checkout -q -b "$branch"
+          git -c user.name=ci -c user.email=ci@users.noreply.github.com add -A
+          git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -q -m "CI sonucu ${GITHUB_SHA::7} (run ${GITHUB_RUN_NUMBER})"
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:$branch"
+
       - name: EXE derle
         run: >
           pyinstaller --noconfirm --clean --onefile --windowed
