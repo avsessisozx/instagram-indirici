@@ -237,5 +237,8 @@
   "ui.auto_desc": "Instagram asks for breaks during bulk downloads. When on, the program waits (15 minutes) and continues where it left off by itself.",
   "ui.status_waiting_rate": "Instagram asked for a break — continuing by itself in {t}",
   "ui.status_waiting_pause": "Short break — continuing in {t}",
-  "ui.count_known": "In history"
+  "ui.count_known": "In history",
+  "browser.highlights_from_page": "Couldn't get the highlight list directly; reading it from the profile page…",
+  "engine.highlight_items": "Highlight “{title}”: {n} items",
+  "engine.highlights_partial": "Instagram didn't give {n} highlights for now: {names}. Start again with the same link after a while; only the missing ones will be downloaded."
 }

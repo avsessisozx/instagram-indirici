@@ -515,16 +515,21 @@ class Engine:
 
     async def _highlights(self, browser: InstagramBrowser, info: ProfileInfo, content: str,
                           queue: asyncio.Queue, logged_in: bool) -> None:
+        if not logged_in:
+            self.log("info", msg("engine.highlights_skipped_login"))
+            return
+        failed: List[str] = []
         try:
-            tray = await browser.highlights_tray(info.user_id)
+            tray = await browser.highlights_tray(info.user_id, info.username)
             if not tray:
                 self.log("info", msg("engine.no_highlights"))
                 return
             self.log("info", msg("engine.highlights_found", n=len(tray)))
             titles = {h["id"]: h["title"] for h in tray}
-            reels = await browser.highlight_reels([h["id"] for h in tray])
+            expected = {h["id"]: h.get("media_count") or 0 for h in tray}
+            reels = await browser.highlight_reels([h["id"] for h in tray], expected=expected, failed=failed)
         except LoginRequired:
-            self.log("info", msg("engine.highlights_skipped_login") if not logged_in else msg("browser.session_expired"))
+            self.log("warn", msg("browser.session_expired"))
             return
         except (ApiError, NotFound, RateLimited) as exc:
             self.log("warn", msg("engine.highlights_failed", error=exc.message))
@@ -533,10 +538,16 @@ class Engine:
             hid = reel["id"]
             title = reel["title"] or titles.get(hid, "")
             folder = highlight_folder(title, hid.split(":")[-1])
+            self.log("info", msg("engine.highlight_items", title=title or hid.split(":")[-1], n=len(reel["items"])))
             for item in reel["items"]:
                 self._enqueue(queue, build_post(item, content=content, kind=KIND_HIGHLIGHT,
                                                 subdir=folder, username=info.username),
                               content=content, user_id=info.user_id)
+        if failed:
+            names = ", ".join(titles.get(h) or h.split(":")[-1] for h in failed)
+            note = msg("engine.highlights_partial", n=len(failed), names=names)
+            self.notes.append(note)
+            self.log("warn", note)
 
     async def _posts(self, browser: InstagramBrowser, info: ProfileInfo, settings: Dict[str, Any],
                      queue: asyncio.Queue, logged_in: bool, folder: Path) -> None:

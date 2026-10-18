@@ -181,11 +181,13 @@ class Data:
             out.append(item)
         return out
 
-    HIGHLIGHTS = {"17900000000000001": "Tatil", "17900000000000002": "İş/Proje"}
+    HIGHLIGHTS = {"17900000000000001": "Tatil", "17900000000000002": "İş/Proje", "17900000000000003": "Yemek",
+                  "17900000000000004": "Kedi", "17900000000000005": "Konser", "17900000000000006": "Yol",
+                  "17900000000000007": "Eski"}
 
     def highlight_items(self, hid: str) -> List[Dict[str, Any]]:
         out = []
-        count = 2 if hid.endswith("1") else 3
+        count = 2 if hid.endswith("1") else 3 if hid.endswith("2") else 1 + int(hid[-1])
         for n in range(count):
             pk = 3600000000000000000 + int(hid[-1]) * 100 + n
             out.append({"pk": str(pk), "id": f"{pk}_1001", "taken_at": BASE_TS - 50 * 86400 + n,
@@ -232,6 +234,8 @@ class FakeInstagram:
         self.rate_window = 0.0         # … bu kadar saniye boyunca
         self.feed_pages = 0
         self.rate_started = 0.0
+        self.highlights_batch_truncate = False  # çoklu istekte sadece ilk öne çıkanın öğeleri gelir
+        self.highlights_tray_refused = False    # öne çıkan listesi isteği hep "biraz bekle"
         self.requests: List[str] = []
         self.api_calls: List[Tuple[str, bool]] = []   # (yol, giriş var mı)
 
@@ -394,6 +398,12 @@ def make_handler(fake: FakeInstagram):
         def scroll_page(self, query) -> None:
             """Profil sayfasının kaydırınca kendi yüklediği gönderiler (son çare yolunu denemek için)."""
             d = fake.data
+            if query.get("hl"):
+                # Profil sayfasının öne çıkanları kendi yüklemesi (sitenin GraphQL yanıtına benzer)
+                name = (query.get("u") or [""])[0]
+                edges = [{"node": {"id": f"highlight:{h}", "title": t, "cover_media": {}}}
+                         for h, t in d.HIGHLIGHTS.items()] if name == PROFILE_OK and self.logged_in() else []
+                return self.json({"data": {"highlights": {"edges": edges}}, "status": "ok"})
             blocked = self.list_blocked()
             if blocked:
                 return self.blocked_response(blocked)
@@ -511,9 +521,13 @@ def make_handler(fake: FakeInstagram):
                     if rid.startswith("highlight:"):
                         hid = rid.split(":")[1]
                         if hid in d.HIGHLIGHTS:
-                            reels.append({"id": rid, "title": d.HIGHLIGHTS[hid], "media_count": 2,
-                                          "user": {"pk": "1001", "username": PROFILE_OK},
-                                          "items": d.highlight_items(hid)})
+                            items = d.highlight_items(hid)
+                            reel = {"id": rid, "title": d.HIGHLIGHTS[hid], "media_count": len(items),
+                                    "user": {"pk": "1001", "username": PROFILE_OK}, "items": items}
+                            if fake.highlights_batch_truncate and len(ids) > 1 and reels:
+                                reel["items"] = []
+                                reel["media_ids"] = [int(i["pk"]) for i in items]
+                            reels.append(reel)
                     else:
                         name = next((n for n, i in USER_IDS.items() if i == rid), "")
                         if name == PROFILE_OK:
@@ -524,9 +538,13 @@ def make_handler(fake: FakeInstagram):
             if m:
                 if not self.logged_in():
                     return self.login_required()
+                if fake.highlights_tray_refused:
+                    return self.json({"message": "Please wait a few minutes before you try again.",
+                                      "require_login": True, "status": "fail"}, 401)
                 tray = []
                 if m.group(1) == "1001":
-                    tray = [{"id": f"highlight:{h}", "title": t, "media_count": 2} for h, t in d.HIGHLIGHTS.items()]
+                    tray = [{"id": f"highlight:{h}", "title": t, "media_count": len(d.highlight_items(h))}
+                            for h, t in d.HIGHLIGHTS.items()]
                 return self.json({"tray": tray, "status": "ok"})
             m = re.match(r"^/api/v1/users/(\d+)/info/$", path)
             if m:
@@ -593,7 +611,8 @@ SCROLL_SCRIPT = """<script>
   let page = 1, busy = false, done = false;
   const grid = () => document.getElementById('grid');
   function grow() { const d = document.createElement('div'); d.style.height = '1600px'; d.textContent = 'gönderiler'; grid().appendChild(d); }
-  addEventListener('DOMContentLoaded', () => { grow(); grow(); });
+  addEventListener('DOMContentLoaded', () => { grow(); grow();
+    fetch('/graphql/query/?hl=1&u=' + encodeURIComponent(name)).catch(() => {}); });
   setInterval(async () => {
     if (busy || done || !grid()) return;
     if (innerHeight + scrollY < document.body.scrollHeight - 400) return;

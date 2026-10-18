@@ -131,6 +131,44 @@ def find_user(obj: Any, username: str) -> Optional[Dict[str, Any]]:
     return best
 
 
+def find_highlights(obj: Any) -> List[Dict[str, Any]]:
+    """Yanıtın içindeki öne çıkanları bulur: [{"id": "highlight:…", "title", "media_count"}]."""
+    out: List[Dict[str, Any]] = []
+    seen = set()
+
+    def add(hid: Any, entry: Dict[str, Any]) -> None:
+        hid = str(hid or "")
+        if not hid:
+            return
+        if not hid.startswith("highlight:"):
+            if not hid.isdigit():
+                return
+            hid = f"highlight:{hid}"
+        if hid in seen:
+            return
+        seen.add(hid)
+        out.append({"id": hid, "title": str(entry.get("title") or ""),
+                    "media_count": _int(entry.get("media_count") or entry.get("highlight_reel_count"))})
+
+    stack = [obj]
+    while stack:
+        cur = stack.pop(0)
+        if isinstance(cur, dict):
+            if str(cur.get("id") or "").startswith("highlight:") and "title" in cur:
+                add(cur["id"], cur)
+                continue
+            edge = cur.get("edge_highlight_reels")
+            if isinstance(edge, dict):
+                for e in edge.get("edges") or []:
+                    node = e.get("node") if isinstance(e, dict) else None
+                    if isinstance(node, dict):
+                        add(node.get("id"), node)
+            stack.extend(cur.values())
+        elif isinstance(cur, list):
+            stack.extend(cur)
+    return out
+
+
 def user_id_of(user: Dict[str, Any]) -> str:
     for key in ("pk", "pk_id", "id"):
         value = user.get(key)

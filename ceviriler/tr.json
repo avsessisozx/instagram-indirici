@@ -237,5 +237,8 @@
   "ui.auto_desc": "Instagram toplu indirmede ara ara mola istiyor. Açıksa program bekler (15 dakika) ve kendiliğinden kaldığı yerden devam eder.",
   "ui.status_waiting_rate": "Instagram mola istedi — {t} sonra kendiliğinden devam edilecek",
   "ui.status_waiting_pause": "Kısa mola — {t} sonra devam",
-  "ui.count_known": "Geçmişte vardı"
+  "ui.count_known": "Geçmişte vardı",
+  "browser.highlights_from_page": "Öne çıkan listesi doğrudan alınamadı; profil sayfasından okunuyor…",
+  "engine.highlight_items": "Öne çıkan «{title}»: {n} öğe",
+  "engine.highlights_partial": "{n} öne çıkan Instagram tarafından şimdilik verilmedi: {names}. Bir süre sonra aynı linkle tekrar başlatırsan sadece eksikler iner."
 }

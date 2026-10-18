@@ -1005,35 +1005,130 @@ class InstagramBrowser:
             items.extend(i for i in reel.get("items") or [] if media.is_media(i))
         return items
 
-    async def highlights_tray(self, user_id: str) -> List[Dict[str, Any]]:
-        data = await self.call(f"/api/v1/highlights/{user_id}/highlights_tray/", what="highlights")
-        tray = data.get("tray") if isinstance(data, dict) else None
-        if not isinstance(tray, list):
-            raise ApiError("highlights: no tray")
-        out = []
-        for entry in tray:
-            if isinstance(entry, dict) and entry.get("id"):
-                hid = str(entry["id"])
-                out.append({"id": hid if hid.startswith("highlight:") else f"highlight:{hid}",
-                            "title": str(entry.get("title") or "")})
-        return out
+    async def highlights_tray(self, user_id: str, username: str = "") -> List[Dict[str, Any]]:
+        """Profilin öne çıkan listesi. Liste isteği reddedilirse profil sayfasının kendi verisinden alınır."""
+        error: Optional[BrowserError] = None
+        try:
+            data = await self.call(f"/api/v1/highlights/{user_id}/highlights_tray/", what="highlights",
+                                   essential=True)
+            tray = data.get("tray") if isinstance(data, dict) else None
+            if isinstance(tray, list):
+                return media.find_highlights(tray) if tray else []
+            error = ApiError("highlights: no tray")
+        except (ApiError, RateLimited, NotFound) as exc:
+            error = exc
+        if not username:
+            raise error
+        self.log("info", msg("browser.highlights_from_page"))
+        found = await self._capture_from_profile_page(username, media.find_highlights)
+        if found:
+            return found
+        raise error
 
-    async def highlight_reels(self, reel_ids: List[str]) -> List[Dict[str, Any]]:
-        """Öne çıkanların içeriği: [{"id", "title", "items", "user"}]."""
-        out: List[Dict[str, Any]] = []
-        for start in range(0, len(reel_ids), 5):
+    async def _capture_from_profile_page(self, username: str, finder: Callable[[Any], List[Dict[str, Any]]],
+                                         wait: float = 8) -> List[Dict[str, Any]]:
+        """Profil sayfasını açıp sayfaya gömülü ve sayfanın kendi yüklediği veride finder ile arar."""
+        found: List[Dict[str, Any]] = []
+        keys = set()
+        tasks: List[asyncio.Task] = []
+        base = base_url()
+
+        def take(data: Any) -> None:
+            for entry in finder(data):
+                k = entry.get("id")
+                if k not in keys:
+                    keys.add(k)
+                    found.append(entry)
+
+        async def handle(response) -> None:
+            if not response.url.startswith(base):
+                return
+            try:
+                data = parse_json_text(await response.text())
+            except Exception:
+                return
+            if data is not None:
+                take(data)
+
+        def on_response(response) -> None:
+            tasks.append(asyncio.ensure_future(handle(response)))
+
+        page = self.page
+        page.on("response", on_response)
+        try:
+            await self.goto(f"https://www.instagram.com/{username}/")
+            end = time.monotonic() + wait
+            while time.monotonic() < end:
+                for data in await self._embedded_data():
+                    take(data)
+                await self._sleep(1)
+        finally:
+            page.remove_listener("response", on_response)
+            if tasks:
+                await asyncio.gather(*tasks, return_exceptions=True)
+        return found
+
+    def _reel_entry(self, reel: Dict[str, Any]) -> Dict[str, Any]:
+        return {
+            "id": str(reel.get("id") or ""),
+            "title": str(reel.get("title") or ""),
+            "user": reel.get("user") if isinstance(reel.get("user"), dict) else {},
+            "items": [i for i in reel.get("items") or [] if media.is_media(i)],
+            "media_count": int(reel.get("media_count") or len(reel.get("media_ids") or []) or 0),
+        }
+
+    async def highlight_reels(self, reel_ids: List[str], expected: Optional[Dict[str, int]] = None,
+                              failed: Optional[List[str]] = None) -> List[Dict[str, Any]]:
+        """Öne çıkanların içeriği: [{"id", "title", "items", "user"}].
+
+        Üçerli gruplar halinde istenir. Bir grubun içinde eksik gelen (öğe sayısı listedekinden az ya da
+        hiç öğesi olmayan) öne çıkan tek başına tekrar istenir. Alınamayanlar failed listesine yazılır.
+        """
+        expected = expected or {}
+        got: Dict[str, Dict[str, Any]] = {}
+        order = list(reel_ids)
+        limited = False
+        for start in range(0, len(order), 3):
             self._check_cancel()
-            chunk = reel_ids[start:start + 5]
-            data = await self.call("/api/v1/feed/reels_media/", params=[("reel_ids", r) for r in chunk],
-                                   what="highlights")
+            chunk = order[start:start + 3]
+            try:
+                data = await self.call("/api/v1/feed/reels_media/", params=[("reel_ids", r) for r in chunk],
+                                       what="highlights", essential=True)
+            except (ApiError, NotFound) as exc:
+                self.log("debug", f"highlights chunk: {exc.message.key}")
+                data = None
+            except RateLimited:
+                limited = True   # Instagram durdurdu: kalanları zorlamadan bırak
+                break
             for reel in self._reels_from(data):
-                out.append({
-                    "id": str(reel.get("id") or ""),
-                    "title": str(reel.get("title") or ""),
-                    "user": reel.get("user") if isinstance(reel.get("user"), dict) else {},
-                    "items": [i for i in reel.get("items") or [] if media.is_media(i)],
-                })
-        return out
+                entry = self._reel_entry(reel)
+                if entry["id"]:
+                    got[entry["id"]] = entry
+        # Eksik ya da hiç gelmeyenleri tek tek iste.
+        for rid in order:
+            self._check_cancel()
+            entry = got.get(rid)
+            want = max(int(expected.get(rid) or 0), int((entry or {}).get("media_count") or 0))
+            if entry is not None and entry["items"] and len(entry["items"]) >= want:
+                continue
+            if limited:
+                if (entry is None or not entry["items"]) and failed is not None:
+                    failed.append(rid)
+                continue
+            try:
+                data = await self.call("/api/v1/feed/reels_media/", params=[("reel_ids", rid)],
+                                       what="highlights", essential=True)
+                for reel in self._reels_from(data):
+                    single = self._reel_entry(reel)
+                    if single["id"] == rid and (entry is None or len(single["items"]) > len(entry["items"])):
+                        got[rid] = entry = single
+            except (ApiError, NotFound) as exc:
+                self.log("debug", f"highlight {rid}: {exc.message.key}")
+            except RateLimited:
+                limited = True
+            if (entry is None or not entry["items"]) and failed is not None:
+                failed.append(rid)
+        return [got[r] for r in order if r in got and got[r]["items"]]
 
     # ------------------------------------------------------------ tek gönderi
     async def get_post(self, shortcode: str, *, logged_in: bool) -> Dict[str, Any]:

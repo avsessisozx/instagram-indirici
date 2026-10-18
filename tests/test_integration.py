@@ -344,6 +344,22 @@ class IntegrationTests(unittest.TestCase):
 
 
     # ------------------------------------------------------------ 1.1: klasör düzeni, geçmiş, devam
+    def test_c8_highlights_robust(self):
+        """Öne çıkan listesi reddediliyor ve çoklu istekte sadece ilkinin öğeleri geliyor."""
+        self.ensure_login()
+        self.fake.highlights_tray_refused = True
+        self.fake.highlights_batch_truncate = True
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", posts=False, stories=False, avatar=False, timeout=120)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        keys = self.keys(snap)
+        self.assertIn("browser.highlights_from_page", keys)
+        self.assertEqual(keys.count("engine.highlight_items"), len(self.fake.data.HIGHLIGHTS))
+        files = self.files(out)
+        for hid, title in self.fake.data.HIGHLIGHTS.items():
+            folder = f"{fi.PROFILE_OK}/Öne Çıkanlar/{title.replace('/', ' ')}/"
+            n = len([f for f in files if f.startswith(folder)])
+            self.assertEqual(n, len(self.fake.data.highlight_items(hid)), (title, files))
+
     def test_d1_old_layout_files_are_moved(self):
         self.ensure_login()
         out = Path(self.tmp.name) / "eski_duzen"
