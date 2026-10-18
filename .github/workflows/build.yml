@@ -44,7 +44,7 @@ jobs:
         timeout-minutes: 12
         env:
           INSTAGRAM_INDIRICI_BROWSER: msedge
-          INSTAGRAM_INDIRICI_BACKOFF: "30,60"
+          INSTAGRAM_INDIRICI_BACKOFF: "15"
         run: python tools/canli_deneme.py instagram
 
       - name: Deneme sonucunu ci-sonuc dalına koy

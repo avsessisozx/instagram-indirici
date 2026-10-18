@@ -1067,11 +1067,14 @@ class InstagramBrowser:
         except Exception:
             pass
         seen_logged_in = 0.0
+        last_state = already
         while not page.is_closed() and not self.cancel.is_set():
             await asyncio.sleep(1)
             if page.is_closed():
                 break
-            if await self.logged_in() and not await self._page_redirect_state() and \
+            now_in = await self.logged_in()
+            last_state = now_in
+            if now_in and not await self._page_redirect_state() and \
                     "two_factor" not in self._page_path():
                 if not seen_logged_in:
                     seen_logged_in = time.monotonic()
@@ -1080,7 +1083,9 @@ class InstagramBrowser:
                     return True
             else:
                 seen_logged_in = 0.0
-        return await self.logged_in() if self.context is not None and not self.closed else already
+        if self.context is not None and not self.closed:
+            return await self.logged_in()
+        return last_state
 
 
 @dataclass
