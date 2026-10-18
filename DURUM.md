@@ -3,7 +3,7 @@
 > Claude'un çalışma notu. Yalnızca `durum` dalında durur; `main`'e, README'ye ve sürüm notlarına girmez.
 > Yeni sohbette önce bunu oku, repoyu baştan tarama. Her sürümden sonra güncelle.
 
-Son güncelleme: 2026-10-18 · Son sürüm: **v1.1.0** (2026-10-18)
+Son güncelleme: 2026-10-18 · Son sürüm: **v1.2.0** (2026-10-18)
 
 ## Ne yapıyor
 Herkese açık Instagram profillerini toplu indirir: gönderiler/reels/albümler, hikayeler, öne çıkanlar,
@@ -55,10 +55,21 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
 - v1.1.0: alt klasörler, geçmiş, kaldığı yerden devam, otomatik mola (kullanıcı 150 gönderide oturum
   kapanması yaşadı). 21 uçtan uca + 21 birim testi.
 
+- v1.1.1: öne çıkanlar üçerli istenir, eksik gelen tek tek tekrar istenir; liste reddedilirse profil
+  sayfasından okunur; kayıtta öne çıkan başına öğe sayısı.
+- v1.2.0: **Android** (`android/`, `io.github.avsessisozx.instagramindirici`, minSdk 29). Douyin Android
+  altyapısı + Instagram mantığı Kotlin'de (Insta.kt, Engine.kt, History.kt = gecmis.json, Media.kt).
+  Gizli WebView (`WebInstagram`, `IgHolder` uygulamaya ait); giriş/doğrulama penceresi: "Gizle" (küçült,
+  arayüzde "Giriş/Doğrulama penceresini aç" düğmesi) + girişte "Kapat". Galeri: DCIM/Instagram/<kişi>/...
+  (Windows'la aynı alt klasörler, kullanıcı A seçeneğini seçti). Paylaş menüsü, bildirim, ekran
+  yeniden kurulunca iş sürer. Testler: `tests/vectors` (tools/make_vectors.py, Python=Kotlin), JVM
+  `EngineTest` (JvmWeb ile sahte sunucuya gerçek HTTP; sahte sunucuda /__ayar, /__sifirla, /__durum),
+  emülatörde `EndToEndTest` (15 test, ekran görüntüleri `ci-android-<dal>` dalında).
+  CI: windows + android işleri; main'e push → EXE + APK sürümü.
+
 ## Yarım / sıradaki
-- v1.1.0'ın kullanıcıda denenmesi bekleniyor (gerçek Instagram'a buradan erişim yok). Gönderi listesi de
+- v1.2.0 Android'in kullanıcının telefonunda (Xiaomi Mi 10T Pro) denenmesi bekleniyor. Windows 1.1.x kullanıcıda çalışıyor (gerçek Instagram'a buradan erişim yok). Gönderi listesi de
   reddedilirse kaydındaki "isteğini kabul etmedi (HTTP …)" satırlarına bak.
-- Windows'ta çalışırsa: Android sürümü (Douyin'deki gibi Kotlin + gizli WebView, aynı API yolları).
 
 ## Bilinen sorunlar
 - Kayıtlı açık hata yok. Instagram doc_id'leri zamanla değişebilir (o zaman REST/kaydırma yedekleri devreye girer).
