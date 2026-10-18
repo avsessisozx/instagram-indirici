@@ -3,7 +3,7 @@
 > Claude'un çalışma notu. Yalnızca `durum` dalında durur; `main`'e, README'ye ve sürüm notlarına girmez.
 > Yeni sohbette önce bunu oku, repoyu baştan tarama. Her sürümden sonra güncelle.
 
-Son güncelleme: 2026-10-18 · Son sürüm: **v1.0.0** (2026-10-18)
+Son güncelleme: 2026-10-18 · Son sürüm: **v1.0.1** (2026-10-18)
 
 ## Ne yapıyor
 Herkese açık Instagram profillerini toplu indirir: gönderiler/reels/albümler, hikayeler, öne çıkanlar,
@@ -22,7 +22,8 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   Tek gönderi: `/api/v1/media/{id}/info/` ya da gönderi sayfasındaki gömülü JSON.
   Eski biçimde videosu gelmeyen gönderiler sonradan tek tek açılır (`engine._repair`).
 - `media.py` iki biçimi de (v1 ve eski GraphQL) tanır, yanıtın içinde nerede olduklarına bakmaz.
-- Hız sınırı: istekler arası 2.5–5 sn; 429 / "Please wait" → 45/90/180/300 sn bekleyip dener.
+- Hız sınırı: istekler arası 2.5–5 sn. 429 / "Please wait": sadece gönderi listesinde (essential) 30/90 sn bekleyip dener;
+  profil bilgisi/arama/hikaye vb. hemen vazgeçip başka yoldan devam eder. Liste kısıtlanırsa sıradaki yola geçer.
   Doğrulama (challenge) → pencereyi öne getirip kullanıcıyı bekler.
 - Giriş: "Instagram'a giriş yap" pencerede instagram.com/accounts/login açar; `sessionid` çerezi gelince kendisi kapanır.
   Durum `oturum.json`'da (arayüz altında yeşil nokta).
@@ -40,8 +41,12 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
 - Dallar: `gelistirme` (çalışma), `main` (sürüm), `ci-sonuc-*` (CI deneme çıktısı), `durum` (bu not).
   Varsayılan dal `gelistirme` kaldı (ilk push); proxy ayar değiştirmeye izin vermedi → kullanıcı Settings'ten `main` yapabilir.
 
+- v1.0.1: Kullanıcının ilk gerçek denemesinde (girişli, Chrome; Edge'i bozuk) profil bilgisi isteği hep
+  "biraz bekle" döndü → v1.0.0 10 dk bekleyip vazgeçti. Düzeltildi; kayıtta reddedilen istek + HTTP kodu yazıyor.
+
 ## Yarım / sıradaki
-- Kullanıcının gerçek Instagram'da (girişli/girişsiz) denemesi bekleniyor — gerçek Instagram'a buradan erişim yok.
+- v1.0.1'in kullanıcıda denenmesi bekleniyor (gerçek Instagram'a buradan erişim yok). Gönderi listesi de
+  reddedilirse kaydındaki "isteğini kabul etmedi (HTTP …)" satırlarına bak.
 - Windows'ta çalışırsa: Android sürümü (Douyin'deki gibi Kotlin + gizli WebView, aynı API yolları).
 
 ## Bilinen sorunlar
