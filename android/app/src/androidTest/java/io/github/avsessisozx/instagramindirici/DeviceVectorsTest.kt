@@ -30,7 +30,7 @@ class DeviceVectorsTest {
             val label = c.getString("input")
             val p = Links.parse(label)
             assertEquals(label, c.getBoolean("ok"), p.ok)
-            assertEquals(label, nul(c, "kind"), p.kind)
+            assertEquals(label, nul(c, "kind") ?: "", p.kind ?: "")
             assertEquals(label, c.getString("username"), p.username)
             assertEquals(label, c.getString("shortcode"), p.shortcode)
             assertEquals(label, c.getString("highlight_id"), p.highlightId)
