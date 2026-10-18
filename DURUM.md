@@ -3,7 +3,7 @@
 > Claude'un çalışma notu. Yalnızca `durum` dalında durur; `main`'e, README'ye ve sürüm notlarına girmez.
 > Yeni sohbette önce bunu oku, repoyu baştan tarama. Her sürümden sonra güncelle.
 
-Son güncelleme: 2026-10-18 · Son sürüm: **v1.2.0** (2026-10-18)
+Son güncelleme: 2026-10-18 · Son sürüm: **v1.2.1** (2026-10-18)
 
 ## Ne yapıyor
 Herkese açık Instagram profillerini toplu indirir: gönderiler/reels/albümler, hikayeler, öne çıkanlar,
@@ -67,8 +67,19 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   emülatörde `EndToEndTest` (15 test, ekran görüntüleri `ci-android-<dal>` dalında).
   CI: windows + android işleri; main'e push → EXE + APK sürümü.
 
+- v1.2.1 (yalnız Android mantığı): kullanıcının Mi 10T Pro'daki ilk denemesi (girişli, @emrdublaj): profil bilgisi +
+  profil foto 429, hikaye isteği çalıştı, ama REST `/api/v1/feed/user/` ve `highlights_tray` HTTP 400 "biraz bekle"
+  döndü; program her birinde 30+90 sn bekledi, kullanıcı "döngüye girdi" sanıp bıraktı. Düzeltme: REST listenin
+  İLK isteği ve öne çıkan listesi reddedilirse beklemeden sıradaki yola (GraphQL → kaydırma / profil sayfası) geçilir;
+  liste başladıktan sonraki retlerde eski bekleme sürer. Bekleme sırasında arayüzde geri sayım (waitKind "rate"),
+  reddedilen yanıtın ilk 200 karakteri debug kaydına yazılır. Sahte sunucuda `rest_refused`; JVM testi b6.
+  Windows (Python) tarafı değişmedi → bu konuda iki sürüm farklı davranıyor (Windows'ta sorun bildirilmedi).
+
 ## Yarım / sıradaki
-- v1.2.0 Android'in kullanıcının telefonunda (Xiaomi Mi 10T Pro) denenmesi bekleniyor. Windows 1.1.x kullanıcıda çalışıyor (gerçek Instagram'a buradan erişim yok). Gönderi listesi de
+- v1.2.1 Android'in telefonda denenmesi bekleniyor: GraphQL (doc_id 28975909992013618) ya da kaydırma bu oturumda
+  gönderi getiriyor mu? Getirmiyorsa debug kaydındaki Instagram yanıtına bak; sıradaki şüpheliler: WebView'in mobil
+  kimliği (mobil Chrome UA + masaüstü X-IG-App-ID 936619743392459), eski X-ASBD-ID 129477 (instaloader 198387 kullanıyor).
+- (eski not) v1.2.0 Android'in kullanıcının telefonunda (Xiaomi Mi 10T Pro) denenmesi bekleniyor. Windows 1.1.x kullanıcıda çalışıyor (gerçek Instagram'a buradan erişim yok). Gönderi listesi de
   reddedilirse kaydındaki "isteğini kabul etmedi (HTTP …)" satırlarına bak.
 
 ## Bilinen sorunlar
