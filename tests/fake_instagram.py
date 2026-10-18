@@ -352,8 +352,42 @@ def make_handler(fake: FakeInstagram):
             self.json({"status": "fail"}, 404)
 
         # ---- sayfalar
+        def control(self, path: str, query) -> bool:
+            """Testlerin (Android) sahte sunucuyu ayarlaması: /__ayar?ad=değer, /__sifirla, /__durum."""
+            if path == "/__sifirla":
+                fake.reset()
+                self.json({"ok": True})
+                return True
+            if path == "/__durum":
+                self.json({"feed_pages": fake.feed_pages,
+                           "api_calls": [[p, li] for p, li in fake.api_calls],
+                           "requests": len(fake.requests)})
+                return True
+            if path == "/__ayar":
+                for key, values in query.items():
+                    if not hasattr(fake, key) or key.startswith("_"):
+                        continue
+                    raw = values[0]
+                    cur = getattr(fake, key)
+                    if isinstance(cur, bool):
+                        val = raw in ("1", "true", "True")
+                    elif isinstance(cur, int):
+                        val = int(raw)
+                    elif isinstance(cur, float):
+                        val = float(raw)
+                    elif isinstance(cur, set):
+                        val = {x for x in raw.split(",") if x}
+                    else:
+                        val = raw
+                    setattr(fake, key, val)
+                self.json({"ok": True})
+                return True
+            return False
+
         def page(self, path: str, query) -> None:
             d = fake.data
+            if self.control(path, query):
+                return
             if path == "/accounts/login/":
                 if fake.autologin:
                     return self.html("<html><body>Giriş yapılıyor…<script>setTimeout(()=>location.href='/', 800)</script></body></html>",

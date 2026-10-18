@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Windows sürümündeki simgenin aynısı: lacivert zemin, beyaz fotoğraf çerçevesi, sarı indirme oku -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- çerçeve -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="4"
+        android:fillColor="#00000000"
+        android:pathData="M38,32h32a6,6 0,0 1,6 6v22a6,6 0,0 1,-6 6H38a6,6 0,0 1,-6 -6V38a6,6 0,0 1,6 -6z" />
+    <!-- dağlar -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M38,62l10,-12 7,8 5,-5 10,9z" />
+    <!-- güneş -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M64,43m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0" />
+    <!-- ok -->
+    <path
+        android:fillColor="#FFC43D"
+        android:pathData="M51,58h6v12h7l-10,11 -10,-11h7z" />
+</vector>

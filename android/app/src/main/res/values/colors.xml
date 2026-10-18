@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="app_bg">#E9EDF2</color>
+    <color name="icon_bg">#3F3FC9</color>
+    <bool name="light_bars">true</bool>
+</resources>

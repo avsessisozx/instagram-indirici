@@ -1,4 +1,4 @@
-name: Derle ve test et (Windows)
+name: Derle ve test et (Windows + Android)
 
 on:
   push:
@@ -28,8 +28,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt "pyinstaller>=6.10"
 
-      - name: Çeviri dosyalarını denetle
-        run: python tools/check_i18n.py
+      - name: Çeviri dosyalarını ve ortak test vakalarını denetle
+        run: |
+          python tools/check_i18n.py
+          python tools/make_vectors.py --check
 
       - name: Birim testleri
         run: python tools/run_tests.py tests.test_units
@@ -126,9 +128,111 @@ jobs:
           name: InstagramIndirici
           path: dist/InstagramIndirici.exe
 
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Sahte Instagram sunucularını başlat
+        run: |
+          nohup python -m tests.fake_instagram --port 8766 > fake-jvm.log 2>&1 &
+          nohup python -m tests.fake_instagram --port 8765 --public http://10.0.2.2:8765 > fake.log 2>&1 &
+          sleep 2
+          curl -sf "http://127.0.0.1:8766/__durum" > /dev/null
+          curl -sf "http://127.0.0.1:8765/__durum" > /dev/null
+
+      - name: Birim testleri ve APK
+        shell: bash
+        env:
+          FAKE_INSTAGRAM: http://127.0.0.1:8766
+        run: |
+          python tools/check_i18n.py
+          cd android
+          chmod +x gradlew
+          ./gradlew --no-daemon --stacktrace testDebugUnitTest assembleDebug assembleDebugAndroidTest 2>&1 | tee ../build.log
+          exit ${PIPESTATUS[0]}
+
+      - name: Derleme / birim testi hatalarını özetle
+        if: failure()
+        shell: bash
+        run: |
+          python tools/annotate_junit.py "Android birim testi" android/app/build/test-results || true
+          if [ -f build.log ]; then
+            errors=$(grep -E "^e: " build.log | sed -E 's#file:///home/runner/work/[^ ]*/instagramindirici/##' | head -60 | sed 's/%/%25/g' | awk '{printf "%s%%0A", $0}')
+            [ -n "$errors" ] || errors=$(grep -E "What went wrong|Could not|FAILED|Exception" -A6 build.log | head -80 | sed 's/%/%25/g' | awk '{printf "%s%%0A", $0}')
+            echo "::error title=Android derleme hatası::${errors}"
+          fi
+
+      - name: Birim testi sonuçları
+        if: success()
+        run: python tools/annotate_junit.py "Android birim testi" android/app/build/test-results
+
+      - name: KVM'yi aç (emülatör için)
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Emülatörde uçtan uca testler
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: bash tools/android_e2e.sh
+
+      - name: Uçtan uca test sonuçları
+        if: always()
+        run: python tools/annotate_junit.py "Android uçtan uca" android/app/build/outputs/androidTest-results || true
+
+      - name: Ekran görüntülerini ve günlükleri ci-sonuc dalına koy
+        if: always()
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p ci-out
+          cp fake.log fake-jvm.log build.log ci-out/ 2>/dev/null || true
+          cp -r android/app/build/test-results ci-out/unit-test-results 2>/dev/null || true
+          cp -r android/app/build/outputs/androidTest-results ci-out/e2e-results 2>/dev/null || true
+          branch="ci-android-${GITHUB_REF_NAME//\//-}"
+          cd ci-out
+          git init -q
+          git checkout -q -b "$branch"
+          git -c user.name=ci -c user.email=ci@users.noreply.github.com add -A
+          git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -q -m "CI sonucu ${GITHUB_SHA::7} (run ${GITHUB_RUN_NUMBER})"
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:$branch"
+
+      - name: APK'yı adlandır
+        run: |
+          version=$(python -c "import instagram_indirici as d; print(d.__version__)")
+          mkdir -p out
+          cp android/app/build/outputs/apk/debug/app-debug.apk "out/InstagramIndirici-${version}.apk"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: InstagramIndirici-apk
+          path: out/*.apk
+
   release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [windows]
+    needs: [windows, android]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -150,8 +254,12 @@ jobs:
           make_latest: true
           files: |
             dist/InstagramIndirici/InstagramIndirici.exe
+            dist/InstagramIndirici-apk/*.apk
           body: |
             **Windows:** `InstagramIndirici.exe` dosyasını indir, çift tıklayıp aç. Kurulum gerekmez.
             İlk açılışta Windows "Bilgisayarınız korundu" uyarısı verebilir: **Ek bilgi → Yine de çalıştır**.
+
+            **Android:** telefondan `InstagramIndirici-${{ steps.ver.outputs.version }}.apk` dosyasına dokunup kur.
+            Telefon "bilinmeyen kaynak" izni isterse ver. Instagram'da bir gönderide ya da profilde **Paylaş → Instagram İndirici** ile link doğrudan gelir.
 
             Profilin tamamını, hikayeleri ve öne çıkanları indirmek için programın altındaki **Instagram'a giriş yap** ile bir kez giriş yap. Ana hesabın yerine yedek bir hesap kullanman daha güvenli.

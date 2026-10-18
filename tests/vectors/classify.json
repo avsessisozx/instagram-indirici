@@ -1,0 +1,140 @@
+[
+ {
+  "data": {
+   "items": [],
+   "status": "ok"
+  },
+  "kind": "ok",
+  "status": 200,
+  "text": "{\"items\": [], \"status\": \"ok\"}",
+  "url": "https://www.instagram.com/api/v1/x/"
+ },
+ {
+  "data": {
+   "message": "Please wait a few minutes before you try again.",
+   "require_login": true,
+   "status": "fail"
+  },
+  "kind": "rate",
+  "status": 401,
+  "text": "{\"message\": \"Please wait a few minutes before you try again.\", \"require_login\": true, \"status\": \"fail\"}",
+  "url": "https://www.instagram.com/api/v1/x/"
+ },
+ {
+  "data": null,
+  "kind": "rate",
+  "status": 429,
+  "text": "",
+  "url": "https://www.instagram.com/api/v1/x/"
+ },
+ {
+  "data": {
+   "message": "login_required",
+   "status": "fail"
+  },
+  "kind": "login",
+  "status": 401,
+  "text": "{\"message\": \"login_required\", \"status\": \"fail\"}",
+  "url": "https://www.instagram.com/api/v1/x/"
+ },
+ {
+  "data": {
+   "challenge": {
+    "url": "/c/"
+   },
+   "message": "challenge_required"
+  },
+  "kind": "challenge",
+  "status": 400,
+  "text": "{\"message\": \"challenge_required\", \"challenge\": {\"url\": \"/c/\"}}",
+  "url": "https://www.instagram.com/api/v1/x/"
+ },
+ {
+  "data": {
+   "checkpoint_url": "/c/",
+   "message": "checkpoint_required"
+  },
+  "kind": "challenge",
+  "status": 400,
+  "text": "{\"message\": \"checkpoint_required\", \"checkpoint_url\": \"/c/\"}",
+  "url": "https://www.instagram.com/api/v1/x/"
+ },
+ {
+  "data": null,
+  "kind": "login",
+  "status": 200,
+  "text": "<html>",
+  "url": "https://www.instagram.com/accounts/login/?next=x"
+ },
+ {
+  "data": null,
+  "kind": "challenge",
+  "status": 200,
+  "text": "<html>",
+  "url": "https://www.instagram.com/challenge/x/"
+ },
+ {
+  "data": {
+   "status": "fail"
+  },
+  "kind": "notfound",
+  "status": 404,
+  "text": "{\"status\": \"fail\"}",
+  "url": "https://www.instagram.com/api/v1/x/"
+ },
+ {
+  "data": null,
+  "kind": "error",
+  "status": 500,
+  "text": "<html>",
+  "url": "https://www.instagram.com/api/v1/x/"
+ },
+ {
+  "data": {
+   "message": "feedback_required",
+   "spam": true,
+   "status": "fail"
+  },
+  "kind": "rate",
+  "status": 200,
+  "text": "{\"message\": \"feedback_required\", \"spam\": true, \"status\": \"fail\"}",
+  "url": "https://www.instagram.com/api/v1/x/"
+ },
+ {
+  "data": {
+   "message": "",
+   "status": "fail"
+  },
+  "kind": "login",
+  "status": 403,
+  "text": "{\"message\": \"\", \"status\": \"fail\"}",
+  "url": "https://www.instagram.com/api/v1/x/"
+ },
+ {
+  "data": {
+   "message": "x",
+   "status": "fail"
+  },
+  "kind": "error",
+  "status": 200,
+  "text": "{\"status\": \"fail\", \"message\": \"x\"}",
+  "url": "https://www.instagram.com/api/v1/x/"
+ },
+ {
+  "data": [
+   1,
+   2
+  ],
+  "kind": "ok",
+  "status": 200,
+  "text": "[1, 2]",
+  "url": "https://www.instagram.com/api/v1/x/"
+ },
+ {
+  "data": null,
+  "kind": "error",
+  "status": 0,
+  "text": "",
+  "url": "https://www.instagram.com/api/v1/x/"
+ }
+]

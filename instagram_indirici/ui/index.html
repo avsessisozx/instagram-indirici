@@ -611,13 +611,24 @@ body.loading main { visibility: hidden; }
     const noteMsgs = running ? [] : (s.notes || []);
     const wallMsg = noteMsgs.find(m => m && String(m.key || '').startsWith('engine.login_wall'));
     const engineNotes = noteMsgs.filter(m => m !== wallMsg).map(renderMsg).filter(x => x && x !== errText2);
-    const nk = [s.verify, s.login_wall && !running, wallMsg ? renderMsg(wallMsg) : '', s.rate_limited && !running, errText2, engineNotes.join('#'), platform, JSON.stringify(S['ui.start'] || '')].join('|');
+    const nk = [s.verify, s.mode === 'login' && running, s.login_wall && !running, wallMsg ? renderMsg(wallMsg) : '', s.rate_limited && !running, errText2, engineNotes.join('#'), platform, JSON.stringify(S['ui.start'] || '')].join('|');
     if (nk !== notesKey) {
       notesKey = nk;
       const notes = $('notes');
       notes.textContent = '';
       if (s.verify) {
-        notes.appendChild(note('warn', [el('b', t('ui.note_verify_title')), el('br'), document.createTextNode(pick('ui.note_verify_body'))]));
+        const parts = [el('b', t('ui.note_verify_title')), el('br'), document.createTextNode(pick('ui.note_verify_body'))];
+        if (platform === 'mobile') {
+          const b = el('button', t('ui.show_verification')); b.className = 'btn'; b.dataset.verify = '1';
+          b.onclick = () => api('/api/show-verify', {}).catch(() => {});
+          parts.push(el('br'), b);
+        }
+        notes.appendChild(note('warn', parts));
+      }
+      if (s.mode === 'login' && running && platform === 'mobile') {
+        const b = el('button', t('ui.show_login')); b.className = 'btn'; b.dataset.login = '1';
+        b.onclick = () => api('/api/show-verify', {}).catch(() => {});
+        notes.appendChild(note('ok', [b]));
       }
       for (const text of engineNotes) notes.appendChild(note('warn', [document.createTextNode(text)]));
       if (errText2) notes.appendChild(note('err', [document.createTextNode(errText2)]));

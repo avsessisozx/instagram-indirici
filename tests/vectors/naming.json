@@ -1,0 +1,96 @@
+{
+ "cases": [
+  {
+   "input": "Gönderi 1 #tatil #yaz",
+   "sanitize": "Gönderi 1 #tatil #yaz",
+   "sanitize20": "Gönderi 1 #tatil #ya",
+   "title": "Gönderi 1"
+  },
+  {
+   "input": "#sadece #etiket",
+   "sanitize": "#sadece #etiket",
+   "sanitize20": "#sadece #etiket",
+   "title": "sadece etiket"
+  },
+  {
+   "input": "",
+   "sanitize": "adsiz",
+   "sanitize20": "",
+   "title": "gonderi"
+  },
+  {
+   "input": null,
+   "sanitize": "adsiz",
+   "sanitize20": "",
+   "title": "gonderi"
+  },
+  {
+   "input": "a<b>c:\"d\"/e\\f|g?h*",
+   "sanitize": "a b c d e f g h",
+   "sanitize20": "a b c d e f g h",
+   "title": "a b c d e f g h"
+  },
+  {
+   "input": "CON",
+   "sanitize": "CON_",
+   "sanitize20": "CON_",
+   "title": "CON_"
+  },
+  {
+   "input": "   ...  ",
+   "sanitize": "adsiz",
+   "sanitize20": "",
+   "title": "gonderi"
+  },
+  {
+   "input": "Çok uzun bir açıklama Çok uzun bir açıklama Çok uzun bir açıklama Çok uzun bir açıklama Çok uzun bir açıklama ",
+   "sanitize": "Çok uzun bir açıklama Çok uzun bir açıklama Çok uzun bir açı",
+   "sanitize20": "Çok uzun bir açıklam",
+   "title": "Çok uzun bir açıklama Çok uzun bir açıkl"
+  },
+  {
+   "input": "satır\nsonu\tve\rboşluk",
+   "sanitize": "satır sonu ve boşluk",
+   "sanitize20": "satır sonu ve boşluk",
+   "title": "satır sonu ve boşluk"
+  },
+  {
+   "input": "emoji 😀 ve ​ görünmez",
+   "sanitize": "emoji 😀 ve görünmez",
+   "sanitize20": "emoji 😀 ve görünmez",
+   "title": "emoji 😀 ve görünmez"
+  },
+  {
+   "input": 12345,
+   "sanitize": "12345",
+   "sanitize20": "12345",
+   "title": "12345"
+  }
+ ],
+ "dates": [
+  {
+   "date": "tarihsiz",
+   "ts": 0
+  },
+  {
+   "date": "tarihsiz",
+   "ts": -5
+  },
+  {
+   "date": "2025-10-09",
+   "ts": 1760000000
+  },
+  {
+   "date": "2025-10-09",
+   "ts": "1760000000"
+  },
+  {
+   "date": "tarihsiz",
+   "ts": "x"
+  },
+  {
+   "date": "tarihsiz",
+   "ts": null
+  }
+ ]
+}
