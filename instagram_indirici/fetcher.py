@@ -3,8 +3,12 @@
 from __future__ import annotations
 
 import os
+import shutil
 import ssl
+import subprocess
+import sys
 import threading
+import time
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
@@ -160,3 +164,94 @@ def _remove(path: Path) -> None:
         path.unlink()
     except OSError:
         pass
+
+
+# ------------------------------------------------------------ yüksek kalite (DASH): ayrı ses + görüntü
+def find_ffmpeg() -> Optional[str]:
+    """ffmpeg'in yolu: ortam değişkeni, programla gelen kopya, sonra sistemdeki."""
+    env = os.environ.get("INSTAGRAM_INDIRICI_FFMPEG")
+    if env and Path(env).is_file():
+        return env
+    try:
+        import imageio_ffmpeg  # type: ignore
+        exe = imageio_ffmpeg.get_ffmpeg_exe()
+        if exe and Path(exe).is_file():
+            return exe
+    except Exception:
+        pass
+    return shutil.which("ffmpeg")
+
+
+def _mux(ffmpeg: str, video: Path, audio: Optional[Path], out: Path, cancel: threading.Event) -> Optional[str]:
+    """Akışları yeniden kodlamadan tek mp4'e birleştirir. Hata olursa açıklamasını döndürür."""
+    cmd = [ffmpeg, "-y", "-v", "error", "-i", str(video)]
+    if audio is not None:
+        cmd += ["-i", str(audio), "-map", "0:v:0", "-map", "1:a:0"]
+    cmd += ["-c", "copy", "-movflags", "+faststart", "-f", "mp4", str(out)]
+    flags = getattr(subprocess, "CREATE_NO_WINDOW", 0) if sys.platform == "win32" else 0
+    try:
+        proc = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, creationflags=flags)
+    except OSError as exc:
+        return str(exc)
+    deadline = time.monotonic() + 300
+    while True:
+        try:
+            _out, err = proc.communicate(timeout=0.5)
+            break
+        except subprocess.TimeoutExpired:
+            if cancel.is_set() or time.monotonic() > deadline:
+                proc.kill()
+                proc.communicate()
+                if cancel.is_set():
+                    raise Cancelled()
+                return "timeout"
+    if proc.returncode != 0:
+        return (err or b"").decode("utf-8", "replace").strip()[-300:] or f"ffmpeg {proc.returncode}"
+    try:
+        if not out.is_file() or out.stat().st_size == 0:
+            return "empty output"
+    except OSError as exc:
+        return str(exc)
+    return None
+
+
+def fetch_dash(
+    video_url: str,
+    audio_url: str,
+    stem_path: Path,
+    *,
+    headers: Dict[str, str],
+    cancel: threading.Event,
+    on_progress: Optional[Callable[[int, int], None]] = None,
+    ffmpeg: Optional[str] = None,
+) -> FetchResult:
+    """Görüntü ve sesi ayrı indirip tek .mp4'e birleştirir. Başarısızsa geçici dosyaları siler."""
+    exe = ffmpeg or find_ffmpeg()
+    if not exe:
+        return FetchResult(False, error=msg("fetch.no_ffmpeg"))
+    stem_path.parent.mkdir(parents=True, exist_ok=True)
+    temps: List[Path] = []
+    out = stem_path.with_name(stem_path.name + ".mux")
+    try:
+        got_video = fetch([video_url], stem_path.with_name(stem_path.name + ".dv"), ext=".tmp", fallback_ext=".tmp",
+                          headers=headers, cancel=cancel, on_progress=on_progress)
+        if not got_video.ok or got_video.path is None:
+            return got_video
+        temps.append(got_video.path)
+        audio_path: Optional[Path] = None
+        if audio_url:
+            got_audio = fetch([audio_url], stem_path.with_name(stem_path.name + ".da"), ext=".tmp", fallback_ext=".tmp",
+                              headers=headers, cancel=cancel, on_progress=on_progress)
+            if not got_audio.ok or got_audio.path is None:
+                return got_audio
+            temps.append(got_audio.path)
+            audio_path = got_audio.path
+        problem = _mux(exe, got_video.path, audio_path, out, cancel)
+        if problem:
+            return FetchResult(False, error=msg("fetch.mux_failed", error=problem))
+        final = stem_path.with_name(stem_path.name + ".mp4")
+        os.replace(out, final)
+        return FetchResult(True, final, final.stat().st_size)
+    finally:
+        for path in temps + [out]:
+            _remove(path)

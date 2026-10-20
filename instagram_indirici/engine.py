@@ -16,7 +16,7 @@ from typing import Any, Dict, List, Optional
 from . import links
 from .browser import (ApiError, BrowserError, FeedResult, InstagramBrowser, LoginRequired, NotFound,
                       ProfileInfo, RateLimited)
-from .fetcher import Cancelled, existing_file, ext_from_content_type, fetch, write_bytes
+from .fetcher import Cancelled, existing_file, ext_from_content_type, fetch, fetch_dash, write_bytes
 from .history import History
 from .i18n import Msg, msg
 from .media import (KIND_AVATAR, KIND_HIGHLIGHT, KIND_POST, KIND_STORY, STORIES_DIR, MediaFile, Post, author_folder,
@@ -837,6 +837,25 @@ class DownloadPool:
             eng.current_total = total or media_file.expected_size
 
         fallback_ext = ".mp4" if media_file.kind == "video" else ".jpg"
+        if media_file.kind == "video" and media_file.dash is not None:
+            # En yüksek kalite: Instagram'ın uygulama içinde oynattığı ayrı ses + görüntü akışı.
+            dash = media_file.dash
+            got = await asyncio.to_thread(
+                fetch_dash, dash.video.url, dash.audio.url if dash.audio else "", stem_path,
+                headers=self.headers, cancel=eng._cancel, on_progress=progress,
+            )
+            if got.ok:
+                eng.files_done += 1
+                eng.log("info", msg("engine.quality_dash", res=f"{dash.video.width}x{dash.video.height}",
+                                    mbps=f"{dash.video.bandwidth / 1_000_000:.1f}"))
+                return "downloaded"
+            if eng._cancel.is_set():
+                return "failed"
+            eng.log("warn", msg("engine.quality_fallback", res=media_file.plain_res or "?", error=got.error or ""))
+            if not media_file.urls:
+                eng.files_failed += 1
+                eng.log("error", msg("engine.download_failed", name=stem_path.name, error=got.error or ""))
+                return "failed"
         result = await asyncio.to_thread(
             fetch, media_file.urls, stem_path, ext=media_file.ext, fallback_ext=fallback_ext,
             headers=self.headers, cancel=eng._cancel, on_progress=progress,
@@ -851,6 +870,8 @@ class DownloadPool:
                     break
         if result.ok:
             eng.files_done += 1
+            if media_file.kind == "video" and media_file.dash is None:
+                eng.log("info", msg("engine.quality_plain", res=media_file.plain_res or "?"))
             return "downloaded"
         if eng._cancel.is_set():
             return "failed"

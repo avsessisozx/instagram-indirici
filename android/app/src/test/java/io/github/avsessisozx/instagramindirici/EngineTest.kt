@@ -43,6 +43,8 @@ class EngineTest {
         web = JvmWeb(base)
         TestHooks.baseUrl = base
         TestHooks.delayMs = 0L..20L
+        TestHooks.pageDelayMs = 0L..10L
+        TestHooks.muxer = null
         TestHooks.backoffSeconds = listOf(1L, 2L)
         TestHooks.breakEvery = 0
         TestHooks.idleSeconds = 3.0
@@ -53,6 +55,7 @@ class EngineTest {
 
     @After
     fun tearDown() {
+        TestHooks.muxer = null
         if (::out.isInitialized) out.deleteRecursively()
         if (::historyFile.isInitialized) historyFile.parentFile?.deleteRecursively()
     }
@@ -339,4 +342,85 @@ class EngineTest {
     // ---------------------------------------------------------------- sahte sunucunun gönderi kodları
     /** tests/fake_instagram.py: i. gönderinin kimliği 3400000000000000000 + 1001*1000 + i (i=1 video, i=2 albüm). */
     private fun code(i: Int): String = Links.shortcodeFromId((3400000000000000000L + 1001L * 1000L + i).toString())
+
+    // ---------------------------------------------------------------- yüksek kalite (DASH)
+    /** Gerçek MediaMuxer telefonda çalışır; burada görüntü ve ses dosyalarını art arda yazan sahte birleştirici kullanılır. */
+    private val fakeMuxer = object : Muxer {
+        override fun mux(video: File, audio: File?, out: File, cancel: java.util.concurrent.atomic.AtomicBoolean): String? {
+            out.writeBytes("MUX".toByteArray() + video.readBytes() + (audio?.readBytes() ?: ByteArray(0)))
+            return null
+        }
+    }
+
+    @Test
+    fun d1_videoUsesDashStreams() {
+        login()
+        set("dash" to 1)
+        TestHooks.muxer = fakeMuxer
+        val e = engine()
+        val snap = run(e, "https://www.instagram.com/reel/${code(1)}/", Engine.MODE_SINGLE)
+        assertEquals(snap.toString(), "done", snap.getString("phase"))
+        val f = files()
+        assertEquals(f.toString(), 1, f.size)
+        val text = File(out, f[0]).readText(Charsets.ISO_8859_1)
+        assertTrue(text.startsWith("MUX"))
+        assertTrue("_dashv1920.mp4" in text)      // en yüksek çözünürlüklü görüntü akışı
+        assertTrue("_dasha.mp4" in text)          // en yüksek bit hızlı ses akışı
+        assertTrue("_dasha_low.mp4" !in text)
+        assertTrue("engine.quality_dash" in e.logKeys())
+        assertTrue(f.none { it.endsWith(".part") })
+        assertTrue(File(System.getProperty("java.io.tmpdir"), "ii-dash").listFiles().orEmpty().isEmpty())
+    }
+
+    @Test
+    fun d2_dashFailureFallsBackToPlainVersion() {
+        login()
+        set("dash" to 1)
+        TestHooks.muxer = object : Muxer {
+            override fun mux(video: File, audio: File?, out: File, cancel: java.util.concurrent.atomic.AtomicBoolean) = "boom"
+        }
+        val e = engine()
+        val snap = run(e, "https://www.instagram.com/reel/${code(1)}/", Engine.MODE_SINGLE)
+        assertEquals(snap.toString(), "done", snap.getString("phase"))
+        val f = files()
+        assertEquals(f.toString(), 1, f.size)
+        assertTrue("_1080.mp4" in File(out, f[0]).readText(Charsets.ISO_8859_1))   // normal sürüm indi
+        assertTrue("engine.quality_fallback" in e.logKeys())
+    }
+
+    @Test
+    fun d3_dashParsingPicksBestStreams() {
+        val mpd = """<?xml version="1.0"?><MPD xmlns="urn:mpeg:dash:schema:mpd:2011"><Period>
+            <AdaptationSet contentType="video">
+              <Representation mimeType="video/mp4" width="720" height="1280" bandwidth="1360000"><BaseURL>https://x/v720.mp4?a=1&amp;b=2</BaseURL></Representation>
+              <Representation mimeType="video/mp4" width="1080" height="1920" bandwidth="4200000"><BaseURL>https://x/v1080.mp4</BaseURL></Representation>
+            </AdaptationSet>
+            <AdaptationSet contentType="audio">
+              <Representation mimeType="audio/mp4" bandwidth="48000"><BaseURL>https://x/a48.mp4</BaseURL></Representation>
+              <Representation mimeType="audio/mp4" bandwidth="72000"><BaseURL>https://x/a72.mp4</BaseURL></Representation>
+            </AdaptationSet></Period></MPD>"""
+        val item = JSONObject().put("video_dash_manifest", mpd)
+        val choice = Media.dashChoice(item)!!
+        assertEquals(1920L, choice.video.height)
+        assertEquals("https://x/v1080.mp4", choice.video.url)
+        assertEquals("https://x/a72.mp4", choice.audio!!.url)
+        assertEquals("https://x/v720.mp4?a=1&b=2", Media.dashStreams(item).first.first { it.height == 1280L }.url)
+
+        val segmented = JSONObject().put("video_dash_manifest",
+            """<MPD><Period><AdaptationSet contentType="video"><SegmentTemplate media="s.m4s"/>
+               <Representation width="1080" height="1920" bandwidth="1"><BaseURL>https://x/y.mp4</BaseURL></Representation>
+               </AdaptationSet></Period></MPD>""")
+        assertNull(Media.dashChoice(segmented))
+        assertNull(Media.dashChoice(JSONObject().put("video_dash_manifest", "<MPD><broken")))
+        assertNull(Media.dashChoice(JSONObject()))
+
+        // normal sürümler 720p ile sınırlıysa 1080p akış seçilir; tersi olursa normal sürüm kalır
+        fun videoItem(plainHeight: Int) = JSONObject().put("pk", "1").put("code", "AbC").put("media_type", 2)
+            .put("taken_at", 1760000000)
+            .put("video_versions", org.json.JSONArray().put(JSONObject().put("width", plainHeight * 9 / 16).put("height", plainHeight)
+                .put("url", "https://x/plain.mp4")))
+            .put("video_dash_manifest", mpd)
+        assertEquals(1920L, Media.buildPost(videoItem(1280), "all").files[0].dash!!.video.height)
+        assertNull(Media.buildPost(videoItem(2160), "all").files[0].dash)
+    }
 }

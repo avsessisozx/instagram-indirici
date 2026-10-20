@@ -1,5 +1,6 @@
 package io.github.avsessisozx.instagramindirici
 
+import java.io.File
 import java.io.IOException
 import java.io.OutputStream
 import java.net.HttpURLConnection
@@ -24,6 +25,11 @@ interface PendingFile {
 }
 
 class CancelledException : Exception("cancelled")
+
+/** Ayrı görüntü ve ses akışlarını yeniden kodlamadan tek mp4'e birleştirir. Hata olursa açıklamasını döndürür. */
+interface Muxer {
+    fun mux(video: File, audio: File?, out: File, cancel: AtomicBoolean): String?
+}
 
 /** Python fetcher.py'nin karşılığı: adresleri sırayla dener, ilk başarılı indirmeyi kaydeder. */
 object Fetcher {
@@ -73,6 +79,52 @@ object Fetcher {
             }
         }
         return last
+    }
+
+    /**
+     * En yüksek kalite (DASH): görüntü ve sesi ayrı indirip birleştirir. Başarısızsa geçici dosyalar silinir
+     * ve çağıran normal sürüme döner.
+     */
+    fun fetchDash(
+        choice: Media.DashChoice,
+        relStem: String,
+        headers: Map<String, String>,
+        sink: MediaSink,
+        cancel: AtomicBoolean,
+        onProgress: ((Long, Long) -> Unit)?,
+        tempDir: File,
+        muxer: Muxer,
+    ): Result {
+        tempDir.mkdirs()
+        val id = java.lang.Long.toString(System.nanoTime(), 36)
+        val tmp = FileSink(tempDir)
+        val files = mutableListOf<File>()
+        try {
+            val v = fetch(listOf(choice.video.url), "dv_$id", ".tmp", ".tmp", headers, tmp, cancel, onProgress)
+            if (!v.ok || v.location == null) return v
+            val videoFile = File(v.location); files += videoFile
+            var audioFile: File? = null
+            val audio = choice.audio
+            if (audio != null) {
+                val a = fetch(listOf(audio.url), "da_$id", ".tmp", ".tmp", headers, tmp, cancel, onProgress)
+                if (!a.ok || a.location == null) return a
+                audioFile = File(a.location); files += audioFile
+            }
+            val out = File(tempDir, "dm_$id.mp4"); files += out
+            val problem = muxer.mux(videoFile, audioFile, out, cancel)
+            if (problem != null) return Result(false, error = msg("fetch.mux_failed", "error" to problem))
+            if (!out.isFile || out.length() == 0L) return Result(false, error = msg("fetch.mux_failed", "error" to "empty output"))
+            val pending = sink.begin(relStem, ".mp4", "video/mp4")
+            try {
+                out.inputStream().use { it.copyTo(pending.stream, CHUNK) }
+            } catch (e: Exception) {
+                pending.abort()
+                return Result(false, error = msg("fetch.write", "error" to (e.message ?: e.javaClass.simpleName)))
+            }
+            return Result(true, pending.commit(), out.length())
+        } finally {
+            files.forEach { it.delete() }
+        }
     }
 
     private fun fetchOne(

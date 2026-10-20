@@ -102,6 +102,40 @@ class Data:
             {"type": 102, "width": 480, "height": 854, "url": self.cdn(f"{pk}_480.mp4")},
         ]
 
+    def manifest(self, pk: int, top: int = 1920, audio: bool = True) -> str:
+        """Gerçek Instagram'ınkine benzer DASH bildirimi: tek dosyalı görüntü ve ses akışları."""
+        widths = [(360, 640, 309000), (720, 1280, 1360000), (round(top * 9 / 16), top, 4200000)]
+        reps = "".join(
+            f'<Representation id="v{n}" mimeType="video/mp4" codecs="avc1.640028" width="{w}" height="{h}" '
+            f'bandwidth="{bw}"><BaseURL>{self.cdn(f"{pk}_dashv{h}.mp4").replace("&", "&amp;")}</BaseURL>'
+            f'<SegmentBase indexRange="800-1200"><Initialization range="0-799"/></SegmentBase></Representation>'
+            for n, (w, h, bw) in enumerate(widths))
+        sound = ""
+        if audio:
+            sound = ('<AdaptationSet contentType="audio" segmentAlignment="true">'
+                     '<Representation id="a0" mimeType="audio/mp4" codecs="mp4a.40.2" bandwidth="72000">'
+                     f'<BaseURL>{self.cdn(f"{pk}_dasha.mp4").replace("&", "&amp;")}</BaseURL></Representation>'
+                     '<Representation id="a1" mimeType="audio/mp4" codecs="mp4a.40.2" bandwidth="48000">'
+                     f'<BaseURL>{self.cdn(f"{pk}_dasha_low.mp4").replace("&", "&amp;")}</BaseURL></Representation>'
+                     '</AdaptationSet>')
+        return ('<?xml version="1.0"?><MPD xmlns="urn:mpeg:dash:schema:mpd:2011" type="static"><Period>'
+                f'<AdaptationSet contentType="video" segmentAlignment="true">{reps}</AdaptationSet>{sound}'
+                '</Period></MPD>')
+
+    def enable_dash(self, top: int = 1920, audio: bool = True) -> None:
+        """Bütün videolu gönderilere (ve albüm parçalarına) video_dash_manifest ekler."""
+        for items in self.posts.values():
+            for item in items:
+                for node in [item] + list(item.get("carousel_media") or []):
+                    if node.get("video_versions"):
+                        node["video_dash_manifest"] = self.manifest(int(node["pk"]), top, audio)
+
+    def disable_dash(self) -> None:
+        for items in self.posts.values():
+            for item in items:
+                for node in [item] + list(item.get("carousel_media") or []):
+                    node.pop("video_dash_manifest", None)
+
     def _post(self, username: str, i: int) -> Dict[str, Any]:
         pk = 3400000000000000000 + USER_IDS_INT[username] * 1000 + i
         item: Dict[str, Any] = {
@@ -223,6 +257,9 @@ class FakeInstagram:
         self.break_graphql = False     # /graphql/query POST bozuk
         self.break_profile_api = False # web_profile_info bozuk
         self.cdn_403 = set()           # bu adlar 403 döner
+        self.dash = False              # /__ayar?dash=1: videolu gönderilere video_dash_manifest eklenir
+        self.dash_video = b""          # DASH görüntü/ses akışı olarak sunulacak gerçek mp4 baytları
+        self.dash_audio = b""
         self.embed_posts = True        # profil sayfasına ilk gönderiler gömülsün mü
         self.graphql_video_urls = True # eski biçimde video adresi gelsin mi (gerçekte bazen gelmiyor)
         self.slow_cdn = 0.0            # her dosyada bekleme (durdurma testi için)
@@ -357,6 +394,7 @@ def make_handler(fake: FakeInstagram):
             """Testlerin (Android) sahte sunucuyu ayarlaması: /__ayar?ad=değer, /__sifirla, /__durum."""
             if path == "/__sifirla":
                 fake.reset()
+                fake.data.disable_dash()
                 self.json({"ok": True})
                 return True
             if path == "/__durum":
@@ -381,6 +419,8 @@ def make_handler(fake: FakeInstagram):
                     else:
                         val = raw
                     setattr(fake, key, val)
+                    if key == "dash":
+                        fake.data.enable_dash() if val else fake.data.disable_dash()
                 self.json({"ok": True})
                 return True
             return False
@@ -463,6 +503,10 @@ def make_handler(fake: FakeInstagram):
                 time.sleep(fake.slow_cdn)
             if base in fake.cdn_403:
                 return self.send(403, b"denied", "text/plain")
+            if "_dashv" in base and fake.dash_video:
+                return self.send(200, fake.dash_video, "video/mp4")
+            if "_dasha" in base and fake.dash_audio:
+                return self.send(200, fake.dash_audio, "video/mp4")
             if base.endswith(".mp4"):
                 return self.send(200, MP4 + base.encode(), "video/mp4")
             if "avatar" in base:

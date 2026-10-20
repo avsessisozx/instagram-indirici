@@ -72,10 +72,14 @@ object TestHooks {
     /** İstekler arası bekleme (ms): alt-üst sınır. */
     @Volatile var delayMs: LongRange? = null
     @Volatile var backoffSeconds: List<Long>? = null
+    /** Liste sayfaları arası ek bekleme (ms): alt-üst sınır. */
+    @Volatile var pageDelayMs: LongRange? = null
     /** Mola: her kaç liste sayfasında, kaç ms (0 = kapalı). */
     @Volatile var breakEvery: Int? = null
     @Volatile var idleSeconds: Double? = null
     @Volatile var resumeWaitSeconds: Long? = null
     @Volatile var resumeRounds: Int? = null
     @Volatile var verifyCalmMs: Long? = null
+    /** Testlerde gerçek ses/görüntü birleştirici yerine kullanılır. */
+    @Volatile var muxer: Muxer? = null
 }

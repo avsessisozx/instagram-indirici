@@ -2,6 +2,10 @@ package io.github.avsessisozx.instagramindirici
 
 import org.json.JSONArray
 import org.json.JSONObject
+import org.w3c.dom.Element
+import org.xml.sax.InputSource
+import java.io.StringReader
+import javax.xml.parsers.DocumentBuilderFactory
 
 /**
  * Instagram yanıtlarındaki gönderileri bulur ve indirilecek dosyalara çevirir.
@@ -28,6 +32,13 @@ object Media {
     const val PHOTOS_DIR = "Fotoğraflar"
     const val VIDEOS_DIR = "Videolar"
 
+    /** DASH bildirimindeki (video_dash_manifest) tek bir akış: ses ya da görüntü. */
+    data class DashStream(val url: String, val width: Long = 0, val height: Long = 0, val bandwidth: Long = 0) {
+        val area: Long get() = width * height
+    }
+
+    data class DashChoice(val video: DashStream, val audio: DashStream? = null)
+
     data class MediaFile(
         val kind: String,               // "video" | "image"
         val urls: List<String>,
@@ -35,6 +46,8 @@ object Media {
         val ext: String = "",           // boşsa sunucunun bildirdiği türe göre
         val expectedSize: Long = 0,
         var legacyStem: String = "",
+        val dash: DashChoice? = null,   // varsa: normal sürümden daha iyi ses+görüntü akışı (birleştirilerek indirilir)
+        val plainRes: String = "",      // normal (tek parça) sürümün çözünürlüğü, ör. "720x1280" (kayıt için)
     )
 
     class Post(val kind: String) {
@@ -261,6 +274,85 @@ object Media {
         return dedupe(urls)
     }
 
+    private fun localName(e: Element): String = e.tagName.substringAfter(':')
+
+    private fun childElements(e: Element): List<Element> {
+        val out = ArrayList<Element>()
+        val nodes = e.childNodes
+        for (i in 0 until nodes.length) (nodes.item(i) as? Element)?.let { out += it }
+        return out
+    }
+
+    /**
+     * video_dash_manifest (MPD) içindeki tek dosyalı video ve ses akışları. Instagram uygulama içinde bunu
+     * oynatır; en yüksek kalite çoğu zaman sadece burada olur. Parçalı (SegmentTemplate/SegmentList) akışlar atlanır.
+     */
+    fun dashStreams(item: JSONObject): Pair<List<DashStream>, List<DashStream>> {
+        var manifest = opt(item, "video_dash_manifest")
+        if (!truthy(manifest)) (opt(item, "dash_info") as? JSONObject)?.let { manifest = opt(it, "video_dash_manifest") }
+        val text = (manifest as? String)?.trim() ?: return emptyList<DashStream>() to emptyList()
+        if ('<' !in text) return emptyList<DashStream>() to emptyList()
+        val doc = try {
+            val factory = DocumentBuilderFactory.newInstance()
+            factory.isNamespaceAware = false
+            try { factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true) } catch (e: Exception) {}
+            factory.newDocumentBuilder().parse(InputSource(StringReader(text)))
+        } catch (e: Exception) {
+            return emptyList<DashStream>() to emptyList()
+        }
+        val videos = ArrayList<DashStream>()
+        val audios = ArrayList<DashStream>()
+        val sets = doc.getElementsByTagName("AdaptationSet")
+        for (i in 0 until sets.length) {
+            val set = sets.item(i) as? Element ?: continue
+            val setType = (set.getAttribute("contentType").ifEmpty { set.getAttribute("mimeType") }).lowercase()
+            val setSegmented = childElements(set).any { localName(it) == "SegmentTemplate" || localName(it) == "SegmentList" }
+            for (rep in childElements(set)) {
+                if (localName(rep) != "Representation") continue
+                var url = ""
+                var segmented = setSegmented
+                for (child in childElements(rep)) {
+                    when (localName(child)) {
+                        "BaseURL" -> { val t = child.textContent.trim(); if (t.startsWith("http")) url = t }
+                        "SegmentTemplate", "SegmentList" -> segmented = true
+                    }
+                }
+                if (url.isEmpty() || segmented) continue
+                val kind = (rep.getAttribute("mimeType").ifEmpty { setType }).lowercase()
+                val width = rep.getAttribute("width").trim().toLongOrNull() ?: 0L
+                val stream = DashStream(
+                    url, width, rep.getAttribute("height").trim().toLongOrNull() ?: 0L,
+                    rep.getAttribute("bandwidth").trim().toLongOrNull() ?: 0L,
+                )
+                if ("audio" in kind) audios += stream else if ("video" in kind || width > 0) videos += stream
+            }
+        }
+        return videos to audios
+    }
+
+    fun dashChoice(item: JSONObject): DashChoice? {
+        val (videos, audios) = dashStreams(item)
+        if (videos.isEmpty()) return null
+        val best = videos.sortedWith(compareByDescending<DashStream> { it.area }.thenByDescending { it.bandwidth }).first()
+        val audio = audios.maxByOrNull { it.bandwidth }
+        return DashChoice(best, audio)
+    }
+
+    /** Normal (tek parça) sürümlerin en büyüğünün genişlik ve yüksekliği; bilinmiyorsa (0, 0). */
+    fun plainSize(item: JSONObject): Pair<Long, Long> {
+        var best = 0L to 0L
+        val vv = opt(item, "video_versions")
+        if (vv is JSONArray) {
+            for (v in objects(vv)) {
+                if (!truthy(opt(v, "url"))) continue
+                val size = toInt(opt(v, "width")) to toInt(opt(v, "height"))
+                if (size.first * size.second > best.first * best.second) best = size
+            }
+        }
+        if (best == 0L to 0L) (opt(item, "dimensions") as? JSONObject)?.let { best = toInt(opt(it, "width")) to toInt(opt(it, "height")) }
+        return best
+    }
+
     fun isVideo(item: JSONObject): Boolean {
         if (truthy(opt(item, "video_versions")) || truthy(opt(item, "video_url"))) return true
         if (opt(item, "is_video") == true) return true
@@ -324,8 +416,15 @@ object Media {
         else -> true
     }
 
-    private fun fileFor(node: JSONObject, rel: String): MediaFile =
-        if (isVideo(node)) MediaFile("video", videoUrls(node), rel, ".mp4") else MediaFile("image", imageUrls(node), rel, "")
+    private fun fileFor(node: JSONObject, rel: String): MediaFile {
+        if (!isVideo(node)) return MediaFile("image", imageUrls(node), rel, "")
+        val (width, height) = plainSize(node)
+        val dash = dashChoice(node)
+        // Daha büyük (ya da aynı) çözünürlükte DASH akışı varsa onu kullan; indirilemezse normal sürüme dönülür.
+        val use = if (dash != null && dash.video.area >= width * height) dash else null
+        return MediaFile("video", videoUrls(node), rel, ".mp4", dash = use,
+            plainRes = if (width > 0 && height > 0) "${width}x$height" else "")
+    }
 
     fun buildPost(item: JSONObject, content: String, kind: String = KIND_POST, subdir: String = "", username: String = ""): Post {
         val owner = ownerOf(item)
@@ -357,7 +456,7 @@ object Media {
                 media.legacyStem = name
             }
             if (!wanted(media.kind, content)) { unmatched++; continue }
-            if (media.urls.isEmpty()) { if (media.kind == "video") missingVideo++; continue }
+            if (media.urls.isEmpty() && media.dash == null) { if (media.kind == "video") missingVideo++; continue }
             post.files += media
         }
         if (post.files.isEmpty()) {

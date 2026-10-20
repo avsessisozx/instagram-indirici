@@ -258,6 +258,12 @@ class Insta(private val web: IgWeb) {
         }
     }
 
+    /** Liste sayfaları arasında insan gibi bekler (telefonda Instagram daha çabuk "yavaşla" diyor). */
+    private suspend fun pageDelay() {
+        val range = TestHooks.pageDelayMs ?: 8_000L..15_000L
+        sleep(Random.nextLong(range.first, range.last + 1))
+    }
+
     /** Belli sayıda liste sayfasından sonra kısa mola verir (Instagram'ı yormamak için). */
     private suspend fun pace() {
         val every = TestHooks.breakEvery ?: 5
@@ -471,7 +477,9 @@ class Insta(private val web: IgWeb) {
         var pages = 0
         while (true) {
             checkCancel()
-            val params = mutableListOf("count" to "30")
+            if (pages > 0) pageDelay()
+            // Sitenin kendi sayfa boyutu 12; telefonda Instagram daha dikkatli olduğu için büyük sayfa istemiyoruz.
+            val params = mutableListOf("count" to "12")
             if (maxId.isNotEmpty()) params += "max_id" to maxId
             val data: JSONObject
             try {
@@ -516,6 +524,7 @@ class Insta(private val web: IgWeb) {
         var pages = 0
         while (true) {
             checkCancel()
+            if (pages > 0) pageDelay()
             val dataVars = JSONObject().put("count", 12).put("include_relationship_info", true)
                 .put("latest_besties_reel_media", true).put("latest_reel_media", true)
             val variables = JSONObject()

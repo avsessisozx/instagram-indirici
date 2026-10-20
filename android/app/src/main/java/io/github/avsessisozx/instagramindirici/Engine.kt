@@ -10,6 +10,7 @@ import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.text.SimpleDateFormat
@@ -718,13 +719,37 @@ class DownloadPool(
         eng.currentBytes.set(0)
         eng.currentTotal.set(media.expectedSize)
         val fallbackExt = if (media.kind == "video") ".mp4" else ".jpg"
-        val result = Fetcher.fetch(media.urls, rel, media.ext, fallbackExt, headers, sink, cancel, { done, total ->
+        val progress = { done: Long, total: Long ->
             eng.currentBytes.set(done)
             eng.currentTotal.set(if (total > 0) total else media.expectedSize)
-        })
+        }
+        val dash = media.dash
+        if (media.kind == "video" && dash != null) {
+            // En yüksek kalite: Instagram'ın uygulama içinde oynattığı ayrı ses + görüntü akışı.
+            val tempDir = File(System.getProperty("java.io.tmpdir") ?: ".", "ii-dash")
+            val got = Fetcher.fetchDash(dash, rel, headers, sink, cancel, progress, tempDir, TestHooks.muxer ?: AndroidMuxer)
+            if (got.ok) {
+                eng.filesDone.incrementAndGet()
+                eng.setLastLocation(got.location)
+                eng.log("info", msg("engine.quality_dash", "res" to "${dash.video.width}x${dash.video.height}",
+                    "mbps" to String.format(Locale.US, "%.1f", dash.video.bandwidth / 1_000_000.0)))
+                return "downloaded"
+            }
+            if (cancel.get()) return "failed"
+            eng.log("warn", msg("engine.quality_fallback", "res" to media.plainRes.ifEmpty { "?" }, "error" to (got.error ?: "")))
+            if (media.urls.isEmpty()) {
+                eng.filesFailed.incrementAndGet()
+                eng.log("error", msg("engine.download_failed", "name" to rel.substringAfterLast('/'), "error" to (got.error ?: "")))
+                return "failed"
+            }
+        }
+        val result = Fetcher.fetch(media.urls, rel, media.ext, fallbackExt, headers, sink, cancel, progress)
         if (result.ok) {
             eng.filesDone.incrementAndGet()
             eng.setLastLocation(result.location)
+            if (media.kind == "video" && dash == null) {
+                eng.log("info", msg("engine.quality_plain", "res" to media.plainRes.ifEmpty { "?" }))
+            }
             return "downloaded"
         }
         if (cancel.get()) return "failed"

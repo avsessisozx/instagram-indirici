@@ -100,6 +100,56 @@ class MediaTests(unittest.TestCase):
         node = self.data.graphql_node(self.posts[1])
         self.assertTrue(media.image_urls(node)[0].split("?")[0].endswith("_n.jpg"))
 
+    def test_dash_picks_best_streams(self):
+        item = dict(self.posts[2])
+        item["video_dash_manifest"] = self.data.manifest(int(item["pk"]))
+        choice = media.dash_choice(item)
+        self.assertEqual((choice.video.width, choice.video.height), (1080, 1920))
+        self.assertEqual(choice.video.bandwidth, 4200000)
+        self.assertIn("_dashv1920.mp4", choice.video.url)
+        self.assertIn("&oe=6A0B1C2D", choice.video.url)      # &amp; çözülmüş olmalı
+        self.assertTrue(choice.audio.url.split("?")[0].endswith("_dasha.mp4"))
+        silent = dict(item, video_dash_manifest=self.data.manifest(int(item["pk"]), audio=False))
+        self.assertIsNone(media.dash_choice(silent).audio)
+
+    def test_dash_ignores_segmented_and_broken_manifests(self):
+        item = dict(self.posts[2])
+        segmented = ('<MPD xmlns="urn:mpeg:dash:schema:mpd:2011"><Period><AdaptationSet contentType="video">'
+                     '<SegmentTemplate media="s$Number$.m4s" initialization="i.mp4"/>'
+                     '<Representation width="1080" height="1920" bandwidth="1"><BaseURL>https://x/y.mp4</BaseURL>'
+                     '</Representation></AdaptationSet></Period></MPD>')
+        self.assertIsNone(media.dash_choice(dict(item, video_dash_manifest=segmented)))
+        self.assertIsNone(media.dash_choice(dict(item, video_dash_manifest="<MPD><broken")))
+        self.assertIsNone(media.dash_choice(dict(item, video_dash_manifest="")))
+        self.assertIsNone(media.dash_choice(item))
+        nested = dict(item, dash_info={"video_dash_manifest": self.data.manifest(int(item["pk"]))})
+        self.assertIsNotNone(media.dash_choice(nested))
+
+    def test_dash_used_only_when_not_worse_than_plain(self):
+        item = dict(self.posts[2])      # normal sürümlerin en büyüğü 1080x1920
+        item["video_dash_manifest"] = self.data.manifest(int(item["pk"]), top=1920)
+        file = media.build_post(item, content="all").files[0]
+        self.assertIsNotNone(file.dash)
+        self.assertEqual(file.plain_res, "1080x1920")
+        item["video_dash_manifest"] = self.data.manifest(int(item["pk"]), top=1280)   # DASH en çok 720p
+        self.assertIsNone(media.build_post(item, content="all").files[0].dash)
+        # normal sürümler 720p ile sınırlıysa 1080p DASH tercih edilir
+        low = dict(item, video_versions=[v for v in item["video_versions"] if v["width"] <= 720],
+                   video_dash_manifest=self.data.manifest(int(item["pk"]), top=1920))
+        built = media.build_post(low, content="all").files[0]
+        self.assertEqual(built.dash.video.height, 1920)
+        self.assertEqual(built.plain_res, "720x1280")
+
+    def test_dash_alone_keeps_video_without_plain_urls(self):
+        item = dict(self.posts[2])
+        item["video_versions"] = []
+        item["video_dash_manifest"] = self.data.manifest(int(item["pk"]))
+        post = media.build_post(item, content="all")
+        self.assertIsNone(post.skipped_reason)
+        self.assertEqual(len(post.files), 1)
+        self.assertEqual(post.files[0].urls, [])
+        self.assertIsNotNone(post.files[0].dash)
+
     def test_build_post_v1_and_graphql_agree(self):
         for item in self.posts[:12]:
             a = media.build_post(item, content="all")

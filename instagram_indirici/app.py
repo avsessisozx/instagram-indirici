@@ -143,7 +143,17 @@ def self_test() -> str:
 
     name = asyncio.run(check_browser())
     server.shutdown()
-    say(f"SELF-TEST OK: ui + browser ({name})")
+    # Yüksek kalite videoları birleştirmek için gereken ffmpeg programla birlikte gelmiş olmalı.
+    import subprocess
+
+    from .fetcher import find_ffmpeg
+
+    ffmpeg = find_ffmpeg()
+    assert ffmpeg, "ffmpeg not found"
+    flags = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+    probe = subprocess.run([ffmpeg, "-version"], capture_output=True, timeout=60, creationflags=flags)
+    assert probe.returncode == 0, "ffmpeg does not run"
+    say(f"SELF-TEST OK: ui + browser ({name}) + ffmpeg")
     return name
 
 

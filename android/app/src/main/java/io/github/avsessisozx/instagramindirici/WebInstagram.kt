@@ -65,7 +65,7 @@ class WebInstagram(private val webView: WebView, private val overlay: OverlayHos
         s.allowContentAccess = false
         s.javaScriptCanOpenWindowsAutomatically = false
         s.setSupportMultipleWindows(false)
-        userAgent = chromeUserAgent(s.userAgentString)
+        userAgent = desktopUserAgent(s.userAgentString)
         s.userAgentString = userAgent
         CookieManager.getInstance().setAcceptCookie(true)
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true)
@@ -253,6 +253,16 @@ class WebInstagram(private val webView: WebView, private val overlay: OverlayHos
         /** WebView kimliğinden ("; wv", "Version/4.0") arındırılmış Chrome kimliği. */
         fun chromeUserAgent(default: String): String =
             default.replace("; wv)", ")").replace(Regex("\\s*Version/\\d+(\\.\\d+)*"), "")
+
+        /**
+         * Windows sürümüyle aynı kimlik: masaüstü Chrome. İstekler masaüstü sitenin uygulama kimliğiyle (X-IG-App-ID)
+         * gittiği için mobil kimlikle birlikte tutarsız görünüyordu.
+         */
+        fun desktopUserAgent(default: String): String {
+            val major = Regex("Chrome/(\\d+)").find(default)?.groupValues?.get(1) ?: "130"
+            return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) " +
+                "Chrome/$major.0.0.0 Safari/537.36"
+        }
 
         fun pageScript(send: String): String = """
 (function(){

@@ -45,6 +45,7 @@ class EndToEndTest {
     fun setUp() {
         TestHooks.baseUrl = base
         TestHooks.delayMs = 0L..50L
+        TestHooks.pageDelayMs = 0L..10L
         TestHooks.backoffSeconds = listOf(1L, 2L)
         TestHooks.breakEvery = 0
         TestHooks.idleSeconds = 4.0

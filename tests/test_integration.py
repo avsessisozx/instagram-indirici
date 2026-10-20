@@ -313,6 +313,65 @@ class IntegrationTests(unittest.TestCase):
         self.assertTrue(files)
         self.assertTrue(all(f.endswith(".mp4") for f in files), files)
 
+    # ---- yüksek kalite (DASH): ayrı görüntü + ses akışları ffmpeg ile birleştirilir
+    def _dash_streams(self):
+        """ffmpeg ile küçük, gerçek bir görüntü ve ses dosyası üretir (yoksa test atlanır)."""
+        import subprocess
+        from instagram_indirici.fetcher import find_ffmpeg
+
+        exe = find_ffmpeg()
+        if not exe:
+            self.skipTest("ffmpeg yok")
+        d = Path(self.tmp.name) / "dashsrc"
+        d.mkdir(exist_ok=True)
+        v, a = d / "v.mp4", d / "a.mp4"
+        run = lambda *args: subprocess.run([exe, "-y", "-v", "error", *args], check=True)
+        run("-f", "lavfi", "-i", "testsrc=size=160x284:rate=10", "-t", "2", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-an", str(v))
+        run("-f", "lavfi", "-i", "sine=frequency=440:duration=2", "-c:a", "aac", str(a))
+        return exe, v.read_bytes(), a.read_bytes()
+
+    def _streams_of(self, exe, path):
+        import subprocess
+        info = subprocess.run([exe, "-hide_banner", "-i", str(path)], capture_output=True, text=True).stderr
+        return ("Video:" in info, "Audio:" in info)
+
+    def test_c8_video_uses_dash_streams(self):
+        self.ensure_login()
+        exe, vbytes, abytes = self._dash_streams()
+        self.fake.dash_video, self.fake.dash_audio = vbytes, abytes
+        self.fake.data.enable_dash()
+        try:
+            video = self.fake.data.posts[fi.PROFILE_OK][2]     # i=1: video
+            snap, out = self.run_job(f"https://www.instagram.com/reel/{video['code']}/", "single")
+        finally:
+            self.fake.data.disable_dash()
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        files = self.files(out)
+        self.assertEqual(len(files), 1, files)
+        self.assert_clean(out)
+        self.assertEqual(self._streams_of(exe, out / files[0]), (True, True))   # hem görüntü hem ses var
+        self.assertIn("engine.quality_dash", self.keys(snap))
+        line = next(l for l in snap["logs"] if (l.get("msg") or {}).get("key") == "engine.quality_dash")
+        self.assertEqual(line["msg"]["params"]["res"], "1080x1920")
+
+    def test_c9_dash_failure_falls_back_to_plain_version(self):
+        self.ensure_login()
+        exe, vbytes, abytes = self._dash_streams()
+        self.fake.dash_video, self.fake.dash_audio = vbytes, abytes
+        self.fake.data.enable_dash()
+        video = self.fake.data.posts[fi.PROFILE_OK][2]
+        self.fake.cdn_403 = {f"{video['pk']}_dashv1920.mp4"}
+        try:
+            snap, out = self.run_job(f"https://www.instagram.com/reel/{video['code']}/", "single")
+        finally:
+            self.fake.data.disable_dash()
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        files = self.files(out)
+        self.assertEqual(len(files), 1, files)
+        self.assert_clean(out)
+        self.assertIn(b"_1080.mp4", (out / files[0]).read_bytes())      # normal sürüm indi
+        self.assertIn("engine.quality_fallback", self.keys(snap))
+
     def test_c7_single_items_logged_in(self):
         self.ensure_login()
         video = self.fake.data.posts[fi.PROFILE_OK][2]   # i=1: video

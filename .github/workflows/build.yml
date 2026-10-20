@@ -74,6 +74,7 @@ jobs:
           --add-data "instagram_indirici/ui;instagram_indirici/ui"
           --add-data "ceviriler;ceviriler"
           --collect-all playwright
+          --collect-all imageio_ffmpeg
           main.py
 
       - name: EXE'yi dene

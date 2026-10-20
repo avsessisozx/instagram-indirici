@@ -10,9 +10,10 @@ Bu dosya ikisini de tanır; yanıtın içinde nerede durduklarını bilmesi gere
 
 from __future__ import annotations
 
+import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from pathlib import PurePosixPath
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any, Dict, Iterable, List, Optional, Tuple
 from urllib.parse import urlsplit
 
 from . import links
@@ -33,6 +34,25 @@ VIDEOS_DIR = "Videolar"
 
 
 @dataclass
+class DashStream:
+    """DASH bildirimindeki (video_dash_manifest) tek bir akış: ses ya da görüntü."""
+    url: str
+    width: int = 0
+    height: int = 0
+    bandwidth: int = 0        # bit/sn
+
+    @property
+    def area(self) -> int:
+        return self.width * self.height
+
+
+@dataclass
+class DashChoice:
+    video: DashStream
+    audio: Optional[DashStream] = None
+
+
+@dataclass
 class MediaFile:
     kind: str                 # "video" | "image"
     urls: List[str]
@@ -40,6 +60,8 @@ class MediaFile:
     ext: str = ""             # boşsa sunucunun bildirdiği türe göre seçilir
     expected_size: int = 0
     legacy_stem: str = ""     # 1.0.x sürümünün aynı dosyayı koyduğu yer (varsa buradan taşınır)
+    dash: Optional[DashChoice] = None   # varsa: normal sürümden daha iyi ses+görüntü akışı (ffmpeg ile birleştirilir)
+    plain_res: str = ""       # normal (tek parça) sürümün çözünürlüğü, ör. "720x1280" (kayıt için)
 
 
 @dataclass
@@ -238,6 +260,78 @@ def video_urls(item: Dict[str, Any]) -> List[str]:
     return _dedupe(urls)
 
 
+def _local(tag: str) -> str:
+    return tag.rsplit("}", 1)[-1]
+
+
+def dash_streams(item: Dict[str, Any]) -> Tuple[List[DashStream], List[DashStream]]:
+    """video_dash_manifest (MPD) içindeki tek dosyalı video ve ses akışları.
+
+    Instagram uygulama içinde oynatırken bu bildirimi kullanır; en yüksek kalite çoğu zaman sadece burada olur,
+    video_versions listesi daha düşük çözünürlükte durur. Parçalı (SegmentTemplate/SegmentList) akışlar atlanır.
+    """
+    manifest = item.get("video_dash_manifest")
+    if not manifest and isinstance(item.get("dash_info"), dict):
+        manifest = item["dash_info"].get("video_dash_manifest")
+    if not isinstance(manifest, str) or "<" not in manifest:
+        return [], []
+    try:
+        root = ET.fromstring(manifest.strip())
+    except ET.ParseError:
+        return [], []
+    videos: List[DashStream] = []
+    audios: List[DashStream] = []
+    for aset in root.iter():
+        if _local(aset.tag) != "AdaptationSet":
+            continue
+        set_type = (aset.get("contentType") or aset.get("mimeType") or "").lower()
+        set_segmented = any(_local(c.tag) in ("SegmentTemplate", "SegmentList") for c in aset)
+        for rep in aset:
+            if _local(rep.tag) != "Representation":
+                continue
+            url = ""
+            segmented = set_segmented
+            for child in rep:
+                name = _local(child.tag)
+                if name == "BaseURL" and child.text and child.text.strip().startswith("http"):
+                    url = child.text.strip()
+                elif name in ("SegmentTemplate", "SegmentList"):
+                    segmented = True
+            if not url or segmented:
+                continue
+            kind = (rep.get("mimeType") or set_type).lower()
+            stream = DashStream(url, _int(rep.get("width")), _int(rep.get("height")), _int(rep.get("bandwidth")))
+            if "audio" in kind:
+                audios.append(stream)
+            elif "video" in kind or stream.width:
+                videos.append(stream)
+    return videos, audios
+
+
+def dash_choice(item: Dict[str, Any]) -> Optional[DashChoice]:
+    videos, audios = dash_streams(item)
+    if not videos:
+        return None
+    best = max(videos, key=lambda s: (s.area, s.bandwidth))
+    audio = max(audios, key=lambda s: s.bandwidth) if audios else None
+    return DashChoice(best, audio)
+
+
+def plain_size(item: Dict[str, Any]) -> Tuple[int, int]:
+    """Normal (tek parça) sürümlerin en büyüğünün genişlik ve yüksekliği; bilinmiyorsa (0, 0)."""
+    best = (0, 0)
+    versions = item.get("video_versions")
+    if isinstance(versions, list):
+        for v in versions:
+            if isinstance(v, dict) and v.get("url"):
+                size = (_int(v.get("width")), _int(v.get("height")))
+                if size[0] * size[1] > best[0] * best[1]:
+                    best = size
+    if best == (0, 0) and isinstance(item.get("dimensions"), dict):
+        best = (_int(item["dimensions"].get("width")), _int(item["dimensions"].get("height")))
+    return best
+
+
 def is_video(item: Dict[str, Any]) -> bool:
     if item.get("video_versions") or item.get("video_url"):
         return True
@@ -310,9 +404,13 @@ def _wanted(kind: str, content: str) -> bool:
 def _file_for(node: Dict[str, Any], rel_stem: str) -> Optional[MediaFile]:
     if is_video(node):
         urls = video_urls(node)
-        if not urls:
-            return MediaFile("video", [], rel_stem, ".mp4")
-        return MediaFile("video", urls, rel_stem, ".mp4")
+        width, height = plain_size(node)
+        media = MediaFile("video", urls, rel_stem, ".mp4", plain_res=f"{width}x{height}" if width and height else "")
+        dash = dash_choice(node)
+        # Daha büyük (ya da aynı) çözünürlükte DASH akışı varsa onu kullan; indirilemezse normal sürüme dönülür.
+        if dash is not None and dash.video.area >= width * height:
+            media.dash = dash
+        return media
     urls = image_urls(node)
     return MediaFile("image", urls, rel_stem, "")
 
@@ -353,7 +451,7 @@ def build_post(item: Dict[str, Any], *, content: str, kind: str = KIND_POST,
         if not _wanted(media.kind, content):
             unmatched += 1
             continue
-        if not media.urls:
+        if not media.urls and media.dash is None:
             if media.kind == "video":
                 missing_video += 1
             continue

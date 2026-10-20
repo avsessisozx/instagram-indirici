@@ -1,4 +1,4 @@
 """Instagram İndirici — herkese açık Instagram profillerini toplu indiren Türkçe masaüstü aracı."""
 
-__version__ = "1.2.1"
+__version__ = "1.3.0"
 APP_NAME = "Instagram İndirici"
