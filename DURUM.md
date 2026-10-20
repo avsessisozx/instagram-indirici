@@ -107,8 +107,8 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   `android/app/src/test/resources/mp4mux`, JVM testi Mp4MuxTest). Parçalı mp4 görüntü+ses → düz mp4 (moov önde), yeniden kodlama yok.
   `SmartMuxer`: önce MediaMuxer (H.264+AAC), olmazsa Mp4Mux. Akış seçimi: önce çözünürlük, eşitse H.264, sonra bit hızı.
   Yerelde Kotlin derleyicisi: GitHub'dan kotlin-compiler zip indirilip Mp4Mux.kt tek başına derlenebiliyor (Android SDK gerekmeden).
-  Telefonda doğrulanmadı: VP9 mp4 Galeri'de oynuyor mu, rapor satırı "Video kalitesi: 1080x1920 … (en yüksek kalite akışı)" mı?
-  Oynamazsa: başka oynatıcıyla dene, Galeri VP9-mp4 desteklemiyorsa seçenek (H.264 yoksa 720p) düşün.
+  Telefonda DOĞRULANDI (Mi 10T Pro, Android 12): rapor "Video kalitesi: 1080x1920, 3.6 Mb/sn (en yüksek kalite akışı)";
+  dosya 1080x1920 VP9 60 fps + HE-AAC stereo, 4,9 MB, 11 sn; oynuyor, ses sorunsuz.
 
 ## Yarım / sıradaki
 - v1.3.0 gerçek Instagram'da denenmedi (buradan erişim yok). Kullanıcıdan bakılacaklar: (1) indirilen videoda Ayrıntılar'daki
