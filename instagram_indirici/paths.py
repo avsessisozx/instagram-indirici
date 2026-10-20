@@ -13,6 +13,8 @@ CONTENT_VIDEO = "video"
 CONTENT_IMAGE = "image"
 CONTENT_CHOICES = (CONTENT_ALL, CONTENT_VIDEO, CONTENT_IMAGE)
 LIMIT_CHOICES = (0, 12, 30, 50, 100, 300)
+IDENTITY_CHOICES = ("desktop", "android", "tablet")   # Instagram'a hangi cihazmış gibi görünülür
+SPEED_CHOICES = ("normal", "careful", "very_careful")  # istek hızı
 
 
 def app_data_dir() -> Path:
@@ -68,6 +70,10 @@ DEFAULT_SETTINGS: Dict[str, Any] = {
     "history": True,
     "auto_continue": True,
     "lang": "auto",
+    "identity": "desktop",
+    "speed": "normal",
+    "setup_done": False,    # ilk açılış sihirbazı bitti mi
+    "no_confirm": False,    # silmeden önce onay sorma
 }
 
 
@@ -97,8 +103,11 @@ def clean_settings(settings: Dict[str, Any]) -> Dict[str, Any]:
     except (TypeError, ValueError):
         limit = 0
     out["limit"] = max(0, min(limit, 100000))
-    for key in ("posts", "stories", "highlights", "avatar", "only_new", "history", "auto_continue"):
+    for key in ("posts", "stories", "highlights", "avatar", "only_new", "history", "auto_continue",
+                "setup_done", "no_confirm"):
         out[key] = bool(settings.get(key, DEFAULT_SETTINGS[key]))
+    out["identity"] = settings.get("identity") if settings.get("identity") in IDENTITY_CHOICES else "desktop"
+    out["speed"] = settings.get("speed") if settings.get("speed") in SPEED_CHOICES else "normal"
     lang = str(settings.get("lang") or "auto")
     from .i18n import available_languages
     out["lang"] = lang if lang in {item["code"] for item in available_languages()} else "auto"

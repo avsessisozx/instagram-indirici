@@ -2,31 +2,31 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Instagram İndirici</title>
 <style>
 :root {
-  --bg: #e9edf2;
+  --bg: #f4f2ef;
   --surface: #ffffff;
-  --ink: #182033;
-  --muted: #5a6478;
-  --line: #d3dae4;
-  --accent: #3f3fc9;
-  --accent-ink: #ffffff;
-  --accent-soft: #e9e9fb;
-  --ok: #0e7a5f;
-  --ok-soft: #e2f4ee;
-  --warn: #8a5800;
-  --warn-soft: #fff1cc;
-  --err: #b3122b;
-  --err-soft: #fbe9ec;
+  --surface2: #efece8;
+  --ink: #1b1b1d;
+  --muted: #66666e;
+  --line: #e1ddd8;
+  --accent: #b84a05;          /* vurgu metni */
+  --accent-soft: #fdeadb;
+  --btn: #e8600a;             /* ana düğme */
+  --btn-ink: #ffffff;
+  --ok: #0e7a5f; --ok-soft: #e2f4ee;
+  --warn: #8a5800; --warn-soft: #fff1cc;
+  --err: #b3122b; --err-soft: #fbe9ec;
   --focus: #2f6fed;
+  --radius: 22px;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #12161e; --surface: #1b212c; --ink: #e6eaf1; --muted: #98a2b5; --line: #2c3443;
-    --accent: #8f94ff; --accent-ink: #0b0c2a; --accent-soft: #23254a;
+    --bg: #121212; --surface: #1d1d1f; --surface2: #262629; --ink: #f3f3f3; --muted: #9b9ba3; --line: #2e2e33;
+    --accent: #ff7a1a; --accent-soft: #3a2412; --btn: #f26a0c; --btn-ink: #ffffff;
     --ok: #3dcb9b; --ok-soft: #12302a; --warn: #ffcf66; --warn-soft: #3a2f12; --err: #ff6b7d; --err-soft: #3a1820;
     --focus: #7aa7ff;
     color-scheme: dark;
@@ -38,46 +38,66 @@ html, body { margin: 0; }
 body {
   background: var(--bg);
   color: var(--ink);
-  font: 15px/1.5 "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+  font: 16px/1.45 "Segoe UI Variable Text", "Segoe UI", Roboto, system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
 }
-main { max-width: 700px; margin: 0 auto; padding: 28px 18px 40px; }
-h1 { font: 650 26px/1.2 "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif; margin: 0; letter-spacing: -0.01em; }
-.lead { color: var(--muted); margin: 4px 0 22px; }
+body.loading #views, body.loading .tabs { visibility: hidden; }
 button, input, select { font: inherit; color: inherit; }
+button { -webkit-appearance: none; appearance: none; }
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
-.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; margin-bottom: 14px; }
-.step { display: grid; grid-template-columns: 30px 1fr; gap: 0 12px; }
-.step > div { min-width: 0; }
-.step-num { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--line); display: grid; place-items: center; font-weight: 650; font-size: 14px; color: var(--muted); }
-.step.done .step-num { border-color: var(--ok); color: var(--ok); }
-.step h2 { font-size: 16px; font-weight: 650; margin: 2px 0 10px; }
+/* ---------- iskelet: üstte içerik, altta sekmeler ---------- */
+#views { max-width: 640px; margin: 0 auto; padding: 26px 16px calc(104px + env(safe-area-inset-bottom)); }
+.view-head { margin: 0 4px 16px; }
+h1 { font: 700 30px/1.15 "Segoe UI Variable Display", "Segoe UI", Roboto, system-ui, sans-serif; margin: 0; letter-spacing: -0.015em; }
+#view-download h1 { color: var(--accent); }
+.lead { color: var(--muted); margin: 6px 0 0; font-size: 15px; }
+h2 { font-size: 17px; font-weight: 650; margin: 0 0 12px; }
+.sec { color: var(--accent); font-size: 15px; font-weight: 650; margin: 26px 6px 10px; }
 
-/* Link alanı: programın kalbi */
+.card { background: var(--surface); border-radius: var(--radius); padding: 18px 18px; margin-bottom: 12px; }
+.card.flush { padding: 4px 18px; }
+
+/* adım kartlarının başlığında durum işareti: tamamlanınca yeşil tik */
+.step > h2 { display: flex; align-items: center; gap: 10px; }
+.step > h2::before {
+  content: ""; width: 20px; height: 20px; border-radius: 50%; flex: none;
+  border: 2px solid var(--line); background: transparent center / 12px no-repeat;
+}
+.step.done > h2::before {
+  border-color: var(--ok); background-color: var(--ok);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.4l2.3 2.3L9.5 3.6' fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+/* ---------- link alanı ---------- */
 .link-row { display: flex; gap: 8px; }
 .link-row input {
-  flex: 1; min-width: 0; height: 52px; padding: 0 16px; font-size: 16px;
-  background: var(--bg); border: 1.5px solid var(--line); border-radius: 10px;
+  flex: 1; min-width: 0; height: 54px; padding: 0 16px; font-size: 16px;
+  background: var(--surface2); border: 2px solid transparent; border-radius: 16px;
 }
-.link-row input:focus { border-color: var(--focus); outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 22%, transparent); }
-.detect { min-height: 22px; margin-top: 8px; font-size: 14px; color: var(--muted); }
+.link-row input:focus { border-color: var(--accent); outline: none; }
+.detect { min-height: 22px; margin-top: 10px; font-size: 14.5px; color: var(--muted); }
 .detect.ok { color: var(--ok); }
 .detect.err { color: var(--err); }
 
 .btn {
-  height: 40px; padding: 0 16px; border-radius: 9px; border: 1.5px solid var(--line);
-  background: var(--surface); cursor: pointer; font-weight: 600; white-space: nowrap;
+  min-height: 44px; padding: 0 18px; border-radius: 14px; border: 0;
+  background: var(--surface2); cursor: pointer; font-weight: 600; white-space: nowrap;
 }
-.btn:hover { border-color: var(--muted); }
+.btn:hover { filter: brightness(1.08); }
 .btn:disabled { opacity: .5; cursor: not-allowed; }
-.link-row .btn { height: 52px; }
+.btn.primary { background: var(--btn); color: var(--btn-ink); }
+.btn.danger { color: var(--err); }
+.link-row .btn { height: 54px; border-radius: 16px; }
 
+/* ---------- seçim kartları ---------- */
 .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .choice { position: relative; }
 .choice input { position: absolute; opacity: 0; pointer-events: none; }
 .choice label {
-  display: block; height: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 10px; cursor: pointer;
+  display: block; height: 100%; padding: 14px 16px; border-radius: 16px; cursor: pointer;
+  background: var(--surface2); border: 2px solid transparent;
 }
 .choice label b { display: block; font-weight: 650; }
 .choice label span { display: block; color: var(--muted); font-size: 13.5px; margin-top: 2px; }
@@ -85,55 +105,86 @@ button, input, select { font: inherit; color: inherit; }
 .choice input:focus-visible + label { outline: 2px solid var(--focus); outline-offset: 2px; }
 .choice input:disabled + label { opacity: .45; cursor: not-allowed; }
 
-.rows { display: grid; gap: 12px; }
-.row { display: grid; grid-template-columns: 150px 1fr; align-items: center; gap: 10px; }
+/* ---------- satırlar: ayar listesi görünümü ---------- */
+.rows { display: grid; }
+.row { display: grid; grid-template-columns: 130px 1fr; align-items: center; gap: 10px; padding: 12px 0; }
+.row + .row { border-top: 1px solid var(--line); }
 .row > .lbl { color: var(--muted); font-size: 14px; }
-.seg { display: inline-flex; flex-wrap: wrap; border: 1.5px solid var(--line); border-radius: 9px; overflow: hidden; }
+.seg { display: inline-flex; flex-wrap: wrap; background: var(--surface2); border-radius: 12px; padding: 3px; gap: 2px; }
 .seg input { position: absolute; opacity: 0; pointer-events: none; }
-.seg label { padding: 7px 13px; cursor: pointer; font-size: 14px; border-right: 1px solid var(--line); }
-.seg label:last-of-type { border-right: 0; }
-.seg input:checked + label { background: var(--ink); color: var(--surface); }
-.seg input:focus-visible + label { outline: 2px solid var(--focus); outline-offset: -2px; }
-select { height: 38px; padding: 0 10px; border-radius: 9px; border: 1.5px solid var(--line); background: var(--surface); }
+.seg label { padding: 7px 14px; cursor: pointer; font-size: 14.5px; border-radius: 9px; }
+.seg input:checked + label { background: var(--btn); color: var(--btn-ink); font-weight: 600; }
+.seg input:focus-visible + label { outline: 2px solid var(--focus); outline-offset: 1px; }
+.seg input:disabled + label { opacity: .5; cursor: not-allowed; }
+select { height: 42px; padding: 0 12px; border-radius: 12px; border: 0; background: var(--surface2); max-width: 100%; }
+.what { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
 .check { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
-.check input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--accent); }
+.check input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--btn); flex: none; }
 .check small { display: block; color: var(--muted); font-size: 13px; }
-.folder-row { display: flex; gap: 8px; }
-.folder-row input { flex: 1; min-width: 0; height: 40px; padding: 0 12px; border-radius: 9px; border: 1.5px solid var(--line); background: var(--bg); font-size: 14px; }
 
+/* anahtar (switch) satırı */
+.opt { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; cursor: pointer; }
+.opt + .opt, .opt + .plain, .plain + .opt, .plain + .plain { border-top: 1px solid var(--line); }
+.opt .txt { min-width: 0; }
+.opt .txt b { display: block; font-weight: 500; }
+.opt .txt small, .plain small { display: block; color: var(--muted); font-size: 13.5px; margin-top: 2px; line-height: 1.4; }
+input.switch {
+  -webkit-appearance: none; appearance: none; flex: none; width: 50px; height: 30px; margin: 0; border-radius: 15px;
+  background: var(--line); position: relative; cursor: pointer; transition: background .15s;
+}
+input.switch::after {
+  content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.35); transition: transform .15s;
+}
+input.switch:checked { background: var(--btn); }
+input.switch:checked::after { transform: translateX(20px); }
+input.switch:disabled { opacity: .5; cursor: not-allowed; }
+.plain { padding: 14px 0; }
+.plain > b { display: block; font-weight: 500; margin-bottom: 8px; }
+.folder-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.folder-row input { flex: 1 1 220px; min-width: 0; height: 44px; padding: 0 12px; border-radius: 12px; border: 0; background: var(--surface2); font-size: 14px; }
+.folder-static { padding: 11px 14px; border-radius: 12px; background: var(--surface2); font-size: 14px; }
+.linklike { background: none; border: 0; padding: 4px 0; color: var(--accent); cursor: pointer; font-size: 14px; font-weight: 600; }
+.linklike:disabled { opacity: .5; cursor: not-allowed; }
+.hint { color: var(--muted); font-size: 13px; margin-left: 10px; }
+
+/* ---------- başlat düğmesi ---------- */
 .start {
-  width: 100%; height: 56px; border-radius: 12px; border: 0; cursor: pointer;
-  background: var(--accent); color: var(--accent-ink); font-size: 17px; font-weight: 650;
+  width: 100%; min-height: 58px; border-radius: 18px; border: 0; cursor: pointer; margin-top: 4px;
+  background: var(--btn); color: var(--btn-ink); font-size: 18px; font-weight: 700;
 }
 .start:hover { filter: brightness(1.06); }
-.start.stop { background: var(--ink); color: var(--surface); }
+.start.stop { background: var(--surface2); color: var(--ink); }
 .start:disabled { opacity: .5; cursor: not-allowed; }
-.form-error { color: var(--err); font-size: 14px; margin: 8px 2px 0; min-height: 20px; }
+.form-error { color: var(--err); font-size: 14px; margin: 8px 4px 0; min-height: 20px; }
 
-/* İlerleme */
-#progress[hidden] { display: none; }
-.status { font-size: 17px; font-weight: 650; margin: 0 0 4px; }
-.sub { color: var(--muted); font-size: 14px; margin: 0 0 12px; overflow-wrap: anywhere; }
-.bar { height: 10px; border-radius: 6px; background: var(--bg); border: 1px solid var(--line); overflow: hidden; }
-.bar > i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .3s ease; }
+/* ---------- ilerleme: büyük sayı ---------- */
+#progress { text-align: center; padding: 20px 18px 18px; }
+.status { font-size: 17px; font-weight: 650; margin: 0 0 2px; }
+.sub { color: var(--muted); font-size: 14px; margin: 0; overflow-wrap: anywhere; min-height: 21px; }
+.hero { display: flex; align-items: baseline; justify-content: center; gap: 6px; margin: 14px 0 4px; }
+.hero b { font: 800 76px/1 "Segoe UI Variable Display", "Segoe UI", Roboto, system-ui, sans-serif; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.hero span { color: var(--muted); font-size: 18px; }
+#progress[data-state="running"] .hero b { color: var(--accent); }
+#progress[data-state="done"] .hero b { color: var(--ok); }
+#progress[data-state="error"] .hero b { color: var(--err); }
+.bar { height: 8px; border-radius: 6px; background: var(--surface2); overflow: hidden; margin: 12px 0 0; }
+.bar > i { display: block; height: 100%; width: 0; background: var(--btn); border-radius: 6px; transition: width .3s ease; }
 .bar.indet > i { width: 30%; animation: slide 1.2s ease-in-out infinite; }
 @keyframes slide { 0% { margin-left: -30%; } 100% { margin-left: 100%; } }
-@media (prefers-reduced-motion: reduce) { .bar.indet > i { animation: none; width: 100%; opacity: .35; } .bar > i { transition: none; } }
-.counts { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 12px; font-size: 14px; color: var(--muted); }
-.counts b { color: var(--ink); font-variant-numeric: tabular-nums; }
-.note { border-radius: 10px; padding: 12px 14px; margin-top: 12px; font-size: 14.5px; }
+@media (prefers-reduced-motion: reduce) { .bar.indet > i { animation: none; width: 100%; opacity: .35; } .bar > i { transition: none; } input.switch, input.switch::after { transition: none; } }
+.counts { display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: 8px; margin-top: 16px; text-align: left; }
+.tile { background: var(--surface2); border-radius: 16px; padding: 10px 14px; }
+.tile small { display: block; color: var(--muted); font-size: 13px; }
+.tile b { display: block; font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.tile.bad b { color: var(--err); }
+.note { border-radius: 16px; padding: 12px 14px; margin-top: 12px; font-size: 14.5px; text-align: left; }
 .note.warn { background: var(--warn-soft); color: var(--warn); }
 .note.ok { background: var(--ok-soft); color: var(--ok); }
 .note.err { background: var(--err-soft); color: var(--err); }
-.what { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; }
-.account { display: inline-flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.account .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); display: inline-block; }
-.account.on .dot { background: var(--ok); }
-@media (max-width: 560px) { .what { grid-template-columns: 1fr; } }
 .note .btn { margin-top: 10px; }
-.actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-
-details { margin-top: 14px; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; justify-content: center; }
+details { margin-top: 14px; text-align: left; }
 summary { cursor: pointer; color: var(--muted); font-size: 14px; }
 .log { margin-top: 8px; max-height: 240px; overflow: auto; font-size: 13px; line-height: 1.45; border-top: 1px solid var(--line); padding-top: 8px; }
 .log div { padding: 2px 0; overflow-wrap: anywhere; }
@@ -143,50 +194,117 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
 .log .ok { color: var(--ok); }
 .log .debug { display: none; }
 
-.foot { color: var(--muted); font-size: 13.5px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
-.linklike { background: none; border: 0; padding: 0; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; font-size: 13.5px; }
-.linklike:disabled { opacity: .5; cursor: not-allowed; }
+/* ---------- hesap ---------- */
+.account { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.account .who { display: inline-flex; gap: 10px; align-items: center; }
+.account .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); display: inline-block; }
+.account.on .dot { background: var(--ok); }
 
-@media (max-width: 560px) {
-  .choices { grid-template-columns: 1fr; }
-  .row { grid-template-columns: 1fr; gap: 6px; }
-  .link-row { flex-direction: column; }
-  .link-row input { flex: none; }
-  .link-row .btn { height: 44px; }
-  .folder-row { flex-wrap: wrap; }
-  .folder-row input { flex-basis: 100%; }
-}
-.small-gap { margin: 6px 0 0 28px; }
-.hint { color: var(--muted); font-size: 13px; margin-left: 10px; }
-.foot select { height: 30px; font-size: 13px; padding: 0 6px; }
-.foot label { display: inline-flex; gap: 6px; align-items: center; }
-.folder-static { padding: 9px 12px; border-radius: 9px; background: var(--bg); border: 1.5px solid var(--line); font-size: 14px; }
-.btn.danger { border-color: var(--err); color: var(--err); }
-.adv-row { margin: 16px 0 0; }
-.adv-row .lbl2 { display: block; font-weight: 600; margin-bottom: 6px; }
-.adv-row small { display: block; color: var(--muted); font-size: 13px; margin-top: 6px; line-height: 1.4; }
-.adv-row select { max-width: 100%; }
+/* ---------- geçmiş ---------- */
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.stats .tile { padding: 14px 16px; border-radius: 18px; background: var(--surface); }
+.day { display: flex; justify-content: space-between; align-items: baseline; margin: 20px 6px 8px; color: var(--accent); font-weight: 650; font-size: 15px; }
+.day span { color: var(--muted); font-weight: 400; font-size: 14px; }
+.person { display: grid; grid-template-columns: 46px 1fr; gap: 14px; align-items: center; background: var(--surface); border-radius: 18px; padding: 14px 16px; margin-bottom: 8px; }
+.person .av { width: 46px; height: 46px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 700; font-size: 19px; text-transform: uppercase; }
+.person .nm { font-weight: 600; overflow-wrap: anywhere; }
+.person .meta { color: var(--muted); font-size: 14px; }
+.person .acts { grid-column: 1 / -1; display: flex; gap: 8px; flex-wrap: wrap; }
+.person .acts .btn { min-height: 40px; padding: 0 14px; font-size: 14.5px; }
+.empty { text-align: center; padding: 56px 24px 24px; color: var(--muted); }
+.empty b { display: block; color: var(--ink); font-size: 18px; margin-bottom: 6px; }
+.note-foot { color: var(--muted); font-size: 13.5px; margin: 18px 6px 0; line-height: 1.5; }
+
+/* ---------- gelişmiş ---------- */
+.adv-row { padding: 14px 0; }
+.adv-row + .adv-row { border-top: 1px solid var(--line); }
+.adv-row .lbl2 { display: block; font-weight: 500; margin-bottom: 8px; }
+.adv-row small { display: block; color: var(--muted); font-size: 13.5px; margin-top: 8px; line-height: 1.4; }
 .adv-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.adv-msg { color: var(--muted); font-size: 13px; margin-top: 6px; min-height: 18px; }
-.modal { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 50; }
+.adv-msg { color: var(--muted); font-size: 13.5px; margin-top: 6px; min-height: 18px; }
+.about { color: var(--muted); font-size: 13.5px; text-align: center; margin: 26px 0 0; }
+
+/* ---------- alt sekmeler ---------- */
+.tabs {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  background: var(--surface); border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.tabs-in { max-width: 640px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); }
+.tab {
+  background: none; border: 0; cursor: pointer; color: var(--muted); padding: 10px 4px 9px;
+  display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 13px; font-weight: 500; min-height: 62px;
+}
+.tab svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.tab[aria-selected="true"] { color: var(--accent); font-weight: 650; }
+
+/* ---------- pencereler ---------- */
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,.6); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 50; }
 .modal[hidden] { display: none; }
-.modal-box { background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 14px; padding: 20px; max-width: 420px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,.35); }
-.modal-box h3 { margin: 0 0 8px; font-size: 18px; }
-.modal-box p { margin: 0 0 14px; line-height: 1.45; }
-.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+.modal-box { background: var(--surface); color: var(--ink); border-radius: 26px; padding: 22px; max-width: 420px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,.4); }
+.modal-box h3 { margin: 0 0 8px; font-size: 20px; font-weight: 600; }
+.modal-box p { margin: 0 0 14px; line-height: 1.45; color: var(--muted); }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; }
+
+/* ---------- ilk açılış sihirbazı ---------- */
+.wizard { position: fixed; inset: 0; z-index: 60; background: var(--bg); display: flex; flex-direction: column; padding: 28px 24px calc(28px + env(safe-area-inset-bottom)); }
+.wizard-in { width: 100%; max-width: 480px; margin: 0 auto; flex: 1; display: flex; flex-direction: column; }
+.wz-step { text-align: center; color: var(--muted); font-size: 14px; min-height: 22px; }
+.wz-page { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 14px; }
+.wz-icon { width: 104px; height: 104px; border-radius: 50%; background: var(--btn); display: grid; place-items: center; margin-bottom: 10px; }
+.wz-icon svg { width: 54px; height: 54px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.wz-page h2 { font-size: 27px; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
+.wz-page p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.5; max-width: 380px; }
+.wz-page .accent { color: var(--accent); }
+.wz-page select { margin-top: 8px; min-width: 200px; }
+.wz-path { background: var(--surface); border-radius: 14px; padding: 10px 14px; font-size: 14px; overflow-wrap: anywhere; max-width: 100%; }
+.wz-actions { display: grid; gap: 6px; }
+.wz-actions .start { margin: 0; }
+.wz-actions .skip { background: none; border: 0; cursor: pointer; color: var(--muted); font-size: 16px; min-height: 48px; }
+
 .is-mobile .desktop-only { display: none !important; }
 .is-desktop .mobile-only { display: none !important; }
-body.loading main { visibility: hidden; }
+
+@media (min-width: 720px) {
+  #views { padding-top: 34px; }
+}
+@media (max-width: 560px) {
+  .choices { grid-template-columns: 1fr; }
+  .what { grid-template-columns: 1fr; }
+  .row { grid-template-columns: 1fr; gap: 6px; }
+  .link-row { flex-direction: column; }
+  .link-row .btn { height: 48px; }
+  .hero b { font-size: 64px; }
+}
 </style>
 </head>
 <body class="loading">
-<main>
-  <h1 data-i18n="ui.app_title"></h1>
-  <p class="lead" data-i18n="ui.lead"></p>
 
-  <section class="panel step" id="step1">
-    <div class="step-num">1</div>
-    <div>
+<div id="views">
+  <!-- ===================== İNDİR ===================== -->
+  <section id="view-download" data-view="download" role="tabpanel" aria-labelledby="tab-download">
+    <header class="view-head">
+      <h1 data-i18n="ui.app_title"></h1>
+      <p class="lead" data-i18n="ui.lead"></p>
+    </header>
+
+    <section class="card" id="progress" hidden aria-live="polite" data-state="idle">
+      <p class="status" id="status"></p>
+      <p class="sub" id="sub"></p>
+      <div class="hero" id="hero"><b id="hero-num">0</b><span id="hero-unit">%</span></div>
+      <div class="bar" id="bar"><i></i></div>
+      <div class="counts" id="counts"></div>
+      <div id="notes"></div>
+      <div class="actions" id="done-actions" hidden>
+        <button class="btn primary" id="open-result" type="button"></button>
+      </div>
+      <details id="details">
+        <summary data-i18n="ui.details"></summary>
+        <div class="log" id="log"></div>
+      </details>
+    </section>
+
+    <section class="card step" id="step1">
       <h2 data-i18n="ui.step1_title"></h2>
       <div class="link-row">
         <input id="link" type="text" autocomplete="off" spellcheck="false" inputmode="url"
@@ -194,12 +312,9 @@ body.loading main { visibility: hidden; }
         <button class="btn" id="paste" type="button" data-i18n="ui.paste"></button>
       </div>
       <div class="detect" id="detect" aria-live="polite"></div>
-    </div>
-  </section>
+    </section>
 
-  <section class="panel step" id="step2">
-    <div class="step-num">2</div>
-    <div>
+    <section class="card step" id="step2">
       <h2 id="step2-title" data-i18n="ui.step2_title"></h2>
       <div class="choices" role="radiogroup" aria-labelledby="step2-title">
         <div class="choice">
@@ -211,12 +326,9 @@ body.loading main { visibility: hidden; }
           <label for="mode-profile"><b data-i18n="ui.mode_profile_title"></b><span id="profile-hint"></span></label>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="panel step" id="step3">
-    <div class="step-num">3</div>
-    <div>
+    <section class="card" id="step3">
       <h2 data-i18n="ui.step3_title"></h2>
       <div class="rows">
         <div class="row" id="row-what">
@@ -257,60 +369,72 @@ body.loading main { visibility: hidden; }
             </span>
           </label>
         </div>
-        <div class="row" id="row-history">
-          <span class="lbl"></span>
-          <div>
-            <label class="check"><input type="checkbox" id="history">
-              <span><span data-i18n="ui.history_title"></span>
-                <small data-i18n="ui.history_desc"></small>
-              </span>
-            </label>
-            <button class="linklike small-gap" id="clear-history" type="button" data-i18n="ui.history_clear"></button>
-            <span class="hint" id="history-msg" aria-live="polite"></span>
-          </div>
+      </div>
+    </section>
+
+    <button class="start" id="start" type="button" data-i18n="ui.start"></button>
+    <div class="form-error" id="form-error" role="alert"></div>
+  </section>
+
+  <!-- ===================== GEÇMİŞ ===================== -->
+  <section id="view-history" data-view="history" role="tabpanel" aria-labelledby="tab-history" hidden>
+    <header class="view-head"><h1 data-i18n="ui.hist_title"></h1></header>
+    <div class="stats">
+      <div class="tile"><small data-i18n="ui.hist_profiles"></small><b id="hist-profiles">0</b></div>
+      <div class="tile"><small data-i18n="ui.hist_posts"></small><b id="hist-posts">0</b></div>
+    </div>
+    <div id="hist-list"></div>
+    <div class="empty" id="hist-empty" hidden>
+      <b data-i18n="ui.hist_empty_title"></b>
+      <span data-i18n="ui.hist_empty_text"></span>
+    </div>
+    <p class="note-foot" data-i18n="ui.hist_note"></p>
+  </section>
+
+  <!-- ===================== AYARLAR ===================== -->
+  <section id="view-settings" data-view="settings" role="tabpanel" aria-labelledby="tab-settings" hidden>
+    <header class="view-head"><h1 data-i18n="ui.settings_title"></h1></header>
+
+    <h3 class="sec" data-i18n="ui.sec_download"></h3>
+    <div class="card flush">
+      <div class="plain" id="row-folder">
+        <b data-i18n="ui.folder_label"></b>
+        <div class="folder-row desktop-only">
+          <input id="outdir" type="text" spellcheck="false" aria-label="">
+          <button class="btn" id="choose" type="button" data-i18n="ui.folder_change"></button>
+          <button class="btn" id="openout" type="button" data-i18n="ui.folder_open"></button>
         </div>
-        <div class="row" id="row-auto">
-          <span class="lbl"></span>
-          <label class="check"><input type="checkbox" id="autocont">
-            <span><span data-i18n="ui.auto_title"></span>
-              <small data-i18n="ui.auto_desc"></small>
-            </span>
-          </label>
-        </div>
-        <div class="row">
-          <label class="lbl" for="outdir" data-i18n="ui.folder_label"></label>
-          <div class="folder-row desktop-only">
-            <input id="outdir" type="text" spellcheck="false">
-            <button class="btn" id="choose" type="button" data-i18n="ui.folder_change"></button>
-            <button class="btn" id="openout" type="button" data-i18n="ui.folder_open"></button>
-          </div>
-          <div class="folder-static mobile-only" data-i18n="ui.folder_mobile_value"></div>
-        </div>
+        <div class="folder-static mobile-only" data-i18n="ui.folder_mobile_value"></div>
+      </div>
+      <label class="opt" id="row-history">
+        <span class="txt"><b data-i18n="ui.history_title"></b><small data-i18n="ui.history_desc"></small></span>
+        <input class="switch" type="checkbox" id="history">
+      </label>
+      <label class="opt" id="row-auto">
+        <span class="txt"><b data-i18n="ui.auto_title"></b><small data-i18n="ui.auto_desc"></small></span>
+        <input class="switch" type="checkbox" id="autocont">
+      </label>
+      <div class="plain">
+        <button class="linklike" id="clear-history" type="button" data-i18n="ui.history_clear"></button>
+        <span class="hint" id="history-msg" aria-live="polite"></span>
       </div>
     </div>
-  </section>
 
-  <button class="start" id="start" type="button" data-i18n="ui.start"></button>
-  <div class="form-error" id="form-error" role="alert"></div>
-
-  <section class="panel" id="progress" hidden aria-live="polite">
-    <p class="status" id="status"></p>
-    <p class="sub" id="sub"></p>
-    <div class="bar" id="bar"><i></i></div>
-    <div class="counts" id="counts"></div>
-    <div id="notes"></div>
-    <div class="actions" id="done-actions" hidden>
-      <button class="btn" id="open-result" type="button"></button>
+    <h3 class="sec" data-i18n="ui.sec_account"></h3>
+    <div class="card">
+      <div class="account" id="account">
+        <span class="who"><i class="dot" aria-hidden="true"></i><span id="account-text"></span></span>
+        <button class="btn" id="login" type="button"></button>
+      </div>
     </div>
-    <details id="details">
-      <summary data-i18n="ui.details"></summary>
-      <div class="log" id="log"></div>
-    </details>
-  </section>
 
-  <section class="panel mobile-only" id="advanced">
-    <details>
-      <summary data-i18n="ui.advanced_title"></summary>
+    <h3 class="sec" data-i18n="ui.sec_language"></h3>
+    <div class="card">
+      <select id="lang" aria-label="Language"></select>
+    </div>
+
+    <h3 class="sec" data-i18n="ui.advanced_title"></h3>
+    <div class="card flush" id="advanced">
       <div class="adv-row">
         <label class="lbl2" for="identity" data-i18n="ui.identity_label"></label>
         <select id="identity">
@@ -318,7 +442,7 @@ body.loading main { visibility: hidden; }
           <option value="android" data-i18n="ui.identity_android"></option>
           <option value="tablet" data-i18n="ui.identity_tablet"></option>
         </select>
-        <small data-i18n="ui.identity_hint"></small>
+        <small id="identity-hint"></small>
       </div>
       <div class="adv-row">
         <label class="lbl2" for="speed" data-i18n="ui.speed_label"></label>
@@ -333,12 +457,12 @@ body.loading main { visibility: hidden; }
         <span class="lbl2" data-i18n="ui.report_label"></span>
         <div class="adv-actions">
           <button class="btn" id="report-copy" type="button" data-i18n="ui.report_copy"></button>
-          <button class="btn" id="report-share" type="button" data-i18n="ui.report_share"></button>
+          <button class="btn" id="report-share" type="button"></button>
         </div>
-        <small data-i18n="ui.report_hint"></small>
+        <small id="report-hint"></small>
         <div class="adv-msg" id="report-msg" aria-live="polite"></div>
       </div>
-      <div class="adv-row">
+      <div class="adv-row mobile-only">
         <span class="lbl2" data-i18n="ui.network_label"></span>
         <button class="btn" id="network-open" type="button" data-i18n="ui.network_open"></button>
         <small data-i18n="ui.network_hint"></small>
@@ -351,21 +475,36 @@ body.loading main { visibility: hidden; }
         </div>
         <small><span data-i18n="ui.cache_hint"></span> <span data-i18n="ui.cookies_hint"></span></small>
         <div class="adv-msg" id="adv-msg" aria-live="polite"></div>
-        <label class="check"><input type="checkbox" id="confirm-ask"><span data-i18n="ui.confirm_ask"></span></label>
       </div>
-    </details>
+      <label class="opt">
+        <span class="txt"><b data-i18n="ui.confirm_ask"></b></span>
+        <input class="switch" type="checkbox" id="confirm-ask">
+      </label>
+    </div>
+
+    <p class="about" id="version"></p>
   </section>
+</div>
 
-  <div class="foot">
-    <span class="account" id="account"><i class="dot" aria-hidden="true"></i><span id="account-text"></span>
-      <button class="linklike" id="login" type="button"></button></span>
-    <label><span data-i18n="ui.language_label"></span>
-      <select id="lang" aria-label="Language"></select>
-    </label>
-    <span id="version"></span>
+<!-- alt sekmeler -->
+<nav class="tabs" id="tabs" role="tablist">
+  <div class="tabs-in">
+    <button class="tab" id="tab-download" role="tab" type="button" data-tab="download" aria-selected="true" aria-controls="view-download">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v10m0 0l-4-4m4 4l4-4M5 19h14"/></svg>
+      <span data-i18n="ui.tab_download"></span>
+    </button>
+    <button class="tab" id="tab-history" role="tab" type="button" data-tab="history" aria-selected="false" aria-controls="view-history">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg>
+      <span data-i18n="ui.tab_history"></span>
+    </button>
+    <button class="tab" id="tab-settings" role="tab" type="button" data-tab="settings" aria-selected="false" aria-controls="view-settings">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>
+      <span data-i18n="ui.tab_settings"></span>
+    </button>
   </div>
-</main>
+</nav>
 
+<!-- onay penceresi: silmeden önce 5 sn kilitli düğme -->
 <div class="modal" id="confirm" role="dialog" aria-modal="true" aria-labelledby="confirm-title" hidden>
   <div class="modal-box">
     <h3 id="confirm-title" data-i18n="ui.confirm_title"></h3>
@@ -374,6 +513,24 @@ body.loading main { visibility: hidden; }
     <div class="modal-actions">
       <button class="btn" id="confirm-cancel" type="button" data-i18n="ui.confirm_cancel"></button>
       <button class="btn danger" id="confirm-ok" type="button" disabled></button>
+    </div>
+  </div>
+</div>
+
+<!-- ilk açılış sihirbazı -->
+<div class="wizard" id="wizard" role="dialog" aria-modal="true" aria-labelledby="wz-title" hidden>
+  <div class="wizard-in">
+    <div class="wz-step" id="wz-step"></div>
+    <div class="wz-page" id="wz-page">
+      <div class="wz-icon" id="wz-icon" aria-hidden="true"></div>
+      <h2 id="wz-title"></h2>
+      <p id="wz-text"></p>
+      <select id="wz-lang" aria-label="Language" hidden></select>
+      <div class="wz-path" id="wz-path" hidden></div>
+    </div>
+    <div class="wz-actions">
+      <button class="start" id="wz-next" type="button"></button>
+      <button class="skip" id="wz-skip" type="button"></button>
     </div>
   </div>
 </div>
@@ -406,7 +563,7 @@ body.loading main { visibility: hidden; }
   }
 
   // ---------------- çeviri
-  let S = {}, platform = 'desktop';
+  let S = {}, platform = 'desktop', langCode = 'en';
   const t = (key, params) => {
     if (key === 'summary') return summaryText(params || {});
     let text = S[key];
@@ -443,27 +600,47 @@ body.loading main { visibility: hidden; }
     document.body.classList.toggle('is-mobile', platform === 'mobile');
     document.body.classList.toggle('is-desktop', platform !== 'mobile');
     $('open-result').textContent = pick('ui.open_result');
+    $('report-share').textContent = pick('ui.report_share');
+    $('identity-hint').textContent = pick('ui.identity_hint');
+    $('report-hint').textContent = pick('ui.report_hint');
+    $('outdir').setAttribute('aria-label', t('ui.folder_label'));
   }
   async function loadStrings() {
     const r = await api('/api/strings');
     S = r.strings || {};
     platform = r.platform || 'desktop';
-    document.documentElement.lang = r.lang || 'en';
-    const sel = $('lang');
-    sel.textContent = '';
-    const auto = document.createElement('option'); auto.value = 'auto'; auto.textContent = t('ui.language_auto'); sel.appendChild(auto);
-    for (const l of r.languages || []) { const o = document.createElement('option'); o.value = l.code; o.textContent = l.name; sel.appendChild(o); }
-    sel.value = r.setting || 'auto';
+    langCode = r.lang || 'en';
+    document.documentElement.lang = langCode;
+    for (const sel of [$('lang'), $('wz-lang')]) {
+      sel.textContent = '';
+      const auto = document.createElement('option'); auto.value = 'auto'; auto.textContent = t('ui.language_auto'); sel.appendChild(auto);
+      for (const l of r.languages || []) { const o = document.createElement('option'); o.value = l.code; o.textContent = l.name; sel.appendChild(o); }
+      sel.value = r.setting || 'auto';
+    }
     applyStatic();
     renderDetect();
     updateModeRows();
     renderLog();
+    renderHistory();
+    if (wizardOpen) renderWizard();
     if (lastState) render(lastState, true);
   }
 
   let notesKey = '';
   let linkKind = null, running = false, logNext = 0, lastFolder = '', lastState = null;
   let settingsLoaded = false, parseTimer = null, parseSeq = 0, lastPhase = '', detectMsg = null, detectClass = '';
+  let currentSettings = {};
+
+  // ---------------- sekmeler
+  let view = 'download';
+  function showView(name) {
+    view = name;
+    document.querySelectorAll('[data-view]').forEach(el => { el.hidden = el.dataset.view !== name; });
+    document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === name ? 'true' : 'false'));
+    window.scrollTo(0, 0);
+    if (name === 'history') loadHistory();
+  }
+  document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => showView(b.dataset.tab)));
 
   // ---------------- link algılama
   const detect = $('detect');
@@ -481,12 +658,14 @@ body.loading main { visibility: hidden; }
   }
   function updateModeRows() {
     const isProfile = $('mode-profile').checked;
-    for (const id of ['row-what', 'row-content', 'row-limit', 'row-onlynew', 'row-history', 'row-auto']) $(id).hidden = !isProfile;
+    for (const id of ['row-what', 'row-content', 'row-limit', 'row-onlynew']) $(id).hidden = !isProfile;
+    const single = $('mode-single').checked;
+    $('step3').hidden = !isProfile;
     const owner = linkKind && linkKind !== 'profile';
     $('profile-hint').textContent = t(owner ? 'ui.mode_profile_desc_owner' : 'ui.mode_profile_desc');
     const singleKey = { story: 'ui.mode_single_desc_story', highlight: 'ui.mode_single_desc_highlight' }[linkKind] || 'ui.mode_single_desc';
     $('single-hint').textContent = t(singleKey);
-    $('step2').classList.toggle('done', $('mode-single').checked || isProfile);
+    $('step2').classList.toggle('done', single || isProfile);
   }
   async function parseLink() {
     const value = $('link').value.trim();
@@ -511,7 +690,7 @@ body.loading main { visibility: hidden; }
       renderDetect();
     }
   }
-  window.igSetLink = (text) => { $('link').value = text; parseLink(); };
+  window.igSetLink = (text) => { showView('download'); $('link').value = text; parseLink(); };
   $('link').addEventListener('input', () => { clearTimeout(parseTimer); parseTimer = setTimeout(parseLink, 200); });
   $('link').addEventListener('keydown', (e) => { if (e.key === 'Enter') startOrStop(); });
   $('paste').addEventListener('click', async () => {
@@ -542,10 +721,12 @@ body.loading main { visibility: hidden; }
       auto_continue: $('autocont').checked,
       out_dir: $('outdir').value.trim(),
       lang: $('lang').value || 'auto',
-      ...(platform === 'mobile' ? { identity: $('identity').value, speed: $('speed').value } : {}),
+      identity: $('identity').value,
+      speed: $('speed').value,
     };
   }
   function applySettings(s) {
+    currentSettings = s || {};
     const c = document.querySelector(`input[name=content][value="${s.content}"]`);
     if (c) c.checked = true;
     $('limit').value = String(s.limit);
@@ -559,19 +740,19 @@ body.loading main { visibility: hidden; }
     $('autocont').checked = s.auto_continue !== false;
     if (s.identity) $('identity').value = s.identity;
     if (s.speed) $('speed').value = s.speed;
+    $('confirm-ask').checked = !s.no_confirm;
     if (document.activeElement !== $('outdir')) $('outdir').value = s.out_dir || '';
   }
   const saveSettings = () => api('/api/settings', readSettings()).then(r => applySettings(r.settings)).catch(() => {});
+  const patchSettings = (patch) => api('/api/settings', patch).then(r => applySettings(r.settings)).catch(() => {});
   ['limit', 'w-posts', 'w-stories', 'w-highlights', 'w-avatar', 'onlynew', 'history', 'autocont', 'outdir', 'identity', 'speed'].forEach(id => $(id).addEventListener('change', saveSettings));
   document.querySelectorAll('input[name=content]').forEach(el => el.addEventListener('change', saveSettings));
   $('lang').addEventListener('change', async () => { await saveSettings(); await loadStrings(); });
 
-  // ---------------- silmeden önce onay (Android): 5 sn kilitli düğme + "bir daha gösterme"
-  const CONFIRM_KEY = 'ii.noConfirm';   // uygulamanın kendi verisinde (arayüzün localStorage'ı) saklanır
-  const confirmOff = () => { try { return localStorage.getItem(CONFIRM_KEY) === '1'; } catch (e) { return false; } };
-  const setConfirmOff = (off) => { try { if (off) localStorage.setItem(CONFIRM_KEY, '1'); else localStorage.removeItem(CONFIRM_KEY); } catch (e) {} };
+  // ---------------- silmeden önce onay: 5 sn kilitli düğme + "bir daha gösterme"
+  const OLD_CONFIRM_KEY = 'ii.noConfirm';   // eski sürümlerde arayüzün kendi verisinde saklanıyordu
+  const confirmOff = () => !!currentSettings.no_confirm;
   function confirmAction(text) {
-    if (platform !== 'mobile') return Promise.resolve(window.confirm(text));
     if (confirmOff()) return Promise.resolve(true);
     return new Promise((resolve) => {
       const box = $('confirm'), ok = $('confirm-ok'), cancel = $('confirm-cancel');
@@ -581,7 +762,7 @@ body.loading main { visibility: hidden; }
         clearInterval(timer);
         box.hidden = true;
         ok.onclick = null; cancel.onclick = null;
-        if (answer && $('confirm-never').checked) { setConfirmOff(true); $('confirm-ask').checked = false; }
+        if (answer && $('confirm-never').checked) patchSettings({ no_confirm: true });
         resolve(answer);
       };
       $('confirm-text').textContent = text;
@@ -594,8 +775,7 @@ body.loading main { visibility: hidden; }
       cancel.onclick = () => close(false);
     });
   }
-  $('confirm-ask').checked = !confirmOff();
-  $('confirm-ask').addEventListener('change', () => setConfirmOff(!$('confirm-ask').checked));
+  $('confirm-ask').addEventListener('change', () => patchSettings({ no_confirm: !$('confirm-ask').checked }));
 
   const advAction = async (path, msgId) => {
     try { const r = await api(path, {}); $(msgId).textContent = r.message ? renderMsg(r.message) : ''; }
@@ -612,7 +792,7 @@ body.loading main { visibility: hidden; }
 
   $('clear-history').addEventListener('click', async () => {
     if (!(await confirmAction(t('ui.history_confirm')))) return;
-    try { const r = await api('/api/clear-history', {}); $('history-msg').textContent = renderMsg(r.message); }
+    try { const r = await api('/api/clear-history', {}); $('history-msg').textContent = renderMsg(r.message); loadHistory(); }
     catch (e) { $('history-msg').textContent = errText(e); }
   });
   $('choose').addEventListener('click', async () => {
@@ -623,6 +803,65 @@ body.loading main { visibility: hidden; }
   });
   $('openout').addEventListener('click', () => api('/api/open-folder', { path: $('outdir').value.trim() }).catch(e => { $('form-error').textContent = errText(e); }));
   $('open-result').addEventListener('click', () => api('/api/open-folder', { path: lastFolder || $('outdir').value.trim() }).catch(e => { $('form-error').textContent = errText(e); }));
+
+  // ---------------- geçmiş sekmesi
+  let histData = { profiles: [], total: 0 };
+  async function loadHistory() {
+    try { histData = await api('/api/history-list'); } catch (e) { histData = { profiles: [], total: 0 }; }
+    renderHistory();
+  }
+  function dayKey(ts) { const d = new Date(ts * 1000); return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate(); }
+  function dayLabel(ts) {
+    try { return new Date(ts * 1000).toLocaleDateString(langCode, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); }
+    catch (e) { return new Date(ts * 1000).toDateString(); }
+  }
+  function renderHistory() {
+    const list = $('hist-list');
+    list.textContent = '';
+    const profiles = histData.profiles || [];
+    $('hist-profiles').textContent = String(profiles.length);
+    $('hist-posts').textContent = String(histData.total || 0);
+    $('hist-empty').hidden = profiles.length > 0;
+    let lastDay = 0;
+    const byDay = new Map();
+    for (const p of profiles) { const k = dayKey(p.last); if (!byDay.has(k)) byDay.set(k, []); byDay.get(k).push(p); }
+    for (const [k, items] of byDay) {
+      const head = el('div'); head.className = 'day';
+      head.appendChild(el('div', dayLabel(items[0].last)));
+      head.appendChild(el('span', t('ui.hist_posts_n', { n: items.reduce((a, p) => a + p.count, 0) })));
+      list.appendChild(head);
+      for (const p of items) list.appendChild(personCard(p));
+    }
+  }
+  function personCard(p) {
+    const card = el('div'); card.className = 'person';
+    const av = el('div', (p.username || '?').charAt(0)); av.className = 'av'; av.setAttribute('aria-hidden', 'true');
+    const info = el('div');
+    const nm = el('div', '@' + (p.username || '?')); nm.className = 'nm';
+    const meta = el('div', t('ui.hist_posts_n', { n: p.count })); meta.className = 'meta';
+    info.appendChild(nm); info.appendChild(meta);
+    card.appendChild(av); card.appendChild(info);
+    const acts = el('div'); acts.className = 'acts';
+    if (p.username) {
+      const up = el('button', t('ui.hist_update')); up.type = 'button'; up.className = 'btn primary';
+      up.onclick = () => igSetLink('https://www.instagram.com/' + p.username + '/');
+      acts.appendChild(up);
+    }
+    if (p.exists) {
+      const op = el('button', t('ui.hist_folder')); op.type = 'button'; op.className = 'btn';
+      op.onclick = () => api('/api/open-folder', { path: p.folder }).catch(() => {});
+      acts.appendChild(op);
+    }
+    const del = el('button', t('ui.hist_forget')); del.type = 'button'; del.className = 'btn danger'; del.disabled = running;
+    del.onclick = async () => {
+      if (!(await confirmAction(t('ui.hist_forget_confirm', { name: p.username || '?' })))) return;
+      try { await api('/api/history-forget', { user_id: p.user_id }); } catch (e) { $('form-error').textContent = errText(e); }
+      loadHistory();
+    };
+    acts.appendChild(del);
+    card.appendChild(acts);
+    return card;
+  }
 
   // ---------------- başlat / durdur
   async function startOrStop() {
@@ -650,6 +889,7 @@ body.loading main { visibility: hidden; }
   $('start').addEventListener('click', startOrStop);
   $('login').addEventListener('click', async () => {
     $('form-error').textContent = '';
+    showView('download');
     try { await api('/api/login', {}); clearLog(); $('progress').hidden = false; poll(true); }
     catch (e) { $('form-error').textContent = errText(e); }
   });
@@ -668,12 +908,13 @@ body.loading main { visibility: hidden; }
     document.querySelectorAll('#step2 input, #step3 input, #step3 select').forEach(e => {
       e.disabled = running || (e.id === 'mode-single' && linkKind === 'profile');
     });
+    document.querySelectorAll('#hist-list .btn.danger').forEach(b => { b.disabled = running; });
     if (s.version) $('version').textContent = t('ui.version', { v: s.version });
     const acc = s.logged_in === true;
     $('account').classList.toggle('on', acc);
     $('account-text').textContent = t(acc ? 'ui.account_on' : 'ui.account_off');
     $('login').textContent = t(acc ? 'ui.account_switch' : 'ui.login_link');
-    if (s.settings && !settingsLoaded) { applySettings(s.settings); settingsLoaded = true; }
+    if (s.settings && !settingsLoaded) { applySettings(s.settings); settingsLoaded = true; afterFirstSettings(s); }
 
     if (s.phase === 'idle') return;
     $('progress').hidden = false;
@@ -692,6 +933,7 @@ body.loading main { visibility: hidden; }
       const mm = Math.floor(s.waiting / 60), ss = String(s.waiting % 60).padStart(2, '0');
       status = t(s.wait_kind === 'pause' ? 'ui.status_waiting_pause' : 'ui.status_waiting_rate', { t: `${mm}:${ss}` });
       sub = s.current ? t('ui.sub_downloading', { name: s.current }) : '';
+      if (total > 0) pct = Math.min(100, finished / total * 100);
     } else if (running) {
       if (s.collecting) status = t('ui.status_scanning', { who, n: s.found_posts });
       else if (s.phase === 'collecting') status = t('ui.status_fetching_post');
@@ -713,17 +955,29 @@ body.loading main { visibility: hidden; }
     bar.classList.toggle('indet', running && pct === null);
     bar.firstElementChild.style.width = (pct === null ? 0 : pct) + '%';
 
+    // Büyük sayı: indirirken yüzde, tararken bulunan gönderi sayısı
+    const state = s.mode === 'login' ? (running ? 'running' : 'done') : running ? 'running' : s.phase === 'done' ? 'done' : (s.phase === 'error' ? 'error' : 'idle');
+    $('progress').dataset.state = state;
+    $('hero').hidden = s.mode === 'login';
+    if (pct === null) { $('hero-num').textContent = String(s.found_posts || 0); $('hero-unit').textContent = t('ui.hero_found'); }
+    else { $('hero-num').textContent = String(Math.round(pct)); $('hero-unit').textContent = '%'; }
+
     const counts = $('counts');
     counts.textContent = '';
+    counts.hidden = s.mode === 'login';
     if (s.mode !== 'login') {
-      const add = (key, n) => { const sp = el('span', t(key) + ' '); sp.appendChild(el('b', String(n))); counts.appendChild(sp); };
+      const add = (key, n, bad) => {
+        const tile = el('div'); tile.className = 'tile' + (bad ? ' bad' : '');
+        tile.appendChild(el('small', t(key))); tile.appendChild(el('b', String(n)));
+        counts.appendChild(tile);
+      };
       add('ui.count_found', s.found_posts);
       add('ui.count_done', s.files_done);
       if (s.files_skipped) add('ui.count_skipped', s.files_skipped);
       if (s.posts_skipped) add('ui.count_unmatched', s.posts_skipped);
       if (s.posts_unavailable) add('ui.count_unavailable', s.posts_unavailable);
       if (s.posts_known) add('ui.count_known', s.posts_known);
-      if (s.files_failed) add('ui.count_failed', s.files_failed);
+      if (s.files_failed) add('ui.count_failed', s.files_failed, true);
     }
 
     // Notlar sadece değiştiğinde yeniden çizilir (yoksa düğmeye basılırken kaybolabilir).
@@ -774,6 +1028,7 @@ body.loading main { visibility: hidden; }
     }
     if (!relabelOnly) logNext = s.log_next;
     if (lastPhase !== s.phase && s.phase === 'error') $('details').open = true;
+    if (lastPhase && lastPhase !== s.phase && !running && view === 'history') loadHistory();
     lastPhase = s.phase;
   }
 
@@ -800,6 +1055,72 @@ body.loading main { visibility: hidden; }
   }
   window.addEventListener('beforeunload', (e) => { if (running && !bridge) { e.preventDefault(); e.returnValue = ''; } });
   window.igRefresh = () => poll();
+
+  // ---------------- ilk açılış sihirbazı
+  let wizardOpen = false, wzStep = 0, wzSteps = [];
+  const WZ_ICONS = {
+    welcome: '<svg viewBox="0 0 24 24"><path d="M12 4v10m0 0l-4-4m4 4l4-4M5 19h14"/></svg>',
+    login: '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg>',
+    folder: '<svg viewBox="0 0 24 24"><path d="M3.5 7.5a2 2 0 0 1 2-2h4l2 2.5h7a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/></svg>',
+    done: '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  };
+  function wizardSteps() {
+    const steps = ['welcome', 'login'];
+    if (platform !== 'mobile') steps.push('folder');
+    steps.push('done');
+    return steps;
+  }
+  function renderWizard() {
+    wzSteps = wizardSteps();
+    const id = wzSteps[Math.min(wzStep, wzSteps.length - 1)];
+    $('wz-step').textContent = t('ui.wz_step', { n: wzStep + 1, total: wzSteps.length });
+    $('wz-icon').innerHTML = WZ_ICONS[id];
+    const WZ_TITLE = { welcome: 'ui.wz_welcome_title', login: 'ui.wz_login_title', folder: 'ui.wz_folder_title', done: 'ui.wz_done_title' };
+    const WZ_TEXT = { welcome: 'ui.wz_welcome_text', login: 'ui.wz_login_text', folder: 'ui.wz_folder_text', done: 'ui.wz_done_text' };
+    $('wz-title').textContent = t(WZ_TITLE[id]);
+    $('wz-text').textContent = t(WZ_TEXT[id]);
+    $('wz-lang').hidden = id !== 'welcome';
+    $('wz-path').hidden = id !== 'folder';
+    if (id === 'folder') $('wz-path').textContent = $('outdir').value;
+    const next = $('wz-next'), skip = $('wz-skip');
+    next.textContent = t({ welcome: 'ui.wz_start', login: 'ui.wz_login_go', folder: 'ui.wz_folder_keep', done: 'ui.wz_finish' }[id]);
+    skip.hidden = !(id === 'login' || id === 'folder');
+    skip.textContent = t(id === 'folder' ? 'ui.folder_change' : 'ui.wz_skip');
+    next.dataset.step = id;
+  }
+  function openWizard() { wizardOpen = true; wzStep = 0; $('wizard').hidden = false; renderWizard(); $('wz-next').focus(); }
+  function closeWizard() { wizardOpen = false; $('wizard').hidden = true; patchSettings({ setup_done: true }); }
+  async function wizardNext() {
+    const id = wzSteps[wzStep];
+    if (id === 'login') { try { await api('/api/login', {}); poll(true); } catch (e) { /* girişi sonra Ayarlar'dan yapabilir */ } }
+    if (id === 'done') { closeWizard(); return; }
+    wzStep += 1; renderWizard();
+  }
+  $('wz-next').addEventListener('click', wizardNext);
+  $('wz-skip').addEventListener('click', async () => {
+    const id = wzSteps[wzStep];
+    if (id === 'folder') {
+      try { const r = await api('/api/choose-folder', {}); applySettings(r.settings); $('wz-path').textContent = $('outdir').value; } catch (e) { /* iptal */ }
+      return;
+    }
+    wzStep += 1; renderWizard();
+  });
+  $('wz-lang').addEventListener('change', async () => { $('lang').value = $('wz-lang').value; await saveSettings(); await loadStrings(); });
+
+  // İlk ayarlar gelince: eski kullanıcıya (indirmiş ya da giriş yapmış) sihirbaz gösterilmez.
+  async function afterFirstSettings(s) {
+    try {
+      if (bridge && localStorage.getItem(OLD_CONFIRM_KEY) === '1' && !s.settings.no_confirm) {
+        localStorage.removeItem(OLD_CONFIRM_KEY);
+        patchSettings({ no_confirm: true });
+      }
+    } catch (e) { /* önemsiz */ }
+    if (s.settings.setup_done) return;
+    let existing = s.logged_in === true;
+    if (!existing) { try { existing = ((await api('/api/history-list')).total || 0) > 0; } catch (e) { /* yok say */ } }
+    if (existing) patchSettings({ setup_done: true });
+    else openWizard();
+  }
 
   (async () => {
     try { await loadStrings(); } catch (e) { S = {}; applyStatic(); }

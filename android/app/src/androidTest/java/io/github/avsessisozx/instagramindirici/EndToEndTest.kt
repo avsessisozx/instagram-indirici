@@ -57,7 +57,7 @@ class EndToEndTest {
         TestHooks.historyFile = File(out, "gecmis.json")
         control("/__sifirla")
         Core.init(ctx)
-        Core.saveSettings(SettingsValues(lang = "tr", onlyNew = false, history = false, autoContinue = false))
+        Core.saveSettings(SettingsValues(lang = "tr", onlyNew = false, history = false, autoContinue = false, setupDone = true))
         if (android.os.Build.VERSION.SDK_INT >= 33) {
             inst.uiAutomation.grantRuntimePermission(ctx.packageName, android.Manifest.permission.POST_NOTIFICATIONS)
         }
@@ -403,5 +403,63 @@ class EndToEndTest {
         Thread.sleep(1500)
         assertEquals("İndirme tamamlandı", jsText("document.getElementById('status').textContent"))
         screenshot("13_ekran_yeniden_kuruldu")
+    }
+
+    // ---------------------------------------------------------------- yeni arayüz: sekmeler, geçmiş, sihirbaz
+    @Test
+    fun d1_tabsAndHistoryList() {
+        Core.history().clear()
+        launch()
+        assertEquals("true", js("document.getElementById('view-download').hidden === false"))
+        clickId("tab-history")
+        assertTrue("geçmiş sekmesi açılmadı", waitUntil(5_000) { js("document.getElementById('view-history').hidden === false") == "true" })
+        assertTrue("boş geçmiş mesajı yok", waitUntil(5_000) { js("document.getElementById('hist-empty').hidden === false") == "true" })
+        Core.history().mark("u1", "k1", "all", "post", "natgeo")
+        Core.history().mark("u1", "k2", "all", "post", "natgeo")
+        Core.history().mark("u2", "k1", "all", "post", "sahte.kisi")
+        clickId("tab-download"); clickId("tab-history")
+        assertTrue("geçmiş listelenmedi", waitUntil(5_000) { js("document.querySelectorAll('#hist-list .person').length") == "2" })
+        assertEquals("2", jsText("document.getElementById('hist-profiles').textContent"))
+        assertEquals("3", jsText("document.getElementById('hist-posts').textContent"))
+        assertTrue(jsText("document.getElementById('hist-list').textContent").contains("@natgeo"))
+        screenshot("20_gecmis_sekmesi")
+        // "Yenileri indir" linki indir sekmesine taşır
+        js("(function(){var b=[].slice.call(document.querySelectorAll('#hist-list .person .btn.primary'))[0]; b.click(); return true;})()")
+        assertTrue(waitUntil(5_000) { js("document.getElementById('view-download').hidden === false") == "true" })
+        assertTrue(waitUntil(5_000) { jsText("document.getElementById('link').value").contains("instagram.com/") })
+        clickId("tab-settings")
+        assertEquals("true", js("document.getElementById('view-settings').hidden === false"))
+        assertEquals("true", js("!!document.getElementById('identity') && !!document.getElementById('speed')"))
+        screenshot("21_ayarlar_sekmesi")
+        Core.history().clear()
+    }
+
+    @Test
+    fun d2_wizardOnFreshInstallThenSkips() {
+        clearCookies()
+        Core.history().clear()
+        Core.saveSettings(SettingsValues(lang = "tr", setupDone = false))
+        launch()
+        assertTrue("sihirbaz açılmadı", waitUntil(10_000) { js("document.getElementById('wizard').hidden === false") == "true" })
+        assertEquals("Adım 1/3", jsText("document.getElementById('wz-step').textContent"))
+        screenshot("22_sihirbaz")
+        clickId("wz-next")                                   // karşılama -> giriş
+        assertEquals("Adım 2/3", jsText("document.getElementById('wz-step').textContent"))
+        clickId("wz-skip")                                   // girişi atla -> hazır
+        assertEquals("Adım 3/3", jsText("document.getElementById('wz-step').textContent"))
+        clickId("wz-next")                                   // bitir
+        assertTrue(waitUntil(5_000) { js("document.getElementById('wizard').hidden === true") == "true" })
+        assertTrue("sihirbaz bitti ayarı kaydedilmedi", waitUntil(5_000) { Core.settings.setupDone })
+    }
+
+    @Test
+    fun d3_wizardSkippedForExistingUser() {
+        Core.history().clear()
+        Core.history().mark("u1", "k1", "all", "post", "natgeo")
+        Core.saveSettings(SettingsValues(lang = "tr", setupDone = false))
+        launch()
+        assertTrue("eski kullanıcıda ayar kaydedilmedi", waitUntil(10_000) { Core.settings.setupDone })
+        assertEquals("true", js("document.getElementById('wizard').hidden === true"))
+        Core.history().clear()
     }
 }

@@ -16,6 +16,8 @@ data class SettingsValues(
     val lang: String = "auto",
     val identity: String = Identity.DESKTOP,   // Instagram'a hangi cihazmış gibi görünülür
     val speed: String = Pacing.NORMAL,         // istek hızı: normal / dikkatli / çok dikkatli
+    val setupDone: Boolean = false,            // ilk açılış sihirbazı bitti mi
+    val noConfirm: Boolean = false,            // silmeden önce onay sorma
 ) {
     fun toJson(): JSONObject = JSONObject()
         .put("out_dir", "")
@@ -31,6 +33,8 @@ data class SettingsValues(
         .put("lang", lang)
         .put("identity", identity)
         .put("speed", speed)
+        .put("setup_done", setupDone)
+        .put("no_confirm", noConfirm)
 
     /** Gelen JSON'daki geçerli alanları üzerine yazar, geçersizleri yok sayar. */
     fun merge(o: JSONObject?, languages: Collection<String>): SettingsValues {
@@ -53,6 +57,7 @@ data class SettingsValues(
             highlights = bool("highlights", v.highlights), avatar = bool("avatar", v.avatar),
             onlyNew = bool("only_new", v.onlyNew), history = bool("history", v.history),
             autoContinue = bool("auto_continue", v.autoContinue),
+            setupDone = bool("setup_done", v.setupDone), noConfirm = bool("no_confirm", v.noConfirm),
         )
         val identity = o.opt("identity")
         if (identity is String && identity in Identity.ALL) v = v.copy(identity = identity)

@@ -16,6 +16,8 @@ class History(private val file: File) {
     private val downloaded = HashMap<String, HashMap<String, LinkedHashSet<String>>>()
     // user_id -> içerik seçimi -> {newest, cursor_kind, cursor, username}
     private val progress = HashMap<String, HashMap<String, JSONObject>>()
+    // user_id -> {username, last}: Geçmiş sekmesinde kimin ne zaman indirildiğini göstermek için
+    private val meta = HashMap<String, JSONObject>()
     private var dirty = false
     private var lastSave = 0L
 
@@ -37,6 +39,9 @@ class History(private val file: File) {
                 }
                 downloaded[uid] = m
             }
+        }
+        root.optJSONObject("meta")?.let { m ->
+            for (uid in m.keys()) m.optJSONObject(uid)?.let { meta[uid] = it }
         }
         root.optJSONObject("progress")?.let { p ->
             for (uid in p.keys()) {
@@ -63,7 +68,9 @@ class History(private val file: File) {
             for ((c, o) in m) byContent.put(c, o)
             p.put(uid, byContent)
         }
-        val text = JSONObject().put("downloaded", d).put("progress", p).toString()
+        val m = JSONObject()
+        for ((uid, o) in meta) m.put(uid, o)
+        val text = JSONObject().put("downloaded", d).put("progress", p).put("meta", m).toString()
         try {
             file.parentFile?.mkdirs()
             val tmp = File(file.parentFile, file.name + ".tmp")
@@ -95,7 +102,38 @@ class History(private val file: File) {
     @Synchronized
     fun mark(userId: String, key: String, content: String, kind: String, username: String = "") {
         if (userId.isEmpty() || key.isEmpty()) return
-        if (downloaded.getOrPut(userId) { HashMap() }.getOrPut(content) { LinkedHashSet() }.add(key)) changed()
+        val added = downloaded.getOrPut(userId) { HashMap() }.getOrPut(content) { LinkedHashSet() }.add(key)
+        val o = meta.getOrPut(userId) { JSONObject() }
+        if (username.isNotEmpty()) o.put("username", username)
+        o.put("last", System.currentTimeMillis() / 1000)
+        if (added || username.isNotEmpty()) changed()
+    }
+
+    /** Geçmiş sekmesi için bir profilin özeti. */
+    data class Profile(val userId: String, val username: String, val count: Int, val last: Long)
+
+    /** İndirilen profiller, en son indirilen başta. Eski kayıtlarda (zaman yok) dosyanın değişme zamanı kullanılır. */
+    @Synchronized
+    fun profiles(): List<Profile> {
+        val fallback = try { file.lastModified() / 1000 } catch (e: Exception) { 0L }
+        return downloaded.map { (uid, byContent) ->
+            val o = meta[uid]
+            val name = o?.optString("username", "").orEmpty().ifEmpty {
+                progress[uid]?.values?.firstNotNullOfOrNull { it.optString("username", "").ifEmpty { null } } ?: ""
+            }
+            Profile(uid, name, byContent.values.sumOf { it.size }, o?.optLong("last", 0)?.takeIf { it > 0 } ?: fallback)
+        }.filter { it.count > 0 }.sortedByDescending { it.last }
+    }
+
+    /** Bir profilin geçmişini siler (dosyalara dokunmaz). Silinen kayıt sayısını döndürür. */
+    @Synchronized
+    fun forget(userId: String): Int {
+        if (userId.isEmpty()) return 0
+        val n = downloaded.remove(userId)?.values?.sumOf { it.size } ?: 0
+        progress.remove(userId); meta.remove(userId)
+        dirty = true
+        flush()
+        return n
     }
 
     @Synchronized
@@ -106,6 +144,7 @@ class History(private val file: File) {
         val n = count()
         downloaded.clear()
         progress.clear()
+        meta.clear()
         dirty = true
         flush()
         return n

@@ -81,6 +81,25 @@ class History:
         with self._lock:
             return int(self._db.execute("SELECT COUNT(*) FROM downloaded").fetchone()[0])
 
+    def profiles(self) -> list:
+        """İndirilen profillerin özeti (en son indirilen başta): kullanıcı adı, gönderi sayısı, son indirme zamanı."""
+        with self._lock:
+            rows = self._db.execute(
+                "SELECT user_id, MAX(username), COUNT(*), MAX(at) FROM downloaded "
+                "GROUP BY user_id ORDER BY MAX(at) DESC").fetchall()
+        return [{"user_id": r[0], "username": r[1] or "", "count": int(r[2]), "last": int(r[3] or 0)} for r in rows]
+
+    def forget(self, user_id: str) -> int:
+        """Bir profilin geçmişini siler (dosyalara dokunmaz). Silinen kayıt sayısını döndürür."""
+        if not user_id:
+            return 0
+        with self._lock:
+            n = int(self._db.execute("SELECT COUNT(*) FROM downloaded WHERE user_id=?", (user_id,)).fetchone()[0])
+            self._db.execute("DELETE FROM downloaded WHERE user_id=?", (user_id,))
+            self._db.execute("DELETE FROM progress WHERE user_id=?", (user_id,))
+            self._db.commit()
+        return n
+
     def clear(self) -> int:
         with self._lock:
             n = int(self._db.execute("SELECT COUNT(*) FROM downloaded").fetchone()[0])

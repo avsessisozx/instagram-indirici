@@ -97,6 +97,19 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(snap["summary"]["key"], "engine.login_done_ok", snap["logs"])
         return snap
 
+    # ------------------------------------------------------------ yeni ayarlar: kimlik ve hız modu
+    def test_a0_identity_android_changes_user_agent(self):
+        snap, out = self.run_job(f"https://www.instagram.com/{fi.PROFILE_OK}/", "profile", identity="android")
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertTrue(self.fake.user_agents)
+        self.assertTrue(all("Android" in ua and "Mobile" in ua for ua in self.fake.user_agents), self.fake.user_agents)
+
+    def test_a0_identity_desktop_keeps_browser_agent(self):
+        snap, out = self.run_job(f"https://www.instagram.com/{fi.PROFILE_OK}/", "profile", identity="desktop")
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertTrue(self.fake.user_agents)
+        self.assertFalse(any("Android" in ua for ua in self.fake.user_agents), self.fake.user_agents)
+
     # ------------------------------------------------------------ giriş yapılmadan
     def test_a1_logged_out_profile_login_wall(self):
         snap, out = self.run_job(f"https://www.instagram.com/{fi.PROFILE_OK}/", "profile")

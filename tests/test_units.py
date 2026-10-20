@@ -1,10 +1,13 @@
 """Tarayıcı gerektirmeyen hızlı testler."""
 
 import json
+import os
 import sys
 import tempfile
 import unittest
+import urllib.request
 from pathlib import Path
+from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -284,3 +287,174 @@ class NamingAndTextTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PacingAndIdentityTests(unittest.TestCase):
+    def test_careful_modes_are_slower(self):
+        from instagram_indirici.pacing import Pacing
+        n, c, v = (Pacing.for_speed(x) for x in ("normal", "careful", "very_careful"))
+        self.assertEqual(n.call_delay, (2.5, 5.0))        # Windows'ta eskiden beri kullanılan değer
+        self.assertEqual(n.page_delay, (0.0, 0.0))
+        self.assertGreater(c.call_delay[0], n.call_delay[0])
+        self.assertGreater(v.call_delay[0], c.call_delay[0])
+        self.assertGreater(v.page_delay[1], c.page_delay[1])
+        self.assertLess(v.break_every, c.break_every)
+        self.assertEqual(Pacing.for_speed("bogus"), n)
+
+    def test_env_overrides(self):
+        from instagram_indirici.pacing import Pacing
+        with mock.patch.dict(os.environ, {"INSTAGRAM_INDIRICI_DELAY": "0-0.05", "INSTAGRAM_INDIRICI_BREAK": "0",
+                                          "INSTAGRAM_INDIRICI_PAGE_DELAY": "0"}):
+            p = Pacing.for_speed("very_careful").with_env()
+        self.assertEqual(p.call_delay, (0.0, 0.05))
+        self.assertEqual(p.break_every, 0)
+        self.assertEqual(p.page_delay, (0.0, 0.0))
+
+    def test_identity_user_agents(self):
+        from instagram_indirici import identity
+        cur = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0"
+        self.assertIn("Windows NT 10.0", identity.user_agent_for("desktop", cur))
+        phone = identity.user_agent_for("android", cur)
+        self.assertTrue("Android" in phone and "Mobile" in phone and "Chrome/126" in phone)
+        tablet = identity.user_agent_for("tablet", cur)
+        self.assertTrue("Android" in tablet and "Mobile" not in tablet)
+        self.assertIn("Windows NT", identity.user_agent_for("bogus", cur))
+
+
+class SettingsTests(unittest.TestCase):
+    def test_new_settings_are_cleaned(self):
+        from instagram_indirici.paths import clean_settings
+        s = clean_settings({})
+        self.assertEqual((s["identity"], s["speed"], s["setup_done"], s["no_confirm"]), ("desktop", "normal", False, False))
+        s = clean_settings({"identity": "tablet", "speed": "careful", "setup_done": True, "no_confirm": 1})
+        self.assertEqual((s["identity"], s["speed"], s["setup_done"], s["no_confirm"]), ("tablet", "careful", True, True))
+        s = clean_settings({"identity": "toaster", "speed": "ludicrous"})
+        self.assertEqual((s["identity"], s["speed"]), ("desktop", "normal"))
+
+
+class ReportTests(unittest.TestCase):
+    def test_report_has_log_and_no_secrets(self):
+        from instagram_indirici import report
+        snap = {"running": False, "phase": "done", "found_posts": 3, "files_done": 2,
+                "summary": {"key": "summary", "params": {"done": 2}},
+                "logs": [{"t": "10:00:01", "level": "info", "msg": {"key": "browser.opened", "params": {"name": "Edge"}}},
+                         {"t": "10:00:02", "level": "debug", "text": "cookie sessionid=abc123SECRET; csrftoken: tok999"}]}
+        text = report.build([("Sürüm", "1.6.0")], {"out_dir": "C:/gizli", "speed": "careful"}, snap, "tr")
+        self.assertIn("Sürüm: 1.6.0", text)
+        self.assertIn("Edge", text)
+        self.assertIn("careful", text)
+        self.assertNotIn("C:/gizli", text)
+        self.assertNotIn("abc123SECRET", text)
+        self.assertNotIn("tok999", text)
+        self.assertIn("[silindi]", text)
+
+    def test_report_is_capped(self):
+        from instagram_indirici import report
+        logs = [{"t": "00:00:00", "level": "info", "text": "x" * 200 + str(i)} for i in range(2000)]
+        text = report.build([], {}, {"logs": logs}, "en")
+        self.assertLessEqual(len(text), report.MAX_CHARS + 200)
+        self.assertIn("1999", text)                  # en yeni satırlar korunur
+        self.assertNotIn("x" * 200 + "0\n", text)    # en eski satırlar atılır
+
+
+class HistoryProfilesTests(unittest.TestCase):
+    def test_profiles_and_forget(self):
+        from instagram_indirici.history import History
+        with tempfile.TemporaryDirectory() as tmp:
+            h = History(Path(tmp) / "h.sqlite3")
+            for i in range(3):
+                h.mark("u1", f"k{i}", "all", "post", "natgeo")
+            h.mark("u2", "k0", "all", "post", "sahte.kisi")
+            h._db.execute("UPDATE downloaded SET at=at-100000 WHERE user_id='u2'")
+            h._db.commit()
+            profiles = h.profiles()
+            self.assertEqual([p["username"] for p in profiles], ["natgeo", "sahte.kisi"])   # en son indirilen başta
+            self.assertEqual([p["count"] for p in profiles], [3, 1])
+            self.assertEqual(h.forget("u1"), 3)
+            self.assertEqual([p["user_id"] for p in h.profiles()], ["u2"])
+            self.assertEqual(h.forget(""), 0)
+            h.close()
+
+
+class ServerFeatureTests(unittest.TestCase):
+    """Windows sunucusunun yeni uç noktaları (tarayıcı gerektirmez)."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory(ignore_cleanup_errors=True)
+        self.env = mock.patch.dict(os.environ, {"INSTAGRAM_INDIRICI_DATA": str(Path(self.tmp.name) / "data"),
+                                                "INSTAGRAM_INDIRICI_NO_OPEN": "1"})
+        self.env.start()
+        from instagram_indirici.server import AppState, start_server
+        self.state = AppState()
+        self.server = start_server(self.state)
+        self.base = f"http://127.0.0.1:{self.state.port}"
+
+    def tearDown(self):
+        self.server.shutdown()
+        self.env.stop()
+        self.tmp.cleanup()
+
+    def get(self, path):
+        with urllib.request.urlopen(self.base + path, timeout=10) as r:
+            return json.loads(r.read())
+
+    def post(self, path, body=None):
+        req = urllib.request.Request(self.base + path, data=json.dumps(body or {}).encode(),
+                                     headers={"Content-Type": "application/json"}, method="POST")
+        try:
+            with urllib.request.urlopen(req, timeout=10) as r:
+                return r.status, json.loads(r.read())
+        except urllib.error.HTTPError as exc:
+            return exc.code, json.loads(exc.read())
+
+    def test_history_list_and_forget(self):
+        from instagram_indirici.history import History
+        h = History()
+        h.mark("u1", "a", "all", "post", "natgeo")
+        h.mark("u1", "b", "all", "post", "natgeo")
+        h.close()
+        data = self.get("/api/history-list")
+        self.assertEqual(data["total"], 2)
+        self.assertEqual(data["profiles"][0]["username"], "natgeo")
+        self.assertFalse(data["profiles"][0]["exists"])
+        code, res = self.post("/api/history-forget", {"user_id": "u1"})
+        self.assertEqual(code, 200)
+        self.assertEqual(self.get("/api/history-list")["total"], 0)
+
+    def test_clear_cache_keeps_login_and_clear_cookies_removes_it(self):
+        from instagram_indirici.paths import app_data_dir
+        prof = app_data_dir() / "tarayici-msedge"
+        (prof / "Default" / "Cache").mkdir(parents=True)
+        (prof / "Default" / "Cache" / "f").write_text("x")
+        (prof / "Default" / "Cookies").write_text("c")
+        (app_data_dir() / "arayuz-penceresi-edge").mkdir()
+        code, res = self.post("/api/clear-cache")
+        self.assertEqual(code, 200)
+        self.assertFalse((prof / "Default" / "Cache").exists())
+        self.assertTrue((prof / "Default" / "Cookies").exists())        # oturum duruyor
+        code, res = self.post("/api/clear-cookies")
+        self.assertEqual(code, 200)
+        self.assertFalse(prof.exists())
+        self.assertTrue((app_data_dir() / "arayuz-penceresi-edge").exists())   # arayüz penceresine dokunulmaz
+        self.assertFalse(self.get("/api/state")["logged_in"])
+
+    def test_maintenance_is_refused_while_running(self):
+        self.state.engine.running = True
+        for path in ("/api/clear-cache", "/api/clear-cookies", "/api/history-forget"):
+            self.assertEqual(self.post(path, {"user_id": "x"})[0], 400, path)
+
+    def test_report_is_saved_as_file(self):
+        from instagram_indirici.paths import app_data_dir
+        code, res = self.post("/api/report-share")
+        self.assertEqual(code, 200)
+        self.assertEqual(res["message"]["key"], "server.report_saved")
+        path = Path(res["message"]["params"]["path"])
+        self.assertTrue(path.is_file() and path.parent == app_data_dir())
+        self.assertIn("Instagram İndirici raporu", path.read_text(encoding="utf-8"))
+
+    def test_settings_roundtrip_new_fields(self):
+        code, res = self.post("/api/settings", {"identity": "android", "speed": "very_careful", "setup_done": True})
+        self.assertEqual(res["settings"]["identity"], "android")
+        self.assertEqual(res["settings"]["speed"], "very_careful")
+        self.assertTrue(res["settings"]["setup_done"])
+        self.assertEqual(self.get("/api/state")["settings"]["speed"], "very_careful")

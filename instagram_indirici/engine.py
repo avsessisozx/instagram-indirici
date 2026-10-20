@@ -21,6 +21,7 @@ from .history import History
 from .i18n import Msg, msg
 from .media import (KIND_AVATAR, KIND_HIGHLIGHT, KIND_POST, KIND_STORY, STORIES_DIR, MediaFile, Post, author_folder,
                     build_avatar, build_post, highlight_folder, is_pinned, owner_of, taken_at_of)
+from .pacing import for_settings as pacing_for
 from .paths import CONTENT_ALL, app_data_dir, clean_settings
 
 MODE_SINGLE = "single"
@@ -129,6 +130,7 @@ class Engine:
         self._cancel = threading.Event()
         self.log_offset = 0
         self.logs: List[Dict[str, Any]] = []
+        self.browser_name = ""          # son kullanılan tarayıcı (rapor için); durum sıfırlanınca silinmez
         self._reset()
 
     # ------------------------------------------------------------ durum
@@ -284,8 +286,10 @@ class Engine:
     async def _run_browser(self, job: Job, settings: Dict[str, Any]) -> None:
         try:
             async with InstagramBrowser(app_data_dir(), log=self.log, cancel=self._cancel,
-                                        on_verify=self._set_verify) as browser:
+                                        on_verify=self._set_verify, pacing=pacing_for(settings),
+                                        identity=str(settings.get("identity") or "desktop")) as browser:
                 browser.on_wait = self._set_wait
+                self.browser_name = browser.channel_name
                 if job.mode == MODE_LOGIN:
                     ok = await browser.login_session()
                     self.logged_in = ok

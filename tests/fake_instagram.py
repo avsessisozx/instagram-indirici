@@ -250,6 +250,7 @@ class FakeInstagram:
         self.reset()
 
     def reset(self) -> None:
+        self.user_agents = set()       # API isteklerinde görülen tarayıcı kimlikleri
         self.autologin = False
         self.rate_limit_once = False
         self.challenge_once = False
@@ -344,6 +345,7 @@ def make_handler(fake: FakeInstagram):
 
         def api_guard(self) -> bool:
             """Gerçek Instagram gibi: uygulama kimliği yoksa API reddedilir."""
+            fake.user_agents.add(self.headers.get("User-Agent") or "")
             if self.headers.get("X-IG-App-ID") != APP_ID:
                 self.json({"message": "useragent mismatch", "status": "fail"}, 400)
                 return False

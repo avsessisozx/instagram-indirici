@@ -26,6 +26,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple
 from urllib.parse import urlencode, urlsplit
 
 from . import links, media, winbrowsers
+from .pacing import Pacing
 from .i18n import Msg, msg
 
 APP_ID = "936619743392459"
@@ -123,17 +124,6 @@ def rebase(url: str) -> str:
     return re.sub(r"^https?://(www\.)?instagram\.com", base, url)
 
 
-def _delay_range() -> Tuple[float, float]:
-    raw = os.environ.get("INSTAGRAM_INDIRICI_DELAY", "2.5-5")
-    try:
-        lo, _, hi = raw.partition("-")
-        low = float(lo)
-        high = float(hi or lo)
-        return max(0.0, low), max(low, high)
-    except ValueError:
-        return 2.5, 5.0
-
-
 def _backoff_steps() -> List[float]:
     raw = os.environ.get("INSTAGRAM_INDIRICI_BACKOFF", "30,90")
     try:
@@ -228,7 +218,11 @@ class InstagramBrowser:
         log: Callable[[str, Any], None],
         cancel: threading.Event,
         on_verify: Callable[[bool], None],
+        pacing: Optional[Pacing] = None,
+        identity: str = "desktop",
     ) -> None:
+        self.pacing = pacing or Pacing.for_speed("normal").with_env()
+        self.identity = identity
         self.data_dir = data_dir
         self.log = log
         self.cancel = cancel
@@ -280,8 +274,37 @@ class InstagramBrowser:
             self.user_agent = await self.page.evaluate("navigator.userAgent")
         except Exception:
             self.user_agent = ""
+        await self._apply_identity()
         self.log("info", msg("browser.opened", name=self.channel_name))
         return self
+
+    async def _apply_identity(self) -> None:
+        """"Android telefon" / "Tablet" seçiliyse Instagram'a o cihazmış gibi görün (tarayıcı kimliği).
+
+        "Bilgisayar" seçiliyken hiçbir şey değişmez: tarayıcının kendi kimliği kullanılır.
+        """
+        if self.identity not in ("android", "tablet") or not self.user_agent:
+            return
+        from .identity import user_agent_for
+        ua = user_agent_for(self.identity, self.user_agent)
+        try:
+            session = await self.context.new_cdp_session(self.page)
+            await session.send("Network.setUserAgentOverride", {
+                "userAgent": ua,
+                "platform": "Linux armv8l",
+                "userAgentMetadata": {
+                    "brands": [{"brand": "Chromium", "version": "130"}, {"brand": "Not?A_Brand", "version": "99"}],
+                    "fullVersion": "130.0.0.0",
+                    "platform": "Android",
+                    "platformVersion": "10.0.0",
+                    "architecture": "",
+                    "model": "K",
+                    "mobile": self.identity == "android",
+                },
+            })
+            self.user_agent = ua
+        except Exception as exc:
+            self.log("warn", f"identity: {exc}")
 
     def _channel_order(self) -> List[str]:
         wanted = os.environ.get("INSTAGRAM_INDIRICI_BROWSER", "")
@@ -497,7 +520,7 @@ class InstagramBrowser:
         if params:
             url += ("&" if "?" in url else "?") + urlencode(params)
         # İstekleri insan hızında tut: Instagram art arda gelen istekleri kısıtlıyor.
-        low, high = _delay_range()
+        low, high = self.pacing.call_delay
         wait = self._last_call + random.uniform(low, high) - time.monotonic()
         if self._last_call and wait > 0:
             await self._sleep(wait)
@@ -577,16 +600,13 @@ class InstagramBrowser:
             raise ApiError(f"{what or path}: HTTP {res.status} {snippet}")
 
     async def _pace(self) -> None:
-        """Belli sayıda liste sayfasından sonra kısa mola verir (Instagram'ı yormamak için)."""
-        raw = os.environ.get("INSTAGRAM_INDIRICI_BREAK", "5:60-120")
-        try:
-            every_s, _, span = raw.partition(":")
-            every = int(every_s)
-            lo, _, hi = span.partition("-")
-            low, high = float(lo or 0), float(hi or lo or 0)
-        except ValueError:
-            every, low, high = 5, 60.0, 120.0
+        """Liste sayfaları arasında bekler; belli sayıda sayfadan sonra uzun mola verir (Instagram'ı yormamak için)."""
+        pc = self.pacing
         self.list_pages += 1
+        if self.list_pages > 1 and pc.page_delay[1] > 0:
+            await self._sleep(random.uniform(pc.page_delay[0], max(pc.page_delay[0], pc.page_delay[1])))
+        low, high = pc.break_seconds
+        every = pc.break_every
         if every > 0 and self.list_pages > 1 and (self.list_pages - 1) % every == 0 and high > 0:
             seconds = random.uniform(low, max(low, high))
             self.log("info", msg("browser.pause", s=int(seconds)))

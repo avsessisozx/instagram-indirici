@@ -4,18 +4,22 @@ from __future__ import annotations
 
 import json
 import os
+import platform
+import shutil
 import subprocess
 import sys
 import threading
 import time
+from datetime import datetime
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-from . import APP_NAME, __version__, i18n, links
+from . import APP_NAME, __version__, i18n, links, report
 from .i18n import msg
 from .engine import MODE_LOGIN, MODE_PROFILE, MODE_SINGLE, Engine, Job, load_session_state
-from .paths import clean_settings, load_settings, save_settings
+from .media import author_folder
+from .paths import app_data_dir, clean_settings, load_settings, save_settings
 
 
 def resource_dir() -> Path:
@@ -71,6 +75,126 @@ def open_folder(path: str) -> bool:
         return True
     except Exception:
         return False
+
+
+# ---------------------------------------------------------------- bakım işleri (Gelişmiş panel)
+_CACHE_DIRS = ("Cache", "Code Cache", "GPUCache", "DawnCache", "GrShaderCache", "ShaderCache")
+
+
+def browser_profiles() -> list:
+    """Programın Instagram için kullandığı tarayıcı profilleri (arayüz penceresinin profiline dokunulmaz)."""
+    base = app_data_dir()
+    try:
+        return [p for p in base.iterdir() if p.is_dir() and p.name.startswith("tarayici-")]
+    except OSError:
+        return []
+
+
+def clear_cache() -> int:
+    """Tarayıcı önbelleğini siler (oturum ve çerezlere dokunmaz). Silinen klasör sayısını döndürür."""
+    n = 0
+    for profile in browser_profiles():
+        for root in (profile, profile / "Default"):
+            for name in _CACHE_DIRS:
+                target = root / name
+                if target.is_dir():
+                    shutil.rmtree(target, ignore_errors=True)
+                    n += 1
+    return n
+
+
+def clear_cookies() -> int:
+    """Instagram oturumunu ve site verisini siler (profil klasörleri). Çıkış yapılmış olur."""
+    n = 0
+    for profile in browser_profiles():
+        shutil.rmtree(profile, ignore_errors=True)
+        n += 1
+    return n
+
+
+def _no_open() -> bool:
+    """Testlerde pencere/pano açılmasın (INSTAGRAM_INDIRICI_NO_OPEN=1)."""
+    return os.environ.get("INSTAGRAM_INDIRICI_NO_OPEN") == "1"
+
+
+def copy_to_clipboard(text: str) -> bool:
+    if sys.platform != "win32" or _no_open():
+        return False
+    script = ("[Console]::InputEncoding=[Text.Encoding]::UTF8;"
+              "$t=[Console]::In.ReadToEnd(); Set-Clipboard -Value $t")
+    try:
+        done = subprocess.run(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", script],
+                              input=text.encode("utf-8"), capture_output=True, timeout=30,
+                              creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        return done.returncode == 0
+    except Exception:
+        return False
+
+
+def reveal_file(path: Path) -> bool:
+    if _no_open():
+        return True
+    try:
+        if sys.platform == "win32":
+            subprocess.Popen(["explorer", "/select,", str(path)])
+            return True
+    except Exception:
+        return False
+    return open_folder(str(path.parent))
+
+
+def open_network_settings() -> bool:
+    if _no_open():
+        return sys.platform == "win32"
+    try:
+        if sys.platform == "win32":
+            os.startfile("ms-settings:network")  # type: ignore[attr-defined]
+            return True
+    except Exception:
+        pass
+    return False
+
+
+def report_text(state: "AppState") -> str:
+    st = state.settings
+    info = [
+        ("Sürüm", __version__),
+        ("Zaman", datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %z")),
+        ("Bilgisayar", platform.platform()),
+        ("Tarayıcı", state.engine.browser_name or "bilinmiyor"),
+        ("Kimlik", str(st.get("identity"))),
+        ("Hız modu", str(st.get("speed"))),
+        ("Dil", i18n.current_language()),
+    ]
+    return report.build(info, st, state.engine.snapshot(0), i18n.current_language())
+
+
+def save_report(text: str) -> Dict[str, Any]:
+    """Raporu program klasörüne dosya olarak kaydeder ve gösterir (panoya kopyalanamadığında ya da "paylaş" için)."""
+    path = app_data_dir() / f"rapor-{datetime.now().strftime('%Y%m%d-%H%M%S')}.txt"
+    try:
+        path.write_text(text, encoding="utf-8")
+    except OSError as exc:
+        return {"error": msg("server.report_failed", error=str(exc)).to_json()}
+    reveal_file(path)
+    return {"ok": True, "message": msg("server.report_saved", path=str(path)).to_json()}
+
+
+def history_overview(state: "AppState") -> Dict[str, Any]:
+    """Geçmiş sekmesi: indirilen profiller ve klasörleri."""
+    out_dir = Path(str(state.settings.get("out_dir") or ""))
+    try:
+        from .history import History
+        h = History()
+        rows = h.profiles()
+        h.close()
+    except Exception:
+        rows = []
+    profiles = []
+    for r in rows:
+        folder = out_dir / author_folder(r["username"]) if r["username"] else None
+        profiles.append({**r, "folder": str(folder) if folder else "", "exists": bool(folder and folder.exists())})
+    return {"profiles": profiles, "total": sum(p["count"] for p in profiles)}
 
 
 def make_handler(state: AppState):
@@ -148,6 +272,8 @@ def make_handler(state: AppState):
                 snap["version"] = __version__
                 snap["app_name"] = APP_NAME
                 return self._json(snap)
+            if path == "/api/history-list":
+                return self._json(history_overview(state))
             return self._send(404, b"not found", "text/plain")
 
         def do_POST(self) -> None:
@@ -198,6 +324,48 @@ def make_handler(state: AppState):
                 except Exception as exc:
                     return self._json({"error": msg("engine.history_failed", error=str(exc)).to_json()}, 500)
                 return self._json({"ok": True, "message": msg("server.history_cleared", n=n).to_json()})
+
+            if path == "/api/history-forget":
+                if state.engine.running:
+                    return self._json({"error": msg("engine.already_running").to_json()}, 400)
+                try:
+                    from .history import History
+                    h = History()
+                    n = h.forget(str(data.get("user_id") or ""))
+                    h.close()
+                except Exception as exc:
+                    return self._json({"error": msg("engine.history_failed", error=str(exc)).to_json()}, 500)
+                return self._json({"ok": True, "message": msg("server.history_cleared", n=n).to_json()})
+
+            if path == "/api/report-copy":
+                text = report_text(state)
+                if copy_to_clipboard(text):
+                    return self._json({"ok": True, "message": msg("server.report_copied", n=text.count("\n")).to_json()})
+                return self._json(save_report(text))
+
+            if path == "/api/report-share":
+                return self._json(save_report(report_text(state)))
+
+            if path == "/api/clear-cache":
+                if state.engine.running:
+                    return self._json({"error": msg("engine.already_running").to_json()}, 400)
+                clear_cache()
+                return self._json({"ok": True, "message": msg("server.cache_cleared").to_json()})
+
+            if path == "/api/clear-cookies":
+                if state.engine.running:
+                    return self._json({"error": msg("engine.already_running").to_json()}, 400)
+                clear_cookies()
+                from .engine import save_session_state
+                save_session_state(False)
+                state.engine.logged_in = False
+                return self._json({"ok": True, "message": msg("server.cookies_cleared").to_json()})
+
+            if path == "/api/network-settings":
+                ok = open_network_settings()
+                if not ok:
+                    return self._json({"error": msg("server.no_network_settings").to_json()}, 400)
+                return self._json({"ok": True})
 
             if path == "/api/stop":
                 state.engine.stop()

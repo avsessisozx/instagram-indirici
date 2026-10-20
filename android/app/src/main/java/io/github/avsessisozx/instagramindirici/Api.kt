@@ -103,6 +103,25 @@ class Api(private val host: ApiHost) {
                 200 to JSONObject().put("ok", true).put("message", msg("server.history_cleared", "n" to n).toJson())
             }
 
+            "/api/history-list" -> {
+                val profiles = JSONArray()
+                var total = 0
+                for (p in try { Core.history().profiles() } catch (e: Exception) { emptyList() }) {
+                    total += p.count
+                    profiles.put(JSONObject().put("user_id", p.userId).put("username", p.username).put("count", p.count)
+                        .put("last", p.last).put("folder", "").put("exists", false))
+                }
+                200 to JSONObject().put("profiles", profiles).put("total", total)
+            }
+
+            "/api/history-forget" -> {
+                if (engine.running) return err(400, msg("engine.already_running"))
+                val n = try { Core.history().forget(data?.optString("user_id", "") ?: "") } catch (e: Exception) {
+                    return err(500, msg("engine.history_failed", "error" to (e.message ?: e.javaClass.simpleName)))
+                }
+                200 to JSONObject().put("ok", true).put("message", msg("server.history_cleared", "n" to n).toJson())
+            }
+
             "/api/stop" -> {
                 engine.stop()
                 200 to JSONObject().put("ok", true)
