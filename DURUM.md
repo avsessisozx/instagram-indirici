@@ -3,7 +3,7 @@
 > Claude'un çalışma notu. Yalnızca `durum` dalında durur; `main`'e, README'ye ve sürüm notlarına girmez.
 > Yeni sohbette önce bunu oku, repoyu baştan tarama. Her sürümden sonra güncelle.
 
-Son güncelleme: 2026-10-20 · Son sürüm: **v1.4.0** (2026-10-20)
+Son güncelleme: 2026-10-20 · Son sürüm: **v1.4.1** (2026-10-20)
 
 ## Ne yapıyor
 Herkese açık Instagram profillerini toplu indirir: gönderiler/reels/albümler, hikayeler, öne çıkanlar,
@@ -95,6 +95,12 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   Hayalet mola düzeltmesi: öne çıkanlar (highlights) artık "5 liste sayfasında bir mola" sayacına girmez (`pace(countsAsPage)`).
   Not: i18n kontrol aracı dinamik anahtarı ("ui.identity_" + x) tanımaz → `when` ile tam anahtar yaz.
 
+- v1.4.1 (Android): kullanıcının 1.4.0 raporunda DASH akışı bulundu ama "Failed to add the track to the muxer" ile
+  birleşmedi (normal 720x1280 indi). Neden büyük olasılıkla VP9/AV1/Opus (MediaMuxer mp4'e koyamaz). `DashStream.codecs` +
+  `muxable`: H.264/H.265 + AAC öncelikli; AndroidMuxer hata iletisi artık reddedilen mime'ı yazar. JVM testi d4.
+  Telefonda doğrulanmadı: yeni raporda "Video kalitesi" satırı `quality_dash` mi? Hâlâ aynı hata + mime çıkarsa ona göre ilerle.
+  CI'da Windows e2e (gerçek Edge) bir kez geçici hata verdi, yeniden çalıştırınca geçti.
+
 ## Yarım / sıradaki
 - v1.3.0 gerçek Instagram'da denenmedi (buradan erişim yok). Kullanıcıdan bakılacaklar: (1) indirilen videoda Ayrıntılar'daki
   "Video kalitesi" satırı: `quality_dash` çıkıyorsa yüksek kalite alınmış; hep `quality_plain` çıkıyorsa Instagram'ın liste
@@ -116,5 +122,6 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
 
 ## Kurallar
 - Sürüm vermeden önce kendin test et; kullanıcıya bozuk sürüm test ettirme
+- Test + CI geçtiyse düzeltmeyi sormadan yayınla (kullanıcı her seferinde "yayınlayayım mı" sorulmasından hoşlanmıyor)
 - Sürüm notlarına ve commit mesajlarına sohbet / oturum bağlantısı (`Claude-Session:`) ekleme
 - Önce `gelistirme` dalında CI'ı geçir, sonra `main`'e al (main'e push sürüm yayınlar)
