@@ -3,7 +3,7 @@
 > Claude'un çalışma notu. Yalnızca `durum` dalında durur; `main`'e, README'ye ve sürüm notlarına girmez.
 > Yeni sohbette önce bunu oku, repoyu baştan tarama. Her sürümden sonra güncelle.
 
-Son güncelleme: 2026-10-20 · Son sürüm: **v1.3.0** (2026-10-20)
+Son güncelleme: 2026-10-20 · Son sürüm: **v1.4.0** (2026-10-20)
 
 ## Ne yapıyor
 Herkese açık Instagram profillerini toplu indirir: gönderiler/reels/albümler, hikayeler, öne çıkanlar,
@@ -88,6 +88,12 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   kod karşılaştırması: bekleme/başlık/sayfa boyutu iki sürümde aynıydı, fark ortam (sıfırdan WebView profili,
   mobil kimlik + masaüstü uygulama kimliği). Kullanıcı ayrıca indirilen videoların Instagram içindeki oynatmadan
   daha küçük/düşük kaliteli olduğunu söyledi → DASH. Testler: 4 birim + 2 uçtan uca (gerçek ffmpeg) + 3 JVM; CI yeşil.
+- v1.4.0 (Android): Gelişmiş panel — kimlik seçici (Bilgisayar/Android telefon/Tablet; Identity.kt), istek hızı
+  (Normal/Dikkatli/Çok dikkatli; Pacing.kt), ayrıntılı rapor kopyala/paylaş (Report.kt, DeviceInfo.kt; çerez/şifre yok),
+  önbelleği temizle, çerezleri sil (çıkış), "Ağ ayarlarını aç" (IP değişimi uygulama içinden mümkün değil; Wi‑Fi↔mobil veri),
+  silme onayı (5 sn kilitli "Sil", "Bir daha gösterme", localStorage `ii.noConfirm`, Gelişmiş panelden geri açılır).
+  Hayalet mola düzeltmesi: öne çıkanlar (highlights) artık "5 liste sayfasında bir mola" sayacına girmez (`pace(countsAsPage)`).
+  Not: i18n kontrol aracı dinamik anahtarı ("ui.identity_" + x) tanımaz → `when` ile tam anahtar yaz.
 
 ## Yarım / sıradaki
 - v1.3.0 gerçek Instagram'da denenmedi (buradan erişim yok). Kullanıcıdan bakılacaklar: (1) indirilen videoda Ayrıntılar'daki
@@ -100,6 +106,10 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   kimliği (mobil Chrome UA + masaüstü X-IG-App-ID 936619743392459), eski X-ASBD-ID 129477 (instaloader 198387 kullanıyor).
 - (eski not) v1.2.0 Android'in kullanıcının telefonunda (Xiaomi Mi 10T Pro) denenmesi bekleniyor. Windows 1.1.x kullanıcıda çalışıyor (gerçek Instagram'a buradan erişim yok). Gönderi listesi de
   reddedilirse kaydındaki "isteğini kabul etmedi (HTTP …)" satırlarına bak.
+
+- Doğrulanmadı (gerçek Instagram): DASH kalitesi (günlükte hep "quality_plain" çıkıyorsa liste yanıtında manifest yok →
+  her gönderiyi `/api/v1/media/{id}/info/` ile iste); kimlik/hız modu mola ve 429'u azaltıyor mu. Kullanıcı 1–2 saat dinlendirip denemeli.
+- Windows (Python) tarafında hız modu / kimlik seçici yok; yalnız Android'de.
 
 ## Bilinen sorunlar
 - Kayıtlı açık hata yok. Instagram doc_id'leri zamanla değişebilir (o zaman REST/kaydırma yedekleri devreye girer).
