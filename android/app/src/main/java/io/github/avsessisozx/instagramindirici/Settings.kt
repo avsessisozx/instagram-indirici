@@ -14,6 +14,8 @@ data class SettingsValues(
     val history: Boolean = true,
     val autoContinue: Boolean = true,
     val lang: String = "auto",
+    val identity: String = Identity.DESKTOP,   // Instagram'a hangi cihazmış gibi görünülür
+    val speed: String = Pacing.NORMAL,         // istek hızı: normal / dikkatli / çok dikkatli
 ) {
     fun toJson(): JSONObject = JSONObject()
         .put("out_dir", "")
@@ -27,6 +29,8 @@ data class SettingsValues(
         .put("history", history)
         .put("auto_continue", autoContinue)
         .put("lang", lang)
+        .put("identity", identity)
+        .put("speed", speed)
 
     /** Gelen JSON'daki geçerli alanları üzerine yazar, geçersizleri yok sayar. */
     fun merge(o: JSONObject?, languages: Collection<String>): SettingsValues {
@@ -50,6 +54,10 @@ data class SettingsValues(
             onlyNew = bool("only_new", v.onlyNew), history = bool("history", v.history),
             autoContinue = bool("auto_continue", v.autoContinue),
         )
+        val identity = o.opt("identity")
+        if (identity is String && identity in Identity.ALL) v = v.copy(identity = identity)
+        val speed = o.opt("speed")
+        if (speed is String && speed in Pacing.ALL) v = v.copy(speed = speed)
         val lang = o.opt("lang")
         if (lang is String) v = v.copy(lang = if (lang in languages) lang else "auto")
         return v
@@ -76,6 +84,8 @@ object TestHooks {
     @Volatile var pageDelayMs: LongRange? = null
     /** Mola: her kaç liste sayfasında, kaç ms (0 = kapalı). */
     @Volatile var breakEvery: Int? = null
+    /** Molanın süresi (saniye): alt-üst sınır. */
+    @Volatile var breakSeconds: LongRange? = null
     @Volatile var idleSeconds: Double? = null
     @Volatile var resumeWaitSeconds: Long? = null
     @Volatile var resumeRounds: Int? = null

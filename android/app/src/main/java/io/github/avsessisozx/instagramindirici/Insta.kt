@@ -103,7 +103,7 @@ class FeedState(
 }
 
 /** Windows sürümündeki browser.py'nin karşılığı: Instagram'dan veriyi toplayan kurallar. */
-class Insta(private val web: IgWeb) {
+class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed(Pacing.NORMAL)) {
     private val log: (String, Msg) -> Unit = { level, m -> web.listener?.log(level, m) }
     private fun debug(text: String) { web.listener?.logText("debug", text) }
     private var lastCall = 0L
@@ -195,7 +195,7 @@ class Insta(private val web: IgWeb) {
                 URLEncoder.encode(k, "UTF-8") + "=" + URLEncoder.encode(v, "UTF-8")
             }
         }
-        val range = TestHooks.delayMs ?: 2500L..5000L
+        val range = TestHooks.delayMs ?: pacing.callDelayMs
         val wait = lastCall + Random.nextLong(range.first, range.last + 1) - System.currentTimeMillis()
         if (lastCall > 0 && wait > 0) sleep(wait)
         lastCall = System.currentTimeMillis()
@@ -211,7 +211,7 @@ class Insta(private val web: IgWeb) {
     suspend fun call(path: String, params: List<Pair<String, String>>? = null, form: Map<String, String>? = null,
                      what: String = "", essential: Boolean = false): Any? {
         val steps = if (essential) backoff() else emptyList()
-        if (essential) pace()
+        if (essential) pace(countsAsPage = what == "feed" || what == "graphql")
         var attempt = 0
         var connectionErrors = 0
         var verified = false
@@ -260,16 +260,19 @@ class Insta(private val web: IgWeb) {
 
     /** Liste sayfaları arasında insan gibi bekler (telefonda Instagram daha çabuk "yavaşla" diyor). */
     private suspend fun pageDelay() {
-        val range = TestHooks.pageDelayMs ?: 8_000L..15_000L
+        val range = TestHooks.pageDelayMs ?: pacing.pageDelayMs
         sleep(Random.nextLong(range.first, range.last + 1))
     }
 
     /** Belli sayıda liste sayfasından sonra kısa mola verir (Instagram'ı yormamak için). */
-    private suspend fun pace() {
-        val every = TestHooks.breakEvery ?: 5
+    private suspend fun pace(countsAsPage: Boolean) {
+        // Öne çıkanlar gibi gönderi olmayan listeler mola sayacını doldurmasın.
+        if (!countsAsPage) return
+        val every = TestHooks.breakEvery ?: pacing.breakEvery
         listPages++
         if (every > 0 && listPages > 1 && (listPages - 1) % every == 0) {
-            val seconds = Random.nextLong(60, 121)
+            val range = TestHooks.breakSeconds ?: pacing.breakSeconds
+            val seconds = Random.nextLong(range.first, range.last + 1)
             log("info", msg("browser.pause", "s" to seconds))
             web.listener?.waitUntil(System.currentTimeMillis() + seconds * 1000, "pause")
             try { sleep(seconds * 1000) } finally { web.listener?.waitUntil(0, "") }

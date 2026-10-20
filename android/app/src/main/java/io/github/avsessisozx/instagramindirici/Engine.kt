@@ -252,12 +252,23 @@ class Engine(
     }
 
     private suspend fun downloadJob(web: IgWeb, job: Job, s: SettingsValues, cancel: AtomicBoolean) {
-        val insta = Insta(web)
+        val insta = Insta(web, Pacing.forSpeed(s.speed))
         var parsed = Links.parse(job.link)
         val li = web.loggedIn()
         loggedIn = li
         onLoginState(li)
         log("info", msg(if (li) "engine.account_yes" else "engine.account_no"))
+        val identityName = msg(when (s.identity) {
+            Identity.PHONE -> "ui.identity_android"
+            Identity.TABLET -> "ui.identity_tablet"
+            else -> "ui.identity_desktop"
+        })
+        val speedName = msg(when (s.speed) {
+            Pacing.CAREFUL -> "ui.speed_careful"
+            Pacing.VERY_CAREFUL -> "ui.speed_very_careful"
+            else -> "ui.speed_normal"
+        })
+        log("info", msg("engine.identity", "identity" to identityName, "speed" to speedName, "ua" to web.userAgent))
 
         val sink = sinkFactory()
         val queue = Channel<Media.Post?>(Channel.UNLIMITED)

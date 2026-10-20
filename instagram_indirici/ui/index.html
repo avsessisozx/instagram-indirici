@@ -161,6 +161,19 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
 .foot select { height: 30px; font-size: 13px; padding: 0 6px; }
 .foot label { display: inline-flex; gap: 6px; align-items: center; }
 .folder-static { padding: 9px 12px; border-radius: 9px; background: var(--bg); border: 1.5px solid var(--line); font-size: 14px; }
+.btn.danger { border-color: var(--err); color: var(--err); }
+.adv-row { margin: 16px 0 0; }
+.adv-row .lbl2 { display: block; font-weight: 600; margin-bottom: 6px; }
+.adv-row small { display: block; color: var(--muted); font-size: 13px; margin-top: 6px; line-height: 1.4; }
+.adv-row select { max-width: 100%; }
+.adv-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.adv-msg { color: var(--muted); font-size: 13px; margin-top: 6px; min-height: 18px; }
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 50; }
+.modal[hidden] { display: none; }
+.modal-box { background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 14px; padding: 20px; max-width: 420px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,.35); }
+.modal-box h3 { margin: 0 0 8px; font-size: 18px; }
+.modal-box p { margin: 0 0 14px; line-height: 1.45; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
 .is-mobile .desktop-only { display: none !important; }
 .is-desktop .mobile-only { display: none !important; }
 body.loading main { visibility: hidden; }
@@ -295,6 +308,54 @@ body.loading main { visibility: hidden; }
     </details>
   </section>
 
+  <section class="panel mobile-only" id="advanced">
+    <details>
+      <summary data-i18n="ui.advanced_title"></summary>
+      <div class="adv-row">
+        <label class="lbl2" for="identity" data-i18n="ui.identity_label"></label>
+        <select id="identity">
+          <option value="desktop" data-i18n="ui.identity_desktop"></option>
+          <option value="android" data-i18n="ui.identity_android"></option>
+          <option value="tablet" data-i18n="ui.identity_tablet"></option>
+        </select>
+        <small data-i18n="ui.identity_hint"></small>
+      </div>
+      <div class="adv-row">
+        <label class="lbl2" for="speed" data-i18n="ui.speed_label"></label>
+        <select id="speed">
+          <option value="normal" data-i18n="ui.speed_normal"></option>
+          <option value="careful" data-i18n="ui.speed_careful"></option>
+          <option value="very_careful" data-i18n="ui.speed_very_careful"></option>
+        </select>
+        <small data-i18n="ui.speed_hint"></small>
+      </div>
+      <div class="adv-row">
+        <span class="lbl2" data-i18n="ui.report_label"></span>
+        <div class="adv-actions">
+          <button class="btn" id="report-copy" type="button" data-i18n="ui.report_copy"></button>
+          <button class="btn" id="report-share" type="button" data-i18n="ui.report_share"></button>
+        </div>
+        <small data-i18n="ui.report_hint"></small>
+        <div class="adv-msg" id="report-msg" aria-live="polite"></div>
+      </div>
+      <div class="adv-row">
+        <span class="lbl2" data-i18n="ui.network_label"></span>
+        <button class="btn" id="network-open" type="button" data-i18n="ui.network_open"></button>
+        <small data-i18n="ui.network_hint"></small>
+      </div>
+      <div class="adv-row">
+        <span class="lbl2" data-i18n="ui.clear_label"></span>
+        <div class="adv-actions">
+          <button class="btn" id="clear-cache" type="button" data-i18n="ui.cache_clear"></button>
+          <button class="btn danger" id="clear-cookies" type="button" data-i18n="ui.cookies_clear"></button>
+        </div>
+        <small><span data-i18n="ui.cache_hint"></span> <span data-i18n="ui.cookies_hint"></span></small>
+        <div class="adv-msg" id="adv-msg" aria-live="polite"></div>
+        <label class="check"><input type="checkbox" id="confirm-ask"><span data-i18n="ui.confirm_ask"></span></label>
+      </div>
+    </details>
+  </section>
+
   <div class="foot">
     <span class="account" id="account"><i class="dot" aria-hidden="true"></i><span id="account-text"></span>
       <button class="linklike" id="login" type="button"></button></span>
@@ -304,6 +365,18 @@ body.loading main { visibility: hidden; }
     <span id="version"></span>
   </div>
 </main>
+
+<div class="modal" id="confirm" role="dialog" aria-modal="true" aria-labelledby="confirm-title" hidden>
+  <div class="modal-box">
+    <h3 id="confirm-title" data-i18n="ui.confirm_title"></h3>
+    <p id="confirm-text"></p>
+    <label class="check"><input type="checkbox" id="confirm-never"><span data-i18n="ui.confirm_never"></span></label>
+    <div class="modal-actions">
+      <button class="btn" id="confirm-cancel" type="button" data-i18n="ui.confirm_cancel"></button>
+      <button class="btn danger" id="confirm-ok" type="button" disabled></button>
+    </div>
+  </div>
+</div>
 
 <script>
 (() => {
@@ -469,6 +542,7 @@ body.loading main { visibility: hidden; }
       auto_continue: $('autocont').checked,
       out_dir: $('outdir').value.trim(),
       lang: $('lang').value || 'auto',
+      ...(platform === 'mobile' ? { identity: $('identity').value, speed: $('speed').value } : {}),
     };
   }
   function applySettings(s) {
@@ -483,15 +557,61 @@ body.loading main { visibility: hidden; }
     $('onlynew').checked = !!s.only_new;
     $('history').checked = s.history !== false;
     $('autocont').checked = s.auto_continue !== false;
+    if (s.identity) $('identity').value = s.identity;
+    if (s.speed) $('speed').value = s.speed;
     if (document.activeElement !== $('outdir')) $('outdir').value = s.out_dir || '';
   }
   const saveSettings = () => api('/api/settings', readSettings()).then(r => applySettings(r.settings)).catch(() => {});
-  ['limit', 'w-posts', 'w-stories', 'w-highlights', 'w-avatar', 'onlynew', 'history', 'autocont', 'outdir'].forEach(id => $(id).addEventListener('change', saveSettings));
+  ['limit', 'w-posts', 'w-stories', 'w-highlights', 'w-avatar', 'onlynew', 'history', 'autocont', 'outdir', 'identity', 'speed'].forEach(id => $(id).addEventListener('change', saveSettings));
   document.querySelectorAll('input[name=content]').forEach(el => el.addEventListener('change', saveSettings));
   $('lang').addEventListener('change', async () => { await saveSettings(); await loadStrings(); });
 
+  // ---------------- silmeden önce onay (Android): 5 sn kilitli düğme + "bir daha gösterme"
+  const CONFIRM_KEY = 'ii.noConfirm';   // uygulamanın kendi verisinde (arayüzün localStorage'ı) saklanır
+  const confirmOff = () => { try { return localStorage.getItem(CONFIRM_KEY) === '1'; } catch (e) { return false; } };
+  const setConfirmOff = (off) => { try { if (off) localStorage.setItem(CONFIRM_KEY, '1'); else localStorage.removeItem(CONFIRM_KEY); } catch (e) {} };
+  function confirmAction(text) {
+    if (platform !== 'mobile') return Promise.resolve(window.confirm(text));
+    if (confirmOff()) return Promise.resolve(true);
+    return new Promise((resolve) => {
+      const box = $('confirm'), ok = $('confirm-ok'), cancel = $('confirm-cancel');
+      let left = 5, timer = null;
+      const label = () => { ok.textContent = left > 0 ? t('ui.confirm_ok_wait', { n: left }) : t('ui.confirm_ok'); };
+      const close = (answer) => {
+        clearInterval(timer);
+        box.hidden = true;
+        ok.onclick = null; cancel.onclick = null;
+        if (answer && $('confirm-never').checked) { setConfirmOff(true); $('confirm-ask').checked = false; }
+        resolve(answer);
+      };
+      $('confirm-text').textContent = text;
+      $('confirm-never').checked = false;
+      ok.disabled = true; label();
+      box.hidden = false;
+      cancel.focus();
+      timer = setInterval(() => { left -= 1; if (left <= 0) { ok.disabled = false; clearInterval(timer); } label(); }, 1000);
+      ok.onclick = () => close(true);
+      cancel.onclick = () => close(false);
+    });
+  }
+  $('confirm-ask').checked = !confirmOff();
+  $('confirm-ask').addEventListener('change', () => setConfirmOff(!$('confirm-ask').checked));
+
+  const advAction = async (path, msgId) => {
+    try { const r = await api(path, {}); $(msgId).textContent = r.message ? renderMsg(r.message) : ''; }
+    catch (e) { $(msgId).textContent = errText(e); }
+  };
+  $('report-copy').addEventListener('click', () => advAction('/api/report-copy', 'report-msg'));
+  $('report-share').addEventListener('click', () => advAction('/api/report-share', 'report-msg'));
+  $('network-open').addEventListener('click', () => advAction('/api/network-settings', 'adv-msg'));
+  $('clear-cache').addEventListener('click', () => advAction('/api/clear-cache', 'adv-msg'));
+  $('clear-cookies').addEventListener('click', async () => {
+    if (!(await confirmAction(t('ui.confirm_cookies')))) return;
+    advAction('/api/clear-cookies', 'adv-msg');
+  });
+
   $('clear-history').addEventListener('click', async () => {
-    if (!window.confirm(t('ui.history_confirm'))) return;
+    if (!(await confirmAction(t('ui.history_confirm')))) return;
     try { const r = await api('/api/clear-history', {}); $('history-msg').textContent = renderMsg(r.message); }
     catch (e) { $('history-msg').textContent = errText(e); }
   });
@@ -544,7 +664,7 @@ body.loading main { visibility: hidden; }
     running = s.running;
     $('start').textContent = t(running ? 'ui.stop' : 'ui.start');
     $('start').classList.toggle('stop', running);
-    ['link', 'paste', 'choose', 'outdir', 'login', 'lang', 'clear-history'].forEach(id => { $(id).disabled = running; });
+    ['link', 'paste', 'choose', 'outdir', 'login', 'lang', 'clear-history', 'identity', 'speed', 'clear-cache', 'clear-cookies'].forEach(id => { $(id).disabled = running; });
     document.querySelectorAll('#step2 input, #step3 input, #step3 select').forEach(e => {
       e.disabled = running || (e.id === 'mode-single' && linkKind === 'profile');
     });

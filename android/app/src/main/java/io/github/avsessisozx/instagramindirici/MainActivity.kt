@@ -16,8 +16,10 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.CookieManager
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
+import android.webkit.WebStorage
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Button
@@ -221,6 +223,50 @@ class MainActivity : Activity(), ApiHost {
                 ContextCompat.startForegroundService(this, Intent(this, DownloadService::class.java))
             } catch (e: Exception) {
                 // Bildirim servisi başlamasa da indirme uygulama açıkken sürer.
+            }
+        }
+    }
+
+    override fun applyIdentity(identity: String) {
+        runOnUiThread { holder.web.setIdentity(identity) }
+    }
+
+    override fun userAgent(): String = holder.web.userAgent
+
+    override fun shareText(text: String) {
+        runOnUiThread {
+            val send = Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, text)
+            try { startActivity(Intent.createChooser(send, null)) } catch (e: Exception) {
+                Toast.makeText(this, Core.text("android.no_share_app"), Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    override fun clearCache() {
+        runOnUiThread { try { holder.webView.clearCache(true) } catch (e: Exception) {} }
+    }
+
+    override fun clearCookies() {
+        runOnUiThread {
+            try {
+                CookieManager.getInstance().removeAllCookies(null)
+                CookieManager.getInstance().flush()
+                // Sadece Instagram'ın verisi: arayüzün kendi kayıtları (ör. "bir daha gösterme") kalır.
+                val storage = WebStorage.getInstance()
+                for (origin in listOf("https://www.instagram.com", "https://instagram.com", "https://i.instagram.com")) {
+                    storage.deleteOrigin(origin)
+                }
+                holder.webView.clearCache(true)
+                holder.webView.clearHistory()
+            } catch (e: Exception) {}
+            uiWeb.evaluateJavascript("window.igRefresh && window.igRefresh()", null)
+        }
+    }
+
+    override fun openNetworkSettings() {
+        runOnUiThread {
+            try { startActivity(Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS)) } catch (e: Exception) {
+                Toast.makeText(this, Core.text("android.no_settings_app"), Toast.LENGTH_LONG).show()
             }
         }
     }

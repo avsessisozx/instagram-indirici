@@ -38,7 +38,8 @@ class WebInstagram(private val webView: WebView, private val overlay: OverlayHos
 
     override var listener: WebListener? = null
     override var cancel: AtomicBoolean = AtomicBoolean(false)
-    override val userAgent: String
+    @Volatile override var userAgent: String = ""
+    private val deviceUserAgent: String
     override val baseUrl: String get() = (TestHooks.baseUrl ?: "https://www.instagram.com").trimEnd('/')
 
     private val pending = ConcurrentHashMap<Int, CompletableDeferred<RawResponse>>()
@@ -65,7 +66,8 @@ class WebInstagram(private val webView: WebView, private val overlay: OverlayHos
         s.allowContentAccess = false
         s.javaScriptCanOpenWindowsAutomatically = false
         s.setSupportMultipleWindows(false)
-        userAgent = desktopUserAgent(s.userAgentString)
+        deviceUserAgent = s.userAgentString
+        userAgent = Identity.userAgentFor(Core.settings.identity, deviceUserAgent)
         s.userAgentString = userAgent
         CookieManager.getInstance().setAcceptCookie(true)
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true)
@@ -247,22 +249,16 @@ class WebInstagram(private val webView: WebView, private val overlay: OverlayHos
         return loggedIn()
     }
 
+    /** Kimlik ayarı değişince: sonraki sayfa ve isteklerde yeni kimlik kullanılır. */
+    fun setIdentity(identity: String) {
+        val ua = Identity.userAgentFor(identity, deviceUserAgent)
+        if (ua == userAgent) return
+        userAgent = ua
+        webView.post { webView.settings.userAgentString = ua }
+    }
+
     companion object {
         private val ORIGINS = setOf("https://www.instagram.com", "https://instagram.com", "https://*.instagram.com")
-
-        /** WebView kimliğinden ("; wv", "Version/4.0") arındırılmış Chrome kimliği. */
-        fun chromeUserAgent(default: String): String =
-            default.replace("; wv)", ")").replace(Regex("\\s*Version/\\d+(\\.\\d+)*"), "")
-
-        /**
-         * Windows sürümüyle aynı kimlik: masaüstü Chrome. İstekler masaüstü sitenin uygulama kimliğiyle (X-IG-App-ID)
-         * gittiği için mobil kimlikle birlikte tutarsız görünüyordu.
-         */
-        fun desktopUserAgent(default: String): String {
-            val major = Regex("Chrome/(\\d+)").find(default)?.groupValues?.get(1) ?: "130"
-            return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) " +
-                "Chrome/$major.0.0.0 Safari/537.36"
-        }
 
         fun pageScript(send: String): String = """
 (function(){

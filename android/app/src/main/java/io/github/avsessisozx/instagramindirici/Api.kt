@@ -1,5 +1,6 @@
 package io.github.avsessisozx.instagramindirici
 
+import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.webkit.JavascriptInterface
@@ -12,6 +13,14 @@ interface ApiHost {
     fun openResult(location: String?)
     fun requestNotificationPermission()
     fun showVerification()
+    /** Kimlik ayarı değişti: Instagram tarayıcısı yeni kimlikle çalışsın. */
+    fun applyIdentity(identity: String)
+    fun userAgent(): String
+    fun shareText(text: String)
+    fun clearCache()
+    /** Instagram çerezlerini ve site verisini siler (çıkış yapılır). Arayüzün kendi verisine dokunmaz. */
+    fun clearCookies()
+    fun openNetworkSettings()
 }
 
 class Api(private val host: ApiHost) {
@@ -64,6 +73,7 @@ class Api(private val host: ApiHost) {
 
             "/api/settings" -> {
                 Core.saveSettings(Core.settings.merge(data, Core.languages()))
+                if (!engine.running) host.applyIdentity(Core.settings.identity)
                 200 to JSONObject().put("settings", Core.settings.toJson())
             }
 
@@ -71,6 +81,7 @@ class Api(private val host: ApiHost) {
                 val mode = data?.optString("mode", "") ?: ""
                 if (mode != Engine.MODE_SINGLE && mode != Engine.MODE_PROFILE) return err(400, msg("server.choose_mode"))
                 Core.saveSettings(Core.settings.merge(data?.optJSONObject("settings"), Core.languages()))
+                host.applyIdentity(Core.settings.identity)
                 val e = engine.start(Engine.Job(data?.optString("link", "") ?: "", mode, Core.settings))
                 if (e != null) return err(400, e)
                 host.requestNotificationPermission()
@@ -113,9 +124,46 @@ class Api(private val host: ApiHost) {
                 200 to JSONObject().put("ok", true)
             }
 
+            "/api/report-copy" -> {
+                val text = reportText()
+                val cm = Core.app.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                cm.setPrimaryClip(ClipData.newPlainText("rapor", text))
+                200 to JSONObject().put("ok", true).put("message", msg("server.report_copied", "n" to text.count { it == '\n' }).toJson())
+            }
+
+            "/api/report-share" -> {
+                host.shareText(reportText())
+                200 to JSONObject().put("ok", true)
+            }
+
+            "/api/clear-cache" -> {
+                if (engine.running) return err(400, msg("engine.already_running"))
+                host.clearCache()
+                java.io.File(System.getProperty("java.io.tmpdir") ?: ".", "ii-dash").deleteRecursively()
+                200 to JSONObject().put("ok", true).put("message", msg("server.cache_cleared").toJson())
+            }
+
+            "/api/clear-cookies" -> {
+                if (engine.running) return err(400, msg("engine.already_running"))
+                host.clearCookies()
+                Core.saveLoginState(false)
+                200 to JSONObject().put("ok", true).put("message", msg("server.cookies_cleared").toJson())
+            }
+
+            "/api/network-settings" -> {
+                host.openNetworkSettings()
+                200 to JSONObject().put("ok", true)
+            }
+
             "/api/choose-folder" -> err(400, msg("server.no_folder_dialog"))
 
             else -> err(404, msg("server.unknown"))
         }
+    }
+
+    private fun reportText(): String {
+        val st = Core.settings
+        return Report.build(DeviceInfo.collect(Core.app, st.identity, st.speed, host.userAgent()), st.toJson(),
+            Core.engine.snapshot(0), Core.tr, Core.lang())
     }
 }
