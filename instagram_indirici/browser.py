@@ -553,7 +553,8 @@ class InstagramBrowser:
         """
         backoff = _backoff_steps() if essential else []
         if essential:
-            await self._pace()
+            # Öne çıkanlar gönderi listesi sayfası değildir: mola sayacına ve sayfa beklemesine girmez.
+            await self._pace(counts_as_page=what != "highlights")
         attempt = 0
         connection_errors = 0
         verified = False
@@ -599,8 +600,10 @@ class InstagramBrowser:
             snippet = res.text[:160].replace("\n", " ")
             raise ApiError(f"{what or path}: HTTP {res.status} {snippet}")
 
-    async def _pace(self) -> None:
+    async def _pace(self, counts_as_page: bool = True) -> None:
         """Liste sayfaları arasında bekler; belli sayıda sayfadan sonra uzun mola verir (Instagram'ı yormamak için)."""
+        if not counts_as_page:
+            return
         pc = self.pacing
         self.list_pages += 1
         if self.list_pages > 1 and pc.page_delay[1] > 0:

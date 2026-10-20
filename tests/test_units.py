@@ -321,6 +321,26 @@ class PacingAndIdentityTests(unittest.TestCase):
         self.assertIn("Windows NT", identity.user_agent_for("bogus", cur))
 
 
+class PaceCounterTests(unittest.TestCase):
+    def test_highlights_do_not_count_as_list_pages(self):
+        import asyncio
+        import threading
+
+        from instagram_indirici.browser import InstagramBrowser
+        from instagram_indirici.pacing import Pacing
+
+        pc = Pacing((0.0, 0.0), (0.0, 0.0), 2, (0.0, 0.0))
+        with tempfile.TemporaryDirectory() as tmp:
+            b = InstagramBrowser(Path(tmp), log=lambda *a: None, cancel=threading.Event(), on_verify=lambda v: None,
+                                 pacing=pc)
+            asyncio.run(b._pace(counts_as_page=False))
+            asyncio.run(b._pace(counts_as_page=False))
+            self.assertEqual(b.list_pages, 0)
+            asyncio.run(b._pace())
+            asyncio.run(b._pace())
+            self.assertEqual(b.list_pages, 2)
+
+
 class SettingsTests(unittest.TestCase):
     def test_new_settings_are_cleaned(self):
         from instagram_indirici.paths import clean_settings
