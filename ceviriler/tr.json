@@ -301,5 +301,6 @@
   "engine.identity": "Kimlik: {identity}, istek hızı: {speed}. Kullanılan user agent: {ua}",
   "android.no_share_app": "Paylaşma uygulaması açılamadı.",
   "android.no_settings_app": "Ayarlar açılamadı.",
-  "engine.quality_offered": "Instagram'ın bu video için sunduğu akışlar: {list}"
+  "engine.quality_offered": "Instagram'ın bu video için sunduğu akışlar: {list}",
+  "engine.quality_compare": "KARŞILAŞTIRMA — Instagram'ın verdiği en yüksek: {best} | Telefona inen: {got} (normal sürüm)"
 }

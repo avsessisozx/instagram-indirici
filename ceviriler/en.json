@@ -301,5 +301,6 @@
   "engine.identity": "Identity: {identity}, request speed: {speed}. User agent in use: {ua}",
   "android.no_share_app": "Couldn't open a share app.",
   "android.no_settings_app": "Couldn't open settings.",
-  "engine.quality_offered": "Streams Instagram offered for this video: {list}"
+  "engine.quality_offered": "Streams Instagram offered for this video: {list}",
+  "engine.quality_compare": "COMPARISON — best Instagram offered: {best} | saved on the phone: {got} (plain version)"
 }

@@ -765,6 +765,12 @@ class DownloadPool(
             if (media.kind == "video" && dash == null) {
                 eng.log("info", msg("engine.quality_plain", "res" to media.plainRes.ifEmpty { "?" }))
             }
+            if (media.kind == "video" && dash != null) {
+                // Anlaşılır karşılaştırma: Instagram'ın verdiği en yüksek ile telefona inen.
+                eng.log("info", msg("engine.quality_compare",
+                    "best" to "${dash.video.width}x${dash.video.height} ${dash.video.codecs.ifEmpty { "?" }}",
+                    "got" to media.plainRes.ifEmpty { "?" }))
+            }
             return "downloaded"
         }
         if (cancel.get()) return "failed"
