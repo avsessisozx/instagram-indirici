@@ -40,8 +40,8 @@ object Media {
         val area: Long get() = width * height
 
         /**
-         * Telefonun MediaMuxer'ı mp4'e koyabilsin: H.264 / H.265 görüntü, AAC ses. VP9, AV1, Opus gibileri
-         * reddedilir ("Failed to add the track"). Codec bilinmiyorsa (boş) denenir.
+         * Telefonun kendi MediaMuxer'ının mp4'e koyabildiği biçim: H.264 / H.265 görüntü, AAC ses. VP9, AV1, Opus
+         * onda reddedilir ("Failed to add the track"); onlar için Mp4Mux devreye girer. Eşitlikte önceliklidir.
          */
         val muxable: Boolean get() {
             val c = codecs.lowercase()
@@ -347,8 +347,9 @@ object Media {
     fun dashChoice(item: JSONObject): DashChoice? {
         val (videos, audios) = dashStreams(item)
         if (videos.isEmpty()) return null
-        // Telefonda birleştirilebilen akışlar öncelikli (VP9/AV1 en büyük olsa bile H.264 seçilir).
-        val best = videos.sortedWith(compareByDescending<DashStream> { it.muxable }.thenByDescending { it.area }
+        // Önce en büyük çözünürlük (VP9 olsa bile: Mp4Mux birleştirir); eşitse telefonun kendi aracının
+        // bildiği biçim (H.264) ve en yüksek bit hızı.
+        val best = videos.sortedWith(compareByDescending<DashStream> { it.area }.thenByDescending { it.muxable }
             .thenByDescending { it.bandwidth }).first()
         val audio = audios.sortedWith(compareByDescending<DashStream> { it.muxable }.thenByDescending { it.bandwidth }).firstOrNull()
         val offered = (videos + audios).joinToString("; ") { st ->

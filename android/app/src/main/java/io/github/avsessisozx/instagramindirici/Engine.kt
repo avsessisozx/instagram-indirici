@@ -739,10 +739,7 @@ class DownloadPool(
             // En yüksek kalite: Instagram'ın uygulama içinde oynattığı ayrı ses + görüntü akışı.
             eng.log("info", msg("engine.quality_offered", "list" to dash.offered))
             val tempDir = File(System.getProperty("java.io.tmpdir") ?: ".", "ii-dash")
-            // Telefon bu görüntü biçimini mp4'e koyamıyorsa (VP9/AV1) boşuna indirme.
-            val got = if (!dash.video.muxable && media.urls.isNotEmpty() && TestHooks.muxer == null)
-                Fetcher.Result(false, error = msg("fetch.mux_failed", "error" to "${dash.video.codecs} (telefon birleştiremiyor)"))
-            else Fetcher.fetchDash(dash, rel, headers, sink, cancel, progress, tempDir, TestHooks.muxer ?: AndroidMuxer)
+            val got = Fetcher.fetchDash(dash, rel, headers, sink, cancel, progress, tempDir, TestHooks.muxer ?: SmartMuxer)
             if (got.ok) {
                 eng.filesDone.incrementAndGet()
                 eng.setLastLocation(got.location)

@@ -405,6 +405,16 @@ class EngineTest {
     }
 
     @Test
+    fun d5_dashPicksHigherResolutionEvenIfVp9() {
+        val mpd = """<MPD><Period>
+            <AdaptationSet contentType="video">
+              <Representation mimeType="video/mp4" codecs="vp09.00.40.08" width="1080" height="1920" bandwidth="2400000"><BaseURL>https://x/vp9_1080.mp4</BaseURL></Representation>
+              <Representation mimeType="video/mp4" codecs="avc1.64001f" width="720" height="1280" bandwidth="1400000"><BaseURL>https://x/avc_720.mp4</BaseURL></Representation>
+            </AdaptationSet></Period></MPD>"""
+        assertEquals("https://x/vp9_1080.mp4", Media.dashChoice(JSONObject().put("video_dash_manifest", mpd))!!.video.url)
+    }
+
+    @Test
     fun d3_dashParsingPicksBestStreams() {
         val mpd = """<?xml version="1.0"?><MPD xmlns="urn:mpeg:dash:schema:mpd:2011"><Period>
             <AdaptationSet contentType="video">
