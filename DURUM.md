@@ -3,7 +3,7 @@
 > Claude'un çalışma notu. Yalnızca `durum` dalında durur; `main`'e, README'ye ve sürüm notlarına girmez.
 > Yeni sohbette önce bunu oku, repoyu baştan tarama. Her sürümden sonra güncelle.
 
-Son güncelleme: 2026-10-18 · Son sürüm: **v1.2.1** (2026-10-18)
+Son güncelleme: 2026-10-20 · Son sürüm: **v1.3.0** (2026-10-20)
 
 ## Ne yapıyor
 Herkese açık Instagram profillerini toplu indirir: gönderiler/reels/albümler, hikayeler, öne çıkanlar,
@@ -37,6 +37,14 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
 - Oturum iş ortasında kapanırsa (Instagram ~150+ gönderide yapıyor) bulunanlar iner, not gösterilir.
 - Mola: her 5 liste sayfasında 60–120 sn (`INSTAGRAM_INDIRICI_BREAK`); kısıtlanınca 15 dk × en çok 4 tur
   bekleyip devam (`auto_continue` ayarı, `INSTAGRAM_INDIRICI_RESUME_WAIT/_ROUNDS`).
+- Video kalitesi (1.3.0): `video_versions` (normal tek parça sürümler) yerine, aynı çözünürlük ya da daha iyisi varsa
+  `video_dash_manifest` (MPD) içindeki en büyük tek dosyalı görüntü + en yüksek bit hızlı ses akışı indirilir ve
+  yeniden kodlanmadan birleştirilir: Windows `fetcher.fetch_dash` (ffmpeg: `imageio-ffmpeg` paketiyle gelir, EXE'ye
+  `--collect-all imageio_ffmpeg`; öz test ffmpeg'i de dener), Android `AndroidMuxer.kt` (MediaExtractor/MediaMuxer;
+  JVM testlerinde `TestHooks.muxer`). Parçalı (SegmentTemplate/List) akışlar atlanır. Akış inmezse/birleşmezse normal
+  sürüme dönülür (`engine.quality_fallback`). Her video için `engine.quality_dash` / `engine.quality_plain` kayıt satırı.
+- Android istek ayarları (1.3.0): liste sayfaları arası 8–15 sn ek bekleme (`pageDelay`), REST sayfa boyutu 12,
+  WebView masaüstü Chrome kimliği (`desktopUserAgent`; X-IG-App-ID masaüstü olduğu için). Windows'a dokunulmadı.
 - Çeviriler: `ceviriler/tr.json`, `en.json` (`tools/check_i18n.py`)
 - Testler: `tests/test_units.py`, `tests/test_integration.py` (gerçek tarayıcı + `tests/fake_instagram.py`)
 - CI: `build.yml` her dalda (testler + EXE + EXE öz testi); `main`'e push → Release.
@@ -75,7 +83,18 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   reddedilen yanıtın ilk 200 karakteri debug kaydına yazılır. Sahte sunucuda `rest_refused`; JVM testi b6.
   Windows (Python) tarafı değişmedi → bu konuda iki sürüm farklı davranıyor (Windows'ta sorun bildirilmedi).
 
+- v1.3.0: en yüksek kalite video (DASH) Windows + Android; Android'de Instagram'ı daha az yoran istekler.
+  Telefonda kullanıcı 36 gönderide "Instagram mola istedi" gördü (Windows'ta 200-300 gönderide hiç görmüyordu);
+  kod karşılaştırması: bekleme/başlık/sayfa boyutu iki sürümde aynıydı, fark ortam (sıfırdan WebView profili,
+  mobil kimlik + masaüstü uygulama kimliği). Kullanıcı ayrıca indirilen videoların Instagram içindeki oynatmadan
+  daha küçük/düşük kaliteli olduğunu söyledi → DASH. Testler: 4 birim + 2 uçtan uca (gerçek ffmpeg) + 3 JVM; CI yeşil.
+
 ## Yarım / sıradaki
+- v1.3.0 gerçek Instagram'da denenmedi (buradan erişim yok). Kullanıcıdan bakılacaklar: (1) indirilen videoda Ayrıntılar'daki
+  "Video kalitesi" satırı: `quality_dash` çıkıyorsa yüksek kalite alınmış; hep `quality_plain` çıkıyorsa Instagram'ın liste
+  yanıtında `video_dash_manifest` yok → sıradaki adım: gönderiyi tek tek `/api/v1/media/{id}/info/` ile istemek (istek
+  sayısını artırır, hız sınırına dikkat). (2) Android'de "mola" ne kadar geç geliyor. (3) Masaüstü kimliğine geçişte
+  Instagram doğrulama isteyebilir; sorun çıkarsa `WebInstagram.desktopUserAgent` yerine `chromeUserAgent` kullan.
 - v1.2.1 Android'in telefonda denenmesi bekleniyor: GraphQL (doc_id 28975909992013618) ya da kaydırma bu oturumda
   gönderi getiriyor mu? Getirmiyorsa debug kaydındaki Instagram yanıtına bak; sıradaki şüpheliler: WebView'in mobil
   kimliği (mobil Chrome UA + masaüstü X-IG-App-ID 936619743392459), eski X-ASBD-ID 129477 (instaloader 198387 kullanıyor).
