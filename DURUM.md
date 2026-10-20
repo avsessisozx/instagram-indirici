@@ -3,7 +3,7 @@
 > Claude'un çalışma notu. Yalnızca `durum` dalında durur; `main`'e, README'ye ve sürüm notlarına girmez.
 > Yeni sohbette önce bunu oku, repoyu baştan tarama. Her sürümden sonra güncelle.
 
-Son güncelleme: 2026-10-20 · Son sürüm: **v1.5.0** (2026-10-20)
+Son güncelleme: 2026-10-20 · Son sürüm: **v1.6.0** (2026-10-20)
 
 ## Ne yapıyor
 Herkese açık Instagram profillerini toplu indirir: gönderiler/reels/albümler, hikayeler, öne çıkanlar,
@@ -45,6 +45,29 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   sürüme dönülür (`engine.quality_fallback`). Her video için `engine.quality_dash` / `engine.quality_plain` kayıt satırı.
 - Android istek ayarları (1.3.0): liste sayfaları arası 8–15 sn ek bekleme (`pageDelay`), REST sayfa boyutu 12,
   WebView masaüstü Chrome kimliği (`desktopUserAgent`; X-IG-App-ID masaüstü olduğu için). Windows'a dokunulmadı.
+- Arayüz (v1.6.0): `instagram_indirici/ui/index.html` tek dosya, Windows + Android ortak (Android derlemede kopyalar).
+  Telemet'in görünümü: koyu zemin + turuncu vurgu (açık tema da var), yuvarlak kartlar, alt sekmeler İndir / Geçmiş /
+  Ayarlar (`showView`), büyük sayılı ilerleme kartı (`#hero-num`: indirirken yüzde, tararken bulunan gönderi), anahtar
+  (switch) satırları, 5 sn kilitli onay penceresi. Test kancaları aynı kaldı: `step1.done`, `start`, `form-error`, `detect`,
+  `mode-*`, `notes`, `status`, `account-text`, `login`, `#notes button[data-login]` vb. Ayarlar sekmesindeki satırlar
+  (`row-history`, `row-auto`, klasör) artık profil moduna bağlı gizlenmez; yalnız `row-what/content/limit/onlynew` gizlenir.
+  Metinler: dinamik anahtar (`'ui.x_' + id`) i18n denetimine takılır → tam anahtar yaz.
+- Sihirbaz: ayarlarda `setup_done` (iki platformda sunucu tarafı; Windows'ta arayüz her açılışta başka port kullandığı için
+  localStorage güvenilmez). İlk ayarlar gelince `afterFirstSettings`: giriş yapılmış ya da geçmişte kayıt varsa sihirbaz
+  açılmaz, `setup_done` kendiliğinden true olur. Adımlar: karşılama(dil) → giriş → (yalnız Windows) klasör → hazır.
+  `no_confirm` (silmeden onay sorma) da ayarlarda; eski Android `localStorage ii.noConfirm` ilk açılışta oraya taşınır.
+- Geçmiş sekmesi: `/api/history-list` (GET) + `/api/history-forget` (POST user_id). Windows: `History.profiles()/forget()`
+  (sqlite `downloaded` tablosundan). Android: `History.profiles()/forget()` + `meta` (user_id → username, last) alanı
+  `gecmis.json`'a eklendi; eski dosyalarda zaman yoksa dosyanın değişme zamanı, kullanıcı adı yoksa ilerleme kaydından alınır.
+  Android'de profil klasörü bilinmediği için "Klasörü aç" yok (`exists:false`); "Yenileri indir" linki doldurur.
+- Windows (v1.6.0) Android'den taşınanlar: `pacing.py` (hız modu; Normal = eski Windows değerleri 2.5–5 sn, 5 sayfada 60–120 sn mola,
+  sayfa arası ek bekleme YOK; Dikkatli/Çok dikkatli Android ile aynı), `identity.py` (Bilgisayar = tarayıcının kendi kimliği,
+  Android/Tablet = CDP `Network.setUserAgentOverride`, `browser._apply_identity`), `report.py` (rapor, çerez/şifre silinir),
+  `server.py` bakım uçları: `/api/report-copy` (PowerShell Set-Clipboard; olmazsa dosya), `/api/report-share` (rapor-*.txt
+  dosyası + Explorer'da göster), `/api/clear-cache` (tarayici-*/Cache, Code Cache, GPUCache…), `/api/clear-cookies`
+  (tarayici-* profil klasörlerini siler = çıkış; `arayuz-penceresi-*`'ye dokunmaz), `/api/network-settings` (ms-settings:network).
+  Testlerde pencere/pano/Explorer açılmasın diye `INSTAGRAM_INDIRICI_NO_OPEN=1`. `INSTAGRAM_INDIRICI_PAGE_DELAY` sayfa beklemesini ezer.
+  Öne çıkanlar (`what="highlights"`) `_pace(counts_as_page=False)`: mola sayacına ve sayfa beklemesine girmez (Android v1.4.0 karşılığı).
 - Çeviriler: `ceviriler/tr.json`, `en.json` (`tools/check_i18n.py`)
 - Testler: `tests/test_units.py`, `tests/test_integration.py` (gerçek tarayıcı + `tests/fake_instagram.py`)
 - CI: `build.yml` her dalda (testler + EXE + EXE öz testi); `main`'e push → Release.
@@ -110,7 +133,19 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   Telefonda DOĞRULANDI (Mi 10T Pro, Android 12): rapor "Video kalitesi: 1080x1920, 3.6 Mb/sn (en yüksek kalite akışı)";
   dosya 1080x1920 VP9 60 fps + HE-AAC stereo, 4,9 MB, 11 sn; oynuyor, ses sorunsuz.
 
+- v1.6.0: yeni arayüz (Telemet tarzı sekmeler, Geçmiş sekmesi, ilk açılış sihirbazı, büyük sayılı ilerleme) iki platformda;
+  Windows'a hız modu, kimlik seçici, ayrıntılı rapor, önbellek/çerez temizleme, silme onayı. Testler: Windows birim 38
+  (12 yeni), kimlik için 2 uçtan uca (sahte sunucu görülen User-Agent'ı kaydeder: `fake.user_agents`), Android
+  `HistoryProfilesTest` (JVM) + emülatörde `d1_tabsAndHistoryList`, `d2_wizardOnFreshInstall…`, `d3_wizardSkippedForExistingUser`.
+  EndToEndTest `setUp` artık `setupDone = true` ile başlar (yoksa sihirbaz ekran görüntülerini kaplar).
+
 ## Yarım / sıradaki
+- v1.6.0 gerçek kullanımda denenmedi (kullanıcıdan bakılacaklar): (1) Windows'ta yeni arayüz Edge `--app` penceresinde nasıl
+  görünüyor; (2) Windows'ta "Android telefon"/"Tablet" kimliği gerçek Instagram'da doğrulama istiyor mu (varsayılan Bilgisayar);
+  (3) Android'de Geçmiş sekmesi eski kayıtlarda tarihleri doğru gösteriyor mu (eski kayıtta zaman yok → dosya zamanı);
+  (4) Windows Dikkatli modlar kaç gönderide mola getiriyor.
+- Windows'a taşınmayan: Android v1.2.1 "REST listenin ilk isteği reddedilirse beklemeden sıradaki yola geç" davranışı (Windows'ta
+  essential çağrı hâlâ 30+90 sn bekler; kullanıcı Windows'ta sorun bildirmedi).
 - v1.3.0 gerçek Instagram'da denenmedi (buradan erişim yok). Kullanıcıdan bakılacaklar: (1) indirilen videoda Ayrıntılar'daki
   "Video kalitesi" satırı: `quality_dash` çıkıyorsa yüksek kalite alınmış; hep `quality_plain` çıkıyorsa Instagram'ın liste
   yanıtında `video_dash_manifest` yok → sıradaki adım: gönderiyi tek tek `/api/v1/media/{id}/info/` ile istemek (istek
@@ -124,7 +159,6 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
 
 - Doğrulanmadı (gerçek Instagram): DASH kalitesi (günlükte hep "quality_plain" çıkıyorsa liste yanıtında manifest yok →
   her gönderiyi `/api/v1/media/{id}/info/` ile iste); kimlik/hız modu mola ve 429'u azaltıyor mu. Kullanıcı 1–2 saat dinlendirip denemeli.
-- Windows (Python) tarafında hız modu / kimlik seçici yok; yalnız Android'de.
 
 ## Bilinen sorunlar
 - Kayıtlı açık hata yok. Instagram doc_id'leri zamanla değişebilir (o zaman REST/kaydırma yedekleri devreye girer).
