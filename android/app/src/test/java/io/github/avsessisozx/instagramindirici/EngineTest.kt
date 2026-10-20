@@ -389,6 +389,22 @@ class EngineTest {
     }
 
     @Test
+    fun d4_dashPrefersCodecsThePhoneCanMux() {
+        val mpd = """<MPD><Period>
+            <AdaptationSet contentType="video">
+              <Representation mimeType="video/mp4" codecs="vp09.00.40.08" width="1080" height="1920" bandwidth="5000000"><BaseURL>https://x/vp9.mp4</BaseURL></Representation>
+              <Representation mimeType="video/mp4" codecs="avc1.640028" width="1080" height="1920" bandwidth="4200000"><BaseURL>https://x/avc.mp4</BaseURL></Representation>
+            </AdaptationSet>
+            <AdaptationSet contentType="audio">
+              <Representation mimeType="audio/mp4" codecs="opus" bandwidth="128000"><BaseURL>https://x/opus.mp4</BaseURL></Representation>
+              <Representation mimeType="audio/mp4" codecs="mp4a.40.2" bandwidth="72000"><BaseURL>https://x/aac.mp4</BaseURL></Representation>
+            </AdaptationSet></Period></MPD>"""
+        val choice = Media.dashChoice(JSONObject().put("video_dash_manifest", mpd))!!
+        assertEquals("https://x/avc.mp4", choice.video.url)
+        assertEquals("https://x/aac.mp4", choice.audio!!.url)
+    }
+
+    @Test
     fun d3_dashParsingPicksBestStreams() {
         val mpd = """<?xml version="1.0"?><MPD xmlns="urn:mpeg:dash:schema:mpd:2011"><Period>
             <AdaptationSet contentType="video">

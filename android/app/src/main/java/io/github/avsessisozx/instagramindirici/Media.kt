@@ -33,8 +33,21 @@ object Media {
     const val VIDEOS_DIR = "Videolar"
 
     /** DASH bildirimindeki (video_dash_manifest) tek bir akış: ses ya da görüntü. */
-    data class DashStream(val url: String, val width: Long = 0, val height: Long = 0, val bandwidth: Long = 0) {
+    data class DashStream(
+        val url: String, val width: Long = 0, val height: Long = 0, val bandwidth: Long = 0,
+        val codecs: String = "",
+    ) {
         val area: Long get() = width * height
+
+        /**
+         * Telefonun MediaMuxer'ı mp4'e koyabilsin: H.264 / H.265 görüntü, AAC ses. VP9, AV1, Opus gibileri
+         * reddedilir ("Failed to add the track"). Codec bilinmiyorsa (boş) denenir.
+         */
+        val muxable: Boolean get() {
+            val c = codecs.lowercase()
+            if (c.isEmpty()) return true
+            return c.startsWith("avc") || c.startsWith("hvc") || c.startsWith("hev") || c.startsWith("mp4a")
+        }
     }
 
     data class DashChoice(val video: DashStream, val audio: DashStream? = null)
@@ -323,6 +336,7 @@ object Media {
                 val stream = DashStream(
                     url, width, rep.getAttribute("height").trim().toLongOrNull() ?: 0L,
                     rep.getAttribute("bandwidth").trim().toLongOrNull() ?: 0L,
+                    rep.getAttribute("codecs").ifEmpty { set.getAttribute("codecs") }.trim(),
                 )
                 if ("audio" in kind) audios += stream else if ("video" in kind || width > 0) videos += stream
             }
@@ -333,8 +347,10 @@ object Media {
     fun dashChoice(item: JSONObject): DashChoice? {
         val (videos, audios) = dashStreams(item)
         if (videos.isEmpty()) return null
-        val best = videos.sortedWith(compareByDescending<DashStream> { it.area }.thenByDescending { it.bandwidth }).first()
-        val audio = audios.maxByOrNull { it.bandwidth }
+        // Telefonda birleştirilebilen akışlar öncelikli (VP9/AV1 en büyük olsa bile H.264 seçilir).
+        val best = videos.sortedWith(compareByDescending<DashStream> { it.muxable }.thenByDescending { it.area }
+            .thenByDescending { it.bandwidth }).first()
+        val audio = audios.sortedWith(compareByDescending<DashStream> { it.muxable }.thenByDescending { it.bandwidth }).firstOrNull()
         return DashChoice(best, audio)
     }
 

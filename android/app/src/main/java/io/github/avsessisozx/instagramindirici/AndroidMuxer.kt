@@ -40,8 +40,12 @@ object AndroidMuxer : Muxer {
 
             val mux = MediaMuxer(out.absolutePath, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4).also { muxer = it }
             if (vFormat.containsKey(MediaFormat.KEY_ROTATION)) mux.setOrientationHint(vFormat.getInteger(MediaFormat.KEY_ROTATION))
-            val vOut = mux.addTrack(vFormat)
-            val aOut = if (aFormat != null) mux.addTrack(aFormat) else -1
+            val vOut = try { mux.addTrack(vFormat) } catch (e: Exception) {
+                return "video track ${vFormat.getString(MediaFormat.KEY_MIME)}: ${e.message}"
+            }
+            val aOut = if (aFormat != null) try { mux.addTrack(aFormat) } catch (e: Exception) {
+                return "audio track ${aFormat.getString(MediaFormat.KEY_MIME)}: ${e.message}"
+            } else -1
             mux.start(); started = true
 
             val buf = ByteBuffer.allocate(BUFFER)
