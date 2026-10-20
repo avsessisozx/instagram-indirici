@@ -300,5 +300,6 @@
   "server.cookies_cleared": "Cookies deleted, you are logged out of Instagram.",
   "engine.identity": "Identity: {identity}, request speed: {speed}. User agent in use: {ua}",
   "android.no_share_app": "Couldn't open a share app.",
-  "android.no_settings_app": "Couldn't open settings."
+  "android.no_settings_app": "Couldn't open settings.",
+  "engine.quality_offered": "Streams Instagram offered for this video: {list}"
 }

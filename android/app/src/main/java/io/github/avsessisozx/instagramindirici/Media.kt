@@ -50,7 +50,7 @@ object Media {
         }
     }
 
-    data class DashChoice(val video: DashStream, val audio: DashStream? = null)
+    data class DashChoice(val video: DashStream, val audio: DashStream? = null, val offered: String = "")
 
     data class MediaFile(
         val kind: String,               // "video" | "image"
@@ -351,7 +351,12 @@ object Media {
         val best = videos.sortedWith(compareByDescending<DashStream> { it.muxable }.thenByDescending { it.area }
             .thenByDescending { it.bandwidth }).first()
         val audio = audios.sortedWith(compareByDescending<DashStream> { it.muxable }.thenByDescending { it.bandwidth }).firstOrNull()
-        return DashChoice(best, audio)
+        val offered = (videos + audios).joinToString("; ") { st ->
+            val kind = if (st in audios) "ses" else "${st.width}x${st.height}"
+            val codec = st.codecs.ifEmpty { "?" }
+            "$kind $codec ${String.format(java.util.Locale.US, "%.1f", st.bandwidth / 1_000_000.0)} Mb/sn"
+        }
+        return DashChoice(best, audio, offered)
     }
 
     /** Normal (tek parça) sürümlerin en büyüğünün genişlik ve yüksekliği; bilinmiyorsa (0, 0). */
