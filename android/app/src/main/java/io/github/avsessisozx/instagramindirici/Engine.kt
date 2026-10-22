@@ -1069,7 +1069,7 @@ class DownloadPool(
             if (cancel.get()) return "failed"
             eng.log("warn", msg("engine.quality_fallback", "res" to media.plainRes.ifEmpty { "?" }, "error" to (got.error ?: "")))
             if (media.urls.isEmpty()) {
-                post?.lastError = got.error ?: ""
+                post?.lastError = got.error?.key ?: ""
                 eng.filesFailed.incrementAndGet()
                 eng.log("error", msg("engine.download_failed", "name" to rel.substringAfterLast('/'), "error" to (got.error ?: "")))
                 return "failed"
@@ -1091,7 +1091,7 @@ class DownloadPool(
             return "downloaded"
         }
         if (cancel.get()) return "failed"
-        post?.lastError = result.error ?: ""
+        post?.lastError = result.error?.key ?: ""
         eng.filesFailed.incrementAndGet()
         eng.log("error", msg("engine.download_failed", "name" to rel.substringAfterLast('/'), "error" to (result.error ?: "")))
         return "failed"
