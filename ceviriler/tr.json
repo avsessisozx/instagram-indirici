@@ -395,5 +395,15 @@
   "engine.cookie_invalid": "Yapıştırılan kod geçersiz görünüyor. 'sessionid' satırının değerini eksiksiz kopyalayıp yapıştır.",
   "engine.cookie_expired": "Instagram bu oturum kodunu kabul etmedi (süresi dolmuş ya da o tarayıcıdan çıkış yapılmış olabilir). Tarayıcıda oturumun açık olduğundan emin olup kodu yeniden kopyala.",
   "engine.cookie_challenge": "Instagram bu oturum için yine doğrulama istedi. Önce normal tarayıcında/telefonunda hesabı doğrulayıp tekrar dene.",
-  "engine.cookie_error": "Oturum kodu denenemedi (Instagram'a ulaşılamadı ya da yanıt vermedi). Biraz sonra tekrar dene."
+  "engine.cookie_error": "Oturum kodu denenemedi (Instagram'a ulaşılamadı ya da yanıt vermedi). Biraz sonra tekrar dene.",
+  "ui.chrome_login": "Chrome'dan giriş yap",
+  "ui.chrome_hint": "Normal Chrome'unda Instagram açılır; orada zaten girişliysen oturum programa kendiliğinden gelir. Önce eklentiyi bir kere kurman gerekir.",
+  "ui.chrome_waiting": "Chrome'da Instagram açıldı. Girişliysen oturum birkaç saniyede gelir; değilsen orada giriş yap, otomatik gelecek.",
+  "ui.chrome_slow": "Hâlâ gelmediyse: eklenti kurulu olmayabilir ya da Chrome varsayılan tarayıcın değil. Aşağıdaki 'Eklentiyi kur' adımlarına bak.",
+  "ui.chrome_setup_title": "Eklentiyi kur (bir kere)",
+  "ui.chrome_setup_steps": "1) Aşağıdaki 'Eklenti klasörünü aç'a bas; bir klasör açılır.\n2) Chrome'da adres çubuğuna chrome://extensions yaz.\n3) Sağ üstten 'Geliştirici modu'nu aç.\n4) 'Paketlenmemiş öğe yükle'ye bas ve 1. adımda açılan klasörü seç.\n5) Programda 'Chrome'dan giriş yap'a bas.\nEklenti, oturum çerezlerini yalnızca sen bu tuşa bastığında ve yalnızca bu bilgisayardaki programa gönderir.",
+  "ui.chrome_open_folder": "Eklenti klasörünü aç",
+  "server.chrome_token_bad": "Chrome'dan gelen istek geçersiz ya da süresi dolmuş. Programda 'Chrome'dan giriş yap'a tekrar bas.",
+  "server.chrome_folder_failed": "Eklenti klasörü hazırlanamadı.",
+  "server.chrome_folder_opened": "Eklenti klasörü açıldı: {path}"
 }

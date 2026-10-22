@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Instagram İndirici – Giriş Köprüsü",
+  "version": "1.0.0",
+  "description": "Instagram İndirici programına, bu Chrome'da açık olan Instagram oturumunu (sadece sen 'Chrome'dan giriş yap'a bastığında) gönderir.",
+  "permissions": ["cookies", "storage"],
+  "host_permissions": ["https://www.instagram.com/*", "https://instagram.com/*", "http://127.0.0.1/*"],
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    {
+      "matches": ["https://www.instagram.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ]
+}

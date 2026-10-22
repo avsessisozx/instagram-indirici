@@ -395,5 +395,15 @@
   "engine.cookie_invalid": "The pasted code doesn't look valid. Copy the full value of the 'sessionid' row and paste it.",
   "engine.cookie_expired": "Instagram did not accept this session code (it may have expired or you may have logged out in that browser). Make sure you're logged in there and copy the code again.",
   "engine.cookie_challenge": "Instagram asked for verification again for this session. Verify the account in your normal browser or phone first, then try again.",
-  "engine.cookie_error": "The session code could not be tried (Instagram was unreachable or did not answer). Try again in a moment."
+  "engine.cookie_error": "The session code could not be tried (Instagram was unreachable or did not answer). Try again in a moment.",
+  "ui.chrome_login": "Log in via Chrome",
+  "ui.chrome_hint": "Instagram opens in your normal Chrome; if you're already logged in there, the session reaches the program by itself. Install the extension once first.",
+  "ui.chrome_waiting": "Instagram opened in Chrome. If you're logged in, the session arrives in a few seconds; if not, log in there and it will arrive automatically.",
+  "ui.chrome_slow": "Still nothing? The extension may not be installed, or Chrome isn't your default browser. See the 'Install the extension' steps below.",
+  "ui.chrome_setup_title": "Install the extension (once)",
+  "ui.chrome_setup_steps": "1) Press 'Open extension folder' below; a folder opens.\n2) In Chrome type chrome://extensions in the address bar.\n3) Turn on 'Developer mode' (top right).\n4) Press 'Load unpacked' and choose the folder from step 1.\n5) In the program press 'Log in via Chrome'.\nThe extension sends the session cookies only when you press that button, and only to the program on this computer.",
+  "ui.chrome_open_folder": "Open extension folder",
+  "server.chrome_token_bad": "The request from Chrome is invalid or expired. Press 'Log in via Chrome' in the program again.",
+  "server.chrome_folder_failed": "The extension folder could not be prepared.",
+  "server.chrome_folder_opened": "Extension folder opened: {path}"
 }

@@ -204,7 +204,7 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
     suspend fun importSession(text: String): String {
         val cookies = SessionInput.parse(text)
         if (cookies["sessionid"].isNullOrEmpty()) return "invalid"
-        val names = listOf("sessionid", "csrftoken", "ds_user_id")
+        val names = listOf("sessionid", "csrftoken", "ds_user_id", "mid", "ig_did", "datr", "ig_nrcb")
         val previous = try { web.readCookies(names) } catch (e: Exception) { emptyMap() }
         web.writeCookies(cookies)
         var result = "error"

@@ -504,7 +504,8 @@ class SessionImportTests(unittest.TestCase):
 
     def test_full_cookie_header(self):
         got = parse_session_input("Cookie: mid=abc; csrftoken=TOK123; sessionid=%s; ds_user_id=777777; ig_did=x" % self.SID)
-        self.assertEqual(got, {"sessionid": self.SID, "csrftoken": "TOK123", "ds_user_id": "777777"})
+        self.assertEqual(got, {"sessionid": self.SID, "csrftoken": "TOK123", "ds_user_id": "777777",
+                               "mid": "abc", "ig_did": "x"})
 
     def test_devtools_row(self):
         row = "sessionid\t%s\t.instagram.com\t/\t2027-10-22T10:00:00.000Z\t120\t✓\t✓" % self.SID
@@ -544,3 +545,102 @@ class CookieEndpointTests(ServerFeatureTests):
     def test_rejects_empty(self):
         code, data = self.post("/api/login-cookie", {})
         self.assertEqual(code, 400)
+
+
+class ChromeLoginEndpointTests(ServerFeatureTests):
+    """Chrome eklentisinden gelen oturum: kod, köken ve tek kullanım denetimi (tarayıcı gerektirmez)."""
+
+    def raw_post(self, path, body, origin=None):
+        headers = {"Content-Type": "application/json"}
+        if origin:
+            headers["Origin"] = origin
+        req = urllib.request.Request(self.base + path, data=json.dumps(body).encode(), headers=headers, method="POST")
+        try:
+            with urllib.request.urlopen(req, timeout=10) as r:
+                return r.status, json.loads(r.read() or b"{}"), dict(r.headers)
+        except urllib.error.HTTPError as exc:
+            raw = exc.read()
+            try:
+                return exc.code, json.loads(raw), dict(exc.headers)
+            except ValueError:
+                return exc.code, {}, dict(exc.headers)
+
+    def begin(self):
+        with mock.patch("instagram_indirici.server.open_in_default_browser", return_value=True) as opened:
+            code, data = self.post("/api/login-chrome", {})
+        self.assertEqual(code, 200)
+        self.assertTrue(data["ok"])
+        url = opened.call_args[0][0]
+        self.assertEqual(url, f"https://www.instagram.com/#ii={self.state.port}.{self.state.ext_token}")
+        return self.state.ext_token
+
+    def test_wrong_or_missing_token_rejected(self):
+        self.begin()
+        for body in ({"token": "yanlis", "cookies": {"sessionid": "gecerli"}}, {"cookies": {"sessionid": "gecerli"}}):
+            code, data, _ = self.raw_post("/api/extension-session", body, origin="chrome-extension://abc")
+            self.assertEqual(code, 403, body)
+        self.assertTrue(self.state.chrome_waiting())
+
+    def test_without_login_chrome_nothing_is_accepted(self):
+        code, _, _ = self.raw_post("/api/extension-session", {"token": "", "cookies": {"sessionid": "gecerli"}},
+                                   origin="chrome-extension://abc")
+        self.assertEqual(code, 403)
+
+    def test_good_token_starts_cookie_job_once(self):
+        token = self.begin()
+        with mock.patch.object(self.state.engine, "start", return_value=None) as start:
+            code, data, headers = self.raw_post(
+                "/api/extension-session",
+                {"token": token, "cookies": {"sessionid": "61234567890%3Aabc%3A1", "mid": "MID1", "csrftoken": "T0K"}},
+                origin="chrome-extension://abcdef")
+        self.assertEqual(code, 200, data)
+        self.assertEqual(headers.get("Access-Control-Allow-Origin"), "chrome-extension://abcdef")
+        job = start.call_args[0][0]
+        self.assertEqual(job.mode, "cookie")
+        self.assertIn("sessionid=61234567890%3Aabc%3A1", job.link)
+        self.assertIn("mid=MID1", job.link)
+        self.assertFalse(self.state.chrome_waiting())
+        code, _, _ = self.raw_post("/api/extension-session", {"token": token, "cookies": {"sessionid": "gecerli"}},
+                                   origin="chrome-extension://abcdef")
+        self.assertEqual(code, 403, "kod tek kullanımlık")
+
+    def test_web_page_origin_is_rejected_even_with_token(self):
+        token = self.begin()
+        for origin in ("https://evil.example", "http://evil.example:80"):
+            code, _, _ = self.raw_post("/api/extension-session", {"token": token, "cookies": {"sessionid": "gecerli"}},
+                                       origin=origin)
+            self.assertEqual(code, 403, origin)
+        self.assertTrue(self.state.chrome_waiting())
+
+    def test_extension_origin_cannot_use_other_endpoints(self):
+        code, _, _ = self.raw_post("/api/settings", {"lang": "en"}, origin="chrome-extension://abcdef")
+        self.assertEqual(code, 403)
+        code, _, _ = self.raw_post("/api/login-chrome", {}, origin="chrome-extension://abcdef")
+        self.assertEqual(code, 403)
+
+    def test_preflight_only_for_extension(self):
+        def options(origin):
+            req = urllib.request.Request(self.base + "/api/extension-session", method="OPTIONS",
+                                         headers={"Origin": origin, "Access-Control-Request-Method": "POST"})
+            try:
+                with urllib.request.urlopen(req, timeout=10) as r:
+                    return r.status, dict(r.headers)
+            except urllib.error.HTTPError as exc:
+                return exc.code, dict(exc.headers)
+        code, headers = options("chrome-extension://abc")
+        self.assertEqual(code, 204)
+        self.assertEqual(headers.get("Access-Control-Allow-Origin"), "chrome-extension://abc")
+        self.assertEqual(options("https://evil.example")[0], 403)
+
+    def test_extension_folder_is_prepared(self):
+        code, data = self.post("/api/extension-open", {})
+        self.assertEqual(code, 200, data)
+        folder = Path(data["path"])
+        self.assertTrue((folder / "manifest.json").exists())
+        self.assertTrue((folder / "background.js").exists())
+        self.assertTrue((folder / "content.js").exists())
+
+    def test_state_reports_waiting(self):
+        self.assertFalse(self.get("/api/state")["chrome_waiting"])
+        self.begin()
+        self.assertTrue(self.get("/api/state")["chrome_waiting"])

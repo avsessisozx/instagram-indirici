@@ -7,7 +7,8 @@ package io.github.avsessisozx.instagramindirici
  */
 object SessionInput {
     private val VALUE = Regex("^[A-Za-z0-9%:_.\\-]{6,}$")
-    private val NAMES = listOf("sessionid", "csrftoken", "ds_user_id")
+    private val NAMES = listOf("sessionid", "csrftoken", "ds_user_id", "mid", "ig_did", "datr", "ig_nrcb")
+    private val DEVICE = Regex("^[A-Za-z0-9%:_.\\-]{1,200}$")
 
     fun parse(text: String?): Map<String, String> {
         val raw = (text ?: "").trim().trim('\'', '"').trim()
@@ -30,9 +31,9 @@ object SessionInput {
         val sid = (found["sessionid"] ?: "").replace(":", "%3A")
         if (!VALUE.matches(sid)) return emptyMap()
         found["sessionid"] = sid
-        for (key in listOf("csrftoken", "ds_user_id")) {
+        for (key in NAMES.drop(1)) {
             val v = found[key]
-            if (v != null && !VALUE.matches(v)) found.remove(key)
+            if (v != null && !DEVICE.matches(v)) found.remove(key)
         }
         if ("ds_user_id" !in found) {
             Regex("^(\\d{5,})%3A").find(sid)?.let { found["ds_user_id"] = it.groupValues[1] }

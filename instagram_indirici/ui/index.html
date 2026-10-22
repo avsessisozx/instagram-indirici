@@ -469,6 +469,18 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
         <span class="who"><i class="dot" aria-hidden="true"></i><span id="account-text"></span></span>
         <button class="btn" id="login" type="button"></button>
       </div>
+      <div id="chrome-row" hidden>
+        <div class="account chrome-line">
+          <small class="cookie-text" data-i18n="ui.chrome_hint"></small>
+          <button class="btn" id="login-chrome" type="button" data-i18n="ui.chrome_login"></button>
+        </div>
+        <div class="note ok" id="chrome-note" hidden></div>
+        <details id="chrome-setup">
+          <summary data-i18n="ui.chrome_setup_title"></summary>
+          <p class="cookie-text" data-i18n="ui.chrome_setup_steps"></p>
+          <button class="btn" id="chrome-folder" type="button" data-i18n="ui.chrome_open_folder"></button>
+        </details>
+      </div>
       <details id="cookie-box">
         <summary data-i18n="ui.cookie_title"></summary>
         <p class="cookie-text" data-i18n="ui.cookie_steps"></p>
@@ -967,6 +979,30 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
     catch (e) { $('form-error').textContent = errText(e); }
   });
 
+  let chromeClicked = 0;
+  $('login-chrome').addEventListener('click', async () => {
+    $('form-error').textContent = '';
+    try { await api('/api/login-chrome', {}); chromeClicked = Date.now(); poll(true); }
+    catch (e) { $('form-error').textContent = errText(e); }
+  });
+  $('chrome-folder').addEventListener('click', async () => {
+    try { await api('/api/extension-open', {}); } catch (e) { $('form-error').textContent = errText(e); }
+  });
+  function renderChromeLogin(s) {
+    $('chrome-row').hidden = platform === 'mobile';
+    const waiting = !!s.chrome_waiting;
+    const note = $('chrome-note');
+    note.hidden = !waiting;
+    if (waiting) {
+      const slow = chromeClicked && Date.now() - chromeClicked > 20000;
+      note.textContent = t('ui.chrome_waiting') + (slow ? ' ' + t('ui.chrome_slow') : '');
+    }
+    // Eklenti oturumu gönderince iş "cookie" kipinde başlar: ilerlemeyi göster.
+    if (chromeClicked && s.mode === 'cookie' && (s.running || s.phase === 'done' || s.phase === 'error')) {
+      chromeClicked = 0; showView('download'); clearLog(); $('progress').hidden = false;
+    }
+  }
+
   $('cookie-use').addEventListener('click', async () => {
     const value = $('cookie-input').value.trim();
     if (!value) return;
@@ -987,9 +1023,10 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
   function render(s, relabelOnly) {
     lastState = s;
     running = s.running;
+    renderChromeLogin(s);
     $('start').textContent = t(running ? 'ui.stop' : 'ui.start');
     $('start').classList.toggle('stop', running);
-    ['link', 'paste', 'choose', 'outdir', 'login', 'cookie-input', 'cookie-use', 'lang', 'clear-history', 'identity', 'speed', 'clear-cache', 'clear-cookies', 'verify', 'infocsv', 'capmin', 'datefrom', 'dateto'].forEach(id => { $(id).disabled = running; });
+    ['link', 'paste', 'choose', 'outdir', 'login', 'login-chrome', 'cookie-input', 'cookie-use', 'lang', 'clear-history', 'identity', 'speed', 'clear-cache', 'clear-cookies', 'verify', 'infocsv', 'capmin', 'datefrom', 'dateto'].forEach(id => { $(id).disabled = running; });
     document.querySelectorAll('#step2 input, #step3 input, #step3 select').forEach(e => {
       e.disabled = running || (e.id === 'mode-single' && linkKind === 'profile');
     });

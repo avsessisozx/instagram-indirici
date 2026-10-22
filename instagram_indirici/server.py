@@ -2,14 +2,17 @@
 
 from __future__ import annotations
 
+import hmac
 import json
 import os
 import platform
+import secrets
 import shutil
 import subprocess
 import sys
 import threading
 import time
+import webbrowser
 from datetime import datetime
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -36,6 +39,11 @@ class AppState:
         i18n.set_language(self.settings["lang"])
         self.last_poll = 0.0
         self.port = 0
+        self.ext_token = ""        # "Chrome'dan giriş yap" için tek kullanımlık kod (eklenti geri verir)
+        self.ext_expires = 0.0
+
+    def chrome_waiting(self) -> bool:
+        return bool(self.ext_token) and time.monotonic() < self.ext_expires
 
 
 def choose_folder_windows(initial: str) -> Optional[str]:
@@ -115,6 +123,40 @@ def clear_cookies() -> int:
 def _no_open() -> bool:
     """Testlerde pencere/pano açılmasın (INSTAGRAM_INDIRICI_NO_OPEN=1)."""
     return os.environ.get("INSTAGRAM_INDIRICI_NO_OPEN") == "1"
+
+
+EXTENSION_FOLDER = "chrome_eklenti"
+EXTENSION_TTL = 600.0
+
+
+def open_in_default_browser(url: str) -> bool:
+    """Bağlantıyı kullanıcının normal (varsayılan) tarayıcısında açar: açık Chrome'una yeni sekme olarak gelir."""
+    if _no_open():
+        return True
+    try:
+        if sys.platform == "win32":
+            os.startfile(url)  # type: ignore[attr-defined]
+            return True
+        return bool(webbrowser.open(url))
+    except Exception:
+        return False
+
+
+def extension_source() -> Path:
+    return resource_dir() / EXTENSION_FOLDER
+
+
+def install_extension_folder() -> Optional[Path]:
+    """Eklenti dosyalarını kalıcı bir klasöre kopyalar (Chrome 'paketlenmemiş öğe' olarak bu klasörü yükler)."""
+    src = extension_source()
+    dst = app_data_dir() / "chrome-eklenti"
+    try:
+        if not (src / "manifest.json").exists():
+            return None
+        shutil.copytree(src, dst, dirs_exist_ok=True)
+    except OSError:
+        return None
+    return dst
 
 
 def copy_to_clipboard(text: str) -> bool:
@@ -217,8 +259,16 @@ def make_handler(state: AppState):
                 return True
             return origin.split("://", 1)[-1].split(":")[0] in ("127.0.0.1", "localhost")
 
+        def _extension_origin(self) -> str:
+            origin = self.headers.get("Origin") or ""
+            return origin if origin.startswith("chrome-extension://") else ""
+
         def _send(self, code: int, body: bytes, ctype: str) -> None:
             self.send_response(code)
+            cors = getattr(self, "_cors", "")
+            if cors:
+                self.send_header("Access-Control-Allow-Origin", cors)
+                self.send_header("Vary", "Origin")
             self.send_header("Content-Type", ctype)
             self.send_header("Content-Length", str(len(body)))
             self.send_header("Cache-Control", "no-store")
@@ -271,14 +321,31 @@ def make_handler(state: AppState):
                     snap["logged_in"] = load_session_state().get("logged_in")
                 snap["version"] = __version__
                 snap["app_name"] = APP_NAME
+                snap["chrome_waiting"] = state.chrome_waiting()
                 return self._json(snap)
             if path == "/api/history-list":
                 return self._json(history_overview(state))
             return self._send(404, b"not found", "text/plain")
 
-        def do_POST(self) -> None:
-            if not self._host_ok() or not self._origin_ok():
+        def do_OPTIONS(self) -> None:
+            ext = self._extension_origin()
+            if not self._host_ok() or not ext or self.path.split("?", 1)[0] != "/api/extension-session":
                 return self._send(403, b"forbidden", "text/plain")
+            self.send_response(204)
+            self.send_header("Access-Control-Allow-Origin", ext)
+            self.send_header("Access-Control-Allow-Methods", "POST")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+            self.send_header("Access-Control-Max-Age", "600")
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+
+        def do_POST(self) -> None:
+            self._cors = ""
+            from_extension = bool(self._extension_origin()) and self.path.split("?", 1)[0] == "/api/extension-session"
+            if not self._host_ok() or not (from_extension or self._origin_ok()):
+                return self._send(403, b"forbidden", "text/plain")
+            if from_extension:
+                self._cors = self._extension_origin()
             try:
                 data = self._read_json()
             except Exception:
@@ -318,6 +385,34 @@ def make_handler(state: AppState):
                 if error:
                     return self._json({"error": error.to_json()}, 400)
                 return self._json({"ok": True})
+
+            if path == "/api/login-chrome":
+                if state.engine.running:
+                    return self._json({"error": msg("engine.already_running").to_json()}, 400)
+                state.ext_token = secrets.token_urlsafe(12)
+                state.ext_expires = time.monotonic() + EXTENSION_TTL
+                url = f"https://www.instagram.com/#ii={state.port}.{state.ext_token}"
+                return self._json({"ok": True, "opened": open_in_default_browser(url)})
+
+            if path == "/api/extension-session":
+                token = str(data.get("token") or "")
+                if not (state.chrome_waiting() and hmac.compare_digest(token, state.ext_token)):
+                    return self._json({"error": msg("server.chrome_token_bad").to_json()}, 403)
+                state.ext_token = ""   # tek kullanımlık
+                raw = data.get("cookies")
+                pairs = [f"{k}={v}" for k, v in (raw.items() if isinstance(raw, dict) else []) if isinstance(v, str)]
+                error = state.engine.start(Job("; ".join(pairs), MODE_COOKIE, state.settings))
+                if error:
+                    return self._json({"error": error.to_json()}, 400)
+                return self._json({"ok": True})
+
+            if path == "/api/extension-open":
+                folder = install_extension_folder()
+                if folder is None:
+                    return self._json({"error": msg("server.chrome_folder_failed").to_json()}, 500)
+                open_folder(str(folder))
+                return self._json({"ok": True, "path": str(folder),
+                                   "message": msg("server.chrome_folder_opened", path=str(folder)).to_json()})
 
             if path == "/api/clear-history":
                 if state.engine.running:

@@ -212,7 +212,8 @@ def classify(res: ApiResult) -> str:
 
 
 _SESSION_VALUE = re.compile(r"^[A-Za-z0-9%:_.\-]{6,}$")
-_SESSION_NAMES = ("sessionid", "csrftoken", "ds_user_id")
+_SESSION_NAMES = ("sessionid", "csrftoken", "ds_user_id", "mid", "ig_did", "datr", "ig_nrcb")
+_DEVICE_VALUE = re.compile(r"^[A-Za-z0-9%:_.\-]{1,200}$")   # mid / ig_did / datr: Instagram'ın cihazı tanıdığı çerezler
 
 
 def parse_session_input(text: str) -> Dict[str, str]:
@@ -246,8 +247,8 @@ def parse_session_input(text: str) -> Dict[str, str]:
     if not _SESSION_VALUE.match(sid):
         return {}
     found["sessionid"] = sid
-    for key in ("csrftoken", "ds_user_id"):
-        if key in found and not _SESSION_VALUE.match(found[key]):
+    for key in _SESSION_NAMES[1:]:
+        if key in found and not _DEVICE_VALUE.match(found[key]):
             del found[key]
     if "ds_user_id" not in found:
         m = re.match(r"^(\d{5,})%3A", sid)
@@ -1616,7 +1617,7 @@ class InstagramBrowser:
         previous: Dict[str, Any] = {}
         try:
             for c in await self.context.cookies([base_url() + "/"]):
-                if c.get("name") in ("sessionid", "csrftoken", "ds_user_id") and c.get("value"):
+                if c.get("name") in _SESSION_NAMES and c.get("value"):
                     previous[c["name"]] = c
         except Exception:
             previous = {}

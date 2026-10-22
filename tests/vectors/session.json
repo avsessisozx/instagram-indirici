@@ -46,6 +46,8 @@
   "parsed": {
    "csrftoken": "TOK123",
    "ds_user_id": "777777",
+   "ig_did": "x",
+   "mid": "abc",
    "sessionid": "61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-"
   }
  },
@@ -62,6 +64,7 @@
   "parsed": {
    "csrftoken": "T0KEN9",
    "ds_user_id": "61234567890",
+   "mid": "abc",
    "sessionid": "61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-"
   }
  },
