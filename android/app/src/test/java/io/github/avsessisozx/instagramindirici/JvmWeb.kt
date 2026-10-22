@@ -56,7 +56,8 @@ class JvmWeb(override val baseUrl: String) : IgWeb {
     }
 
     /** Yönlendirmeleri ve çerezleri tarayıcı gibi izleyen istek. */
-    private fun request(urlIn: String, method: String, headers: Map<String, String>, body: String?): Resp {
+    private fun request(urlIn: String, method: String, headers: Map<String, String>, body: String?,
+                        readTimeoutMs: Int = 45_000): Resp {
         var url = urlIn
         var m = method
         var b = body
@@ -64,7 +65,7 @@ class JvmWeb(override val baseUrl: String) : IgWeb {
             val conn = URL(url).openConnection() as HttpURLConnection
             conn.instanceFollowRedirects = false
             conn.connectTimeout = 15_000
-            conn.readTimeout = 45_000
+            conn.readTimeout = readTimeoutMs
             conn.requestMethod = m
             conn.setRequestProperty("User-Agent", userAgent)
             for ((k, v) in headers) conn.setRequestProperty(k, v)
@@ -127,8 +128,8 @@ class JvmWeb(override val baseUrl: String) : IgWeb {
             headers["Content-Type"] = "application/x-www-form-urlencoded"
             body = form.entries.joinToString("&") { (k, v) -> URLEncoder.encode(k, "UTF-8") + "=" + URLEncoder.encode(v, "UTF-8") }
         }
-        val r = request(url, if (form != null) "POST" else "GET", headers, body)
-        return RawResponse(r.status, r.url, r.body, if (r.status == 0) "connection failed" else "")
+        val r = request(url, if (form != null) "POST" else "GET", headers, body, timeoutMs.toInt().coerceAtLeast(500))
+        return RawResponse(r.status, r.url, r.body, if (r.status == 0) "timeout" else "")
     }
 
     override suspend fun embeddedJson(): List<Any> =
