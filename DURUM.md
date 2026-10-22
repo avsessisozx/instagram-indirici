@@ -3,7 +3,7 @@
 > Claude'un çalışma notu. Yalnızca `durum` dalında durur; `main`'e, README'ye ve sürüm notlarına girmez.
 > Yeni sohbette önce bunu oku, repoyu baştan tarama. Her sürümden sonra güncelle.
 
-Son güncelleme: 2026-10-22 · Son sürüm: **v1.9.0** (2026-10-22)
+Son güncelleme: 2026-10-22 · Son sürüm: **v1.9.2** (2026-10-22)
 
 ## Ne yapıyor
 Herkese açık Instagram profillerini toplu indirir: gönderiler/reels/albümler, hikayeler, öne çıkanlar,
@@ -154,6 +154,10 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   Android JVM + emülatör yeşil. Sahte sunucuda yeni bayraklar: stories_500, highlights_500, reels_media_fail_n, clips_refused.
 
 ## Yarım / sıradaki
+- v1.9.1: 1.8.0'daki `chromium_sandbox=True` varsayılanı geri alındı (yalnız INSTAGRAM_INDIRICI_SANDBOX=1 ile açılır); tarayıcı beklenmedik kapanırsa günlüğe `browser.died` satırı (neden + saniye) yazılır. Kök sebep doğrulanmadı.
+- v1.9.2 (Windows): programın KENDİ giriş penceresi (MODE_LOGIN / `login_session`) kaldırıldı. `/api/login` artık `/api/login-chrome` ile aynı: normal tarayıcıda Instagram açılır, Chrome eklentisi oturumu verir (MODE_COOKIE). UI'da masaüstünde "Instagram'a giriş yap" = Chrome akışı. İndirme tarayıcısı `--window-position=-32000,-32000` ile ekran dışında (INSTAGRAM_INDIRICI_VISIBLE=1 ile görünür). Testlerde `ensure_login` artık MODE_COOKIE kullanır.
+  Kullanıcı raporu (1.9.1): giriş penceresinde `Page.goto: net::ERR_ABORTED` → bu yol silindi. Android'e dokunulmadı: orada kendi giriş WebView'i ve sessionid yapıştırma kalır (Chrome eklentisi telefonda çalışmaz).
+  Doğrulanmadı (gerçek Chrome/Instagram): ekran dışı pencere Instagram'da sorun çıkarıyor mu; "HeadlessChrome" UA'sı yalnız gizli modda görülür, şu an gizli mod kullanılmıyor.
 - v1.9.0 (yalnız Windows): "Chrome'dan giriş yap". Kullanıcı Epic/Steam'deki "tarayıcıdan giriş yap, programa dön" akışını istedi; Instagram'ın resmi
   kapısı yok, Chrome çerezi dışarıdan okutmuyor → MV3 Chrome eklentisi `instagram_indirici/chrome_eklenti/` (manifest, content.js, background.js).
   Akış: `/api/login-chrome` tek kullanımlık kod üretir (10 dk) ve `https://www.instagram.com/#ii=<port>.<kod>` adresini varsayılan tarayıcıda açar;
