@@ -3,7 +3,7 @@
 > Claude'un çalışma notu. Yalnızca `durum` dalında durur; `main`'e, README'ye ve sürüm notlarına girmez.
 > Yeni sohbette önce bunu oku, repoyu baştan tarama. Her sürümden sonra güncelle.
 
-Son güncelleme: 2026-10-22 · Son sürüm: **v1.9.2** (2026-10-22)
+Son güncelleme: 2026-10-22 · Son sürüm: **v1.9.3** (2026-10-22)
 
 ## Ne yapıyor
 Herkese açık Instagram profillerini toplu indirir: gönderiler/reels/albümler, hikayeler, öne çıkanlar,
@@ -154,6 +154,10 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   Android JVM + emülatör yeşil. Sahte sunucuda yeni bayraklar: stories_500, highlights_500, reels_media_fail_n, clips_refused.
 
 ## Yarım / sıradaki
+- v1.9.3 (iki platform): (1) Yeni sürümle ilk açılışta veri sıfırlanır: Windows `reset.py` (`.surum` işareti; silinmeyenler: chrome-eklenti, tarayici-bileseni, calisan.json, ayarlar.json'daki yalnız `out_dir`), Android `Core.resetIfNewVersion/resetData` (ayarlar, durum, geçmiş, giriş durumu; WebView çerezleri MainActivity'de silinir). İndirilenlere dokunulmaz. Ayarlar'a "Her şeyi sıfırla (indirilenler hariç)" düğmesi (`/api/reset-all`). Bedel: her güncellemeden sonra yeniden giriş gerekir. Kullanıcı istedi: program eski sürümün üstüne kurulu gibi davranıyordu.
+  (2) `import_session` Instagram yanıtını günlüğe yazar (kind/status/path/err/body[:120]); `current_user` yanıt vermese de sayfa girişli kalıyorsa oturumu kabul eder (test: b0_cookie_2b).
+  Kullanıcı testi (1.9.2): Chrome eklentisi kuruldu, "Oturum Instagram İndirici'ye gönderildi" göründü AMA programın kendi Chrome'u `current_user` doğrulamasında "Instagram'a ulaşılamadı ya da yanıt vermedi" (cookie_error) verdi. Sebep o sırada günlükte yoktu; 1.9.3 raporunda `import_session:` debug satırına bak. Şüpheler: ekran dışı pencere, oturumun başka profilde reddi ("useragent mismatch" gibi 400).
+  Android Kotlin yalnız CI'da derlendi/test edildi; sıfırlama için Kotlin testi yok (Core Android bağlamı ister).
 - v1.9.1: 1.8.0'daki `chromium_sandbox=True` varsayılanı geri alındı (yalnız INSTAGRAM_INDIRICI_SANDBOX=1 ile açılır); tarayıcı beklenmedik kapanırsa günlüğe `browser.died` satırı (neden + saniye) yazılır. Kök sebep doğrulanmadı.
 - v1.9.2 (Windows): programın KENDİ giriş penceresi (MODE_LOGIN / `login_session`) kaldırıldı. `/api/login` artık `/api/login-chrome` ile aynı: normal tarayıcıda Instagram açılır, Chrome eklentisi oturumu verir (MODE_COOKIE). UI'da masaüstünde "Instagram'a giriş yap" = Chrome akışı. İndirme tarayıcısı `--window-position=-32000,-32000` ile ekran dışında (INSTAGRAM_INDIRICI_VISIBLE=1 ile görünür). Testlerde `ensure_login` artık MODE_COOKIE kullanır.
   Kullanıcı raporu (1.9.1): giriş penceresinde `Page.goto: net::ERR_ABORTED` → bu yol silindi. Android'e dokunulmadı: orada kendi giriş WebView'i ve sessionid yapıştırma kalır (Chrome eklentisi telefonda çalışmaz).
