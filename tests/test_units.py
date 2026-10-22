@@ -651,3 +651,77 @@ class ChromeLoginEndpointTests(ServerFeatureTests):
         self.assertFalse(self.get("/api/state")["chrome_waiting"])
         self.begin()
         self.assertTrue(self.get("/api/state")["chrome_waiting"])
+
+
+class ResetTests(unittest.TestCase):
+    """Sürüm değişince / düğmeyle sıfırlama: indirilenlere, eklenti klasörüne ve indirme klasörü ayarına dokunmaz."""
+
+    def setUp(self):
+        import tempfile
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.data = Path(self.tmp.name) / "veri"
+        self.downloads = Path(self.tmp.name) / "indirilenler"
+        self.downloads.mkdir()
+        (self.downloads / "foto.jpg").write_bytes(b"x")
+        patcher = mock.patch.dict(os.environ, {"INSTAGRAM_INDIRICI_DATA": str(self.data)})
+        patcher.start()
+        self.addCleanup(patcher.stop)
+        from instagram_indirici import paths
+        paths.app_data_dir()
+
+    def fill(self):
+        (self.data / "tarayici-chrome" / "Default").mkdir(parents=True)
+        (self.data / "tarayici-chrome" / "Default" / "Cookies").write_text("c")
+        (self.data / "chrome-eklenti").mkdir()
+        (self.data / "chrome-eklenti" / "manifest.json").write_text("{}")
+        (self.data / "tarayici-bileseni").mkdir()
+        (self.data / "gecmis.sqlite3").write_text("h")
+        (self.data / "oturum.json").write_text("{}")
+        (self.data / "rapor-1.txt").write_text("r")
+        (self.data / "ayarlar.json").write_text(json.dumps({"out_dir": str(self.downloads), "speed": "careful"}))
+
+    def test_reset_removes_state_keeps_extension_downloads_and_outdir(self):
+        from instagram_indirici import reset
+        self.fill()
+        reset.reset_app_data()
+        left = sorted(p.name for p in self.data.iterdir())
+        self.assertEqual(left, ["ayarlar.json", "chrome-eklenti", "tarayici-bileseni"])
+        self.assertEqual(json.loads((self.data / "ayarlar.json").read_text()), {"out_dir": str(self.downloads)})
+        self.assertTrue((self.data / "chrome-eklenti" / "manifest.json").exists())
+        self.assertTrue((self.downloads / "foto.jpg").exists())
+
+    def test_new_version_resets_once_then_keeps(self):
+        from instagram_indirici import reset
+        self.fill()
+        self.assertTrue(reset.reset_if_new_version())      # işaret yok + eski veri var: sıfırla
+        self.assertFalse((self.data / "gecmis.sqlite3").exists())
+        (self.data / "gecmis.sqlite3").write_text("yeni")
+        self.assertFalse(reset.reset_if_new_version())     # aynı sürüm: dokunma
+        self.assertTrue((self.data / "gecmis.sqlite3").exists())
+        (self.data / ".surum").write_text("0.0.1")
+        self.assertTrue(reset.reset_if_new_version())      # sürüm değişti: sıfırla
+        self.assertFalse((self.data / "gecmis.sqlite3").exists())
+
+    def test_fresh_install_just_writes_marker(self):
+        from instagram_indirici import reset
+        self.assertFalse(reset.reset_if_new_version())
+        self.assertTrue((self.data / ".surum").exists())
+
+
+class ResetEndpointTests(ServerFeatureTests):
+    def test_reset_all_clears_login_and_keeps_extension(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            with mock.patch.dict(os.environ, {"INSTAGRAM_INDIRICI_DATA": d}):
+                from instagram_indirici import paths
+                base = paths.app_data_dir()
+                (base / "chrome-eklenti").mkdir()
+                (base / "tarayici-chrome").mkdir()
+                (base / "oturum.json").write_text("{}")
+                code, data = self.post("/api/reset-all", {})
+                self.assertEqual(code, 200, data)
+                self.assertTrue((base / "chrome-eklenti").exists())
+                self.assertFalse((base / "tarayici-chrome").exists())
+                self.assertFalse((base / "oturum.json").exists())
+                self.assertIs(self.state.engine.logged_in, False)

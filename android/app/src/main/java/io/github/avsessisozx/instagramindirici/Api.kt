@@ -185,6 +185,13 @@ class Api(private val host: ApiHost) {
                 200 to JSONObject().put("ok", true).put("message", msg("server.cookies_cleared").toJson())
             }
 
+            "/api/reset-all" -> {
+                if (engine.running) return err(400, msg("engine.already_running"))
+                host.clearCookies()
+                Core.resetData()
+                200 to JSONObject().put("ok", true).put("message", msg("server.reset_done").toJson())
+            }
+
             "/api/network-settings" -> {
                 host.openNetworkSettings()
                 200 to JSONObject().put("ok", true)

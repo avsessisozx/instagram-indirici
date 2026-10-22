@@ -456,6 +456,15 @@ def make_handler(state: AppState):
                 state.engine.logged_in = False
                 return self._json({"ok": True, "message": msg("server.cookies_cleared").to_json()})
 
+            if path == "/api/reset-all":
+                if state.engine.running:
+                    return self._json({"error": msg("engine.already_running").to_json()}, 400)
+                from .reset import reset_app_data
+                reset_app_data(running=True)
+                state.settings = load_settings()
+                state.engine.logged_in = False
+                return self._json({"ok": True, "message": msg("server.reset_done").to_json()})
+
             if path == "/api/network-settings":
                 ok = open_network_settings()
                 if not ok:

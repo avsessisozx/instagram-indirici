@@ -113,6 +113,7 @@ class MainActivity : Activity(), ApiHost {
         holder = IgHolder.get(this)
         holder.attach(this, igPane, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f))
         setupUi()
+        if (Core.webResetPending) { Core.webResetPending = false; clearCookies() }   // yeni sürüm: Instagram çerezleri de sıfırlansın
         handleIntent(intent)
         uiWeb.loadUrl(UI_URL)
         askNotificationPermissionOnce()

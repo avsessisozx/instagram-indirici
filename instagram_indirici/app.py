@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Callable, List, Optional, Tuple
 
 from . import __version__
-from . import i18n, winbrowsers
+from . import i18n, reset, winbrowsers
 from .paths import app_data_dir
 from .server import AppState, start_server
 
@@ -210,6 +210,7 @@ def main(argv=None) -> int:
         open_window(f"http://127.0.0.1:{existing}/")
         return 0
 
+    reset.reset_if_new_version()   # yeni sürümde ilk açılış: eski sürümden kalan veriyi sil (indirilenlere dokunma)
     state = AppState()
     server = start_server(state, args.port)
     url = f"http://127.0.0.1:{state.port}/"

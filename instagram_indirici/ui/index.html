@@ -537,8 +537,9 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
         <div class="adv-actions">
           <button class="btn" id="clear-cache" type="button" data-i18n="ui.cache_clear"></button>
           <button class="btn danger" id="clear-cookies" type="button" data-i18n="ui.cookies_clear"></button>
+          <button class="btn danger" id="reset-all" type="button" data-i18n="ui.reset_all"></button>
         </div>
-        <small><span data-i18n="ui.cache_hint"></span> <span data-i18n="ui.cookies_hint"></span></small>
+        <small><span data-i18n="ui.cache_hint"></span> <span data-i18n="ui.cookies_hint"></span> <span data-i18n="ui.reset_hint"></span></small>
         <div class="adv-msg" id="adv-msg" aria-live="polite"></div>
       </div>
       <label class="opt">
@@ -871,6 +872,12 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
     advAction('/api/clear-cookies', 'adv-msg');
   });
 
+  $('reset-all').addEventListener('click', async () => {
+    if (!(await confirmAction(t('ui.reset_confirm')))) return;
+    await advAction('/api/reset-all', 'adv-msg');
+    setTimeout(() => location.reload(), 900);   // ayarlar varsayılana döndü: arayüzü baştan yükle
+  });
+
   $('clear-history').addEventListener('click', async () => {
     if (!(await confirmAction(t('ui.history_confirm')))) return;
     try { const r = await api('/api/clear-history', {}); $('history-msg').textContent = renderMsg(r.message); loadHistory(); }
@@ -1027,7 +1034,7 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
     renderChromeLogin(s);
     $('start').textContent = t(running ? 'ui.stop' : 'ui.start');
     $('start').classList.toggle('stop', running);
-    ['link', 'paste', 'choose', 'outdir', 'login', 'login-chrome', 'cookie-input', 'cookie-use', 'lang', 'clear-history', 'identity', 'speed', 'clear-cache', 'clear-cookies', 'verify', 'infocsv', 'capmin', 'datefrom', 'dateto'].forEach(id => { $(id).disabled = running; });
+    ['link', 'paste', 'choose', 'outdir', 'login', 'login-chrome', 'cookie-input', 'cookie-use', 'lang', 'clear-history', 'identity', 'speed', 'clear-cache', 'clear-cookies', 'reset-all', 'verify', 'infocsv', 'capmin', 'datefrom', 'dateto'].forEach(id => { $(id).disabled = running; });
     document.querySelectorAll('#step2 input, #step3 input, #step3 select').forEach(e => {
       e.disabled = running || (e.id === 'mode-single' && linkKind === 'profile');
     });

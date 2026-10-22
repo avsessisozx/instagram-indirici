@@ -37,6 +37,7 @@ object Core {
         tr = Tr({ code ->
             try { app.assets.open("ceviriler/$code.json").bufferedReader(Charsets.UTF_8).use { it.readText() } } catch (e: Exception) { null }
         }, langs)
+        resetIfNewVersion()
         settings = SettingsValues.fromJson(prefs().getString("json", null), langs)
         engine = Engine(
             webProvider = { web },
@@ -48,6 +49,31 @@ object Core {
     }
 
     private fun prefs() = app.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+
+    /** Yeni sürümle ilk açılışta Instagram çerezleri de silinsin (WebView ekran açılınca temizler). */
+    @Volatile var webResetPending = false
+
+    /** Uygulamanın hatırladığı her şeyi siler: ayarlar, geçmiş, giriş durumu. İndirilen dosyalara dokunmaz. */
+    @Synchronized
+    fun resetData() {
+        prefs().edit().clear().apply()
+        app.getSharedPreferences("durum", Context.MODE_PRIVATE).edit().clear().apply()
+        (TestHooks.historyFile ?: File(app.filesDir, "gecmis.json")).delete()
+        historyInstance = null
+        settings = SettingsValues()
+    }
+
+    private fun resetIfNewVersion() {
+        val meta = app.getSharedPreferences("meta", Context.MODE_PRIVATE)
+        val current = version()
+        if (meta.getString("surum", null) == current) return
+        val hadData = prefs().all.isNotEmpty() || File(app.filesDir, "gecmis.json").exists()
+        if (hadData) {
+            resetData()
+            webResetPending = true
+        }
+        meta.edit().putString("surum", current).apply()
+    }
 
     @Synchronized
     fun history(): History {
