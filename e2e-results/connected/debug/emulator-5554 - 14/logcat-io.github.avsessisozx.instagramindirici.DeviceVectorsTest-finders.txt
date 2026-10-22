@@ -1,0 +1,46 @@
+10-22 20:56:06.141  4488  4550 I TestRunner: started: finders(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-22 20:56:06.151  1437  2735 I GCoreUlr: WorldUpdater received intent Intent { act=com.google.android.location.reporting.ACTION_UPDATE_WORLD cmp=com.google.android.gms/com.google.android.location.reporting.service.DispatchingService (has extras) } with receiverAction init
+10-22 20:56:06.162  1485  1707 I SyncIntentOperation: Handling the intent: Intent { act=com.google.gservices.intent.action.GSERVICES_CHANGED flg=0x1000010 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) }. [CONTEXT service_id=80 ]
+10-22 20:56:06.165   522  2163 D CleanupManager: Storing serial number for user 0.
+10-22 20:56:06.169  1485  1707 I DynamiteModule: Considering local module com.google.android.gms.flags:3 and remote module com.google.android.gms.flags:3
+10-22 20:56:06.169  1485  1707 I DynamiteModule: Selected local version of com.google.android.gms.flags
+10-22 20:56:06.174  1485  4369 I RecoverableKeyStoreGms: [RecoverableKeyStoreGmsInitOperation] Initializing auth_folsom
+10-22 20:56:06.176  1485  4369 I RecoverableKeyStoreGms: [RecoverableKeyStoreGmsInitOperation] Enabling com.google.android.gms.auth.folsom.service.FolsomPublicKeyUpdateService.
+10-22 20:56:06.191  1437  3411 W VerdictProvider: response is invalid [4] [CONTEXT service_id=257 ]
+10-22 20:56:06.210  1485  3486 D CompatibilityChangeReporter: Compat change id reported: 247079863; UID 10131; state: DISABLED
+10-22 20:56:06.230  1485  3437 I MobileDataHub: Scheduling periodic tasks
+10-22 20:56:06.233  1485  3437 W MobileDataHub: [Service] appsupload-periodic periodic task disabled
+10-22 20:56:06.246  1485  3437 I MS_Utils: version of com.google.android.apps.maps = 1066937505
+10-22 20:56:06.247  1485  3437 I MdiSyncModule: flag handling is skipping irrelevant intent.
+10-22 20:56:06.261  1485  4369 I RecoverableKeyStoreGms: [RecoverableKeyStoreGmsInitOperation] Enabling com.google.android.gms.auth.folsom.service.GcmReceiverService.
+10-22 20:56:06.269   522  2241 I RecoverableKeyStoreMgr: Initialized secret types.
+10-22 20:56:06.344  1485  1707 W PrereqChecker: No rear-facing camera detected.
+10-22 20:56:06.346  1485  1707 I OcrModelUpStIntentOp: Downloading text recognizer
+10-22 20:56:06.351  1485  3437 I Vision  : Supported ABIS: [x86_64, arm64-v8a]
+10-22 20:56:06.362  1437  3818 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.clearcut.uploader.QosUploaderService finished executing. cause:1 result: 1 elapsed_millis: 576 uptime_millis: 576 exec_start_elapsed_seconds: 69 [CONTEXT service_id=218 ]
+10-22 20:56:06.365  1485  4369 I RecoverableKeyStoreGms: [RecoverableKeyStoreGmsInitOperation] Setting vault handle
+10-22 20:56:06.365  1485  3437 I GmsDebugLogger: [53] +vision.ocr:-1
+10-22 20:56:06.370  1485  3485 I SystemUpdate: [Installation,ReceiverIntentOperation] Received intent: Intent { act=com.google.gservices.intent.action.GSERVICES_CHANGED flg=0x1000010 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) }.
+10-22 20:56:06.384   522  2163 I RecoverableKeyStoreMgr: Initialized server params.
+10-22 20:56:06.385   834   913 D EGL_emulation: app_time_stats: avg=2111.85ms min=18.77ms max=6063.52ms count=3
+10-22 20:56:06.391  1485  1981 I GmsModuleFndr: Beginning GMS chimera module scan
+10-22 20:56:06.392   522  2163 E RecoverySnapshotStorage: Error reading snapshot for 10131 from disk
+10-22 20:56:06.392   522  2163 E RecoverySnapshotStorage: java.io.FileNotFoundException: /data/system/recoverablekeystore/snapshots/10131.xml: open failed: ENOENT (No such file or directory)
+10-22 20:56:06.392   522  2163 E RecoverySnapshotStorage: 	at libcore.io.IoBridge.open(IoBridge.java:574)
+10-22 20:56:06.392   522  2163 E RecoverySnapshotStorage: 	at java.io.FileInputStream.<init>(FileInputStream.java:160)
+10-22 20:56:06.392   522  2163 E RecoverySnapshotStorage: 	at com.android.server.locksettings.recoverablekeystore.storage.RecoverySnapshotStorage.readFromDisk(RecoverySnapshotStorage.java:152)
+10-22 20:56:06.392   522  2163 E RecoverySnapshotStorage: 	at com.android.server.locksettings.recoverablekeystore.storage.RecoverySnapshotStorage.get(RecoverySnapshotStorage.java:104)
+10-22 20:56:06.392   522  2163 E RecoverySnapshotStorage: 	at com.android.server.locksettings.recoverablekeystore.RecoverableKeyStoreManager.getKeyChainSnapshot(RecoverableKeyStoreManager.java:369)
+10-22 20:56:06.392   522  2163 E RecoverySnapshotStorage: 	at com.android.server.locksettings.LockSettingsService.getKeyChainSnapshot(LockSettingsService.java:2494)
+10-22 20:56:06.392   522  2163 E RecoverySnapshotStorage: 	at com.android.internal.widget.ILockSettings$Stub.onTransact(ILockSettings.java:838)
+10-22 20:56:06.392   522  2163 E RecoverySnapshotStorage: 	at android.os.Binder.execTransactInternal(Binder.java:1339)
+10-22 20:56:06.392   522  2163 E RecoverySnapshotStorage: 	at android.os.Binder.execTransact(Binder.java:1275)
+10-22 20:56:06.392   522  2163 E RecoverySnapshotStorage: Caused by: android.system.ErrnoException: open failed: ENOENT (No such file or directory)
+10-22 20:56:06.392   522  2163 E RecoverySnapshotStorage: 	at libcore.io.Linux.open(Native Method)
+10-22 20:56:06.392   522  2163 E RecoverySnapshotStorage: 	at libcore.io.ForwardingOs.open(ForwardingOs.java:563)
+10-22 20:56:06.392   522  2163 E RecoverySnapshotStorage: 	at libcore.io.BlockGuardOs.open(BlockGuardOs.java:274)
+10-22 20:56:06.392   522  2163 E RecoverySnapshotStorage: 	at libcore.io.IoBridge.open(IoBridge.java:560)
+10-22 20:56:06.392   522  2163 E RecoverySnapshotStorage: 	... 8 more
+10-22 20:56:06.395   522  2656 I RecoverySnapshotLstnrs: Registered listener for agent with uid 10131
+10-22 20:56:06.404   336  4576 I resolv  : GetAddrInfoHandler::run: {101 786533 101 983141 10131 0}
+10-22 20:56:06.405  4488  4550 I TestRunner: finished: finders(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

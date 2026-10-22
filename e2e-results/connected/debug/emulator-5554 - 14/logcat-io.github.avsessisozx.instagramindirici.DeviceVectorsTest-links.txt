@@ -1,0 +1,5 @@
+10-22 20:56:06.407  4488  4550 I TestRunner: started: links(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-22 20:56:06.413   336  4577 I resolv  : res_nmkquery: (QUERY, IN, AAAA)
+10-22 20:56:06.413   336  4577 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7a0b9edd5090
+10-22 20:56:06.413   336  4577 I resolv  : doQuery: rcode=0, ancount=1, return value=61
+10-22 20:56:06.453  4488  4550 I TestRunner: finished: links(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

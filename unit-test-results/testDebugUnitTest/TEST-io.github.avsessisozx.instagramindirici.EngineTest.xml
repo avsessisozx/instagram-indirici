@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="io.github.avsessisozx.instagramindirici.EngineTest" tests="31" skipped="0" failures="0" errors="0" timestamp="2026-10-22T20:49:37.324Z" hostname="runnervm8k3b6" time="272.149">
+  <properties/>
+  <testcase name="a1_loggedOutProfileStopsAtLoginWall" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="7.003"/>
+  <testcase name="a2_notFound" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="1.646"/>
+  <testcase name="a3_singlePostLoggedOut" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="0.205"/>
+  <testcase name="a4_cookieAcceptedLogsIn" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="1.853"/>
+  <testcase name="a4_cookieGarbageRejectedBeforeStart" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="0.001"/>
+  <testcase name="a4_cookieRejectedByInstagram" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="0.143"/>
+  <testcase name="a4_cookieRejectedKeepsOldSession" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="2.032"/>
+  <testcase name="a4_pageRateLimitedIsRetried" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="2.64"/>
+  <testcase name="b1_fullProfileWithRateLimitAndChallenge" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="5.889"/>
+  <testcase name="b2_restBrokenUsesGraphqlThenScroll" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="12.74"/>
+  <testcase name="b3_privateAndEmpty" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="3.542"/>
+  <testcase name="b4_singleItems" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="2.081"/>
+  <testcase name="b5_videoOnlyWithLimit" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="1.879"/>
+  <testcase name="b6_refusedListsDoNotWait" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="24.917"/>
+  <testcase name="c1_sessionKilledThenContinueFromHistory" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="4.645"/>
+  <testcase name="c2_rateLimitedWaitsAndContinues" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="16.454"/>
+  <testcase name="c3_onlyNewAfterCompleteScan" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="4.328"/>
+  <testcase name="c4_stop" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="2.922"/>
+  <testcase name="d1_videoUsesDashStreams" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="0.418"/>
+  <testcase name="d2_dashFailureFallsBackToPlainVersion" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="0.467"/>
+  <testcase name="d3_dashParsingPicksBestStreams" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="3.113"/>
+  <testcase name="d4_dashPrefersCodecsThePhoneCanMux" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="0.004"/>
+  <testcase name="d5_dashPicksHigherResolutionEvenIfVp9" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="0.043"/>
+  <testcase name="e1_reelsTabIsCollectedSeparately" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="2.684"/>
+  <testcase name="e2_reelsFallBackToTabPageScroll" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="8.433"/>
+  <testcase name="e3_longCaptionIsSavedNextToMedia" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="2.645"/>
+  <testcase name="e4_missingFilesAreRedownloadedEvenIfHistoryKnowsThem" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="4.388"/>
+  <testcase name="e5_highlightsFallBackToTheirOwnPageWhen500" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="73.718"/>
+  <testcase name="e5b_unansweredHighlightListGoesStraightToPages" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="73.409"/>
+  <testcase name="e6_infoCsvIsWrittenOncePerPost" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="1.98"/>
+  <testcase name="e7_pauseAndResume" classname="io.github.avsessisozx.instagramindirici.EngineTest" time="5.922"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Fatal Error] :1:13: XML document structures must start and end within the same entity.
+]]></system-err>
+</testsuite>

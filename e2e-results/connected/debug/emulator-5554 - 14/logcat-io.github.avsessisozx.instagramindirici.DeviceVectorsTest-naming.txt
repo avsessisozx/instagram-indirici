@@ -1,0 +1,14 @@
+10-22 20:56:06.027  4488  4550 I TestRunner: started: naming(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-22 20:56:06.034  1485  3486 I Checkin : [EventLogChimeraService] Opted in for usage reporting: false
+10-22 20:56:06.040  4488  4550 D CompatibilityChangeReporter: Compat change id reported: 247079863; UID 10192; state: ENABLED
+10-22 20:56:06.047  1485  3486 W GmsTaskScheduler: ScheduledCheckinGmsTaskService is not available. This may cause the task to be lost.
+10-22 20:56:06.049  1485  3486 I Checkin : [EventLogChimeraService] Accumulating logs since 1792702556662
+10-22 20:56:06.124   522  2241 I RemoteProvisionSysSvc: getRegistration(android.hardware.security.keymint.IRemotelyProvisionedComponent/default)
+10-22 20:56:06.128   522   522 I RegistrationProxy: onServiceConnected: com.android.rkpdapp.service.RemoteProvisioningService
+10-22 20:56:06.132   522  2163 I RegistrationProxy: IGetRegistrationCallback.onSuccess
+10-22 20:56:06.134   522  2241 I RemoteProvisionSysSvc: Fetching key 10131 for client 80338347
+10-22 20:56:06.134   522  2241 I RegistrationProxy: getKeyAsync operation started with callback 146779144
+10-22 20:56:06.135  3912  3967 I RkpdRegistrationBinder: Key requested for : android.hardware.security.keymint.IRemotelyProvisionedComponent/default, clientUid: 1017, keyId: 10131, callback: 89130378
+10-22 20:56:06.135  3912  3967 I RkpdRegistrationBinder: Key successfully assigned to client
+10-22 20:56:06.136   522   522 I RemoteProvisionSysSvc: Successfully fetched key for client 80338347
+10-22 20:56:06.138  4488  4550 I TestRunner: finished: naming(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

@@ -1,0 +1,277 @@
+
+
+emulator-5554primaryó
+y
+DeviceVectorsTest'io.github.avsessisozx.instagramindiricinaming2ÊÈ÷Ä±ëd:ÊÈ÷Ä†ÀòB
+emulator-5554primary"Ì
+
+logcatandroid◊
+‘/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.DeviceVectorsTest-naming.txt"µ
+
+device-infoandroidö
+ó/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"∂
+
+device-info.meminfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"∂
+
+device-info.cpuinfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfoö
+{
+DeviceVectorsTest'io.github.avsessisozx.instagramindiricifinders2ÊÈ÷ÄßÚ¶:ÊÈ÷ÄûÅ†B
+emulator-5554primary"Ó
+
+logcatandroidÿ
+’/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.DeviceVectorsTest-finders.txt"µ
+
+device-infoandroidö
+ó/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"∂
+
+device-info.meminfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"∂
+
+device-info.cpuinfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfoñ
+y
+DeviceVectorsTest'io.github.avsessisozx.instagramindiricilinks2ÊÈ÷¿¥≤¢:ÊÈ÷¿ûòªB
+emulator-5554primary"Ï
+
+logcatandroid÷
+”/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.DeviceVectorsTest-links.txt"µ
+
+device-infoandroidö
+ó/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"∂
+
+device-info.meminfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"∂
+
+device-info.cpuinfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfoñ
+y
+DeviceVectorsTest'io.github.avsessisozx.instagramindiriciposts2ÊÈ÷¿∞åΩ:ÊÈ÷¿àáŒB
+emulator-5554primary"Ï
+
+logcatandroid÷
+”/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.DeviceVectorsTest-posts.txt"µ
+
+device-infoandroidö
+ó/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"∂
+
+device-info.meminfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"∂
+
+device-info.cpuinfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfoõ
+{
+DeviceVectorsTest'io.github.avsessisozx.instagramindiriciclassify2ÊÈ÷Ä®≤—:ÁÈ÷¿ç∑B
+emulator-5554primary"Ô
+
+logcatandroidŸ
+÷/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.DeviceVectorsTest-classify.txt"µ
+
+device-infoandroidö
+ó/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"∂
+
+device-info.meminfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"∂
+
+device-info.cpuinfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo∫
+ä
+EndToEndTest'io.github.avsessisozx.instagramindiricia1_profileLoggedOutThroughUi2ÁÈ÷ÄõÓ:˚È÷Ä˘ﬁB
+emulator-5554primary"˛
+
+logcatandroidË
+Â/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-a1_profileLoggedOutThroughUi.txt"µ
+
+device-infoandroidö
+ó/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"∂
+
+device-info.meminfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"∂
+
+device-info.cpuinfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo≠
+Ñ
+EndToEndTest'io.github.avsessisozx.instagramindiricia2_shareMenuFillsLink2˚È÷Ä·ÜÜ:˛È÷Ä˙è¢B
+emulator-5554primary"˜
+
+logcatandroid·
+ﬁ/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-a2_shareMenuFillsLink.txt"µ
+
+device-infoandroidö
+ó/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"∂
+
+device-info.meminfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"∂
+
+device-info.cpuinfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo©
+Ç
+EndToEndTest'io.github.avsessisozx.instagramindiricia3_englishInterface2˛È÷ÄåÑ§:ÅÒÈ÷Äô≠ÑB
+emulator-5554primary"ı
+
+logcatandroidﬂ
+‹/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-a3_englishInterface.txt"µ
+
+device-infoandroidö
+ó/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"∂
+
+device-info.meminfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"∂
+
+device-info.cpuinfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo÷
+ò
+EndToEndTest'io.github.avsessisozx.instagramindirici*b1_loginWindowCanBeHiddenReopenedAndClosed2ÅÒÈ÷¿ØﬁÜ:áÒÈ÷¿Ë©AB
+emulator-5554primary"å
+
+logcatandroidˆ
+Û/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-b1_loginWindowCanBeHiddenReopenedAndClosed.txt"µ
+
+device-infoandroidö
+ó/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"∂
+
+device-info.meminfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"∂
+
+device-info.cpuinfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo¥
+á
+EndToEndTest'io.github.avsessisozx.instagramindiricib2_loginCompletesByItself2áÒÈ÷ÄÙçP:éÒÈ÷Ä˛æÅB
+emulator-5554primary"˚
+
+logcatandroidÂ
+‚/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-b2_loginCompletesByItself.txt"µ
+
+device-infoandroidö
+ó/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"∂
+
+device-info.meminfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"∂
+
+device-info.cpuinfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfoø
+ç
+EndToEndTest'io.github.avsessisozx.instagramindiricic1_fullProfileWithVerification2éÒÈ÷¿ùÍÑ:úÒÈ÷¿«›‘B
+emulator-5554primary"Ä
+
+logcatandroidÍ
+Á/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-c1_fullProfileWithVerification.txt"µ
+
+device-infoandroidö
+ó/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"∂
+
+device-info.meminfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"∂
+
+device-info.cpuinfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo±
+Ü
+EndToEndTest'io.github.avsessisozx.instagramindiricic2_singleVideoToGallery2úÒÈ÷¿‚À◊:†ÒÈ÷¿“ò‘B
+emulator-5554primary"˘
+
+logcatandroid„
+‡/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-c2_singleVideoToGallery.txt"µ
+
+device-infoandroidö
+ó/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"∂
+
+device-info.meminfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"∂
+
+device-info.cpuinfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfoœ
+ï
+EndToEndTest'io.github.avsessisozx.instagramindirici&c3_sessionEndsThenContinuesFromHistory2†ÒÈ÷¿–≈·:∞ÒÈ÷¿¥©®B
+emulator-5554primary"à
+
+logcatandroidÚ
+Ô/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-c3_sessionEndsThenContinuesFromHistory.txt"µ
+
+device-infoandroidö
+ó/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"∂
+
+device-info.meminfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"∂
+
+device-info.cpuinfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfoú
+|
+EndToEndTest'io.github.avsessisozx.instagramindiricic4_stopButton2∞ÒÈ÷Ä¬‡©:µÒÈ÷Ä•±®B
+emulator-5554primary"Ô
+
+logcatandroidŸ
+÷/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-c4_stopButton.txt"µ
+
+device-infoandroidö
+ó/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"∂
+
+device-info.meminfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"∂
+
+device-info.cpuinfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo√
+è
+EndToEndTest'io.github.avsessisozx.instagramindirici c5_screenRebuiltDuringCollection2µÒÈ÷¿ª‚™:¿ÒÈ÷ÄÍ˜åB
+emulator-5554primary"Ç
+
+logcatandroidÏ
+È/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-c5_screenRebuiltDuringCollection.txt"µ
+
+device-infoandroidö
+ó/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"∂
+
+device-info.meminfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"∂
+
+device-info.cpuinfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo≠
+Ñ
+EndToEndTest'io.github.avsessisozx.instagramindiricid1_tabsAndHistoryList2¿ÒÈ÷¿˜Æé:ƒÒÈ÷¿„ﬁüB
+emulator-5554primary"˜
+
+logcatandroid·
+ﬁ/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-d1_tabsAndHistoryList.txt"µ
+
+device-infoandroidö
+ó/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"∂
+
+device-info.meminfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"∂
+
+device-info.cpuinfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo√
+è
+EndToEndTest'io.github.avsessisozx.instagramindirici d2_wizardOnFreshInstallThenSkips2ƒÒÈ÷Ä˙è¢:∆ÒÈ÷Äó„ãB
+emulator-5554primary"Ç
+
+logcatandroidÏ
+È/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-d2_wizardOnFreshInstallThenSkips.txt"µ
+
+device-infoandroidö
+ó/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"∂
+
+device-info.meminfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"∂
+
+device-info.cpuinfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo¡
+é
+EndToEndTest'io.github.avsessisozx.instagramindiricid3_wizardSkippedForExistingUser2∆ÒÈ÷Ä†›å:«ÒÈ÷¿πÜæB
+emulator-5554primary"Å
+
+logcatandroidÎ
+Ë/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-d3_wizardSkippedForExistingUser.txt"µ
+
+device-infoandroidö
+ó/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"∂
+
+device-info.meminfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"∂
+
+device-info.cpuinfoandroidì
+ê/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo*ö
+c
+test-results.logOcom.google.testing.platform.runtime.android.driver.AndroidInstrumentationDriver§
+°/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/testlog/test-results.log 2
+text/plain

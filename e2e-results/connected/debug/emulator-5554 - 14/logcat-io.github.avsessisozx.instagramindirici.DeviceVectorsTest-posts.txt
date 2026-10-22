@@ -1,0 +1,102 @@
+10-22 20:56:06.482  4488  4550 I TestRunner: started: posts(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-22 20:56:06.490  3107  3596 W libc    : Access denied finding property "service.adb.tls.port"
+10-22 20:56:06.500  1485  4369 I RecoverableKeyStoreGms: [EnrollmentManager] Successfully downloaded certificates. [CONTEXT service_id=172 ]
+10-22 20:56:06.516  1485  3485 I SystemUpdate: [Execution,InstallationIntentOperation] Received intent: Intent { act=com.google.android.gms.update.INSTALL_UPDATE cat=[targeted_intent_op_prefix:.update.execution.InstallationIntentOperation] cmp=com.google.android.gms/.chimera.GmsIntentOperationService }.
+10-22 20:56:06.516  1485  3485 I SystemUpdate: [Execution,ExecutionManager] Action finished-execution executed for 0.00 seconds.
+10-22 20:56:06.524   522  2241 D RecoverableKeyStoreMgr: Root of trust for recovery agent + 10131 is assigned for the first time to GoogleCloudKeyVaultServiceV1
+10-22 20:56:06.526  1485  1981 I ModuleSetMgr: Computing pending module set with APKs: [[AdsFdrDynamite.integ:231004600100000], [Cronetdynamite:231818190800], [Dynamiteloader:231818190000], [Dynamitemodulesa:231818190000], [Dynamitemodulesc:231818190000], [Googlecertificates:231818190000], [Mapsdynamite:231818190000], [Measurementdynamite:231818190000]]
+10-22 20:56:06.532   522  2241 I RecoverableKeyStoreMgr: Updating the certificate with the new serial number 10020
+10-22 20:56:06.533   522  2241 D RecoverableKeyStoreMgr: Getting and validating a random endpoint certificate
+10-22 20:56:06.552   522  2241 D RecoverableKeyStoreMgr: Saving the randomly chosen endpoint certificate to database
+10-22 20:56:06.555  1437  3818 W .gms.persistent: Long monitor contention with owner netscheduler-queue-handler (2972) at void bysh.d(avza, android.net.Uri, int)(:com.google.android.gms@231818047@23.18.18 (190800-535401451):9) waiters=0 in void bysh.c(byps) for 157ms
+10-22 20:56:06.610  1485  1981 I ModuleSetMgr: Download of container feature antifingerprinting is disabled.
+10-22 20:56:06.610  1485  1981 I ModuleSetMgr: Download of container feature appsearch_dynamite_impl is disabled.
+10-22 20:56:06.610  1485  1981 I ModuleSetMgr: Download of container feature brella_dynamite is disabled.
+10-22 20:56:06.610  1485  1981 I ModuleSetMgr: Download of container feature cameraconnectivity_impl is disabled.
+10-22 20:56:06.610  1485  1981 I ModuleSetMgr: Download of container feature dck_management is disabled.
+10-22 20:56:06.610  1485  1981 I ModuleSetMgr: Download of container feature easyunlock is disabled.
+10-22 20:56:06.610  1485  1981 I ModuleSetMgr: Download of container feature enterprise is disabled.
+10-22 20:56:06.626  3107  3596 D TrafficStats: tagSocket(112) with statsTag=0x1809, statsUid=-1
+10-22 20:56:06.640   522  2241 I RecoverableKeyStoreMgr: This is a certificate change. Snapshot didn't exist
+10-22 20:56:06.642  3107  3596 D TrafficStats: tagSocket(112) with statsTag=0x1809, statsUid=-1
+10-22 20:56:06.648  1485  4369 I RecoverableKeyStoreGms: [EnrollmentManager] Recovery service is initialized. [CONTEXT service_id=172 ]
+10-22 20:56:06.651  3107  3596 D TrafficStats: tagSocket(112) with statsTag=0x1809, statsUid=-1
+10-22 20:56:06.658   522  2648 E RecoverySnapshotStorage: Error reading snapshot for 10131 from disk
+10-22 20:56:06.658   522  2648 E RecoverySnapshotStorage: java.io.FileNotFoundException: /data/system/recoverablekeystore/snapshots/10131.xml: open failed: ENOENT (No such file or directory)
+10-22 20:56:06.658   522  2648 E RecoverySnapshotStorage: 	at libcore.io.IoBridge.open(IoBridge.java:574)
+10-22 20:56:06.658   522  2648 E RecoverySnapshotStorage: 	at java.io.FileInputStream.<init>(FileInputStream.java:160)
+10-22 20:56:06.658   522  2648 E RecoverySnapshotStorage: 	at com.android.server.locksettings.recoverablekeystore.storage.RecoverySnapshotStorage.readFromDisk(RecoverySnapshotStorage.java:152)
+10-22 20:56:06.658   522  2648 E RecoverySnapshotStorage: 	at com.android.server.locksettings.recoverablekeystore.storage.RecoverySnapshotStorage.get(RecoverySnapshotStorage.java:104)
+10-22 20:56:06.658   522  2648 E RecoverySnapshotStorage: 	at com.android.server.locksettings.recoverablekeystore.RecoverableKeyStoreManager.getKeyChainSnapshot(RecoverableKeyStoreManager.java:369)
+10-22 20:56:06.658   522  2648 E RecoverySnapshotStorage: 	at com.android.server.locksettings.LockSettingsService.getKeyChainSnapshot(LockSettingsService.java:2494)
+10-22 20:56:06.658   522  2648 E RecoverySnapshotStorage: 	at com.android.internal.widget.ILockSettings$Stub.onTransact(ILockSettings.java:838)
+10-22 20:56:06.658   522  2648 E RecoverySnapshotStorage: 	at android.os.Binder.execTransactInternal(Binder.java:1339)
+10-22 20:56:06.658   522  2648 E RecoverySnapshotStorage: 	at android.os.Binder.execTransact(Binder.java:1275)
+10-22 20:56:06.658   522  2648 E RecoverySnapshotStorage: Caused by: android.system.ErrnoException: open failed: ENOENT (No such file or directory)
+10-22 20:56:06.658   522  2648 E RecoverySnapshotStorage: 	at libcore.io.Linux.open(Native Method)
+10-22 20:56:06.658   522  2648 E RecoverySnapshotStorage: 	at libcore.io.ForwardingOs.open(ForwardingOs.java:563)
+10-22 20:56:06.658   522  2648 E RecoverySnapshotStorage: 	at libcore.io.BlockGuardOs.open(BlockGuardOs.java:274)
+10-22 20:56:06.658   522  2648 E RecoverySnapshotStorage: 	at libcore.io.IoBridge.open(IoBridge.java:560)
+10-22 20:56:06.658   522  2648 E RecoverySnapshotStorage: 	... 8 more
+10-22 20:56:06.660   522  2648 W PlatformKeyManager: Platform generation ID was 0 but no entry was present in AndroidKeyStore. Generating fresh key.
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: [WrappingKeyManager] InternalRecoveryServiceException during wrapping key generation [CONTEXT service_id=172 ]
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: android.security.keystore.recovery.InternalRecoveryServiceException: Failed to import secret key.
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at android.security.keystore.recovery.RecoveryController.wrapUnexpectedServiceSpecificException(RecoveryController.java:783)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at android.security.keystore.recovery.RecoveryController.generateKey(RecoveryController.java:569)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at qiw.f(:com.google.android.gms@231818047@23.18.18 (190800-535401451):3)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at qiw.e(:com.google.android.gms@231818047@23.18.18 (190800-535401451):15)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at qfw.f(:com.google.android.gms@231818047@23.18.18 (190800-535401451):68)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at com.google.android.gms.auth.folsom.operation.GserviceChangeIntentOperation.onHandleIntent(:com.google.android.gms@231818047@23.18.18 (190800-535401451):8)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at com.google.android.chimera.IntentOperation.onHandleIntent(:com.google.android.gms@231818047@23.18.18 (190800-535401451):2)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at zhv.onHandleIntent(:com.google.android.gms@231818047@23.18.18 (190800-535401451):4)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at hjm.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):3)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at hjl.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):11)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at dfhf.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):2)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at java.lang.Thread.run(Thread.java:1012)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: Caused by: android.os.ServiceSpecificException: Failed to import secret key. (code 22)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at android.os.Parcel.createExceptionOrNull(Parcel.java:3071)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at android.os.Parcel.createException(Parcel.java:3041)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at android.os.Parcel.readException(Parcel.java:3024)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at android.os.Parcel.readException(Parcel.java:2966)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at com.android.internal.widget.ILockSettings$Stub$Proxy.generateKey(ILockSettings.java:1679)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	at android.security.keystore.recovery.RecoveryController.generateKey(RecoveryController.java:556)
+10-22 20:56:06.663  1485  4369 W RecoverableKeyStoreGms: 	... 12 more
+10-22 20:56:06.667   522  2241 I RemoteProvisionSysSvc: getRegistration(android.hardware.security.keymint.IRemotelyProvisionedComponent/default)
+10-22 20:56:06.675   522   522 I RegistrationProxy: onServiceConnected: com.android.rkpdapp.service.RemoteProvisioningService
+10-22 20:56:06.678   522  2648 I RegistrationProxy: IGetRegistrationCallback.onSuccess
+10-22 20:56:06.680  1485  1981 I ModuleSetMgr: Download of container feature enterprise_zt_mp_complete is disabled.
+10-22 20:56:06.680   522  2648 I RemoteProvisionSysSvc: Fetching key 10131 for client 31530041
+10-22 20:56:06.680   522  2648 I RegistrationProxy: getKeyAsync operation started with callback 8950398
+10-22 20:56:06.680  3912  3967 I RkpdRegistrationBinder: Key requested for : android.hardware.security.keymint.IRemotelyProvisionedComponent/default, clientUid: 1017, keyId: 10131, callback: 17525361
+10-22 20:56:06.681  3912  3967 I RkpdRegistrationBinder: Key successfully assigned to client
+10-22 20:56:06.681   522   522 I RemoteProvisionSysSvc: Successfully fetched key for client 31530041
+10-22 20:56:06.691  1485  1981 I ModuleSetMgr: Download of container feature fast_pair is disabled.
+10-22 20:56:06.693  1485  1981 I ModuleSetMgr: Download of container feature game_platform is disabled.
+10-22 20:56:06.702  1485  1981 I ModuleSetMgr: Download of container feature games is disabled.
+10-22 20:56:06.706  1485  1981 I ModuleSetMgr: Download of container feature growth_upgradeparty is disabled.
+10-22 20:56:06.706  3107  3596 W SystemServiceRegistry: No service published for: persistent_data_block
+10-22 20:56:06.709  1485  1981 I ModuleSetMgr: Download of container feature tflite_dynamite is disabled.
+10-22 20:56:06.714  1485  1981 I ModuleSetMgr: Download of container feature homegraph is disabled.
+10-22 20:56:06.716  1485  1981 I ModuleSetMgr: Download of container feature magictether is disabled.
+10-22 20:56:06.716  1485  1981 I ModuleSetMgr: Download of container feature maps_core is disabled.
+10-22 20:56:06.719  1485  1981 I ModuleSetMgr: Download of container feature mlkit.docscan.crop is disabled.
+10-22 20:56:06.728  1485  4369 I GmsDebugLogger: [101] +mlkit.ocr.common:1
+10-22 20:56:06.733  1485  1981 I ModuleSetMgr: Download of container feature mlkit.docscan.enhance is disabled.
+10-22 20:56:06.738  1485  1981 I ModuleSetMgr: Download of container feature multipackage_debug is disabled.
+10-22 20:56:06.747  1485  1981 I ModuleSetMgr: Download of container feature payse is disabled.
+10-22 20:56:06.752  1485  1981 I ModuleSetMgr: Download of container feature permissions_debug is disabled.
+10-22 20:56:06.755  1485  1981 I ModuleSetMgr: Download of container feature play_cloud_search is disabled.
+10-22 20:56:06.755  1485  1981 I ModuleSetMgr: Download of container feature semanticlocation_debug is disabled.
+10-22 20:56:06.759  1485  1981 I ModuleSetMgr: Download of container feature tflite_delegate_edgetpu is disabled.
+10-22 20:56:06.760  1485  1981 I ModuleSetMgr: Download of container feature tflite_delegate_test is disabled.
+10-22 20:56:06.771  1485  1981 I ModuleSetMgr: Download of container feature tflite_gpu_dynamite is disabled.
+10-22 20:56:06.774  1485  1981 I ModuleSetMgr: Download of container feature userstatus_impl is disabled.
+10-22 20:56:06.774  1485  1981 I ModuleSetMgr: Download of container feature usonia_iam is disabled.
+10-22 20:56:06.775  1437  2735 I GCoreUlr: WorldUpdater:init: Ensuring that reporting is stopped because of reasons: (no Google accounts)
+10-22 20:56:06.775  1485  1981 I ModuleSetMgr: Download of container feature vision.face is disabled.
+10-22 20:56:06.775  1485  1981 I ModuleSetMgr: Download of container feature vision.ica is disabled.
+10-22 20:56:06.779  1485  1981 I ModuleSetMgr: Download of container feature vision.ocr is disabled.
+10-22 20:56:06.780  1485  1981 I ModuleSetMgr: Pending container module APKs: []
+10-22 20:56:06.790  4488  4550 I TestRunner: finished: posts(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

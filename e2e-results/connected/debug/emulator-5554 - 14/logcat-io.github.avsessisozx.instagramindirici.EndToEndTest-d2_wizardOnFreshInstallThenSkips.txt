@@ -1,0 +1,265 @@
+10-22 20:57:40.148  4488  4550 I TestRunner: started: d2_wizardOnFreshInstallThenSkips(io.github.avsessisozx.instagramindirici.EndToEndTest)
+10-22 20:57:40.200  5469  6084 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.ipa.base.IpaGcmTaskService started execution. cause:5 exec_start_elapsed_seconds: 164 [CONTEXT service_id=218 ]
+10-22 20:57:40.298  5469  5538 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.ipa.base.IpaGcmTaskService finished executing. cause:5 result: 1 elapsed_millis: 134 uptime_millis: 134 exec_start_elapsed_seconds: 164 [CONTEXT service_id=218 ]
+10-22 20:57:40.303   522   541 W ziparchive: Unable to open '/data/app/~~_T5kf3dgVkAVyqch78ml0A==/io.github.avsessisozx.instagramindirici.test-mw5OXPqKLiElAXdEGkStxw==/base.dm': No such file or directory
+10-22 20:57:40.304   522   541 I ActivityTaskManager: Displayed io.github.avsessisozx.instagramindirici.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +249ms
+10-22 20:57:40.314  4488  4550 W Settings: Setting always_finish_activities has moved from android.provider.Settings.System to android.provider.Settings.Global, returning read-only value.
+10-22 20:57:40.334   402   402 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+10-22 20:57:40.339   522   909 I ImeTracker: io.github.avsessisozx.instagramindirici.test:ed98b523: onRequestHide at ORIGIN_SERVER_HIDE_INPUT reason HIDE_UNSPECIFIED_WINDOW
+10-22 20:57:40.339   522   909 I ImeTracker: io.github.avsessisozx.instagramindirici.test:ed98b523: onCancelled at PHASE_SERVER_SHOULD_HIDE
+10-22 20:57:40.340  1523  1523 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():3227
+10-22 20:57:40.342   834   900 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@8402259
+10-22 20:57:40.343  1523  1523 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 0, unlocked = true
+10-22 20:57:40.343  1523  1523 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1877 onStartInput(EditorInfo{inputType=0x0(NULL) imeOptions=0x0 privateImeOptions=null actionName=UNSPECIFIED actionLabel=null actionId=0 initialSelStart=-1 initialSelEnd=-1 initialCapsMode=0x0 hintText=null label=null packageName=io.github.avsessisozx.instagramindirici.test fieldId=0 fieldName=null extras=null}, false)
+10-22 20:57:40.343  1523  1523 I GoogleInputMethodService: GoogleInputMethodService.shouldHideHeaderOnInitialState():4008 ShouldHideHeaderOnInitialState = false
+10-22 20:57:40.343  1523  1523 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 2, unlocked = true
+10-22 20:57:40.346  1027  1363 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+10-22 20:57:40.348  1027  1363 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+10-22 20:57:40.348  1027  1363 D BtGatt.ScanManager: uid 10131 isForeground true scanMode 1
+10-22 20:57:40.350   522  2690 W InputManager-JNI: Input channel object 'dd6f53f Splash Screen io.github.avsessisozx.instagramindirici.test (client)' was disposed without first being removed with the input manager!
+10-22 20:57:40.356   834   903 D SplashScreenView: Build android.window.SplashScreenView{7813500 V.E...... ......ID 0,0-0,0}
+10-22 20:57:40.356   834   903 D SplashScreenView: Icon: view: null drawable: null size: 0
+10-22 20:57:40.356   834   903 D SplashScreenView: Branding: view: android.view.View{e29c139 G.ED..... ......I. 0,0-0,0 #10204ef android:id/splashscreen_branding_view} drawable: null size w: 0 h: 0
+10-22 20:57:40.380  1768  2283 I A       : group apa_head_suggest not present without account in *
+10-22 20:57:40.386  1768  2283 I A       : incrementApaDataDownloadStoreStatus(latency = PT0.008S, appVersion = 13.17.16.23, status = NOT_FOUND, locale = *, fileGroupnames = apa_head_suggest, accountScoped = false, localGroupsAvailable = false, timeSinceSearchBoot = Optional[PT2M9.851S] (ONE_TO_FIVE_MINUTES), timeSinceDataDownloadInit = PT1M12.978S (ONE_TO_FIVE_MINUTES))
+10-22 20:57:40.386  1768  2283 I A       : incrementApaDataDownloadStoreStatusNotFound(appVersion = 13.17.16.23, locale = *, groupName = apa_head_suggest, accountScoped = false, foundGroups = 0, status = 0, localGroupsAvailable = false)
+10-22 20:57:40.388  1768  2745 I A       : Using proto config with mendel
+10-22 20:57:40.406  1768  2745 I A       : Using proto config with mendel
+10-22 20:57:40.409  4488  4488 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@7d6cf9a in: PRE_ON_CREATE
+10-22 20:57:40.410  4488  4488 V ActivityScenario: Activity lifecycle changed event received but ignored because the reported transition was not ON_CREATE while the last known transition was PRE_ON_CREATE
+10-22 20:57:40.413   834   913 D EGL_emulation: app_time_stats: avg=988.23ms min=0.80ms max=3852.07ms count=4
+10-22 20:57:40.428  4488  4488 D AutofillManager: Fill dialog is enabled:false, hints=[password, passwordAuto, creditCardNumber, creditCardSecurityCode, creditCardExpirationDate]
+10-22 20:57:40.437  4488  4488 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@7d6cf9a in: CREATED
+10-22 20:57:40.438  4488  4488 V ActivityScenario: Update currentActivityStage to CREATED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@7d6cf9a
+10-22 20:57:40.442  4488  4488 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@7d6cf9a in: STARTED
+10-22 20:57:40.442  4488  4488 V ActivityScenario: Update currentActivityStage to STARTED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@7d6cf9a
+10-22 20:57:40.443  4488  4488 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@7d6cf9a in: RESUMED
+10-22 20:57:40.443  4488  4488 V ActivityScenario: Update currentActivityStage to RESUMED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@7d6cf9a
+10-22 20:57:40.491   522   541 W ziparchive: Unable to open '/data/app/~~It5Iut-sXcyhm4msTpQFVA==/io.github.avsessisozx.instagramindirici-k_p3DKZSNAr1peY1A6UEvQ==/base.dm': No such file or directory
+10-22 20:57:40.492   522   541 I ActivityTaskManager: Displayed io.github.avsessisozx.instagramindirici/.MainActivity for user 0: +167ms
+10-22 20:57:40.509   834   900 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@d44a12c
+10-22 20:57:40.510   522  2690 W InputManager-JNI: Input channel object 'ae46cf6 Splash Screen io.github.avsessisozx.instagramindirici (client)' was disposed without first being removed with the input manager!
+10-22 20:57:40.512   522   890 I ImeTracker: io.github.avsessisozx.instagramindirici:cc3558a7: onRequestHide at ORIGIN_SERVER_HIDE_INPUT reason HIDE_UNSPECIFIED_WINDOW
+10-22 20:57:40.512   522   890 I ImeTracker: io.github.avsessisozx.instagramindirici:cc3558a7: onCancelled at PHASE_SERVER_SHOULD_HIDE
+10-22 20:57:40.514  1098  2164 D OneSearchSuggestProvider: Shut down the binder channel
+10-22 20:57:40.515  5103  5103 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@89bcc4e
+10-22 20:57:40.516  1027  1363 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+10-22 20:57:40.516  1027  1363 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+10-22 20:57:40.517  1027  1363 D BtGatt.ScanManager: uid 10131 isForeground true scanMode 1
+10-22 20:57:40.517  1768  4742 I PBSessionCacheImpl: Deleted sessionId[7777538934166987] from persistence.
+10-22 20:57:40.517  1098  1135 I ImeTracker: com.google.android.apps.nexuslauncher:5f157aa4: onRequestHide at ORIGIN_CLIENT_HIDE_SOFT_INPUT reason HIDE_SOFT_INPUT
+10-22 20:57:40.517  1098  1135 I ImeTracker: com.google.android.apps.nexuslauncher:5f157aa4: onFailed at PHASE_CLIENT_VIEW_SERVED
+10-22 20:57:40.521   522   890 W InputManager-JNI: Input channel object 'c837510 io.github.avsessisozx.instagramindirici.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity (client)' was disposed without first being removed with the input manager!
+10-22 20:57:40.522  1523  1523 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():3227
+10-22 20:57:40.525  1523  1523 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 0, unlocked = true
+10-22 20:57:40.525  1523  1523 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1877 onStartInput(EditorInfo{inputType=0x0(NULL) imeOptions=0x0 privateImeOptions=null actionName=UNSPECIFIED actionLabel=null actionId=0 initialSelStart=-1 initialSelEnd=-1 initialCapsMode=0x0 hintText=null label=null packageName=io.github.avsessisozx.instagramindirici fieldId=0 fieldName=null extras=null}, false)
+10-22 20:57:40.525  1523  1523 I GoogleInputMethodService: GoogleInputMethodService.shouldHideHeaderOnInitialState():4008 ShouldHideHeaderOnInitialState = false
+10-22 20:57:40.527  1768  2745 W SearchServiceCore: Abort, client detached.
+10-22 20:57:40.527  1768  2745 W SearchServiceCore: Abort, client detached.
+10-22 20:57:40.527  1768  2745 W SearchServiceCore: Abort, client detached.
+10-22 20:57:40.528  1523  1523 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 2, unlocked = true
+10-22 20:57:40.601   336  6095 I resolv  : GetAddrInfoHandler::run: {101 101 101 983141 10192 0}
+10-22 20:57:40.602   336  6096 I resolv  : res_nmkquery: (QUERY, IN, AAAA)
+10-22 20:57:40.602   336  6096 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7a0beeddab30
+10-22 20:57:40.602   336  6096 I resolv  : doQuery: rcode=3, ancount=0, return value=107
+10-22 20:57:40.602   336  6097 I resolv  : res_nmkquery: (QUERY, IN, A)
+10-22 20:57:40.602   336  6097 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7a0beedd96f0
+10-22 20:57:40.602   336  6097 I resolv  : doQuery: rcode=3, ancount=0, return value=107
+10-22 20:57:40.803   834   834 D StatusBarIconController: ignoring old pipeline callbacks, because the new mobile icons are enabled
+10-22 20:57:41.805   834   834 D StatusBarIconController: ignoring old pipeline callbacks, because the new mobile icons are enabled
+10-22 20:57:42.076  4488  4592 D EGL_emulation: app_time_stats: avg=263.16ms min=4.58ms max=1348.55ms count=6
+10-22 20:57:42.274  1663  2285 W MediaProvider: isAppCloneUserPair for user 0: false
+10-22 20:57:42.277  1663  2285 I MediaProvider: Open with lower FS for /storage/emulated/0/Download/ii-screens/22_sihirbaz.png. Uid: 10192
+10-22 20:57:42.298  5469  6084 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.ipa.base.IpaGcmTaskService started execution. cause:9 exec_start_elapsed_seconds: 166 [CONTEXT service_id=218 ]
+10-22 20:57:42.300  5469  6068 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.ipa.base.IpaGcmTaskService finished executing. cause:9 result: 1 elapsed_millis: 8 uptime_millis: 8 exec_start_elapsed_seconds: 166 [CONTEXT service_id=218 ]
+10-22 20:57:42.355   834   903 D SplashScreenView: Build android.window.SplashScreenView{a40258c V.E...... ......ID 0,0-0,0}
+10-22 20:57:42.355   834   903 D SplashScreenView: Icon: view: null drawable: null size: 0
+10-22 20:57:42.355   834   903 D SplashScreenView: Branding: view: android.view.View{f08d4d5 G.ED..... ......I. 0,0-0,0 #10204ef android:id/splashscreen_branding_view} drawable: null size w: 0 h: 0
+10-22 20:57:42.358  4488  4488 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@7d6cf9a in: PAUSED
+10-22 20:57:42.358  4488  4488 V ActivityScenario: Update currentActivityStage to PAUSED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@7d6cf9a
+10-22 20:57:42.366  1768  1768 I BgTaskExecutorImpl: Starting EXCLUSIVE background task UPLOAD_ASSISTANT_DEVICE_SETTINGS.
+10-22 20:57:42.368   402   402 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+10-22 20:57:42.368  1768  4742 W LocationOracle: getBestLocation(): no location is available
+10-22 20:57:42.368  1768  2678 I NetworkRecognitionRnr: Using pair HTTP connection
+10-22 20:57:42.369  1768  2654 I A       : [Upload] Connected
+10-22 20:57:42.376  1768  2265 W CronetNetworkRqstWrppr: Upload request without a content type.
+10-22 20:57:42.397  1768  2260 W LocationOracle: No location returned by GMS core getLastLocation()
+10-22 20:57:42.398  1768  2654 I NetworkRecognitionRnr: Using pair HTTP connection
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: Exception in upload method
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: com.google.android.apps.gsa.shared.r.d: Error code: 262182
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.shared.ab.bk.d(PG:5)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.libraries.gsa.c.a.ar.d(PG:1)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.libraries.gsa.c.a.bo.b(PG:5)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.libraries.gsa.c.a.e.a(PG:2)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.libraries.gsa.c.a.a.run(PG:2)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.bf.execute(PG:1)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.i(PG:1)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:12)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.j.a(PG:1)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.j.a(PG:1)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.j.a(PG:1)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.j.a(PG:1)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.c.a(PG:1)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.bu.cancel(PG:1)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:17)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.staticplugins.bk.b.h.run(PG:2)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.bf.execute(PG:1)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.i(PG:1)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:12)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.j.a(PG:1)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.shared.util.c.aj.a(PG:2)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.c.a(PG:1)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.s3.o.c(PG:2)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.s3.r.a(PG:1)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.staticplugins.dc.a.c.e(PG:2)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.staticplugins.dc.a.c.c(PG:3)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.staticplugins.dc.a.e.a(PG:5)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.s3.n.hh(PG:1)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.cd.g.a.f.e(PG:2)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.speech.k.a.g.d(PG:22)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.speech.k.a.g.ks(PG:6)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.s3.o.e(PG:14)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.s3.p.run(PG:1)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:487)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.shared.util.c.a.e.run(PG:2)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.shared.util.c.a.bi.run(PG:1)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.shared.util.c.a.bi.run(PG:1)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at java.lang.Thread.run(Thread.java:1012)
+10-22 20:57:42.398  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.shared.util.c.a.l.run(PG:5)
+10-22 20:57:42.399  1768  1768 E A       : onError
+10-22 20:57:42.399  1768  1768 E A       : com.google.android.apps.gsa.shared.speech.a.m: errorCode: 65561, engine: 2
+10-22 20:57:42.399  1768  1768 E A       : 	at com.google.android.apps.gsa.staticplugins.dc.a.e.a(PG:3)
+10-22 20:57:42.399  1768  1768 E A       : 	at com.google.android.apps.gsa.s3.n.hh(PG:1)
+10-22 20:57:42.399  1768  1768 E A       : 	at com.google.cd.g.a.f.e(PG:2)
+10-22 20:57:42.399  1768  1768 E A       : 	at com.google.android.apps.gsa.speech.k.a.g.d(PG:22)
+10-22 20:57:42.399  1768  1768 E A       : 	at com.google.android.apps.gsa.speech.k.a.g.ks(PG:6)
+10-22 20:57:42.399  1768  1768 E A       : 	at com.google.android.apps.gsa.s3.o.e(PG:14)
+10-22 20:57:42.399  1768  1768 E A       : 	at com.google.android.apps.gsa.s3.p.run(PG:1)
+10-22 20:57:42.399  1768  1768 E A       : 	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:487)
+10-22 20:57:42.399  1768  1768 E A       : 	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
+10-22 20:57:42.399  1768  1768 E A       : 	at com.google.android.apps.gsa.shared.util.c.a.e.run(PG:2)
+10-22 20:57:42.399  1768  1768 E A       : 	at com.google.android.apps.gsa.shared.util.c.a.bi.run(PG:1)
+10-22 20:57:42.399  1768  1768 E A       : 	at com.google.android.apps.gsa.shared.util.c.a.bi.run(PG:1)
+10-22 20:57:42.399  1768  1768 E A       : 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+10-22 20:57:42.399  1768  1768 E A       : 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+10-22 20:57:42.399  1768  1768 E A       : 	at java.lang.Thread.run(Thread.java:1012)
+10-22 20:57:42.399  1768  1768 E A       : 	at com.google.android.apps.gsa.shared.util.c.a.l.run(PG:5)
+10-22 20:57:42.399  1768  1768 E A       : Caused by: com.google.android.apps.gsa.shared.speech.a.o: errorCode: 65586, engine: 2
+10-22 20:57:42.399  1768  1768 E A       : 	... 15 more
+10-22 20:57:42.399  1768  1768 E A       : Caused by: com.google.android.apps.gsa.shared.speech.a.k: errorCode: 401, engine: 2
+10-22 20:57:42.399  1768  1768 E A       : 	at com.google.android.apps.gsa.assistant.shared.n.h.a(PG:5)
+10-22 20:57:42.399  1768  1768 E A       : 	at com.google.android.apps.gsa.s3.producers.j.hE(PG:2)
+10-22 20:57:42.399  1768  1768 E A       : 	at com.google.android.apps.gsa.speech.k.a.g.d(PG:16)
+10-22 20:57:42.399  1768  1768 E A       : 	... 12 more
+10-22 20:57:42.400  1768  2869 I A       : [Upload] Connected
+10-22 20:57:42.407  1768  2265 W CronetNetworkRqstWrppr: Upload request without a content type.
+10-22 20:57:42.423  1768  1768 W A       : Failed to sync device settings.
+10-22 20:57:42.423  1768  1768 I A       : Retrying to sync device settings.
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: Exception in upload method
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: com.google.android.apps.gsa.shared.r.d: Error code: 262182
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.shared.ab.bk.d(PG:5)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.libraries.gsa.c.a.ar.d(PG:1)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.libraries.gsa.c.a.bo.b(PG:5)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.libraries.gsa.c.a.e.a(PG:2)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.libraries.gsa.c.a.a.run(PG:2)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.bf.execute(PG:1)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.i(PG:1)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:12)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.j.a(PG:1)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.j.a(PG:1)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.j.a(PG:1)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.j.a(PG:1)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.c.a(PG:1)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.bu.cancel(PG:1)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:17)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.staticplugins.bk.b.h.run(PG:2)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.bf.execute(PG:1)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.i(PG:1)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:12)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.j.a(PG:1)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.shared.util.c.aj.a(PG:2)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.c.a(PG:1)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.s3.r.c(PG:1)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.s3.n.e(PG:1)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.s3.n.hh(PG:2)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.cd.g.a.f.e(PG:2)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.speech.k.a.g.d(PG:22)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.speech.k.a.g.ks(PG:6)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.s3.o.e(PG:14)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.s3.p.run(PG:1)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:487)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.shared.util.c.a.e.run(PG:2)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.shared.util.c.a.bi.run(PG:1)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.shared.util.c.a.bi.run(PG:1)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at java.lang.Thread.run(Thread.java:1012)
+10-22 20:57:42.424  1768  2283 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.shared.util.c.a.l.run(PG:5)
+10-22 20:57:42.442  5103  5128 W OpenGLRenderer: Failed to initialize 101010-2 format, error = EGL_SUCCESS
+10-22 20:57:42.444  1768  2745 W SearchServiceCore: Abort, client detached.
+10-22 20:57:42.631  1027  1363 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+10-22 20:57:42.633  1027  1363 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+10-22 20:57:42.633  1027  1363 D BtGatt.ScanManager: uid 10131 isForeground true scanMode 1
+10-22 20:57:42.634   402   402 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+10-22 20:57:42.639   522  1729 W AppSearchIcing: icing-search-engine.cc:283: Error: 5, Message: Document (com.google.android.googlequicksearchbox$OneSearchZeroStateGoogleSuggestions/default, zp) not found.
+10-22 20:57:42.640  1098  2164 D OneSearchSuggestProvider: Created the binder channel successfully for end point service =com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService , mChannel=z1{delegate=s1{logId=45, target=directaddress:///AndroidComponentAddress%5BIntent%20%7B%20act=grpc.io.action.BIND%20cmp=com.google.android.googlequicksearchbox/com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService%20%7D%5D}} , mOneSearchConnection=X1.T@9202956
+10-22 20:57:42.645  4488  4488 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@7d6cf9a in: STOPPED
+10-22 20:57:42.645  4488  4488 V ActivityScenario: Update currentActivityStage to STOPPED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@7d6cf9a
+10-22 20:57:42.651  4488  4488 W cr_AwContents: WebView.destroy() called while WebView is still attached to window.
+10-22 20:57:42.654  4488  4488 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@7d6cf9a in: DESTROYED
+10-22 20:57:42.655  4488  4488 V ActivityScenario: Update currentActivityStage to DESTROYED, currentActivity=null
+10-22 20:57:42.655  4488  4550 I TestRunner: finished: d2_wizardOnFreshInstallThenSkips(io.github.avsessisozx.instagramindirici.EndToEndTest)

@@ -1,0 +1,3 @@
+10-22 20:56:06.792  4488  4550 I TestRunner: started: classify(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-22 20:56:06.800  1437  2735 I GCoreUlr: Unbound from all signal providers.
+10-22 20:56:06.808  4488  4550 I TestRunner: finished: classify(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

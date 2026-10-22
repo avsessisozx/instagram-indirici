@@ -1,0 +1,194 @@
+10-22 20:57:36.371  4488  4550 I TestRunner: started: d1_tabsAndHistoryList(io.github.avsessisozx.instagramindirici.EndToEndTest)
+10-22 20:57:36.379  5469  5854 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.auth.account.be.legacy.AuthCronService started execution. cause:5 exec_start_elapsed_seconds: 160 [CONTEXT service_id=218 ]
+10-22 20:57:36.392  5469  5538 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.auth.account.be.legacy.AuthCronService finished executing. cause:5 result: 3 elapsed_millis: 43 uptime_millis: 43 exec_start_elapsed_seconds: 160 [CONTEXT service_id=218 ]
+10-22 20:57:36.409  4488  4550 W Settings: Setting always_finish_activities has moved from android.provider.Settings.System to android.provider.Settings.Global, returning read-only value.
+10-22 20:57:36.413   522  1729 W AppSearchIcing: icing-search-engine.cc:283: Error: 5, Message: Document (com.google.android.googlequicksearchbox$OneSearchZeroStateGoogleSuggestions/default, zp) not found.
+10-22 20:57:36.423  1098  2164 D OneSearchSuggestProvider: Created the binder channel successfully for end point service =com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService , mChannel=z1{delegate=s1{logId=41, target=directaddress:///AndroidComponentAddress%5BIntent%20%7B%20act=grpc.io.action.BIND%20cmp=com.google.android.googlequicksearchbox/com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService%20%7D%5D}} , mOneSearchConnection=X1.T@804a7ed
+10-22 20:57:36.428  1768  1768 I A       : Created gRPC endpoint to "search" for service class com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService
+10-22 20:57:36.431   834   903 D SplashScreenView: Build android.window.SplashScreenView{efdbf1a V.E...... ......ID 0,0-0,0}
+10-22 20:57:36.431   834   903 D SplashScreenView: Icon: view: null drawable: null size: 0
+10-22 20:57:36.431   834   903 D SplashScreenView: Branding: view: android.view.View{a607a4b G.ED..... ......I. 0,0-0,0 #10204ef android:id/splashscreen_branding_view} drawable: null size w: 0 h: 0
+10-22 20:57:36.432  1674  2136 I AiAiEcho: Predicting[0]:
+10-22 20:57:36.432  1674  2136 I AiAiEcho: EchoTargets:
+10-22 20:57:36.432  1674  2136 I AiAiEcho: Filtered by AiAi flag check:
+10-22 20:57:36.432  1674  2136 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-22 20:57:36.432  1674  2136 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-22 20:57:36.436  1768  2290 I A       : group apa_head_suggest not present without account in *
+10-22 20:57:36.436  1768  2290 I A       : incrementApaDataDownloadStoreStatus(latency = PT0.008S, appVersion = 13.17.16.23, status = NOT_FOUND, locale = *, fileGroupnames = apa_head_suggest, accountScoped = false, localGroupsAvailable = false, timeSinceSearchBoot = Optional[PT2M5.902S] (ONE_TO_FIVE_MINUTES), timeSinceDataDownloadInit = PT1M9.029S (ONE_TO_FIVE_MINUTES))
+10-22 20:57:36.447   834   913 D EGL_emulation: app_time_stats: avg=2625.05ms min=2625.05ms max=2625.05ms count=1
+10-22 20:57:36.448  1768  2290 I A       : incrementApaDataDownloadStoreStatusNotFound(appVersion = 13.17.16.23, locale = *, groupName = apa_head_suggest, accountScoped = false, foundGroups = 0, status = 0, localGroupsAvailable = false)
+10-22 20:57:36.452  1768  2745 I A       : Using proto config with mendel
+10-22 20:57:36.479  4488  4488 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@6a954ef in: PRE_ON_CREATE
+10-22 20:57:36.480  4488  4488 V ActivityScenario: Activity lifecycle changed event received but ignored because the reported transition was not ON_CREATE while the last known transition was PRE_ON_CREATE
+10-22 20:57:36.488  1768  2745 W A       : Queue length for executor EventBus is now 11. Perhaps some tasks are too long, or the pool is too small.
+10-22 20:57:36.508   834   900 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@b3d64b0
+10-22 20:57:36.509   522   890 W InputManager-JNI: Input channel object '3d37c39 Splash Screen io.github.avsessisozx.instagramindirici.test (client)' was disposed without first being removed with the input manager!
+10-22 20:57:36.530  4488  4488 D AutofillManager: Fill dialog is enabled:false, hints=[password, passwordAuto, creditCardNumber, creditCardSecurityCode, creditCardExpirationDate]
+10-22 20:57:36.534  1768  2745 I A       : Using proto config with mendel
+10-22 20:57:36.544  1098  1098 D SearchTargetUtil:  query= size=15
+10-22 20:57:36.544  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=kroger store closures 2026 list,group_id=web95904,response_id=e8eb11d7-09d7-466c-ac12-1101a83ef4f1,support_query_builder=false,} searchAction=kroger store closures 2026 list searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: f413e736-d072-43ac-ad93-b1294c240d83
+10-22 20:57:36.544  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=veterinarian warning homemade dog food,group_id=web95904,response_id=e8eb11d7-09d7-466c-ac12-1101a83ef4f1,support_query_builder=false,} searchAction=veterinarian warning homemade dog food searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: ef810eae-5132-431e-ae0f-d17e2bc01d8f
+10-22 20:57:36.545  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=steelers roster move rayshawn jenkins,group_id=web95904,response_id=e8eb11d7-09d7-466c-ac12-1101a83ef4f1,support_query_builder=false,} searchAction=steelers roster move rayshawn jenkins searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 9b71ae62-1e32-4ef7-ab77-c218ee41929c
+10-22 20:57:36.547  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=arizona tornado warnings,group_id=web95904,response_id=e8eb11d7-09d7-466c-ac12-1101a83ef4f1,support_query_builder=false,} searchAction=arizona tornado warnings searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: c035c1a9-c35b-46dc-9eb1-08d7d34b5323
+10-22 20:57:36.547  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=tea heart health,group_id=web95904,response_id=e8eb11d7-09d7-466c-ac12-1101a83ef4f1,support_query_builder=false,} searchAction=tea heart health searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: ac735192-12b7-4f4c-a7d2-6a33744a4fee
+10-22 20:57:36.547  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=php security vulnerabilities,group_id=web95904,response_id=e8eb11d7-09d7-466c-ac12-1101a83ef4f1,support_query_builder=false,} searchAction=php security vulnerabilities searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 3983f75f-5cea-42b4-9c3c-e5013fe592df
+10-22 20:57:36.547  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=social security database cleanup records,group_id=web95904,response_id=e8eb11d7-09d7-466c-ac12-1101a83ef4f1,support_query_builder=false,} searchAction=social security database cleanup records searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 085531e4-6494-4b0b-9f13-eea8ee70af0b
+10-22 20:57:36.547  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=orionids meteor shower,group_id=web95904,response_id=e8eb11d7-09d7-466c-ac12-1101a83ef4f1,support_query_builder=false,} searchAction=orionids meteor shower searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 9ab8b4a1-fa55-4313-a508-0dde2fee4662
+10-22 20:57:36.547  1098  1098 D SearchTargetUtil: layoutType=extra_tall_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{bitmap_url=data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIADAAMAMBIgACEQEDEQH/xAAbAAACAgMBAAAAAAAAAAAAAAAEBgMFAQIHAP/EADAQAAIBAwEFBgQHAAAAAAAAAAECAwAEEQUSITFRcQYTFCJBYTKBkaEHM0JDosHR/8QAFwEAAwEAAAAAAAAAAAAAAAAAAgMEAP/EABsRAQACAgMAAAAAAAAAAAAAAAABERIxAhMh/9oADAMBAAIRAxEAPwCWw1VdOglQ2rz96R8JAAx1oh+07om0ulxqAN5acLj+NVRHkpV7WaqAy2cLbhvfFDQoMtx+IuzIFjs4iQcbpCf6FF2vbW7vnKWy2iOh3q6sc/RqRtC0ZbqPxN4GKH4IxuyOZonWNO8HGLywDRPHvZVO4il5RdG9c42cbvVtUu4ngme1EUgw/dxEHHUsaBT801Dp18uoWUVwm4sMMORHGpk3uxphSLU7nubchThmOB7cz8q54zi61AMxJR5BnPLNMfaXU48mKE7TbLISPTJH+Uq7TIQy7iOFZtHuOwn8Sspv9qAEbMaZAxy44rRtMgF5LPJdyGLJBQYYdM0Pp98LuyZbcI0jD4JFz9s1i5unsLE+L2FwfIigAk/Kp4tbONWx2Pbu4ry2YnailG49MZ+1MEfFjSN2fuJLfVYdk577yNn1zTynrVCJzu6Ms10fKWdjwUfTHtW502b9xlU+g41a2irHZ+JYh5pnIdh+kA4x9q0NwjbUcqeXj745jpQ2PGNyzplnE0BjZ9mQHIINAa5EYpYo8k7iSasI27mVGJz6o+dx617XoRcWS3cAJK+Vhyodchz7wpW6YzJf2zcF7xRnG7Oafo/XrSFY3otI542G3G4wNpcg+/UUy6ZepLaMcuMjixzgZxjnwphT/9k=,suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=true,is_personal=false,suggest_raw_text=monica dutton,group_id=web95904,response_id=e8eb11d7-09d7-466c-ac12-1101a83ef4f1,support_query_builder=false,} searchAction=Monica Long Dutton searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 7dcf4e32-9e01-454c-a59f-354e54d8c0ef
+10-22 20:57:36.547  1098  1098 D SearchTargetUtil: layoutType=extra_tall_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{bitmap_url=data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIADAAMAMBIgACEQEDEQH/xAAZAAEBAQEBAQAAAAAAAAAAAAAFBgcEAwL/xAAsEAABAwIGAQMEAgMAAAAAAAABAgMEBREABhITITFBIlFxBxQyYYGxJFLR/8QAGQEBAAIDAAAAAAAAAAAAAAAAAwEEAAIF/8QAIxEAAgIBAwMFAAAAAAAAAAAAAQIAAxEEEiExQVETFDKB0f/aAAwDAQACEQMRAD8AA+nlAezdXW/vFbdPiMkOLbNiq4NkJ/Z5J7sB+xjUIn06ytSorrYpzsh9dkqXuKU4lJ4uBr9PR5/u1sQ30zkyWaEG4sjZZkT3ES3NAK/S0FJSm4PYJvYXsnxikrj0N9bUUVCcXnk60KRUHySPcWVx/WIuu2tti1UlxmZxm7KT2Xa59ihwORX0F2M84LHQO0qt0U3APyPgAMsOP2QnbvfSDe2rFhX36mzSYrM4Km/b77K3XVFSlALBSok8/ioAnzYfOPvKFEcl02TJehxtp9O3HW8rUUnyoDx84RbHYcQyirweskoRaiSUrkxfuFN3CmVCySfkY9X4KWJSJeyQ2/ZaWW+A37C+EWKGlVUmU+pvLjSW1BKNq6gv93+PfHFmrep1QjQgmShgAEb9tTnPfGJawBwveQEO3dGMp1GBBzE/9xuMwFJJbaQNYSodE8/6lQNr/l/I0ByShualuK1/iKZG042AEWPNwb8jnxjrkfTTK9JgSZzcWfIMdlbgaadKluWSTpSPJPQwBl16RBjsIkUWbThJdOzEeacVtkmyRqULXPZ65PQwOqRSAVOTLGktKkg9IdnGbJp8BtMaMZCnndosAepanLBIFgbmyeu/XjUKLlOjU6nMRURnHA2gJ1PrJV/NrAH4GC8t0beqaavLLAajagw2hwLIdULKWo9XAJAsT+Sj7YqFSxqKGUlZH5Kt1jKNyLxxDvKu3mDV7KdNlQJYhaKfLebCfuQnUBbrUCevixxHUzKTGY8wl7NEFbSISAhlsO+mSrsqSodo4HHB55A6xa1ta3YazrtoOrnxiBzDIlwJsKqMSWmGDoYDzy1hEIlepbhSnhYUAEckWOnmxxRuuI1aoR2zmPXXnTlge/Sa2RYBKfAtjx3UbikhxGtFtQ1ci/vg92pth12LJcMd1HpcVyALjggnwfB67HjHJRYBpqFbUlAZ1LJ0KuFX5K1qUSSeP1a9uhzcruS34n9gGsqOfqMLQ02glDbLaBdauAlN/JP/AHE3AzTQKuqSml1Fcx5hQDq2I7gCb3AsSACDY2tfEFPGb8yZul5cXV5cSkVErUVusJKA0BqKG1D8ha3AUCQfV5w9F+nC8sNOOUiqofbdIDjEyMkKcPQCXUkFP8ggcnG5JxxDx5iVSek1GiSHQ04kG35kAhSSCkGxNubDvzg2l1aLNSlllO+sqKEtnjq17/GDp2YXmXjT0LDDTSnHajB2txwABvQULT6SlaiRe/wPbKqzVVPypiYT8hER9XqSsgKWPZVux+vOOfqdF7sI5OCJco1PoblxkT//2Q==,suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=true,is_personal=false,suggest_raw_text=ben kindel pittsburgh penguins,group_id=web95904,response_id=e8eb11d7-09d7-466c-ac12-1101a83ef4f1,support_query_builder=false,} searchAction=Ben Kindel searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: a562d937-72a0-4668-973d-2878c5d3cc64
+10-22 20:57:36.547  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=dumbo octopus deep sea sighting,group_id=web95904,response_id=e8eb11d7-09d7-466c-ac12-1101a83ef4f1,support_query_builder=false,} searchAction=dumbo octopus deep sea sighting searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: d3c4d457-ca5f-4562-9307-c24b21523b9e
+10-22 20:57:36.548  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=apple iphone duo review,group_id=web95904,response_id=e8eb11d7-09d7-466c-ac12-1101a83ef4f1,support_query_builder=false,} searchAction=apple iphone duo review searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: b8f1188b-e9ec-4a80-b210-1c7024aee471
+10-22 20:57:36.548  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=storm typhoon champi,group_id=web95904,response_id=e8eb11d7-09d7-466c-ac12-1101a83ef4f1,support_query_builder=false,} searchAction=storm typhoon champi searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 5d19d14c-1fda-41a2-aaba-5b7a5c2f7d37
+10-22 20:57:36.548  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=anthropic duet,group_id=web95904,response_id=e8eb11d7-09d7-466c-ac12-1101a83ef4f1,support_query_builder=false,} searchAction=anthropic duet searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 46ed4ec1-1a25-4f86-9e97-c01d231ee750
+10-22 20:57:36.548  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=gymnastics world championships 2026,group_id=web95904,response_id=e8eb11d7-09d7-466c-ac12-1101a83ef4f1,support_query_builder=false,} searchAction=gymnastics world championships 2026 searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: cdd05813-ada4-4f8f-9772-7abd20277ea3
+10-22 20:57:36.563  4488  4488 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@6a954ef in: CREATED
+10-22 20:57:36.563  4488  4488 V ActivityScenario: Update currentActivityStage to CREATED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@6a954ef
+10-22 20:57:36.564  4488  4488 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@6a954ef in: STARTED
+10-22 20:57:36.564  4488  4488 V ActivityScenario: Update currentActivityStage to STARTED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@6a954ef
+10-22 20:57:36.565  4488  4488 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@6a954ef in: RESUMED
+10-22 20:57:36.565  4488  4488 V ActivityScenario: Update currentActivityStage to RESUMED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@6a954ef
+10-22 20:57:36.630   522   541 W ziparchive: Unable to open '/data/app/~~It5Iut-sXcyhm4msTpQFVA==/io.github.avsessisozx.instagramindirici-k_p3DKZSNAr1peY1A6UEvQ==/base.dm': No such file or directory
+10-22 20:57:36.631   522   541 I ActivityTaskManager: Displayed io.github.avsessisozx.instagramindirici/.MainActivity for user 0: +208ms
+10-22 20:57:36.640   834   900 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@b37d2d4
+10-22 20:57:36.641   522   890 W InputManager-JNI: Input channel object '7e4cfd8 Splash Screen io.github.avsessisozx.instagramindirici (client)' was disposed without first being removed with the input manager!
+10-22 20:57:36.644  1098  1098 D TaplTarget: sendStateEventToTest: 0
+10-22 20:57:36.647  5103  5103 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@af17052
+10-22 20:57:36.648  1098  2164 D OneSearchSuggestProvider: Shut down the binder channel
+10-22 20:57:36.649  1098  1123 I IPCThreadState: oneway function results for code 2 on binder at 0x6fffbd48a840 will be dropped but finished with status UNKNOWN_TRANSACTION
+10-22 20:57:36.650  1768  2870 I PBSessionCacheImpl: Deleted sessionId[7777538934166986] from persistence.
+10-22 20:57:36.654   522  2647 W InputManager-JNI: Input channel object '5d9a45c io.github.avsessisozx.instagramindirici.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity (client)' was disposed without first being removed with the input manager!
+10-22 20:57:36.655  1098  1135 I ImeTracker: com.google.android.apps.nexuslauncher:68d97882: onRequestHide at ORIGIN_CLIENT_HIDE_SOFT_INPUT reason HIDE_SOFT_INPUT
+10-22 20:57:36.655  1098  1135 I ImeTracker: com.google.android.apps.nexuslauncher:68d97882: onFailed at PHASE_CLIENT_VIEW_SERVED
+10-22 20:57:36.659   522   595 I ImeTracker: io.github.avsessisozx.instagramindirici:6ba9e6f: onRequestHide at ORIGIN_SERVER_HIDE_INPUT reason HIDE_UNSPECIFIED_WINDOW
+10-22 20:57:36.659   522   595 I ImeTracker: io.github.avsessisozx.instagramindirici:6ba9e6f: onCancelled at PHASE_SERVER_SHOULD_HIDE
+10-22 20:57:36.662  1523  1523 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():3227
+10-22 20:57:36.664  1523  1523 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 0, unlocked = true
+10-22 20:57:36.664  1523  1523 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1877 onStartInput(EditorInfo{inputType=0x0(NULL) imeOptions=0x0 privateImeOptions=null actionName=UNSPECIFIED actionLabel=null actionId=0 initialSelStart=-1 initialSelEnd=-1 initialCapsMode=0x0 hintText=null label=null packageName=io.github.avsessisozx.instagramindirici fieldId=0 fieldName=null extras=null}, false)
+10-22 20:57:36.664  1523  1523 I GoogleInputMethodService: GoogleInputMethodService.shouldHideHeaderOnInitialState():4008 ShouldHideHeaderOnInitialState = false
+10-22 20:57:36.665  1523  1523 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 2, unlocked = true
+10-22 20:57:36.666  1098  1135 I ImeTracker: com.google.android.apps.nexuslauncher:95c9bb9f: onRequestHide at ORIGIN_CLIENT_HIDE_SOFT_INPUT reason HIDE_SOFT_INPUT
+10-22 20:57:36.666  1098  1135 I ImeTracker: com.google.android.apps.nexuslauncher:95c9bb9f: onFailed at PHASE_CLIENT_VIEW_SERVED
+10-22 20:57:36.677  1768  2745 W SearchServiceCore: Abort, client detached.
+10-22 20:57:36.681  1768  2745 W SearchServiceCore: Abort, client detached.
+10-22 20:57:36.681  1768  2745 W SearchServiceCore: Abort, client detached.
+10-22 20:57:36.682  1768  2745 W SearchServiceCore: Abort, client detached.
+10-22 20:57:36.682  1768  2745 W SearchServiceCore: Abort, client detached.
+10-22 20:57:36.738   336  6081 I resolv  : GetAddrInfoHandler::run: {101 101 101 983141 10192 0}
+10-22 20:57:36.739   336  6082 I resolv  : res_nmkquery: (QUERY, IN, AAAA)
+10-22 20:57:36.739   336  6082 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7a0beeddab30
+10-22 20:57:36.739   336  6082 I resolv  : doQuery: rcode=3, ancount=0, return value=107
+10-22 20:57:36.739   336  6083 I resolv  : res_nmkquery: (QUERY, IN, A)
+10-22 20:57:36.740   336  6083 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7a0beedd96f0
+10-22 20:57:36.740   336  6083 I resolv  : doQuery: rcode=3, ancount=0, return value=107
+10-22 20:57:36.796   834   834 D StatusBarIconController: ignoring old pipeline callbacks, because the new mobile icons are enabled
+10-22 20:57:37.799   834   834 D StatusBarIconController: ignoring old pipeline callbacks, because the new mobile icons are enabled
+10-22 20:57:37.896  1768  2290 W A       : Batch timed out; batchId=1 taskId=-1000006
+10-22 20:57:37.907  1768  2283 I A       : NGA Sync: MDD Task: MDD.CHARGING.PERIODIC.TASK done.
+10-22 20:57:37.907  1768  5866 D t       : Starting download: https://www.gstatic.com/federated_assistant/policy_config_federated_hotword-v610555528.binarypb
+10-22 20:57:37.907  1768  5866 V t       : Is http uri, downloading (uri: https://www.gstatic.com/federated_assistant/policy_config_federated_hotword-v610555528.binarypb)
+10-22 20:57:37.907  1768  2283 I A       : NGA Sync: isNgaSyncEnabled: false; enableFileGroupPopulator: false; requiresMddAssets: false
+10-22 20:57:37.908  1768  2263 I A       : Refresh account policy.
+10-22 20:57:37.909  1768  2745 W SearchServiceCore: Abort, client detached.
+10-22 20:57:37.922  1768  5866 E MDD     : DownloadProgressMonitor: Can't find file group for uri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1792702578708
+10-22 20:57:37.936  1768  2678 E SingleDataFileGroupPop: Failed to add file group
+10-22 20:57:37.954  1768  2678 E PhFileGroupPop: Failed to add file group
+10-22 20:57:37.954  1768  2678 E PhFileGroupPop: Failed to add file group
+10-22 20:57:37.954  1768  2678 E PhFileGroupPop: Failed to add file group
+10-22 20:57:37.954  1768  2678 E PhFileGroupPop: Failed to add file group
+10-22 20:57:37.954  1768  2678 E PhFileGroupPop: Failed to add file group
+10-22 20:57:37.954  1768  2678 E d       : RuntimeException while executing runnable cb{com.google.apps.tiktok.tracing.ej@65c550f} with executor MoreExecutors.directExecutor()
+10-22 20:57:37.954  1768  2678 E d       : java.lang.NullPointerException: Attempt to read from field 'java.lang.String com.google.android.libraries.mdi.download.ae.b' on a null object reference in method 'void com.google.android.libraries.mdi.download.h.bq.gH(java.lang.Object)'
+10-22 20:57:37.954  1768  2678 E d       : 	at com.google.android.libraries.mdi.download.h.bq.gH(PG:2)
+10-22 20:57:37.954  1768  2678 E d       : 	at com.google.apps.tiktok.tracing.ej.gH(PG:2)
+10-22 20:57:37.954  1768  2678 E d       : 	at com.google.common.util.concurrent.cb.run(PG:7)
+10-22 20:57:37.954  1768  2678 E d       : 	at com.google.common.util.concurrent.bf.execute(PG:1)
+10-22 20:57:37.954  1768  2678 E d       : 	at com.google.common.util.concurrent.d.i(PG:1)
+10-22 20:57:37.954  1768  2678 E d       : 	at com.google.common.util.concurrent.d.iq(PG:5)
+10-22 20:57:37.954  1768  2678 E d       : 	at com.google.common.util.concurrent.ci.t(PG:1)
+10-22 20:57:37.954  1768  2678 E d       : 	at com.google.android.libraries.mdi.download.h.bu.b(PG:26)
+10-22 20:57:37.954  1768  2678 E d       : 	at com.google.android.libraries.mdi.download.gs.p(PG:3)
+10-22 20:57:37.954  1768  2678 E d       : 	at com.google.android.libraries.mdi.download.gf.apply(Unknown Source:4)
+10-22 20:57:37.954  1768  2678 E d       : 	at com.google.apps.tiktok.tracing.eo.apply(PG:2)
+10-22 20:57:37.954  1768  2678 E d       : 	at com.google.common.util.concurrent.h.e(PG:2)
+10-22 20:57:37.954  1768  2678 E d       : 	at com.google.common.util.concurrent.j.run(PG:9)
+10-22 20:57:37.954  1768  2678 E d       : 	at com.google.common.util.concurrent.do.run(PG:4)
+10-22 20:57:37.954  1768  2678 E d       : 	at com.google.android.libraries.i.ae.run(PG:1)
+10-22 20:57:37.954  1768  2678 E d       : 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+10-22 20:57:37.954  1768  2678 E d       : 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+10-22 20:57:37.954  1768  2678 E d       : 	at com.google.android.libraries.i.i.run(PG:2)
+10-22 20:57:37.954  1768  2678 E d       : 	at com.google.android.libraries.i.p.run(PG:4)
+10-22 20:57:37.954  1768  2678 E d       : 	at java.lang.Thread.run(Thread.java:1012)
+10-22 20:57:37.955  1768  2678 E PhFileGroupPop: Failed to add file group
+10-22 20:57:37.955  1768  2678 E PhFileGroupPop: Failed to add file group
+10-22 20:57:37.955  1768  2678 E PhFileGroupPop: Failed to add file group
+10-22 20:57:37.955  1768  2678 I A       : Download file group for language pack: en-US
+10-22 20:57:37.955  1768  2678 W A       : Locale en-US is not compatible, please check manifest exists
+10-22 20:57:37.955  1768  2678 I A       : Using proto config with mendel
+10-22 20:57:37.955  1768  2678 I A       : Using proto config with mendel
+10-22 20:57:37.956  1768  2678 I A       : Using proto config with mendel
+10-22 20:57:37.956  1768  2678 I A       : Merging legacy hotword config map with new proto.
+10-22 20:57:37.956  1768  2678 I A       : Adding from config to map. Locale: cmn-Hant-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+10-22 20:57:37.956  1768  2678 I A       : Adding from config to map. Locale: id-ID modelPrefix: x_google Location:cfffcc1a4c1c084c003c8eb27f73d770 isSpeakerIdSupported: true
+10-22 20:57:37.956  1768  2678 I A       : Adding from config to map. Locale: ko-KR modelPrefix: x_google Location:0b132163a2eb2c1194b202067475724b isSpeakerIdSupported: true
+10-22 20:57:37.956  1768  2678 I A       : Skipping. Expected model: 2 Found: 1
+10-22 20:57:37.956  1768  2678 I A       : Adding from config to map. Locale: zh-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+10-22 20:57:37.956  1768  2678 I HotwordModelPopulator: #updateHotwordFileGroup group name: hotword_model_en-US_okhey, raw locale: en-US, locale: en-US
+10-22 20:57:37.956  1768  2678 I A       : Using proto config with mendel
+10-22 20:57:37.956  1768  2678 I A       : Using proto config with mendel
+10-22 20:57:37.956  1768  2678 I A       : Merging legacy hotword config map with new proto.
+10-22 20:57:37.956  1768  2678 I A       : Adding from config to map. Locale: cmn-Hant-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+10-22 20:57:37.956  1768  2678 I A       : Adding from config to map. Locale: id-ID modelPrefix: x_google Location:cfffcc1a4c1c084c003c8eb27f73d770 isSpeakerIdSupported: true
+10-22 20:57:37.956  1768  2678 I A       : Adding from config to map. Locale: ko-KR modelPrefix: x_google Location:0b132163a2eb2c1194b202067475724b isSpeakerIdSupported: true
+10-22 20:57:37.956  1768  2678 I A       : Skipping. Expected model: 2 Found: 1
+10-22 20:57:37.956  1768  2678 I A       : Adding from config to map. Locale: zh-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+10-22 20:57:37.956  1768  2678 I HotwordModelPopulator: #updateHotwordFileGroup group name: hotword_model_en-US_okhey, raw locale: en-US, locale: en-US
+10-22 20:57:37.957  1768  2678 I A       : Using proto config with mendel
+10-22 20:57:37.957  1768  2678 I A       : Merging legacy hotword config map with new proto.
+10-22 20:57:37.957  1768  2678 I A       : Adding from config to map. Locale: cmn-Hant-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+10-22 20:57:37.957  1768  2678 I A       : Adding from config to map. Locale: id-ID modelPrefix: x_google Location:cfffcc1a4c1c084c003c8eb27f73d770 isSpeakerIdSupported: true
+10-22 20:57:37.957  1768  2678 I A       : Adding from config to map. Locale: ko-KR modelPrefix: x_google Location:0b132163a2eb2c1194b202067475724b isSpeakerIdSupported: true
+10-22 20:57:37.957  1768  2678 I A       : Skipping. Expected model: 2 Found: 1
+10-22 20:57:37.957  1768  2678 I A       : Adding from config to map. Locale: zh-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+10-22 20:57:37.957  1768  2678 I HotwordModelPopulator: #updateHotwordFileGroup group name: hotword_model_en-US_okhey, raw locale: en-US, locale: en-US
+10-22 20:57:37.958  1768  5866 I A       : Starting new batch; batchId=2 corpus=1004
+10-22 20:57:37.958  1768  5869 I A       : Joining existing batch; batchId=2 corpus=1008
+10-22 20:57:37.958  1768  5868 I A       : Joining existing batch; batchId=2 corpus=1014
+10-22 20:57:37.958  1768  2691 I A       : Joining existing batch; batchId=2 corpus=1015
+10-22 20:57:37.963  1768  2678 D PhFileGroupPop: Added file groups assistant_appintegration_appactions_config
+10-22 20:57:37.963  1768  2678 D PhFileGroupPop: Added file groups fedass_policy_config_group
+10-22 20:57:37.964  1768  2678 D PhFileGroupPop: Added file groups tapas_cortex
+10-22 20:57:37.966  1768  2264 I MicroModelsUtil: #getHotwordModelFromMobstore [mobstoreUri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1792702578705]
+10-22 20:57:37.966  1768  2260 I MicroModelsUtil: #getHotwordModelFromMobstore [mobstoreUri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1792702578705]
+10-22 20:57:37.967  1768  2265 I MicroModelsUtil: #getHotwordModelFromMobstore [mobstoreUri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1792702578705]
+10-22 20:57:37.968  1768  2265 I HotwordModelPopulator: Updated file group for locale 'hotword_model_en-US_okhey' from location: https://www.gstatic.com/android-search/hotword/x_google/975058821313279e27b2c3f04de0beef/hotword.data. Download already finished.
+10-22 20:57:37.968  1768  2264 I HotwordModelPopulator: Updated file group for locale 'hotword_model_en-US_okhey' from location: https://www.gstatic.com/android-search/hotword/x_google/975058821313279e27b2c3f04de0beef/hotword.data. Download already finished.
+10-22 20:57:37.969  1768  2260 I HotwordModelPopulator: Updated file group for locale 'hotword_model_en-US_okhey' from location: https://www.gstatic.com/android-search/hotword/x_google/975058821313279e27b2c3f04de0beef/hotword.data. Download already finished.
+10-22 20:57:38.209  4488  4592 D EGL_emulation: app_time_stats: avg=222.75ms min=2.85ms max=1252.12ms count=7
+10-22 20:57:38.457  1663  5984 W MediaProvider: isAppCloneUserPair for user 0: false
+10-22 20:57:38.461  1663  5984 I MediaProvider: Open with lower FS for /storage/emulated/0/Download/ii-screens/20_gecmis_sekmesi.png. Uid: 10192
+10-22 20:57:38.493  5469  6068 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.ipa.base.IpaGcmTaskService started execution. cause:9 exec_start_elapsed_seconds: 162 [CONTEXT service_id=218 ]
+10-22 20:57:38.495  5469  5854 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.ipa.base.IpaGcmTaskService finished executing. cause:9 result: 1 elapsed_millis: 16 uptime_millis: 16 exec_start_elapsed_seconds: 162 [CONTEXT service_id=218 ]
+10-22 20:57:38.801   834   834 D StatusBarIconController: ignoring old pipeline callbacks, because the new mobile icons are enabled
+10-22 20:57:38.961  1768  2678 I A       : Scheduled one-off task for batch; batchId=2 taskId=-1000007 corpora=[1004,1008,1014,1015]
+10-22 20:57:38.961  1768  2678 I A       : Pending callbacks: 1
+10-22 20:57:39.802   834   834 D StatusBarIconController: ignoring old pipeline callbacks, because the new mobile icons are enabled
+10-22 20:57:40.029  1663  5984 W MediaProvider: isAppCloneUserPair for user 0: false
+10-22 20:57:40.032  1663  2285 I MediaProvider: Open with lower FS for /storage/emulated/0/Download/ii-screens/21_ayarlar_sekmesi.png. Uid: 10192
+10-22 20:57:40.046  5469  5854 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.ipa.base.IpaGcmTaskService started execution. cause:9 exec_start_elapsed_seconds: 164 [CONTEXT service_id=218 ]
+10-22 20:57:40.049  5469  5538 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.ipa.base.IpaGcmTaskService finished executing. cause:9 result: 1 elapsed_millis: 8 uptime_millis: 8 exec_start_elapsed_seconds: 164 [CONTEXT service_id=218 ]
+10-22 20:57:40.057   834   903 D SplashScreenView: Build android.window.SplashScreenView{b7b9c46 V.E...... ......ID 0,0-0,0}
+10-22 20:57:40.057   834   903 D SplashScreenView: Icon: view: null drawable: null size: 0
+10-22 20:57:40.057   834   903 D SplashScreenView: Branding: view: android.view.View{1630e07 G.ED..... ......I. 0,0-0,0 #10204ef android:id/splashscreen_branding_view} drawable: null size w: 0 h: 0
+10-22 20:57:40.060  4488  4488 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@6a954ef in: PAUSED
+10-22 20:57:40.060  4488  4488 V ActivityScenario: Update currentActivityStage to PAUSED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@6a954ef
+10-22 20:57:40.084   402   402 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+10-22 20:57:40.099  4488  4592 D EGL_emulation: app_time_stats: avg=104.96ms min=13.65ms max=1496.97ms count=18
+10-22 20:57:40.115  4488  4488 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@6a954ef in: STOPPED
+10-22 20:57:40.116  4488  4488 V ActivityScenario: Update currentActivityStage to STOPPED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@6a954ef
+10-22 20:57:40.122  5103  5128 W OpenGLRenderer: Failed to initialize 101010-2 format, error = EGL_SUCCESS
+10-22 20:57:40.125  4488  4488 W cr_AwContents: WebView.destroy() called while WebView is still attached to window.
+10-22 20:57:40.128  4488  4488 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@6a954ef in: DESTROYED
+10-22 20:57:40.129  4488  4488 V ActivityScenario: Update currentActivityStage to DESTROYED, currentActivity=null
+10-22 20:57:40.129  4488  4488 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@1cd8e1d
+10-22 20:57:40.133   522  1104 W InputManager-JNI: Input channel object 'bf278d9 io.github.avsessisozx.instagramindirici/io.github.avsessisozx.instagramindirici.MainActivity (client)' was disposed without first being removed with the input manager!
+10-22 20:57:40.147  4488  4550 I TestRunner: finished: d1_tabsAndHistoryList(io.github.avsessisozx.instagramindirici.EndToEndTest)

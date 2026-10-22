@@ -1,0 +1,28 @@
+Sahte Instagram: http://127.0.0.1:8766
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 43052)
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/socketserver.py", line 766, in __init__
+    self.handle()
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/http/server.py", line 442, in handle
+    self.handle_one_request()
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/http/server.py", line 428, in handle_one_request
+    method()
+  File "/home/runner/work/instagram-indirici/instagram-indirici/tests/fake_instagram.py", line 411, in do_GET
+    return self.api_get(path, query)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/instagram-indirici/instagram-indirici/tests/fake_instagram.py", line 709, in api_get
+    return self.json({"reels_media": reels, "reels": {r["id"]: r for r in reels}, "status": "ok"})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/instagram-indirici/instagram-indirici/tests/fake_instagram.py", line 379, in json
+    self.send(code, json.dumps(data, ensure_ascii=False).encode("utf-8"), "application/json; charset=utf-8", headers)
+  File "/home/runner/work/instagram-indirici/instagram-indirici/tests/fake_instagram.py", line 376, in send
+    self.wfile.write(body)
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------

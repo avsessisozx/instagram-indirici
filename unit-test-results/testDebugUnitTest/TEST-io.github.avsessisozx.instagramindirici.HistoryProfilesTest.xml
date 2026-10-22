@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="io.github.avsessisozx.instagramindirici.HistoryProfilesTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-10-22T20:54:09.475Z" hostname="runnervm8k3b6" time="0.004">
+  <properties/>
+  <testcase name="clearAlsoDropsMeta" classname="io.github.avsessisozx.instagramindirici.HistoryProfilesTest" time="0.001"/>
+  <testcase name="profilesAreListedNewestFirstWithCounts" classname="io.github.avsessisozx.instagramindirici.HistoryProfilesTest" time="0.001"/>
+  <testcase name="settingsKeepSetupAndConfirmFlags" classname="io.github.avsessisozx.instagramindirici.HistoryProfilesTest" time="0.0"/>
+  <testcase name="forgetRemovesOnlyThatProfile" classname="io.github.avsessisozx.instagramindirici.HistoryProfilesTest" time="0.001"/>
+  <testcase name="oldFilesWithoutMetaStillList" classname="io.github.avsessisozx.instagramindirici.HistoryProfilesTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
