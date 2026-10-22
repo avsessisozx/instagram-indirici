@@ -80,6 +80,11 @@ class DeviceVectorsTest {
         assertEquals(label, r.getBoolean("pinned"), post.pinned)
         assertEquals(label, r.getString("stem"), post.stem)
         assertEquals(label, nul(r, "skipped"), post.skippedReason?.key)
+        assertEquals(label, r.getString("section"), post.section)
+        assertEquals(label, r.getString("caption_stem"), post.captionStem)
+        assertEquals(label, r.getLong("likes"), post.likes)
+        assertEquals(label, r.getLong("comments"), post.comments)
+        assertEquals(label, r.getString("permalink"), post.permalink)
         val files = r.getJSONArray("files")
         assertEquals(label, files.length(), post.files.size)
         for (k in 0 until files.length()) {
@@ -87,7 +92,7 @@ class DeviceVectorsTest {
             val m = post.files[k]
             assertEquals(label, f.getString("kind"), m.kind)
             assertEquals(label, f.getString("rel_stem"), m.relStem)
-            assertEquals(label, f.getString("legacy_stem"), m.legacyStem)
+            assertEquals(label, strings(f.getJSONArray("legacy_stems")), m.legacyStems)
             assertEquals(label, f.getString("ext"), m.ext)
             assertEquals(label, strings(f.getJSONArray("urls")), m.urls)
         }
@@ -104,7 +109,7 @@ class DeviceVectorsTest {
                 val r = results.getJSONObject(j)
                 val label = "${case.getString("name")} ${r.getString("content")}"
                 val post = Media.buildPost(case.getJSONObject("item"), r.getString("content"), case.getString("kind"),
-                    case.getString("subdir"), "sahte.kisi")
+                    case.getString("subdir"), "sahte.kisi", 20)
                 checkPost(label, r, post)
                 checked++
             }

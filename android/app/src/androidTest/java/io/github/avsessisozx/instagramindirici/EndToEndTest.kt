@@ -57,7 +57,8 @@ class EndToEndTest {
         TestHooks.historyFile = File(out, "gecmis.json")
         control("/__sifirla")
         Core.init(ctx)
-        Core.saveSettings(SettingsValues(lang = "tr", onlyNew = false, history = false, autoContinue = false, setupDone = true))
+        Core.saveSettings(SettingsValues(lang = "tr", onlyNew = false, history = false, autoContinue = false, setupDone = true,
+            reels = false, verifyFiles = false, infoCsv = false, captionMin = 0))
         if (android.os.Build.VERSION.SDK_INT >= 33) {
             inst.uiAutomation.grantRuntimePermission(ctx.packageName, android.Manifest.permission.POST_NOTIFICATIONS)
         }
@@ -212,8 +213,8 @@ class EndToEndTest {
         assertEquals(l, 24, snap.getInt("found_posts"))
         val f = files()
         assertTrue(f.toString(), f.all { it.startsWith("$profile/") })
-        assertTrue(f.toString(), f.any { it.startsWith("$profile/Fotoğraflar/") })
-        assertTrue(f.toString(), f.any { it.startsWith("$profile/Videolar/") && it.endsWith(".mp4") })
+        assertTrue(f.toString(), f.any { it.startsWith("$profile/Gönderiler/Fotoğraflar/") })
+        assertTrue(f.toString(), f.any { it.startsWith("$profile/Reels/") && it.endsWith(".mp4") })
         assertTrue(f.toString(), f.any { it.startsWith("$profile/Profil Fotoğrafı/") })
         assertTrue(jsText("document.getElementById('notes').textContent").contains("giriş yapılmadan"))
         assertEquals("Giriş yapılmadı", jsText("document.getElementById('account-text').textContent"))
@@ -320,7 +321,7 @@ class EndToEndTest {
         val resolver = ctx.contentResolver
         val where = "${MediaStore.MediaColumns.RELATIVE_PATH}=? AND ${MediaStore.MediaColumns.DISPLAY_NAME} LIKE ?"
         val code = Links.shortcodeFromId((3400000000000000000L + 1001L * 1000L + 1).toString())
-        val args = arrayOf("DCIM/Instagram/$profile/Videolar/", "%_$code.mp4")
+        val args = arrayOf("DCIM/Instagram/$profile/Reels/", "%_$code.mp4")
         resolver.delete(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, where, args)
         launch()
         setLink("https://www.instagram.com/reel/$code/")

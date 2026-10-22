@@ -74,11 +74,11 @@ class EngineTest {
         Engine({ web }, { FileSink(out) }, { history }, CoroutineScope(SupervisorJob() + Dispatchers.Default))
 
     private fun settings(
-        content: String = "all", limit: Int = 0, stories: Boolean = true, highlights: Boolean = true,
+        content: String = "all", limit: Int = 0, posts: Boolean = true, stories: Boolean = true, highlights: Boolean = true,
         avatar: Boolean = true, onlyNew: Boolean = false, history: Boolean = false, autoContinue: Boolean = false,
         reels: Boolean = false, reposts: Boolean = false, tagged: Boolean = false, verifyFiles: Boolean = false,
         infoCsv: Boolean = false, captionMin: Int = 0,
-    ) = SettingsValues(content = content, limit = limit, stories = stories, highlights = highlights, avatar = avatar,
+    ) = SettingsValues(content = content, limit = limit, posts = posts, stories = stories, highlights = highlights, avatar = avatar,
         onlyNew = onlyNew, history = history, autoContinue = autoContinue, reels = reels, reposts = reposts,
         tagged = tagged, verifyFiles = verifyFiles, infoCsv = infoCsv, captionMin = captionMin)
 
