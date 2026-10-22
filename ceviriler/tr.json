@@ -405,5 +405,6 @@
   "ui.chrome_open_folder": "Eklenti klasörünü aç",
   "server.chrome_token_bad": "Chrome'dan gelen istek geçersiz ya da süresi dolmuş. Programda 'Chrome'dan giriş yap'a tekrar bas.",
   "server.chrome_folder_failed": "Eklenti klasörü hazırlanamadı.",
-  "server.chrome_folder_opened": "Eklenti klasörü açıldı: {path}"
+  "server.chrome_folder_opened": "Eklenti klasörü açıldı: {path}",
+  "browser.died": "Tarayıcı beklenmedik biçimde kapandı ({why}; açıldıktan {s} sn sonra). Bu satırı raporla birlikte gönder."
 }

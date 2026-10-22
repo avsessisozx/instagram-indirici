@@ -521,16 +521,15 @@ class SessionImportTests(unittest.TestCase):
                     "engine.cookie_challenge", "engine.cookie_error"):
             self.assertNotIn("{", translate(key))
 
-    def test_sandbox_on_windows_only(self):
-        with mock.patch.dict(os.environ, {}, clear=False):
-            os.environ.pop("INSTAGRAM_INDIRICI_SANDBOX", None)
-            with mock.patch("instagram_indirici.browser.sys.platform", "win32"):
-                self.assertTrue(use_chromium_sandbox())
-            with mock.patch("instagram_indirici.browser.sys.platform", "linux"):
-                self.assertFalse(use_chromium_sandbox())
-        with mock.patch.dict(os.environ, {"INSTAGRAM_INDIRICI_SANDBOX": "0"}):
-            with mock.patch("instagram_indirici.browser.sys.platform", "win32"):
-                self.assertFalse(use_chromium_sandbox())
+    def test_sandbox_stays_default_off(self):
+        """Tarayıcı 1.7.0'daki gibi başlar; sandbox yalnızca açıkça istenirse açılır."""
+        for platform_name in ("win32", "linux"):
+            with mock.patch("instagram_indirici.browser.sys.platform", platform_name):
+                with mock.patch.dict(os.environ, {}, clear=False):
+                    os.environ.pop("INSTAGRAM_INDIRICI_SANDBOX", None)
+                    self.assertFalse(use_chromium_sandbox(), platform_name)
+                with mock.patch.dict(os.environ, {"INSTAGRAM_INDIRICI_SANDBOX": "1"}):
+                    self.assertTrue(use_chromium_sandbox(), platform_name)
 
 
 class CookieEndpointTests(ServerFeatureTests):

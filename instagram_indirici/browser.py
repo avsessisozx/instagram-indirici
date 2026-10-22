@@ -258,13 +258,11 @@ def parse_session_input(text: str) -> Dict[str, str]:
 
 
 def use_chromium_sandbox() -> bool:
-    """Windows'ta tarayıcı normal (korumalı) başlar; Playwright'ın varsayılan `--no-sandbox` bayrağı
-    Chrome'da "desteklenmeyen komut satırı işareti" uyarısı çıkarıp tarayıcıyı alışılmadık gösteriyordu.
-    Linux'ta (geliştirme ortamı, root) kapalı kalır; `INSTAGRAM_INDIRICI_SANDBOX=0/1` ile değiştirilir."""
-    forced = os.environ.get("INSTAGRAM_INDIRICI_SANDBOX", "")
-    if forced in ("0", "1"):
-        return forced == "1"
-    return sys.platform == "win32"
+    """Tarayıcı Playwright'ın varsayılan `--no-sandbox` bayrağıyla açılır (1.7.0'daki, kullanıcıda çalışan davranış).
+    Bayrağı kaldırmak (Windows'ta Chrome'un "desteklenmeyen komut satırı işareti" uyarısı için) 1.9.0'da
+    kullanıcıda tarayıcının birkaç saniye sonra kapanmasına yol açmış olabilir; bu yüzden yalnızca açıkça
+    istenirse (`INSTAGRAM_INDIRICI_SANDBOX=1`) kapatılır."""
+    return os.environ.get("INSTAGRAM_INDIRICI_SANDBOX", "") == "1"
 
 
 class InstagramBrowser:
@@ -289,6 +287,8 @@ class InstagramBrowser:
         self.page = None
         self.user_agent = ""
         self.channel_name = ""
+        self._closing = False
+        self._opened_at = 0.0
         self._last_call = 0.0
         self.api_calls = 0
         self.list_pages = 0
@@ -337,8 +337,24 @@ class InstagramBrowser:
         except Exception:
             self.user_agent = ""
         await self._apply_identity()
+        self._watch_browser()
         self.log("info", msg("browser.opened", name=self.channel_name))
         return self
+
+    def _watch_browser(self) -> None:
+        """Tarayıcı kendiliğinden kapanır ya da çökerse nedenini ve zamanını günlüğe yazar (rapor için)."""
+        self._opened_at = time.monotonic()
+
+        def note(why: str) -> None:
+            if not self._closing:
+                self.log("warn", msg("browser.died", why=why, s=int(time.monotonic() - self._opened_at)))
+
+        try:
+            self.context.on("close", lambda *_: note("browser"))
+            self.page.on("crash", lambda *_: note("crash"))
+            self.page.on("close", lambda *_: note("page"))
+        except Exception:
+            pass
 
     async def _apply_identity(self) -> None:
         """"Android telefon" / "Tablet" seçiliyse Instagram'a o cihazmış gibi görün (tarayıcı kimliği).
@@ -421,6 +437,7 @@ class InstagramBrowser:
         await self.close()
 
     async def close(self) -> None:
+        self._closing = True
         if self.context is not None:
             try:
                 await self.context.close()
@@ -1668,6 +1685,7 @@ class InstagramBrowser:
     async def login_session(self) -> bool:
         """Kullanıcının Instagram'a giriş yapması için pencereyi açar. Giriş tamamlanınca True döner."""
         page = self.page
+        self._closing = True   # giriş penceresini kullanıcının kapatması normal; "beklenmedik kapanma" uyarısı verme
         already = await self.logged_in()
         await self.goto("https://www.instagram.com/accounts/login/")
         if already:

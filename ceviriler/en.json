@@ -405,5 +405,6 @@
   "ui.chrome_open_folder": "Open extension folder",
   "server.chrome_token_bad": "The request from Chrome is invalid or expired. Press 'Log in via Chrome' in the program again.",
   "server.chrome_folder_failed": "The extension folder could not be prepared.",
-  "server.chrome_folder_opened": "Extension folder opened: {path}"
+  "server.chrome_folder_opened": "Extension folder opened: {path}",
+  "browser.died": "The browser closed unexpectedly ({why}; {s} s after it opened). Send this line with the report."
 }

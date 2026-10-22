@@ -213,6 +213,40 @@ class IntegrationTests(unittest.TestCase):
         self.assertLess(snap["files_done"], 20)
         self.assert_clean(out)
 
+    # ------------------------------------------------------------ tarayıcı kapanma teşhisi
+    def test_a8_unexpected_browser_close_is_logged(self):
+        import asyncio
+        import threading
+        from instagram_indirici.browser import InstagramBrowser
+        from instagram_indirici.paths import app_data_dir
+
+        lines = []
+
+        async def scenario():
+            async with InstagramBrowser(app_data_dir(), log=lambda level, m: lines.append((level, m.key)),
+                                        cancel=threading.Event(), on_verify=lambda v: None) as browser:
+                await browser.page.close()
+                await asyncio.sleep(0.5)
+
+        asyncio.run(scenario())
+        self.assertIn(("warn", "browser.died"), lines, lines)
+
+    def test_a8_normal_close_is_not_reported(self):
+        import asyncio
+        import threading
+        from instagram_indirici.browser import InstagramBrowser
+        from instagram_indirici.paths import app_data_dir
+
+        lines = []
+
+        async def scenario():
+            async with InstagramBrowser(app_data_dir(), log=lambda level, m: lines.append((level, m.key)),
+                                        cancel=threading.Event(), on_verify=lambda v: None):
+                await asyncio.sleep(0.2)
+
+        asyncio.run(scenario())
+        self.assertNotIn(("warn", "browser.died"), lines, lines)
+
     # ------------------------------------------------------------ oturum kodu yapıştırma
     def test_b0_cookie_1_rejected_code(self):
         from instagram_indirici.engine import MODE_COOKIE
