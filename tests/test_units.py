@@ -573,6 +573,14 @@ class ChromeLoginEndpointTests(ServerFeatureTests):
         self.assertEqual(url, f"https://www.instagram.com/#ii={self.state.port}.{self.state.ext_token}")
         return self.state.ext_token
 
+    def test_old_login_endpoint_opens_normal_browser_not_own_window(self):
+        with mock.patch("instagram_indirici.server.open_in_default_browser", return_value=True) as opened:
+            code, data = self.post("/api/login", {})
+        self.assertEqual(code, 200)
+        self.assertTrue(opened.called)
+        self.assertFalse(self.state.engine.running)   # programın kendi tarayıcı penceresi açılmaz
+        self.assertTrue(self.state.chrome_waiting())
+
     def test_wrong_or_missing_token_rejected(self):
         self.begin()
         for body in ({"token": "yanlis", "cookies": {"sessionid": "gecerli"}}, {"cookies": {"sessionid": "gecerli"}}):

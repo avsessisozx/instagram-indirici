@@ -972,19 +972,20 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
     api(lastState && lastState.paused ? '/api/resume' : '/api/pause', {}).then(() => poll(true)).catch(() => {});
   });
   $('retry').addEventListener('click', () => { if (!running) startOrStop(); });
+  let chromeClicked = 0;
+  async function loginChrome() {
+    $('form-error').textContent = '';
+    try { await api('/api/login-chrome', {}); chromeClicked = Date.now(); poll(true); }
+    catch (e) { $('form-error').textContent = errText(e); }
+  }
   $('login').addEventListener('click', async () => {
+    if (platform !== 'mobile') { showView('download'); return loginChrome(); }   // bilgisayar: kendi pencere yok, normal tarayıcı
     $('form-error').textContent = '';
     showView('download');
     try { await api('/api/login', {}); clearLog(); $('progress').hidden = false; poll(true); }
     catch (e) { $('form-error').textContent = errText(e); }
   });
-
-  let chromeClicked = 0;
-  $('login-chrome').addEventListener('click', async () => {
-    $('form-error').textContent = '';
-    try { await api('/api/login-chrome', {}); chromeClicked = Date.now(); poll(true); }
-    catch (e) { $('form-error').textContent = errText(e); }
-  });
+  $('login-chrome').addEventListener('click', loginChrome);
   $('chrome-folder').addEventListener('click', async () => {
     try { await api('/api/extension-open', {}); } catch (e) { $('form-error').textContent = errText(e); }
   });

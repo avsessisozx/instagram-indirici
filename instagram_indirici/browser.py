@@ -257,6 +257,13 @@ def parse_session_input(text: str) -> Dict[str, str]:
     return {k: v for k, v in found.items() if k in _SESSION_NAMES}
 
 
+def _offscreen_args() -> List[str]:
+    """İndirme tarayıcısı ekranda görünmez: pencere ekran dışına konur (kullanıcı yanlışlıkla kapatmasın)."""
+    if os.environ.get("INSTAGRAM_INDIRICI_VISIBLE") == "1":
+        return []
+    return ["--window-position=-32000,-32000"]
+
+
 def use_chromium_sandbox() -> bool:
     """Tarayıcı Playwright'ın varsayılan `--no-sandbox` bayrağıyla açılır (1.7.0'daki, kullanıcıda çalışan davranış).
     Bayrağı kaldırmak (Windows'ta Chrome'un "desteklenmeyen komut satırı işareti" uyarısı için) 1.9.0'da
@@ -405,7 +412,7 @@ class InstagramBrowser:
         kwargs: Dict[str, Any] = dict(
             headless=headless,
             args=["--disable-blink-features=AutomationControlled", "--no-first-run",
-                  "--no-default-browser-check", "--window-size=1100,860"],
+                  "--no-default-browser-check", "--window-size=1100,860", *_offscreen_args()],
             ignore_default_args=["--enable-automation"],
             no_viewport=True,
             locale="tr-TR",
@@ -1681,41 +1688,6 @@ class InstagramBrowser:
                 await self.context.add_cookies(keep)
         except Exception as exc:
             self.log("debug", f"import_session restore: {str(exc).splitlines()[0] if str(exc) else exc}")
-
-    async def login_session(self) -> bool:
-        """Kullanıcının Instagram'a giriş yapması için pencereyi açar. Giriş tamamlanınca True döner."""
-        page = self.page
-        self._closing = True   # giriş penceresini kullanıcının kapatması normal; "beklenmedik kapanma" uyarısı verme
-        already = await self.logged_in()
-        await self.goto("https://www.instagram.com/accounts/login/")
-        if already:
-            self.log("ok", msg("browser.login_already"))
-        else:
-            self.log("info", msg("browser.login_open"))
-        try:
-            await page.bring_to_front()
-        except Exception:
-            pass
-        seen_logged_in = 0.0
-        last_state = already
-        while not page.is_closed() and not self.cancel.is_set():
-            await asyncio.sleep(1)
-            if page.is_closed():
-                break
-            now_in = await self.logged_in()
-            last_state = now_in
-            if now_in and not await self._page_redirect_state() and \
-                    "two_factor" not in self._page_path():
-                if not seen_logged_in:
-                    seen_logged_in = time.monotonic()
-                elif time.monotonic() - seen_logged_in > 3:
-                    self.log("ok", msg("browser.login_success"))
-                    return True
-            else:
-                seen_logged_in = 0.0
-        if self.context is not None and not self.closed:
-            return await self.logged_in()
-        return last_state
 
 
 @dataclass

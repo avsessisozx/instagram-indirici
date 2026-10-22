@@ -92,12 +92,10 @@ class IntegrationTests(unittest.TestCase):
         self.assertFalse(any(f.endswith(".part") for f in files), files)
 
     def ensure_login(self):
-        from instagram_indirici.engine import MODE_LOGIN
+        from instagram_indirici.engine import MODE_COOKIE
 
-        self.fake.autologin = True
-        snap, _ = self.run_job("", MODE_LOGIN, timeout=60)
-        self.fake.autologin = False
-        self.assertEqual(snap["summary"]["key"], "engine.login_done_ok", snap["logs"])
+        snap, _ = self.run_job("Cookie: csrftoken=sahteCSRF123; sessionid=gecerli", MODE_COOKIE, timeout=90)
+        self.assertEqual(snap["summary"]["key"], "engine.cookie_ok", snap["logs"])
         return snap
 
     # ------------------------------------------------------------ yeni ayarlar: kimlik ve hız modu

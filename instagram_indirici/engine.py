@@ -27,7 +27,6 @@ from .paths import CONTENT_ALL, app_data_dir, clean_settings, date_end_ts, date_
 
 MODE_SINGLE = "single"
 MODE_PROFILE = "profile"
-MODE_LOGIN = "login"
 MODE_COOKIE = "cookie"
 WORKERS = 3
 UNMATCHED_REASONS = {"skip.video_only", "skip.image_only", "skip.image_only_avatar"}
@@ -259,7 +258,7 @@ class Engine:
         if job.mode == MODE_COOKIE:
             if not parse_session_input(job.link):
                 return msg("engine.cookie_invalid")
-        elif job.mode != MODE_LOGIN:
+        else:
             parsed = links.parse_link(job.link)
             if not parsed.ok:
                 return parsed.error
@@ -362,14 +361,6 @@ class Engine:
                     else:
                         self.summary = msg("engine.cookie_error")
                     self.log("ok" if ok else "error", self.summary)
-                    return
-                if job.mode == MODE_LOGIN:
-                    ok = await browser.login_session()
-                    self.logged_in = ok
-                    save_session_state(ok)
-                    self.phase = "done"
-                    self.summary = msg("engine.login_done_ok" if ok else "engine.login_done")
-                    self.log("ok", self.summary)
                     return
                 await self._download_job(browser, job, settings)
         except BrowserError as exc:
