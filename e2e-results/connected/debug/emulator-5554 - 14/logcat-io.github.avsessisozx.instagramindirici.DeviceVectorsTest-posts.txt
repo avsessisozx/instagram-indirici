@@ -1,0 +1,40 @@
+10-22 20:56:22.204  4526  4558 I TestRunner: started: posts(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-22 20:56:22.217   849  1017 I Role    : com.google.android.gms not qualified for android.app.role.SYSTEM_CALL_STREAMING due to missing RequiredComponent{mIntentFilterData=IntentFilterData{mAction='android.telecom.CallStreamingService', mCategories='[]', mDataScheme='null', mDataType='null'}, mMinTargetSdkVersion=1, mFlags='0', mPermission='android.permission.BIND_CALL_STREAMING_SERVICE', mQueryFlags=0, mMetaData=[]}
+10-22 20:56:22.217   849  1017 E RoleControllerServiceImpl: Default/fallback role holder package doesn't qualify for the role, package: com.google.android.gms, role: android.app.role.SYSTEM_CALL_STREAMING
+10-22 20:56:22.225  1460  3367 I GoogleSettingsUtils: Updated ID in checkin_id_token file [CONTEXT service_id=130 ]
+10-22 20:56:22.229  1407  1407 I GCoreUlr: Unbound from all signal providers.
+10-22 20:56:22.229  1407  1407 I GCoreUlr: Stopping handler for UlrDispSvcFast
+10-22 20:56:22.236  3151  3216 W libc    : Access denied finding property "persist.adb.tls_server.enable"
+10-22 20:56:22.236  3151  3216 W libc    : Access denied finding property "service.adb.tls.port"
+10-22 20:56:22.243  1460  3367 I CheckinResponseProcess: From server: 1498 gservices [full] [CONTEXT service_id=130 ]
+10-22 20:56:22.233  3151  3151 W binder:3151_3: type=1400 audit(0.0:177): avc:  denied  { read } for  name="u:object_r:system_adbd_prop:s0" dev="tmpfs" ino=292 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:system_adbd_prop:s0 tclass=file permissive=0 app=com.google.android.gms
+10-22 20:56:22.253  1635  1635 I AiAiEcho: AppFetcherImpl onPackageChanged com.android.camera2.
+10-22 20:56:22.255  1635  3437 I AiAiEcho: AppIndexer Package:[com.android.camera2] UserProfile:[0] Enabled:[true].
+10-22 20:56:22.255  1635  3437 I AiAiEcho: AppFetcherImplV2 updateApps package:[com.android.camera2], userId:[0], reason:[package is updated.].
+10-22 20:56:22.233  3151  3151 W binder:3151_3: type=1400 audit(0.0:178): avc:  denied  { read } for  name="u:object_r:adbd_prop:s0" dev="tmpfs" ino=60 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:adbd_prop:s0 tclass=file permissive=0 app=com.google.android.gms
+10-22 20:56:22.263  1460  2694 I Icing   : Usage reports ok 0, Failed Usage reports 0, indexed 0, rejected 0
+10-22 20:56:22.265  1407  4410 I GCoreUlr: DispatchingService ignoring Intent { act=android.net.wifi.WIFI_STATE_CHANGED flg=0x44000010 (has extras) } because ULR inactive
+10-22 20:56:22.267   849  1017 W Role    : Default holder doesn't have required signing certificate: com.google.android.apps.work.clouddpc:23962F4B43B9857638EA66F4D419518EAE282491ACDA4B94707BD59003C45E58
+10-22 20:56:22.271  1738  2357 D GservicesProvider: Update with URI content://com.google.android.gsf.gservices/main
+10-22 20:56:22.320  1460  2694 W Icing   : No valid account for uploading user actions
+10-22 20:56:22.324  1104  1976 D EGL_emulation: app_time_stats: avg=1499.58ms min=1499.58ms max=1499.58ms count=1
+10-22 20:56:22.343   837   837 D StatusBarIconController: ignoring old pipeline callbacks, because the new mobile icons are enabled
+10-22 20:56:22.457  1460  2694 I Icing   : Usage reports ok 0, Failed Usage reports 0, indexed 0, rejected 0
+10-22 20:56:22.498   520  1810 I RemoteProvisionSysSvc: getRegistration(android.hardware.security.keymint.IRemotelyProvisionedComponent/default)
+10-22 20:56:22.500   520   520 I RegistrationProxy: onServiceConnected: com.android.rkpdapp.service.RemoteProvisioningService
+10-22 20:56:22.501  1460  2694 I Icing   : doRemovePackageData com.android.nfc
+10-22 20:56:22.503   520  1810 I RegistrationProxy: IGetRegistrationCallback.onSuccess
+10-22 20:56:22.504   520  2110 I RemoteProvisionSysSvc: Fetching key 10132 for client 57501992
+10-22 20:56:22.504   520  2110 I RegistrationProxy: getKeyAsync operation started with callback 143664705
+10-22 20:56:22.504  3722  3798 I RkpdRegistrationBinder: Key requested for : android.hardware.security.keymint.IRemotelyProvisionedComponent/default, clientUid: 1017, keyId: 10132, callback: 182860875
+10-22 20:56:22.505  3722  3798 I RkpdRegistrationBinder: Key successfully assigned to client
+10-22 20:56:22.505   520   520 I RemoteProvisionSysSvc: Successfully fetched key for client 57501992
+10-22 20:56:22.520  3151  3216 D TrafficStats: tagSocket(112) with statsTag=0x1809, statsUid=-1
+10-22 20:56:22.522  3151  3216 D TrafficStats: tagSocket(112) with statsTag=0x1809, statsUid=-1
+10-22 20:56:22.526  3151  3216 D TrafficStats: tagSocket(112) with statsTag=0x1809, statsUid=-1
+10-22 20:56:22.552  1460  2694 W Icing   : No valid account for uploading user actions
+10-22 20:56:22.562  1635  1635 I AiAiEcho: AppFetcherImpl onPackageChanged com.google.android.apps.wellbeing.
+10-22 20:56:22.564  1635  2289 I AiAiEcho: AppIndexer Package:[com.google.android.apps.wellbeing] UserProfile:[0] Enabled:[true].
+10-22 20:56:22.564  1635  2289 I AiAiEcho: AppFetcherImplV2 updateApps package:[com.google.android.apps.wellbeing], userId:[0], reason:[package is updated.].
+10-22 20:56:22.593  1460  2694 I Icing   : Usage reports ok 0, Failed Usage reports 0, indexed 0, rejected 0
+10-22 20:56:22.662  4526  4558 I TestRunner: finished: posts(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

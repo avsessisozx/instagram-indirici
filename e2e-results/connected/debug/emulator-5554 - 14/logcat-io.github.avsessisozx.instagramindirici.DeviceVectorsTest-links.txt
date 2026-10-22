@@ -1,0 +1,7 @@
+10-22 20:56:22.143  4526  4558 I TestRunner: started: links(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-22 20:56:22.151  1635  1635 I AiAiEcho: AppFetcherImpl onPackageChanged com.google.android.googlequicksearchbox.
+10-22 20:56:22.151  1635  2289 I AiAiEcho: AppIndexer Package:[com.google.android.googlequicksearchbox] UserProfile:[0] Enabled:[true].
+10-22 20:56:22.152  1635  2289 I AiAiEcho: AppFetcherImplV2 updateApps package:[com.google.android.googlequicksearchbox], userId:[0], reason:[package is updated.].
+10-22 20:56:22.157  1460  2694 W Icing   : No valid account for uploading user actions
+10-22 20:56:22.166  1407  4410 I GCoreUlr: WorldUpdater:init: Ensuring that reporting is stopped because of reasons: (no Google accounts)
+10-22 20:56:22.199  4526  4558 I TestRunner: finished: links(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

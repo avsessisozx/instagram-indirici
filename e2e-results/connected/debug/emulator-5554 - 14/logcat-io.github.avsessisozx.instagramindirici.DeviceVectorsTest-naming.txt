@@ -1,0 +1,12 @@
+10-22 20:56:21.965  4526  4558 I TestRunner: started: naming(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-22 20:56:21.967  1407  4544 W GCM     : Unexpected forwarded intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package: flg=0x4000010 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) }
+10-22 20:56:21.967  1407  3001 I FontLog : Package io.github.avsessisozx.instagramindirici.test has no metadata [CONTEXT service_id=132 ]
+10-22 20:56:21.968  1407  3587 W GCM     : Unexpected forwarded intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package: flg=0x4000010 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) }
+10-22 20:56:21.975  4526  4558 D CompatibilityChangeReporter: Compat change id reported: 247079863; UID 10192; state: ENABLED
+10-22 20:56:21.980  1407  3329 W ChimeraUtils: Module com.google.android.gms.nearby_en missing resource null(0)
+10-22 20:56:21.982  1407  4346 I Fitness : OnPackageChangedOperation got intent: Intent { act=android.intent.action.PACKAGE_CHANGED dat=package: flg=0x5000010 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) } [CONTEXT service_id=17 ]
+10-22 20:56:21.988  1407  4346 I Fitness : FitCleanupIntentOperation received Intent android.intent.action.PACKAGE_CHANGED [CONTEXT service_id=17 ]
+10-22 20:56:21.991  3151  3216 W SystemServiceRegistry: No service published for: persistent_data_block
+10-22 20:56:21.999  1407  1407 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.nearby.exposurenotification.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.PersistentApiServiceNoInstantApps }
+10-22 20:56:21.999  1407  1407 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.nearby.exposurenotification.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.PersistentApiServiceNoInstantApps }
+10-22 20:56:22.011  4526  4558 I TestRunner: finished: naming(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

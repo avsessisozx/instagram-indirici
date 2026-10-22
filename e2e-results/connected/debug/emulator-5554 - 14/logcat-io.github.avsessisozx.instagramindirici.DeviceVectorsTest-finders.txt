@@ -1,0 +1,74 @@
+10-22 20:56:22.013  4526  4558 I TestRunner: started: finders(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-22 20:56:22.014   336   375 I netd    : tetherGetStats() -> {[]} <0.45ms>
+10-22 20:56:22.022   336   375 I netd    : bandwidthSetGlobalAlert(2097152) <0.12ms>
+10-22 20:56:22.023   336   375 I netd    : bandwidthRemoveInterfaceQuota(eth0) <0.46ms>
+10-22 20:56:22.023   336   375 I netd    : bandwidthSetInterfaceQuota(eth0, 9223372036854775807) <0.44ms>
+10-22 20:56:22.035  1407  4190 I Nearby  : [MBleClient] Start ble scanning from NearbyDirect:BluetoothAdapterWrapper, context tag = nearby_messages [CONTEXT service_id=49 ]
+10-22 20:56:22.036  1407  4190 D BluetoothAdapter: isLeEnabled(): ON
+10-22 20:56:22.048  1023  3065 D BtGatt.GattService: stopScan() - queue size =2
+10-22 20:56:22.050  1023  3065 D ActivityAttributionService: notifyActivityAttributionInfo UID=1002 packageName=com.google.android.bluetooth deviceAddress=no_active_device_address
+10-22 20:56:22.050  1023  3065 I bt_btif : packages/modules/Bluetooth/system/btif/src/bluetooth.cc:829 get_profile_interface: get_profile_interface: id = activity_attribution
+10-22 20:56:22.050  1023  1273 D BtGatt.ScanManager: handling stopping scan  [ScanClient scanModeApp 2 scanModeUsed 2 [appScanStats com.google.uid.shared:10132]]
+10-22 20:56:22.050  1023  1273 D BtGatt.ScanManager: stop gattClientScanNative
+10-22 20:56:22.050  1023  1273 I bt_stack: [INFO:le_scanning_manager.cc(168)] Scan in shim layer stopped
+10-22 20:56:22.050  1023  1184 I bluetooth: packages/modules/Bluetooth/system/gd/hci/le_address_manager.cc:193 unregister_client: Client unregistered
+10-22 20:56:22.050  1023  1184 I bluetooth: packages/modules/Bluetooth/system/gd/hci/le_address_manager.cc:197 unregister_client: Cancelled address rotation alarm
+10-22 20:56:22.051  1023  1273 I bt_stack: [INFO:le_scanning_manager.cc(204)] ScanFilterParamSetup in shim layer
+10-22 20:56:22.051  1023  1202 D BtGatt.GattService: onScanFilterParamsConfigured() - clientIf=2, status=0, action=0, availableSpace=0
+10-22 20:56:22.051  1023  1202 D BtGatt.ScanManager: callback done for scannerId - 2 status - 0
+10-22 20:56:22.051  1023  1273 I bt_stack: [INFO:le_scanning_manager.cc(204)] ScanFilterParamSetup in shim layer
+10-22 20:56:22.051  1023  1202 D BtGatt.GattService: onScanFilterParamsConfigured() - clientIf=2, status=0, action=0, availableSpace=0
+10-22 20:56:22.051  1023  1202 D BtGatt.ScanManager: callback done for scannerId - 2 status - 0
+10-22 20:56:22.051  1023  1273 I bt_stack: [INFO:le_scanning_manager.cc(204)] ScanFilterParamSetup in shim layer
+10-22 20:56:22.052  1023  1202 D BtGatt.GattService: onScanFilterParamsConfigured() - clientIf=2, status=0, action=0, availableSpace=0
+10-22 20:56:22.052  1023  1202 D BtGatt.ScanManager: callback done for scannerId - 2 status - 0
+10-22 20:56:22.052  1023  1273 I bt_stack: [INFO:le_scanning_manager.cc(204)] ScanFilterParamSetup in shim layer
+10-22 20:56:22.052  1023  1202 D BtGatt.GattService: onScanFilterParamsConfigured() - clientIf=2, status=0, action=0, availableSpace=0
+10-22 20:56:22.052  1023  1202 D BtGatt.ScanManager: callback done for scannerId - 2 status - 0
+10-22 20:56:22.052  1023  1273 I bt_stack: [INFO:le_scanning_manager.cc(204)] ScanFilterParamSetup in shim layer
+10-22 20:56:22.052  1023  1202 D BtGatt.GattService: onScanFilterParamsConfigured() - clientIf=2, status=0, action=0, availableSpace=0
+10-22 20:56:22.052  1023  1202 D BtGatt.ScanManager: callback done for scannerId - 2 status - 0
+10-22 20:56:22.052  1023  1273 D BtGatt.ScanManager: configureRegularScanParams() - queue=1
+10-22 20:56:22.053  1023  1273 D BtGatt.ScanManager: configureRegularScanParams() - queue empty, scan stopped
+10-22 20:56:22.061  1023  3065 D BtGatt.GattService: unregisterScanner() - scannerId=2
+10-22 20:56:22.061  1023  3065 I bt_stack: [INFO:le_scanning_manager.cc(162)] Unregister in shim layer, scanner_id:2
+10-22 20:56:22.062  1407  4190 I Nearby  : [MBleClient] M hardware scan: 1 clients, scanMode= OPPORTUNISTIC, filters size = 5 [CONTEXT service_id=49 ]
+10-22 20:56:22.062  1407  4190 D BluetoothAdapter: isLeEnabled(): ON
+10-22 20:56:22.066  1023  3065 D BtGatt.GattService: registerScanner() - UUID=5e9ba971-2a2f-42e2-b9bc-2b07e9c68530
+10-22 20:56:22.066  1023  3065 I bt_stack: [INFO:le_scanning_manager.cc(155)] RegisterScanner in shim layer
+10-22 20:56:22.066  1023  1202 D BtGatt.GattService: onScannerRegistered() - UUID=5e9ba971-2a2f-42e2-b9bc-2b07e9c68530, scannerId=2, status=0
+10-22 20:56:22.067  1407  1422 D BluetoothLeScanner: onScannerRegistered() - status=0 scannerId=2 mScannerId=0
+10-22 20:56:22.068  1023  3065 D BtGatt.GattService: start scan with filters
+10-22 20:56:22.075  1023  3065 D BtGatt.GattService: enforcePrivilegedPermissionIfNeeded([BluetoothLeScanFilter [mDeviceName=null, mDeviceAddress=null, mUuid=null, mUuidMask=null, mServiceSolicitationUuid=null, mServiceSolicitationUuidMask=null, mServiceDataUuid=null, mServiceData=null, mServiceDataMask=null, mManufacturerId=224, mManufacturerData=[0, 0, 0], mManufacturerDataMask=[0, 0, -1], mAdvertisingDataType=-1, mAdvertisingData=null, mAdvertisingDataMask=null, mTransportBlockFilter=null], BluetoothLeScanFilter [mDeviceName=null, mDeviceAddress=null, mUuid=0000fef3-0000-1000-8000-00805f9b34fb, mUuidMask=null, mServiceSolicitationUuid=null, mServiceSolicitationUuidMask=null, mServiceDataUuid=null, mServiceData=null, mServiceDataMask=null, mManufacturerId=-1, mManufacturerData=null, mManufacturerDataMask=null, mAdvertisingDataType=-1, mAdvertisingData=null, mAdvertisingDataMask=null, mTransportBlockFilter=null], BluetoothLeScanFilter [mDeviceName=null, mDeviceAddress=null, mUuid=0000feaa-0000-1000-8000-00805f9b34fb, mUuidMask=null, mServiceSolicitationUuid=null, mServiceSolicitationUuidMask=null, mServiceDataUuid=null, mServiceData=null, mServiceDataMask=null, mManufacturerId=-1, mManufacturerData=null, mManufacturerDataMask=null, mAdvertisingDataType=-1, mAdvertisingData=null, mAdvertisingDataMask=null, mTransportBlockFilter=null], BluetoothLeScanFilter [mDeviceName=null, mDeviceAddress=null, mUuid=0000fea0-0000-1000-8000-00805f9b34fb, mUuidMask=null, mServiceSolicitationUuid=null, mServiceSolicitationUuidMask=null, mServiceDataUuid=null, mServiceData=null, mServiceDataMask=null, mManufacturerId=-1, mManufacturerData=null, mManufacturerDataMask=null, mAdvertisingDataType=-1, mAdvertisingData=null, mAdvertisingDataMask=null, mTransportBlockFilter=null], BluetoothLeScanFilter [mDeviceName=null, mDeviceAddress=null, mUuid=null, mUuidMask=null, mServiceSolicitationUuid=null, mServiceSolicitationUuidMask=null, mServiceDataUuid=null, mServiceData=null, mServiceDataMask=null, mManufacturerId=76, mManufacturerData=[2, 21], mManufacturerDataMask=[-1, -1], mAdvertisingDataType=-1, mAdvertisingData=null, mAdvertisingDataMask=null, mTransportBlockFilter=null]])
+10-22 20:56:22.076  1023  3065 D BtGatt.ScanManager: startScan()  [ScanClient scanModeApp -1 scanModeUsed -1 [appScanStats com.google.uid.shared:10132]]
+10-22 20:56:22.076  1023  3065 D ActivityAttributionService: notifyActivityAttributionInfo UID=1002 packageName=com.google.android.bluetooth deviceAddress=no_active_device_address
+10-22 20:56:22.076  1023  3065 I bt_btif : packages/modules/Bluetooth/system/btif/src/bluetooth.cc:829 get_profile_interface: get_profile_interface: id = activity_attribution
+10-22 20:56:22.077  1023  1273 D BtGatt.ScanManager: handling starting scan
+10-22 20:56:22.112  1407  3329 W ChimeraUtils: Module com.google.android.gms.nearby_en missing resource null(0)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: [MDD] ModelBundleMetadata: File not found [CONTEXT service_id=173 ]
+10-22 20:56:22.128  1407  4411 I SemanticLocation: java.io.FileNotFoundException: /data/user/0/com.google.android.gms/files/model_bundle_metadata.pb: open failed: ENOENT (No such file or directory)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at libcore.io.IoBridge.open(IoBridge.java:574)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at java.io.FileInputStream.<init>(FileInputStream.java:160)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at android.app.ContextImpl.openFileInput(ContextImpl.java:745)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at android.content.ContextWrapper.openFileInput(ContextWrapper.java:249)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at android.content.ContextWrapper.openFileInput(ContextWrapper.java:249)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at android.content.ContextWrapper.openFileInput(ContextWrapper.java:249)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at bzxt.h(:com.google.android.gms@231818047@23.18.18 (190800-535401451):1)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at bzxd.c(:com.google.android.gms@231818047@23.18.18 (190800-535401451):9)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at cadb.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at aced.c(:com.google.android.gms@231818047@23.18.18 (190800-535401451):6)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at aced.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):8)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at acjn.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at java.lang.Thread.run(Thread.java:1012)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: Caused by: android.system.ErrnoException: open failed: ENOENT (No such file or directory)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at libcore.io.Linux.open(Native Method)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at libcore.io.ForwardingOs.open(ForwardingOs.java:563)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at libcore.io.BlockGuardOs.open(BlockGuardOs.java:274)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at libcore.io.ForwardingOs.open(ForwardingOs.java:563)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at android.app.ActivityThread$AndroidOs.open(ActivityThread.java:8063)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	at libcore.io.IoBridge.open(IoBridge.java:560)
+10-22 20:56:22.128  1407  4411 I SemanticLocation: 	... 14 more
+10-22 20:56:22.132  1407  3329 W ChimeraUtils: Module com.google.android.gms.nearby_en missing resource null(0)
+10-22 20:56:22.140  4526  4558 I TestRunner: finished: finders(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

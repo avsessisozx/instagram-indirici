@@ -1,0 +1,425 @@
+10-22 20:57:48.698  4526  4558 I TestRunner: started: c5_screenRebuiltDuringCollection(io.github.avsessisozx.instagramindirici.EndToEndTest)
+10-22 20:57:48.707  1104  1104 D SearchTargetUtil:  query= size=15
+10-22 20:57:48.708  1104  1104 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=trader joe's new grocery stores,group_id=web114159,response_id=cf12f1cd-206c-4073-9c32-4d88ecda41d6,support_query_builder=false,} searchAction=trader joe's new grocery stores searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: dc688991-bab8-457f-9790-602cebdeb877
+10-22 20:57:48.708  1104  1104 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=orient kamasu gmt dive watch,group_id=web114159,response_id=cf12f1cd-206c-4073-9c32-4d88ecda41d6,support_query_builder=false,} searchAction=orient kamasu gmt dive watch searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: bec9d19a-520a-4cff-814c-b71e388fef92
+10-22 20:57:48.708  1104  1104 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=apple iphone duo,group_id=web114159,response_id=cf12f1cd-206c-4073-9c32-4d88ecda41d6,support_query_builder=false,} searchAction=apple iphone duo searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 87113a6c-fc28-4a1c-9cf6-64a642989964
+10-22 20:57:48.709  1104  1104 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=paris france protests,group_id=web114159,response_id=cf12f1cd-206c-4073-9c32-4d88ecda41d6,support_query_builder=false,} searchAction=paris france protests searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 2d7702f0-517d-40dd-b898-6f7ab783e93e
+10-22 20:57:48.709  1104  1104 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=70.3 utah,group_id=web114159,response_id=cf12f1cd-206c-4073-9c32-4d88ecda41d6,support_query_builder=false,} searchAction=70.3 utah searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: e6cebd0d-456c-413f-a7b2-207df351d9f8
+10-22 20:57:48.709  1104  1104 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=amazon prime ftc settlement refund,group_id=web114159,response_id=cf12f1cd-206c-4073-9c32-4d88ecda41d6,support_query_builder=false,} searchAction=amazon prime ftc settlement refund searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 0cd2cdca-ea95-450d-9578-41af3ad7e6bb
+10-22 20:57:48.709  1104  1104 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=tea heart health,group_id=web114159,response_id=cf12f1cd-206c-4073-9c32-4d88ecda41d6,support_query_builder=false,} searchAction=tea heart health searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 6468e466-36cd-4b95-9cbc-129fff69de16
+10-22 20:57:48.709  1104  1104 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=webb telescope unexpected single emission line,group_id=web114159,response_id=cf12f1cd-206c-4073-9c32-4d88ecda41d6,support_query_builder=false,} searchAction=webb telescope unexpected single emission line searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 55eed2b6-58d7-4eb9-a2f1-9e72d80baf0f
+10-22 20:57:48.709  1104  1104 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=bambu lab printer upgrades,group_id=web114159,response_id=cf12f1cd-206c-4073-9c32-4d88ecda41d6,support_query_builder=false,} searchAction=bambu lab printer upgrades searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 4382411a-cb53-445a-a5d6-a1091ae498a7
+10-22 20:57:48.710  1104  1104 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=milwaukee brewers timeless tickets,group_id=web114159,response_id=cf12f1cd-206c-4073-9c32-4d88ecda41d6,support_query_builder=false,} searchAction=milwaukee brewers timeless tickets searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: d0b6bc38-2099-4dda-a323-f990821bcd99
+10-22 20:57:48.710  1104  1104 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=cyberpunk edgerunners season 2,group_id=web114159,response_id=cf12f1cd-206c-4073-9c32-4d88ecda41d6,support_query_builder=false,} searchAction=cyberpunk edgerunners season 2 searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 71deef29-ae6c-4756-9f23-803524989e4d
+10-22 20:57:48.710  1104  1104 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=hawaii volcanoes national park k9 search,group_id=web114159,response_id=cf12f1cd-206c-4073-9c32-4d88ecda41d6,support_query_builder=false,} searchAction=hawaii volcanoes national park k9 search searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 4e6e5843-1123-45bc-89a9-b9845e998f0b
+10-22 20:57:48.710  1104  1104 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=php security vulnerabilities,group_id=web114159,response_id=cf12f1cd-206c-4073-9c32-4d88ecda41d6,support_query_builder=false,} searchAction=php security vulnerabilities searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 9462a1dd-a21d-4a46-b48e-0d93892e82b9
+10-22 20:57:48.711  1104  1104 D SearchTargetUtil: layoutType=extra_tall_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{bitmap_url=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAYCAMAAACLI47uAAAAYFBMVEX///+/VwC6RQC+UgC8SwC8TQC+VADRjWn69PDbqJC4OwDUlnb37Oa5QQDfs53mxbXjvKrLfFDKeUrs0sXOh2H05t/qzb/DZSfGbTbhuaTDYiLBXhfIdELZo4fAWgzv29CZYIbTAAAA/ElEQVQ4jY1U25aDIBCjM1yLrNUKYnHX///LRZdetgolxxc4iUnAkVy6flBXUgGnhr5ryaSUoGfQTZlthTkzodQliUdjtMzTpTDG/48xAYOvHF8Bo+37ZnNjNBx2cSdG/ZG9BoTOSSLb3ot5Fr5fF24GNN/HzldkSAGAIkcen7SgP0u2nEJ+egPn2Wpbk50gFA6PyADxlfhkr4YwFhQDUBj1Q4E6xA1RjOQsWehdAJZYV4qUAHcB/czdIFImljn+HaxJiSrSvFpgrQEhy9YCPnzxr1gd+K2eT0K8MO7r+c1fpHrBxLZb2M1MFqm0rbfAOA8s1PPj0Ps581P4BSDVCY83yB4bAAAAAElFTkSuQmCC,suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=true,is_personal=false,suggest_raw_text=texas longhorns football,group_id=web114159,response_id=cf12f1cd-206c-4073-9c32-4d88ecda41d6,support_query_builder=false,} searchAction=Texas Longhorns football searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: ebac44f8-cf28-465a-b1fd-bc6f8637398c
+10-22 20:57:48.711  1104  1104 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=claude duet app,group_id=web114159,response_id=cf12f1cd-206c-4073-9c32-4d88ecda41d6,support_query_builder=false,} searchAction=claude duet app searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: b0ef6def-5be5-4dee-ba61-171f6e5f2a2a
+10-22 20:57:48.716  4526  4558 W Settings: Setting always_finish_activities has moved from android.provider.Settings.System to android.provider.Settings.Global, returning read-only value.
+10-22 20:57:48.716   520  2611 W InputManager-JNI: Input channel object 'c1fc25 io.github.avsessisozx.instagramindirici/io.github.avsessisozx.instagramindirici.MainActivity (client)' was disposed without first being removed with the input manager!
+10-22 20:57:48.746  5000  5000 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@edfffef
+10-22 20:57:48.759   520   754 W InputManager-JNI: Input channel object '6cafc06 io.github.avsessisozx.instagramindirici.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity (client)' was disposed without first being removed with the input manager!
+10-22 20:57:48.760   520  2465 I ImeTracker: com.google.android.apps.nexuslauncher:8f0594af: onRequestHide at ORIGIN_SERVER_HIDE_INPUT reason HIDE_UNSPECIFIED_WINDOW
+10-22 20:57:48.760   520  2465 I ImeTracker: com.google.android.apps.nexuslauncher:8f0594af: onCancelled at PHASE_SERVER_SHOULD_HIDE
+10-22 20:57:48.761   837   907 D SplashScreenView: Build android.window.SplashScreenView{726c010 V.E...... ......ID 0,0-0,0}
+10-22 20:57:48.761   837   907 D SplashScreenView: Icon: view: null drawable: null size: 0
+10-22 20:57:48.761   837   907 D SplashScreenView: Branding: view: android.view.View{664d709 G.ED..... ......I. 0,0-0,0 #10204ef android:id/splashscreen_branding_view} drawable: null size w: 0 h: 0
+10-22 20:57:48.764  1551  1551 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():3227
+10-22 20:57:48.764  1551  1551 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 0, unlocked = true
+10-22 20:57:48.764  1551  1551 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1877 onStartInput(EditorInfo{inputType=0x0(NULL) imeOptions=0x0 privateImeOptions=null actionName=UNSPECIFIED actionLabel=null actionId=0 initialSelStart=-1 initialSelEnd=-1 initialCapsMode=0x0 hintText=null label=null packageName=com.google.android.apps.nexuslauncher fieldId=0 fieldName=null extras=null}, false)
+10-22 20:57:48.764  1551  1551 I GoogleInputMethodService: GoogleInputMethodService.shouldHideHeaderOnInitialState():4008 ShouldHideHeaderOnInitialState = false
+10-22 20:57:48.764  1551  1551 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 2, unlocked = true
+10-22 20:57:48.769   400   400 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+10-22 20:57:48.797  4526  4526 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@57aee40 in: PRE_ON_CREATE
+10-22 20:57:48.798  4526  4526 V ActivityScenario: Activity lifecycle changed event received but ignored because the reported transition was not ON_CREATE while the last known transition was PRE_ON_CREATE
+10-22 20:57:48.827  4526  4526 D AutofillManager: Fill dialog is enabled:false, hints=[password, passwordAuto, creditCardNumber, creditCardSecurityCode, creditCardExpirationDate]
+10-22 20:57:48.851  4526  4526 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@57aee40 in: CREATED
+10-22 20:57:48.851  4526  4526 V ActivityScenario: Update currentActivityStage to CREATED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@57aee40
+10-22 20:57:48.852  4526  4526 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@57aee40 in: STARTED
+10-22 20:57:48.856  4526  4526 V ActivityScenario: Update currentActivityStage to STARTED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@57aee40
+10-22 20:57:48.858  4526  4526 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@57aee40 in: RESUMED
+10-22 20:57:48.858  4526  4526 V ActivityScenario: Update currentActivityStage to RESUMED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@57aee40
+10-22 20:57:48.930   520   539 W ziparchive: Unable to open '/data/app/~~EBpiJPDWMJ82b9unGxnosw==/io.github.avsessisozx.instagramindirici-ujEQiy0qtj1zpCU5Mqa3nQ==/base.dm': No such file or directory
+10-22 20:57:48.931   520   539 I ActivityTaskManager: Displayed io.github.avsessisozx.instagramindirici/.MainActivity for user 0: +181ms
+10-22 20:57:48.940   837   906 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@99fcd3c
+10-22 20:57:48.942   520  2465 W InputManager-JNI: Input channel object 'a43ed08 Splash Screen io.github.avsessisozx.instagramindirici (client)' was disposed without first being removed with the input manager!
+10-22 20:57:48.944  1104  1156 I ImeTracker: com.google.android.apps.nexuslauncher:2dcc4509: onRequestHide at ORIGIN_CLIENT_HIDE_SOFT_INPUT reason HIDE_SOFT_INPUT
+10-22 20:57:48.944   520  2477 I ImeTracker: com.google.android.apps.nexuslauncher:2dcc4509: onCancelled at PHASE_SERVER_SHOULD_HIDE
+10-22 20:57:48.949  1735  2376 I PBSessionCacheImpl: Deleted sessionId[7632403399307901] from persistence.
+10-22 20:57:48.950  1104  2333 D OneSearchSuggestProvider: Shut down the binder channel
+10-22 20:57:48.950  1104  4832 I IPCThreadState: oneway function results for code 2 on binder at 0x7e45a6b912f0 will be dropped but finished with status UNKNOWN_TRANSACTION
+10-22 20:57:48.952   520  2553 I ImeTracker: io.github.avsessisozx.instagramindirici:c0cf9ab: onRequestHide at ORIGIN_SERVER_HIDE_INPUT reason HIDE_UNSPECIFIED_WINDOW
+10-22 20:57:48.952   520  2553 I ImeTracker: io.github.avsessisozx.instagramindirici:c0cf9ab: onCancelled at PHASE_SERVER_SHOULD_HIDE
+10-22 20:57:48.955  1551  1551 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():3227
+10-22 20:57:48.957  1551  1551 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 0, unlocked = true
+10-22 20:57:48.957  1551  1551 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1877 onStartInput(EditorInfo{inputType=0x0(NULL) imeOptions=0x0 privateImeOptions=null actionName=UNSPECIFIED actionLabel=null actionId=0 initialSelStart=-1 initialSelEnd=-1 initialCapsMode=0x0 hintText=null label=null packageName=io.github.avsessisozx.instagramindirici fieldId=0 fieldName=null extras=null}, false)
+10-22 20:57:48.958  1551  1551 I GoogleInputMethodService: GoogleInputMethodService.shouldHideHeaderOnInitialState():4008 ShouldHideHeaderOnInitialState = false
+10-22 20:57:48.960  1023  1273 D BtGatt.ScanManager: uid 10132 isForeground true scanMode -1
+10-22 20:57:48.961  1023  1273 D BtGatt.ScanManager: uid 10132 isForeground true scanMode -1
+10-22 20:57:48.961  1023  1273 D BtGatt.ScanManager: uid 10132 isForeground true scanMode 1
+10-22 20:57:48.962  1551  1551 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 2, unlocked = true
+10-22 20:57:48.967  1735  2262 W SearchServiceCore: Abort, client detached.
+10-22 20:57:48.975  1735  2262 W SearchServiceCore: Abort, client detached.
+10-22 20:57:48.975  1735  2262 W SearchServiceCore: Abort, client detached.
+10-22 20:57:48.976  1735  2262 W SearchServiceCore: Abort, client detached.
+10-22 20:57:48.976  1735  2262 W SearchServiceCore: Abort, client detached.
+10-22 20:57:49.005  4526  4558 W SurfaceComposerClient: Sync transaction timed out waiting for commit callback.
+10-22 20:57:49.013   336  6098 I resolv  : GetAddrInfoHandler::run: {101 101 101 983141 10192 0}
+10-22 20:57:49.014   336  6099 I resolv  : res_nmkquery: (QUERY, IN, AAAA)
+10-22 20:57:49.014   336  6099 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7d6e611cf1f0
+10-22 20:57:49.014   336  6099 I resolv  : doQuery: rcode=3, ancount=0, return value=136
+10-22 20:57:49.019   336  6100 I resolv  : res_nmkquery: (QUERY, IN, A)
+10-22 20:57:49.020   336  6100 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7d6e611cc4f0
+10-22 20:57:49.020   336  6100 I resolv  : doQuery: rcode=3, ancount=0, return value=136
+10-22 20:57:49.174   336   375 I netd    : tetherGetStats() -> {[]} <0.32ms>
+10-22 20:57:49.179   336   375 I netd    : bandwidthSetGlobalAlert(2097152) <0.10ms>
+10-22 20:57:49.180   336   375 I netd    : bandwidthRemoveInterfaceQuota(eth0) <0.43ms>
+10-22 20:57:49.181   336   375 I netd    : bandwidthSetInterfaceQuota(eth0, 9223372036854775807) <0.42ms>
+10-22 20:57:49.185   520   836 D NetworkStatsObservers: Unregistering RequestInfo from pid/uid:520/1000(android) for DataUsageRequest [ requestId=11, networkTemplate=NetworkTemplate: matchRule=MOBILE, matchSubscriberIds=[310260...], matchWifiNetworkKeys=[], metered=YES, defaultNetwork=NO, thresholdInBytes=3422936 ] accessLevel:3
+10-22 20:57:49.185   520   758 D NetworkStatsObservers: Registering observer for RequestInfo from pid/uid:520/1000(android) for DataUsageRequest [ requestId=12, networkTemplate=NetworkTemplate: matchRule=MOBILE, matchSubscriberIds=[310260...], matchWifiNetworkKeys=[], metered=YES, defaultNetwork=NO, thresholdInBytes=3419703 ] accessLevel:3
+10-22 20:57:49.206   336   375 I netd    : tetherGetStats() -> {[]} <0.38ms>
+10-22 20:57:49.347  1735  2301 I A       : Scheduled one-off task for batch; batchId=2 taskId=-1000008 corpora=[1004,1008,1014,1015]
+10-22 20:57:49.347  1735  2301 I A       : Pending callbacks: 1
+10-22 20:57:49.380   520  2465 I WifiService: acquireWifiLock uid=10192 lockMode=3
+10-22 20:57:49.582  1635  1830 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+10-22 20:57:49.582  1635  1830 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+10-22 20:57:49.588  1635  1830 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+10-22 20:57:49.588  1635  1830 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+10-22 20:57:49.590   837   920 D EGL_emulation: app_time_stats: avg=243.68ms min=8.72ms max=716.47ms count=5
+10-22 20:57:49.612   837   918 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+10-22 20:57:49.615   837   918 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+10-22 20:57:49.736  5591  5591 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.auth.account.workaccount.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.PersistentApiService }
+10-22 20:57:49.824   837   918 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+10-22 20:57:49.825   837   918 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+10-22 20:57:49.975  4526  4582 D EGL_emulation: app_time_stats: avg=52.10ms min=8.85ms max=365.05ms count=20
+10-22 20:57:50.021  5591  5591 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.auth.proximity.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.PersistentBoundBrokerService }
+10-22 20:57:50.590  1635  1830 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+10-22 20:57:50.590  1635  1830 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+10-22 20:57:50.608   837   920 D EGL_emulation: app_time_stats: avg=169.55ms min=10.98ms max=744.64ms count=6
+10-22 20:57:50.609  5701  5701 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.auth.cryptauth.cryptauthservice.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.GmsBoundBrokerService }
+10-22 20:57:50.820   837   918 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+10-22 20:57:50.822   837   918 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+10-22 20:57:50.888  5591  5591 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.auth.proximity.devicesyncservice.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.PersistentBoundBrokerService }
+10-22 20:57:51.052  1047  1047 D CarrierSvcBindHelper: onPackageModified: com.google.android.contacts
+10-22 20:57:51.053  1047  1047 D CarrierSvcBindHelper: No carrier app for: 0
+10-22 20:57:51.055  1023  1023 V MediaPlayerList: mPackageChangedBroadcastReceiver: action: android.intent.action.PACKAGE_CHANGED
+10-22 20:57:51.057  1023  1023 V MediaPlayerList: mPackageChangedBroadcastReceiver: action: android.intent.action.PACKAGE_CHANGED
+10-22 20:57:51.058   520   624 I InputReader: Reconfiguring input devices, changes=KEYBOARD_LAYOUTS
+10-22 20:57:51.062   837   918 D StylusManager: Stylus InputDevice changed: 13 virtio_input_multi_touch_10
+10-22 20:57:51.063   837   837 D ControlsListingControllerImpl: ServiceConfig reloaded, count: 0
+10-22 20:57:51.064   837   918 D StylusManager: Stylus InputDevice changed: 14 virtio_input_multi_touch_11
+10-22 20:57:51.070   837   918 D StylusManager: Stylus InputDevice changed: 12 virtio_input_multi_touch_9
+10-22 20:57:51.071   837   918 D StylusManager: Stylus InputDevice changed: 10 virtio_input_multi_touch_7
+10-22 20:57:51.071   837   918 D StylusManager: Stylus InputDevice changed: 7 virtio_input_multi_touch_4
+10-22 20:57:51.072   837   918 D StylusManager: Stylus InputDevice changed: 11 virtio_input_multi_touch_8
+10-22 20:57:51.072   837   918 D StylusManager: Stylus InputDevice changed: 6 virtio_input_multi_touch_3
+10-22 20:57:51.073   837   918 D StylusManager: Stylus InputDevice changed: 5 virtio_input_multi_touch_2
+10-22 20:57:51.077  1047  1335 D ImsResolver: maybeAddedImsService, packageName: com.google.android.contacts
+10-22 20:57:51.078   849  4513 I PermissionControllerServiceImpl: Updating user sensitive for uid 10154
+10-22 20:57:51.079   837   918 D StylusManager: Stylus InputDevice changed: 4 virtio_input_multi_touch_1
+10-22 20:57:51.080   837   918 D StylusManager: Stylus InputDevice changed: 9 virtio_input_multi_touch_6
+10-22 20:57:51.083   837   918 D StylusManager: Stylus InputDevice changed: 8 virtio_input_multi_touch_5
+10-22 20:57:51.091   520   549 E system_server: No package ID 7f found for resource ID 0x7f080107.
+10-22 20:57:51.091   520   549 E system_server: No package ID 7f found for resource ID 0x7f150560.
+10-22 20:57:51.094  5591  5591 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.presencemanager.service.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.PersistentApiService }
+10-22 20:57:51.095  1635  1635 I AiAiEcho: AppFetcherImpl onPackageChanged com.google.android.contacts.
+10-22 20:57:51.096  1635  2289 I AiAiEcho: AppIndexer Package:[com.google.android.contacts] UserProfile:[0] Enabled:[true].
+10-22 20:57:51.096  1635  2289 I AiAiEcho: AppFetcherImplV2 updateApps package:[com.google.android.contacts], userId:[0], reason:[package is updated.].
+10-22 20:57:51.149  5591  5591 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.presencemanager.service.INTERNAL_IDENTITY dat=chimera-action:/... cmp=com.google.android.gms/.chimera.PersistentApiService }
+10-22 20:57:51.242  4526  4582 D EGL_emulation: app_time_stats: avg=55.06ms min=11.48ms max=497.46ms count=23
+10-22 20:57:51.372  4526  4825 D TrafficStats: tagSocket(207) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:51.373  4526  4827 D TrafficStats: tagSocket(209) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:51.551  4105  4223 I Bugle   : BroadcastReceiverAsyncWorkTracker: Acknowledging broadcast of bdxy@131fbd7
+10-22 20:57:51.567  5591  6104 I Fitness : OnPackageChangedOperation got intent: Intent { act=android.intent.action.PACKAGE_CHANGED dat=package: flg=0x45000010 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) } [CONTEXT service_id=17 ]
+10-22 20:57:51.585  5701  5737 I Icing   : IndexChimeraService.getServiceInterface callingPackage=com.google.android.gms componentName=AppsCorpus serviceId=36
+10-22 20:57:51.587  5591  5987 W ChimeraUtils: Module com.google.android.gms.nearby_en missing resource null(0)
+10-22 20:57:51.588  5591  5987 W ChimeraUtils: Module com.google.android.gms.nearby_en missing resource null(0)
+10-22 20:57:51.593  1635  1830 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+10-22 20:57:51.594  1635  1830 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+10-22 20:57:51.598  5591  6104 I Fitness : FitCleanupIntentOperation received Intent android.intent.action.PACKAGE_CHANGED [CONTEXT service_id=17 ]
+10-22 20:57:51.611   837   920 D EGL_emulation: app_time_stats: avg=334.51ms min=50.77ms max=752.60ms count=3
+10-22 20:57:51.623  5701  5737 I Icing   : IndexChimeraService.getServiceInterface callingPackage=com.google.android.gms componentName=null serviceId=30
+10-22 20:57:51.627  5701  6051 I Icing   : Usage reports ok 1, Failed Usage reports 0, indexed 0, rejected 0
+10-22 20:57:51.630  5701  6051 I Icing   : Usage reports ok 0, Failed Usage reports 0, indexed 0, rejected 0
+10-22 20:57:51.631  5701  6051 I Icing   : Indexing com.google.android.gms-apps from com.google.android.gms
+10-22 20:57:51.634  5701  6051 I Icing   : Indexing done com.google.android.gms-apps
+10-22 20:57:51.797  4526  4526 I ActivityThread: Schedule relaunch activity: io.github.avsessisozx.instagramindirici.MainActivity
+10-22 20:57:51.798  4526  4526 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@57aee40 in: PAUSED
+10-22 20:57:51.799  4526  4526 V ActivityScenario: Update currentActivityStage to PAUSED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@57aee40
+10-22 20:57:51.800  4526  4526 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@57aee40 in: STOPPED
+10-22 20:57:51.800  4526  4526 V ActivityScenario: Update currentActivityStage to STOPPED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@57aee40
+10-22 20:57:51.814  4526  4526 W cr_AwContents: WebView.destroy() called while WebView is still attached to window.
+10-22 20:57:51.817  4526  4526 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@57aee40 in: DESTROYED
+10-22 20:57:51.817  4526  4526 V ActivityScenario: Update currentActivityStage to DESTROYED, currentActivity=null
+10-22 20:57:51.823   837   918 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+10-22 20:57:51.826   837   918 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+10-22 20:57:51.830  4526  4526 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@a5278f6
+10-22 20:57:51.832  4526  4526 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@426bead in: PRE_ON_CREATE
+10-22 20:57:51.833  4526  4526 V ActivityScenario: Activity lifecycle changed event received but ignored because the reported transition was not ON_CREATE while the last known transition was DESTROYED
+10-22 20:57:51.842  4526  4526 D AutofillManager: Fill dialog is enabled:false, hints=[password, passwordAuto, creditCardNumber, creditCardSecurityCode, creditCardExpirationDate]
+10-22 20:57:51.866  4526  4526 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@426bead in: CREATED
+10-22 20:57:51.867  4526  4526 V ActivityScenario: Update currentActivityStage to CREATED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@426bead
+10-22 20:57:51.870  4526  4526 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@426bead in: STARTED
+10-22 20:57:51.870  4526  4526 V ActivityScenario: Update currentActivityStage to STARTED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@426bead
+10-22 20:57:51.872  4526  4526 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@426bead in: RESUMED
+10-22 20:57:51.873  4526  4526 V ActivityScenario: Update currentActivityStage to RESUMED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@426bead
+10-22 20:57:52.074   336  6114 I resolv  : GetAddrInfoHandler::run: {101 101 101 983141 10192 0}
+10-22 20:57:52.076   336  6115 I resolv  : res_nmkquery: (QUERY, IN, AAAA)
+10-22 20:57:52.076   336  6115 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7d6e611cf1f0
+10-22 20:57:52.076   336  6115 I resolv  : doQuery: rcode=3, ancount=0, return value=136
+10-22 20:57:52.078   336  6116 I resolv  : res_nmkquery: (QUERY, IN, A)
+10-22 20:57:52.078   336  6116 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7d6e611cc4f0
+10-22 20:57:52.078   336  6116 I resolv  : doQuery: rcode=3, ancount=0, return value=136
+10-22 20:57:52.338   837   837 D StatusBarIconController: ignoring old pipeline callbacks, because the new mobile icons are enabled
+10-22 20:57:52.562  5591  5591 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.pseudonymous.service.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.PersistentApiService }
+10-22 20:57:52.596  1635  1830 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+10-22 20:57:52.597  1635  1830 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+10-22 20:57:52.643  4526  4582 D EGL_emulation: app_time_stats: avg=350.02ms min=66.48ms max=688.06ms count=4
+10-22 20:57:52.808   837   920 D EGL_emulation: app_time_stats: avg=299.15ms min=57.41ms max=740.35ms count=4
+10-22 20:57:52.820   837   918 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+10-22 20:57:52.821   837   918 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+10-22 20:57:53.598  1635  1830 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+10-22 20:57:53.598  1635  1830 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+10-22 20:57:53.646  4526  4582 D EGL_emulation: app_time_stats: avg=91.17ms min=12.97ms max=615.92ms count=11
+10-22 20:57:53.809   837   920 D EGL_emulation: app_time_stats: avg=333.58ms min=49.41ms max=750.63ms count=3
+10-22 20:57:53.820   837   918 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+10-22 20:57:53.821   837   918 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+10-22 20:57:54.356  5701  6107 I ChimeraConfigurator: Starting update, reason: 4 urgentFeatures: vision.ocr:-1
+10-22 20:57:54.367  5701  6107 I ChimeraConfigurator: Detected pending changes for urgent request: [vision.ocr]. Pending module sets: container:2318189190800+mlkit.ocr.common,tflite_dynamite:2640104055100800+tflite_dynamite,vision_ocr:2316024025100000+vision.ocr
+10-22 20:57:54.376  5701  6107 I GmsDebugLogger: [73] 1801
+10-22 20:57:54.378  5701  6107 W ZappDownloader: No successful module downloads for requested features [vision.ocr].
+10-22 20:57:54.378  5701  6107 I GmsDebugLogger: [30] [VisionOcrDynamite.integ:231602402100000],[TfliteDynamiteDynamite.integ:264010405100800],[MlkitOcrCommon.optional:231818100800]
+10-22 20:57:54.380  5701  6107 W ChimeraConfigService: Retry attempt was throttled. [CONTEXT service_id=264 ]
+10-22 20:57:54.381  5701  6107 I GmsDebugLogger: [83] 1 [vision.ocr]
+10-22 20:57:54.382  5701  6102 W Vision  : Request for optional module download of ocr failed. Request again.
+10-22 20:57:54.382  5701  6102 W Vision  : Would have logged:
+10-22 20:57:54.382  5701  6102 W Vision  : # dsae@37884fe7
+10-22 20:57:54.382  5701  6102 I Vision  : Schedule retrying download ocr at 170085 with backoff 20 seconds
+10-22 20:57:54.600  1635  1830 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+10-22 20:57:54.600  1635  1830 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+10-22 20:57:54.809   837   920 D EGL_emulation: app_time_stats: avg=333.31ms min=51.56ms max=745.95ms count=3
+10-22 20:57:54.820   837   918 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+10-22 20:57:54.821   837   918 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+10-22 20:57:54.993  5701  5701 I NearbySharing: SharingTileService destroyed [CONTEXT service_id=194 ]
+10-22 20:57:54.994  5701  5701 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.chimera.container.moduleinstall.ModuleInstallService.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.GmsApiService }
+10-22 20:57:55.018  5591  5591 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.gmscompliance.service.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.PersistentBoundBrokerService }
+10-22 20:57:55.018  5701  5701 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.ocr.service.internal.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.GmsInternalApiService }
+10-22 20:57:55.075  4526  4582 D EGL_emulation: app_time_stats: avg=129.94ms min=14.56ms max=613.22ms count=11
+10-22 20:57:55.602  1635  1830 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+10-22 20:57:55.602  1635  1830 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+10-22 20:57:55.826   837   920 D EGL_emulation: app_time_stats: avg=338.75ms min=49.08ms max=764.43ms count=3
+10-22 20:57:55.836   837   918 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+10-22 20:57:55.840   837   918 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+10-22 20:57:55.973  5701  5701 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.mdd.service.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.GmsBoundBrokerService }
+10-22 20:57:56.240  1735  1735 I BgTaskExecutorImpl: Starting EXCLUSIVE background task UPLOAD_ASSISTANT_DEVICE_SETTINGS.
+10-22 20:57:56.243  1735  2301 I NetworkRecognitionRnr: Using pair HTTP connection
+10-22 20:57:56.244  1735  2902 I A       : [Upload] Connected
+10-22 20:57:56.245  1735  2376 W LocationOracle: getBestLocation(): no location is available
+10-22 20:57:56.249  1735  2144 W CronetNetworkRqstWrppr: Upload request without a content type.
+10-22 20:57:56.252  1735  2114 W LocationOracle: No location returned by GMS core getLastLocation()
+10-22 20:57:56.252  1735  1735 E A       : onError
+10-22 20:57:56.252  1735  1735 E A       : com.google.android.apps.gsa.shared.speech.a.m: errorCode: 65561, engine: 2
+10-22 20:57:56.252  1735  1735 E A       : 	at com.google.android.apps.gsa.staticplugins.dc.a.e.a(PG:3)
+10-22 20:57:56.252  1735  1735 E A       : 	at com.google.android.apps.gsa.s3.n.hh(PG:1)
+10-22 20:57:56.252  1735  1735 E A       : 	at com.google.cd.g.a.f.e(PG:2)
+10-22 20:57:56.252  1735  1735 E A       : 	at com.google.android.apps.gsa.speech.k.a.g.d(PG:22)
+10-22 20:57:56.252  1735  1735 E A       : 	at com.google.android.apps.gsa.speech.k.a.g.ks(PG:6)
+10-22 20:57:56.252  1735  1735 E A       : 	at com.google.android.apps.gsa.s3.o.e(PG:14)
+10-22 20:57:56.252  1735  1735 E A       : 	at com.google.android.apps.gsa.s3.p.run(PG:1)
+10-22 20:57:56.252  1735  1735 E A       : 	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:487)
+10-22 20:57:56.252  1735  1735 E A       : 	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
+10-22 20:57:56.252  1735  1735 E A       : 	at com.google.android.apps.gsa.shared.util.c.a.e.run(PG:2)
+10-22 20:57:56.252  1735  1735 E A       : 	at com.google.android.apps.gsa.shared.util.c.a.bi.run(PG:1)
+10-22 20:57:56.252  1735  1735 E A       : 	at com.google.android.apps.gsa.shared.util.c.a.bi.run(PG:1)
+10-22 20:57:56.252  1735  1735 E A       : 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+10-22 20:57:56.252  1735  1735 E A       : 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+10-22 20:57:56.252  1735  1735 E A       : 	at java.lang.Thread.run(Thread.java:1012)
+10-22 20:57:56.252  1735  1735 E A       : 	at com.google.android.apps.gsa.shared.util.c.a.l.run(PG:5)
+10-22 20:57:56.252  1735  1735 E A       : Caused by: com.google.android.apps.gsa.shared.speech.a.o: errorCode: 65586, engine: 2
+10-22 20:57:56.252  1735  1735 E A       : 	... 15 more
+10-22 20:57:56.252  1735  1735 E A       : Caused by: com.google.android.apps.gsa.shared.speech.a.k: errorCode: 401, engine: 2
+10-22 20:57:56.252  1735  1735 E A       : 	at com.google.android.apps.gsa.assistant.shared.n.h.a(PG:5)
+10-22 20:57:56.252  1735  1735 E A       : 	at com.google.android.apps.gsa.s3.producers.j.hE(PG:2)
+10-22 20:57:56.252  1735  1735 E A       : 	at com.google.android.apps.gsa.speech.k.a.g.d(PG:16)
+10-22 20:57:56.252  1735  1735 E A       : 	... 12 more
+10-22 20:57:56.254  1735  2902 I NetworkRecognitionRnr: Using pair HTTP connection
+10-22 20:57:56.255  1735  2901 I A       : [Upload] Connected
+10-22 20:57:56.256  5591  5591 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.tapandpay.service.BIND dat=chimera-action:/... cmp=com.google.android.gms/.chimera.PersistentApiService }
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: Exception in upload method
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: com.google.android.apps.gsa.shared.r.d: Error code: 262182
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.shared.ab.bk.d(PG:5)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.libraries.gsa.c.a.ar.d(PG:1)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.libraries.gsa.c.a.bo.b(PG:5)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.libraries.gsa.c.a.e.a(PG:2)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.libraries.gsa.c.a.a.run(PG:2)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.bf.execute(PG:1)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.i(PG:1)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:12)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.j.a(PG:1)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.j.a(PG:1)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.j.a(PG:1)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.j.a(PG:1)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.c.a(PG:1)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.bu.cancel(PG:1)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:17)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.staticplugins.bk.b.h.run(PG:2)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.bf.execute(PG:1)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.i(PG:1)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:12)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.j.a(PG:1)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.shared.util.c.aj.a(PG:2)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.m(PG:2)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.c.a(PG:1)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.l(PG:3)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.common.util.concurrent.d.cancel(PG:8)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.s3.o.c(PG:2)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.s3.r.a(PG:1)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.staticplugins.dc.a.c.e(PG:2)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.staticplugins.dc.a.c.c(PG:3)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.staticplugins.dc.a.e.a(PG:5)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.s3.n.hh(PG:1)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.cd.g.a.f.e(PG:2)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.speech.k.a.g.d(PG:22)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.speech.k.a.g.ks(PG:6)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.s3.o.e(PG:14)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.s3.p.run(PG:1)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:487)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.shared.util.c.a.e.run(PG:2)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.shared.util.c.a.bi.run(PG:1)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.shared.util.c.a.bi.run(PG:1)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at java.lang.Thread.run(Thread.java:1012)
+10-22 20:57:56.258  1735  2171 E cr_CronetUrlRequestContext: 	at com.google.android.apps.gsa.shared.util.c.a.l.run(PG:5)
+10-22 20:57:56.264  1735  1735 W A       : Failed to sync device settings.
+10-22 20:57:56.264  1735  1735 I A       : Retrying to sync device settings.
+10-22 20:57:56.268  1735  2262 W SearchServiceCore: Abort, client detached.
+10-22 20:57:56.268  1735  2262 W SearchServiceCore: Abort, client detached.
+10-22 20:57:56.278  5701  5701 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.pay.service.BIND dat=chimera-action:/... cmp=com.google.android.gms/.chimera.GmsApiService }
+10-22 20:57:56.310  4526  4582 D EGL_emulation: app_time_stats: avg=617.23ms min=601.97ms max=632.48ms count=2
+10-22 20:57:56.405   520   754 I WifiService: releaseWifiLock uid=10192
+10-22 20:57:56.606  1635  1830 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+10-22 20:57:56.606  1635  1830 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+10-22 20:57:56.836   837   918 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+10-22 20:57:56.838   837   918 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+10-22 20:57:56.874   837   920 D EGL_emulation: app_time_stats: avg=174.71ms min=15.97ms max=545.64ms count=6
+10-22 20:57:57.396  5591  5591 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.phenotype.service.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.PersistentApiService }
+10-22 20:57:57.452  5701  6101 I GmscoreIpa: Starting mediastore instant index [CONTEXT service_id=255 ]
+10-22 20:57:57.808  4526  4582 D EGL_emulation: app_time_stats: avg=1497.93ms min=1497.93ms max=1497.93ms count=1
+10-22 20:57:58.268   520  1225 D ConnectivityService: requestNetwork for uid/pid:10131/1735 activeRequest: null callbackRequest: 151 [NetworkRequest [ REQUEST id=151, [ Transports: CELLULAR Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&NOT_VCN_MANAGED Uid: 10131 RequestorUid: 10131 RequestorPkg: com.google.android.googlequicksearchbox UnderlyingNetworks: Null] ]] callback flags: 0 order: 2147483647
+10-22 20:57:58.271   336   375 I netd    : networkSetPermissionForNetwork(100, 0) <1.16ms>
+10-22 20:57:58.277   520   767 D ConnectivityService: NetReassign [151 : null → 100] [c 0] [a 7] [i 1]
+10-22 20:57:58.279   520   767 D ConnectivityService: reportNetworkConnectivity(101, false) by 10131
+10-22 20:57:58.279   999  2707 D NetworkMonitor/101: Forcing reevaluation for UID 10131. Dns signal count: 0
+10-22 20:57:58.280   999  6119 D TrafficStats: tagSocket(6) with statsTag=0xffffff81, statsUid=-1
+10-22 20:57:58.281   999  6120 D TrafficStats: tagSocket(107) with statsTag=0xffffff81, statsUid=-1
+10-22 20:57:58.281   999  6119 D TrafficStats: tagSocket(6) with statsTag=0xffffff81, statsUid=-1
+10-22 20:57:58.282   999  6120 D TrafficStats: tagSocket(68) with statsTag=0xffffff81, statsUid=-1
+10-22 20:57:58.283   336  6121 I resolv  : ResNSendHandler::run: 0 / {101 983141 101 983141 1073 1}
+10-22 20:57:58.284   336  6122 I resolv  : ResNSendHandler::run: 0 / {101 983141 101 983141 1073 1}
+10-22 20:57:58.284   336  6122 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7d6e611cb650
+10-22 20:57:58.285   336  6121 I resolv  : res_nsend: used send_dg 368 terrno: 0
+10-22 20:57:58.293   336  6123 I resolv  : ResNSendHandler::run: 0 / {101 983141 101 983141 1073 1}
+10-22 20:57:58.293   336  6124 I resolv  : ResNSendHandler::run: 0 / {101 983141 101 983141 1073 1}
+10-22 20:57:58.293   336  6124 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7d6e611cb0b0
+10-22 20:57:58.294   999   999 D TrafficStats: tagSocket(6) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:58.294   999   999 D TrafficStats: tagSocket(6) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:58.295   999  6120 D NetworkMonitor/101: PROBE_DNS connectivitycheck.gstatic.com 13ms OK 142.251.150.120,2001:4860:4826:7800::
+10-22 20:57:58.296   336  6123 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7d6ed11d06d0
+10-22 20:57:58.296   999   999 D TrafficStats: tagSocket(68) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:58.296   999   999 D TrafficStats: tagSocket(68) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:58.297   999   999 D TrafficStats: tagSocket(68) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:58.297   999   999 D TrafficStats: tagSocket(68) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:58.298   999   999 D TrafficStats: tagSocket(68) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:58.298   999   999 D TrafficStats: tagSocket(68) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:58.299   999   999 D TrafficStats: tagSocket(68) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:58.299   336  6125 I resolv  : GetAddrInfoHandler::run: {101 983141 101 983141 1073 1}
+10-22 20:57:58.299   336  6126 I resolv  : res_nmkquery: (QUERY, IN, AAAA)
+10-22 20:57:58.299   336  6126 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7d6e611cb650
+10-22 20:57:58.299   336  6126 I resolv  : doQuery: rcode=0, ancount=1, return value=104
+10-22 20:57:58.301   999   999 D TrafficStats: tagSocket(68) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:58.302   999   999 D TrafficStats: tagSocket(68) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:58.302   999   999 D TrafficStats: tagSocket(68) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:58.304   999   999 D TrafficStats: tagSocket(68) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:58.304   999   999 D TrafficStats: tagSocket(68) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:58.305   999   999 D TrafficStats: tagSocket(68) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:58.305   999   999 D TrafficStats: tagSocket(68) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:58.306   999   999 D TrafficStats: tagSocket(68) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:58.306   999   999 D TrafficStats: tagSocket(68) with statsTag=0xffffffff, statsUid=-1
+10-22 20:57:58.307   999  6119 D NetworkMonitor/101: PROBE_DNS www.google.com 26ms OK 142.251.156.119,142.251.154.119,142.251.155.119,142.251.150.119,142.251.152.119,142.251.151.119,142.251.153.119,142.251.157.119,2001:4860:4828:7700::,2001:4860:482a:7700::,2001:4860:4829:7700::,2001:4860:4827:7700::,2001:4860:482c:7700::,2001:4860:482b:7700::,2001:4860:482d:7700::,2001:4860:4826:7700::
+10-22 20:57:58.308   336  6127 I resolv  : res_nmkquery: (QUERY, IN, A)
+10-22 20:57:58.308   336  6128 I resolv  : GetAddrInfoHandler::run: {101 983141 101 983141 1073 1}
+10-22 20:57:58.308   336  6127 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7d6e611cb0b0
+10-22 20:57:58.308   336  6127 I resolv  : doQuery: rcode=0, ancount=1, return value=92
+10-22 20:57:58.308   999  6120 D TrafficStats: tagSocket(6) with statsTag=0xffffff81, statsUid=-1
+10-22 20:57:58.308   336  6129 I resolv  : res_nmkquery: (QUERY, IN, AAAA)
+10-22 20:57:58.308   336  6129 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7d6e711d1010
+10-22 20:57:58.309   336  6130 I resolv  : res_nmkquery: (QUERY, IN, A)
+10-22 20:57:58.309   336  6130 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7d6ed11d06d0
+10-22 20:57:58.309   336  6130 I resolv  : doQuery: rcode=0, ancount=8, return value=272
+10-22 20:57:58.309   336  6129 I resolv  : doQuery: rcode=0, ancount=8, return value=368
+10-22 20:57:58.310   999  6119 D TrafficStats: tagSocket(68) with statsTag=0xffffff81, statsUid=-1
+10-22 20:57:58.333   999  6120 D NetworkMonitor/101: PROBE_HTTP http://connectivitycheck.gstatic.com/generate_204 time=38ms ret=204 request={Connection=[close], User-Agent=[Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.32 Safari/537.36]} headers={null=[HTTP/1.1 204 No Content], Connection=[close], Content-Length=[0], Cross-Origin-Resource-Policy=[cross-origin], Date=[Thu, 22 Oct 2026 20:57:58 GMT], X-Android-Received-Millis=[1792702678333], X-Android-Response-Source=[NETWORK 204], X-Android-Selected-Protocol=[http/1.1], X-Android-Sent-Millis=[1792702678320]}
+10-22 20:57:58.344   999  6119 D NetworkMonitor/101: PROBE_HTTPS https://www.google.com/generate_204 time=37ms ret=204 request={Connection=[close], User-Agent=[Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.32 Safari/537.36]} headers={null=[HTTP/1.1 204 No Content], Alt-Svc=[h3=":443"; ma=2592000,h3-29=":443"; ma=2592000], Connection=[close], Content-Length=[0], Cross-Origin-Resource-Policy=[cross-origin], Date=[Thu, 22 Oct 2026 20:57:58 GMT], X-Android-Received-Millis=[1792702678344], X-Android-Response-Source=[NETWORK 204], X-Android-Selected-Protocol=[http/1.1], X-Android-Sent-Millis=[1792702678334]}
+10-22 20:57:58.345   999  6118 D NetworkMonitor/101: isCaptivePortal: isSuccessful()=true isPortal()=false RedirectUrl=null isPartialConnectivity()=false Time=65ms
+10-22 20:57:58.346   520   767 D ConnectivityService: [101 WIFI] validation passed
+10-22 20:57:59.309  4526  4582 D EGL_emulation: app_time_stats: avg=1500.52ms min=1500.52ms max=1500.52ms count=1
+10-22 20:57:59.395  1631  3985 W MediaProvider: isAppCloneUserPair for user 0: false
+10-22 20:57:59.400  1631  3985 I MediaProvider: Open with lower FS for /storage/emulated/0/Download/ii-screens/13_ekran_yeniden_kuruldu.png. Uid: 10192
+10-22 20:57:59.416  5591  5637 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.ipa.base.IpaGcmTaskService started execution. cause:9 exec_start_elapsed_seconds: 175 [CONTEXT service_id=218 ]
+10-22 20:57:59.425   837   907 D SplashScreenView: Build android.window.SplashScreenView{776eded V.E...... ......ID 0,0-0,0}
+10-22 20:57:59.425   837   907 D SplashScreenView: Icon: view: null drawable: null size: 0
+10-22 20:57:59.425   837   907 D SplashScreenView: Branding: view: android.view.View{c6fb422 G.ED..... ......I. 0,0-0,0 #10204ef android:id/splashscreen_branding_view} drawable: null size w: 0 h: 0
+10-22 20:57:59.428  4526  4526 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@426bead in: PAUSED
+10-22 20:57:59.428  4526  4526 V ActivityScenario: Update currentActivityStage to PAUSED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@426bead
+10-22 20:57:59.451  5591  5656 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.ipa.base.IpaGcmTaskService finished executing. cause:9 result: 1 elapsed_millis: 41 uptime_millis: 41 exec_start_elapsed_seconds: 175 [CONTEXT service_id=218 ]
+10-22 20:57:59.453   400   400 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+10-22 20:57:59.468  5591  6136 V NFC     : this device does not have NFC support
+10-22 20:57:59.468  5591  6136 W TapAndPay: NfcAdapter is null while obtaining CardEmulation instance. [CONTEXT service_id=79 ]
+10-22 20:57:59.468  5591  6136 W TapAndPay: java.lang.NullPointerException: NfcAdapter is null
+10-22 20:57:59.468  5591  6136 W TapAndPay: 	at android.nfc.cardemulation.CardEmulation.getInstance(CardEmulation.java:152)
+10-22 20:57:59.468  5591  6136 W TapAndPay: 	at cdoy.<init>(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+10-22 20:57:59.468  5591  6136 W TapAndPay: 	at com.google.android.gms.tapandpay.hce.task.TapAndPayAidRegistrationTaskOperation.a(:com.google.android.gms@231818047@23.18.18 (190800-535401451):5)
+10-22 20:57:59.468  5591  6136 W TapAndPay: 	at com.google.android.gms.tapandpay.gcmtask.TapAndPayGcmTaskChimeraService.a(:com.google.android.gms@231818047@23.18.18 (190800-535401451):4)
+10-22 20:57:59.468  5591  6136 W TapAndPay: 	at avzs.call(:com.google.android.gms@231818047@23.18.18 (190800-535401451):4)
+10-22 20:57:59.468  5591  6136 W TapAndPay: 	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
+10-22 20:57:59.468  5591  6136 W TapAndPay: 	at aced.c(:com.google.android.gms@231818047@23.18.18 (190800-535401451):6)
+10-22 20:57:59.468  5591  6136 W TapAndPay: 	at aced.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):7)
+10-22 20:57:59.468  5591  6136 W TapAndPay: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+10-22 20:57:59.468  5591  6136 W TapAndPay: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+10-22 20:57:59.468  5591  6136 W TapAndPay: 	at acjn.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+10-22 20:57:59.468  5591  6136 W TapAndPay: 	at java.lang.Thread.run(Thread.java:1012)
+10-22 20:57:59.510  5000  5020 W OpenGLRenderer: Failed to initialize 101010-2 format, error = EGL_SUCCESS
+10-22 20:57:59.514  4526  4526 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@426bead in: STOPPED
+10-22 20:57:59.515  4526  4526 V ActivityScenario: Update currentActivityStage to STOPPED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@426bead
+10-22 20:57:59.519  4526  4526 W cr_AwContents: WebView.destroy() called while WebView is still attached to window.
+10-22 20:57:59.522  4526  4526 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@426bead in: DESTROYED
+10-22 20:57:59.522  4526  4526 V ActivityScenario: Update currentActivityStage to DESTROYED, currentActivity=null
+10-22 20:57:59.545  5591  5656 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.tapandpay.gcmtask.TapAndPayGcmTaskService started execution. cause:9 exec_start_elapsed_seconds: 175 [CONTEXT service_id=218 ]
+10-22 20:57:59.546  5591  5656 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.tapandpay.gcmtask.TapAndPayGcmTaskService finished executing. cause:9 result: 3 elapsed_millis: 67 uptime_millis: 67 exec_start_elapsed_seconds: 175 [CONTEXT service_id=218 ]
+10-22 20:57:59.706   520   819 W InputManager-JNI: Input channel object 'e50a838 io.github.avsessisozx.instagramindirici/io.github.avsessisozx.instagramindirici.MainActivity (client)' was disposed without first being removed with the input manager!
+10-22 20:57:59.719   400   400 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+10-22 20:57:59.732  4526  4558 I TestRunner: finished: c5_screenRebuiltDuringCollection(io.github.avsessisozx.instagramindirici.EndToEndTest)

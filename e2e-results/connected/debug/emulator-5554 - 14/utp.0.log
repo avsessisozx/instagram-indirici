@@ -1,0 +1,56 @@
+INFO: Constructing runner from config.
+INFO: Configuring Android Instrumentation driver: android_instrumentation_runtime {
+  instrumentation_info {
+    app_package: "io.github.avsessisozx.instagramindirici"
+    test_package: "io.github.avsessisozx.instagramindirici.test"
+    test_runner_class: "androidx.test.runner.AndroidJUnitRunner"
+  }
+  instrumentation_args {
+    args_map {
+      key: "additionalTestOutputDir"
+      value: "/sdcard/Android/media/io.github.avsessisozx.instagramindirici/additional_test_output"
+    }
+  }
+}
+am_instrument_timeout: 31536000
+
+INFO: Configuring AndroidTestApkInstallerPlugin: apks_to_install {
+  apk_paths: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/apk/debug/app-debug.apk"
+  install_options {
+  }
+  uninstall_after_test: true
+}
+apks_to_install {
+  apk_paths: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk"
+  install_options {
+  }
+  uninstall_after_test: true
+}
+
+INFO: No installables found in test fixture. Nothing to install.
+INFO: Installing [/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/apk/debug/app-debug.apk] on device emulator-5554.
+INFO: Installing [/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk] on device emulator-5554.
+INFO: Start logcat streaming.
+INFO: Running Android Instrumentation driver.
+INFO: Copying files from device to host: /sdcard/Android/media/io.github.avsessisozx.instagramindirici/additional_test_output to /home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected/emulator-5554 - 14
+INFO: Stop logcat streaming.
+INFO: Uninstalling io.github.avsessisozx.instagramindirici for device emulator-5554.
+INFO: Uninstalling io.github.avsessisozx.instagramindirici.test for device emulator-5554.
+INFO: Execute io.github.avsessisozx.instagramindirici.DeviceVectorsTest.naming: PASSED
+INFO: Execute io.github.avsessisozx.instagramindirici.DeviceVectorsTest.finders: PASSED
+INFO: Execute io.github.avsessisozx.instagramindirici.DeviceVectorsTest.links: PASSED
+INFO: Execute io.github.avsessisozx.instagramindirici.DeviceVectorsTest.posts: PASSED
+INFO: Execute io.github.avsessisozx.instagramindirici.DeviceVectorsTest.classify: PASSED
+INFO: Execute io.github.avsessisozx.instagramindirici.EndToEndTest.a1_profileLoggedOutThroughUi: PASSED
+INFO: Execute io.github.avsessisozx.instagramindirici.EndToEndTest.a2_shareMenuFillsLink: PASSED
+INFO: Execute io.github.avsessisozx.instagramindirici.EndToEndTest.a3_englishInterface: PASSED
+INFO: Execute io.github.avsessisozx.instagramindirici.EndToEndTest.b1_loginWindowCanBeHiddenReopenedAndClosed: PASSED
+INFO: Execute io.github.avsessisozx.instagramindirici.EndToEndTest.b2_loginCompletesByItself: PASSED
+INFO: Execute io.github.avsessisozx.instagramindirici.EndToEndTest.c1_fullProfileWithVerification: PASSED
+INFO: Execute io.github.avsessisozx.instagramindirici.EndToEndTest.c2_singleVideoToGallery: PASSED
+INFO: Execute io.github.avsessisozx.instagramindirici.EndToEndTest.c3_sessionEndsThenContinuesFromHistory: PASSED
+INFO: Execute io.github.avsessisozx.instagramindirici.EndToEndTest.c4_stopButton: PASSED
+INFO: Execute io.github.avsessisozx.instagramindirici.EndToEndTest.c5_screenRebuiltDuringCollection: PASSED
+INFO: Execute io.github.avsessisozx.instagramindirici.EndToEndTest.d1_tabsAndHistoryList: PASSED
+INFO: Execute io.github.avsessisozx.instagramindirici.EndToEndTest.d2_wizardOnFreshInstallThenSkips: PASSED
+INFO: Execute io.github.avsessisozx.instagramindirici.EndToEndTest.d3_wizardSkippedForExistingUser: PASSED

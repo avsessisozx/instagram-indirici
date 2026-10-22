@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="io.github.avsessisozx.instagramindirici.TrTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-22T20:54:18.447Z" hostname="runnervm8k3b6" time="0.01">
+  <properties/>
+  <testcase name="languageResolution" classname="io.github.avsessisozx.instagramindirici.TrTest" time="0.005"/>
+  <testcase name="msgJson" classname="io.github.avsessisozx.instagramindirici.TrTest" time="0.0"/>
+  <testcase name="translateAndFallback" classname="io.github.avsessisozx.instagramindirici.TrTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

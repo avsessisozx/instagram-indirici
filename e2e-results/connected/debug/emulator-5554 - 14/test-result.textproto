@@ -1,0 +1,1029 @@
+# proto-message: google.testing.platform.proto.api.core.TestSuiteResult
+# 2026-10-22T20:58:09.330639651Z:
+test_suite_meta_data {
+  scheduled_test_case_count: 18
+  device {
+    id: "emulator-5554"
+    friendly_name: "primary"
+  }
+}
+test_status: PASSED
+test_result {
+  test_case {
+    test_class: "DeviceVectorsTest"
+    test_package: "io.github.avsessisozx.instagramindirici"
+    test_method: "naming"
+    start_time {
+      seconds: 1792702582
+      nanos: 175000000
+    }
+    end_time {
+      seconds: 1792702582
+      nanos: 231000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.DeviceVectorsTest-naming.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "DeviceVectorsTest"
+    test_package: "io.github.avsessisozx.instagramindirici"
+    test_method: "finders"
+    start_time {
+      seconds: 1792702582
+      nanos: 257000000
+    }
+    end_time {
+      seconds: 1792702582
+      nanos: 333000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.DeviceVectorsTest-finders.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "DeviceVectorsTest"
+    test_package: "io.github.avsessisozx.instagramindirici"
+    test_method: "links"
+    start_time {
+      seconds: 1792702582
+      nanos: 337000000
+    }
+    end_time {
+      seconds: 1792702582
+      nanos: 388000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.DeviceVectorsTest-links.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "DeviceVectorsTest"
+    test_package: "io.github.avsessisozx.instagramindirici"
+    test_method: "posts"
+    start_time {
+      seconds: 1792702582
+      nanos: 391000000
+    }
+    end_time {
+      seconds: 1792702582
+      nanos: 871000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.DeviceVectorsTest-posts.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "DeviceVectorsTest"
+    test_package: "io.github.avsessisozx.instagramindirici"
+    test_method: "classify"
+    start_time {
+      seconds: 1792702582
+      nanos: 882000000
+    }
+    end_time {
+      seconds: 1792702582
+      nanos: 910000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.DeviceVectorsTest-classify.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "EndToEndTest"
+    test_package: "io.github.avsessisozx.instagramindirici"
+    test_method: "a1_profileLoggedOutThroughUi"
+    start_time {
+      seconds: 1792702582
+      nanos: 913000000
+    }
+    end_time {
+      seconds: 1792702605
+      nanos: 314000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-a1_profileLoggedOutThroughUi.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "EndToEndTest"
+    test_package: "io.github.avsessisozx.instagramindirici"
+    test_method: "a2_shareMenuFillsLink"
+    start_time {
+      seconds: 1792702605
+      nanos: 346000000
+    }
+    end_time {
+      seconds: 1792702609
+      nanos: 755000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-a2_shareMenuFillsLink.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "EndToEndTest"
+    test_package: "io.github.avsessisozx.instagramindirici"
+    test_method: "a3_englishInterface"
+    start_time {
+      seconds: 1792702609
+      nanos: 758000000
+    }
+    end_time {
+      seconds: 1792702613
+      nanos: 791000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-a3_englishInterface.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "EndToEndTest"
+    test_package: "io.github.avsessisozx.instagramindirici"
+    test_method: "b1_loginWindowCanBeHiddenReopenedAndClosed"
+    start_time {
+      seconds: 1792702613
+      nanos: 795000000
+    }
+    end_time {
+      seconds: 1792702620
+      nanos: 40000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-b1_loginWindowCanBeHiddenReopenedAndClosed.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "EndToEndTest"
+    test_package: "io.github.avsessisozx.instagramindirici"
+    test_method: "b2_loginCompletesByItself"
+    start_time {
+      seconds: 1792702620
+      nanos: 42000000
+    }
+    end_time {
+      seconds: 1792702628
+      nanos: 820000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-b2_loginCompletesByItself.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "EndToEndTest"
+    test_package: "io.github.avsessisozx.instagramindirici"
+    test_method: "c1_fullProfileWithVerification"
+    start_time {
+      seconds: 1792702628
+      nanos: 825000000
+    }
+    end_time {
+      seconds: 1792702642
+      nanos: 813000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-c1_fullProfileWithVerification.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "EndToEndTest"
+    test_package: "io.github.avsessisozx.instagramindirici"
+    test_method: "c2_singleVideoToGallery"
+    start_time {
+      seconds: 1792702642
+      nanos: 843000000
+    }
+    end_time {
+      seconds: 1792702646
+      nanos: 696000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-c2_singleVideoToGallery.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "EndToEndTest"
+    test_package: "io.github.avsessisozx.instagramindirici"
+    test_method: "c3_sessionEndsThenContinuesFromHistory"
+    start_time {
+      seconds: 1792702646
+      nanos: 698000000
+    }
+    end_time {
+      seconds: 1792702663
+      nanos: 396000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-c3_sessionEndsThenContinuesFromHistory.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "EndToEndTest"
+    test_package: "io.github.avsessisozx.instagramindirici"
+    test_method: "c4_stopButton"
+    start_time {
+      seconds: 1792702663
+      nanos: 401000000
+    }
+    end_time {
+      seconds: 1792702668
+      nanos: 901000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-c4_stopButton.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "EndToEndTest"
+    test_package: "io.github.avsessisozx.instagramindirici"
+    test_method: "c5_screenRebuiltDuringCollection"
+    start_time {
+      seconds: 1792702668
+      nanos: 907000000
+    }
+    end_time {
+      seconds: 1792702679
+      nanos: 928000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-c5_screenRebuiltDuringCollection.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "EndToEndTest"
+    test_package: "io.github.avsessisozx.instagramindirici"
+    test_method: "d1_tabsAndHistoryList"
+    start_time {
+      seconds: 1792702679
+      nanos: 931000000
+    }
+    end_time {
+      seconds: 1792702683
+      nanos: 899000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-d1_tabsAndHistoryList.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "EndToEndTest"
+    test_package: "io.github.avsessisozx.instagramindirici"
+    test_method: "d2_wizardOnFreshInstallThenSkips"
+    start_time {
+      seconds: 1792702683
+      nanos: 953000000
+    }
+    end_time {
+      seconds: 1792702686
+      nanos: 391000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-d2_wizardOnFreshInstallThenSkips.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+test_result {
+  test_case {
+    test_class: "EndToEndTest"
+    test_package: "io.github.avsessisozx.instagramindirici"
+    test_method: "d3_wizardSkippedForExistingUser"
+    start_time {
+      seconds: 1792702686
+      nanos: 395000000
+    }
+    end_time {
+      seconds: 1792702687
+      nanos: 355000000
+    }
+    device {
+      id: "emulator-5554"
+      friendly_name: "primary"
+    }
+  }
+  test_status: PASSED
+  output_artifact {
+    label {
+      label: "logcat"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/logcat-io.github.avsessisozx.instagramindirici.EndToEndTest-d3_wizardSkippedForExistingUser.txt"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/device-info.pb"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.meminfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/meminfo"
+    }
+  }
+  output_artifact {
+    label {
+      label: "device-info.cpuinfo"
+      namespace: "android"
+    }
+    source_path {
+      path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/cpuinfo"
+    }
+  }
+}
+output_artifact {
+  label {
+    label: "test-results.log"
+    namespace: "com.google.testing.platform.runtime.android.driver.AndroidInstrumentationDriver"
+  }
+  source_path {
+    path: "/home/runner/work/instagram-indirici/instagram-indirici/android/app/build/outputs/androidTest-results/connected/debug/emulator-5554 - 14/testlog/test-results.log"
+  }
+  type: TEST_DATA
+  mime_type: "text/plain"
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="io.github.avsessisozx.instagramindirici.Mp4MuxTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-22T20:54:18.395Z" hostname="runnervm8k3b6" time="0.014">
+  <properties/>
+  <testcase name="vp9AndAacMatchReferenceByteForByte" classname="io.github.avsessisozx.instagramindirici.Mp4MuxTest" time="0.011"/>
+  <testcase name="videoOnlyWithBFramesMatchesReference" classname="io.github.avsessisozx.instagramindirici.Mp4MuxTest" time="0.003"/>
+  <testcase name="notFragmentedOrGarbageReturnsProblemAndNoFile" classname="io.github.avsessisozx.instagramindirici.Mp4MuxTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
