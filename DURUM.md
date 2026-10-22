@@ -3,7 +3,7 @@
 > Claude'un çalışma notu. Yalnızca `durum` dalında durur; `main`'e, README'ye ve sürüm notlarına girmez.
 > Yeni sohbette önce bunu oku, repoyu baştan tarama. Her sürümden sonra güncelle.
 
-Son güncelleme: 2026-10-20 · Son sürüm: **v1.6.0** (2026-10-20)
+Son güncelleme: 2026-10-22 · Son sürüm: **v1.7.0** (2026-10-22)
 
 ## Ne yapıyor
 Herkese açık Instagram profillerini toplu indirir: gönderiler/reels/albümler, hikayeler, öne çıkanlar,
@@ -27,8 +27,9 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   Doğrulama (challenge) → pencereyi öne getirip kullanıcıyı bekler.
 - Giriş: "Instagram'a giriş yap" pencerede instagram.com/accounts/login açar; `sessionid` çerezi gelince kendisi kapanır.
   Durum `oturum.json`'da (arayüz altında yeşil nokta).
-- Klasör: <kişi>/Fotoğraflar, Videolar, Hikayeler, Öne Çıkanlar/<başlık>, Profil Fotoğrafı (1.1.0'dan beri;
-  1.0.x'in kök klasördeki dosyaları `legacy_stem` ile yeni yerine taşınır).
+- Klasör (v1.7.0): <kişi>/Gönderiler/Fotoğraflar|Videolar|Albümler/<ad>, Reels (ızgaradaki `product_type=clips` da buraya), Öne Çıkanlar/<başlık>,
+  Hikayeler, Profil Fotoğrafı, ops. Yeniden Paylaşımlar / Etiketlenenler, `bilgi.csv`. Eski yerler (kök, Fotoğraflar, Videolar,
+  Gönderiler/Videolar) `legacy_stems` ile yeni yerine taşınır (`engine._files_state` 'legacy').
 - Geçmiş: `history.py`, `<veri>/gecmis.sqlite3`. `downloaded(user_id, key, content)` (hesaptan bağımsız, profil
   kimliğine bağlı) + `progress(user_id, content)`: `newest` (tam tarama bittiyse "sadece yeni" için) ve
   devam imleci (`rest` / `graphql_in` / `graphql_out`). İmleç, sayfadaki tüm gönderiler inince kaydedilir
@@ -139,7 +140,25 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   `HistoryProfilesTest` (JVM) + emülatörde `d1_tabsAndHistoryList`, `d2_wizardOnFreshInstall…`, `d3_wizardSkippedForExistingUser`.
   EndToEndTest `setUp` artık `setupDone = true` ile başlar (yoksa sihirbaz ekran görüntülerini kaplar).
 
+- v1.7.0 (iki platform): kullanıcı @heroiiinya ile denedi: Reels sekmesi inmiyor, öne çıkanlar inmiyor (HTTP 500/api_error),
+  kategorisiz klasör, geçmişte "indi" görünen dosyalar yok. Yapılanlar: Reels ayrı tarama (`browser.collect_tab`: POST
+  `/api/v1/clips/user/` → olmazsa `/<kişi>/reels/` kaydırma yakalama; etiketlenen GET `/api/v1/usertags/{id}/feed/`;
+  yeniden paylaşım yalnız kaydırma), yeni klasör düzeni, uzun açıklama `.txt` (ayar `caption_min`, vars. 300, 0=kapalı),
+  `verify_files` (geçmiş bilinen gönderilerin dosyası diskte mi; açıkken only_new/resume kapanır, tam tarama),
+  `bilgi.csv` (profil başına `;` ayraçlı, UTF-8 BOM), tarih aralığı, duraklat/devam (`/api/pause|resume`), sekme sayaçları,
+  inemeyenler listesi + bir otomatik yeniden deneme + "Tekrar dene", hikaye/öne çıkan/Reels için 429'da bekleyip yeniden deneme
+  (`_with_rate_wait`), HTTP 5xx iki kez yeniden denenir (`INSTAGRAM_INDIRICI_5XX_WAIT`), öne çıkan ve hikaye için sayfa
+  tabanlı yedek (`/stories/highlights/<id>/`, `/stories/<kişi>/`). Android: açıklama `.txt` ve `bilgi.csv` galeriye
+  (DCIM) yazılamaz → `Documents/Instagram/<kişi>/<aynı alt yol>` (`MediaSink.writeText/readText/textExists`);
+  `MediaStoreSink.moveLegacy` gerçek (RELATIVE_PATH güncellenir). Testler: Windows birim 38, uçtan uca 35 (e1–e9 yeni);
+  Android JVM + emülatör yeşil. Sahte sunucuda yeni bayraklar: stories_500, highlights_500, reels_media_fail_n, clips_refused.
+
 ## Yarım / sıradaki
+- v1.7.0 GERÇEK INSTAGRAM'DA DENENMEDİ (buradan erişim yok): Reels `clips/user` POST, `usertags` GET, `/reels|tagged|reposts/` sayfa
+  kaydırma, `/stories/highlights/<id>/` sayfa yedeği yalnız sahte sunucuda sınandı. Kullanıcıdan bakılacak: @heroiiinya'da Reels
+  klasörü Reels sekmesindeki sayıyla uyuşuyor mu, Öne Çıkanlar iniyor mu (Ayrıntılar'da `highlight_from_page` / HTTP 500 satırı),
+  Android'de Documents/Instagram altındaki .txt ve bilgi.csv. Ters giderse rapordaki `reels via=… reason=…` debug satırına bak.
+  Yeniden paylaşımlar yalnız kaydırmayla toplanır (en zayıf yol).
 - v1.6.0 gerçek kullanımda denenmedi (kullanıcıdan bakılacaklar): (1) Windows'ta yeni arayüz Edge `--app` penceresinde nasıl
   görünüyor; (2) Windows'ta "Android telefon"/"Tablet" kimliği gerçek Instagram'da doğrulama istiyor mu (varsayılan Bilgisayar);
   (3) Android'de Geçmiş sekmesi eski kayıtlarda tarihleri doğru gösteriyor mu (eski kayıtta zaman yok → dosya zamanı);
