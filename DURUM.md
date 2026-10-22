@@ -154,6 +154,11 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   Android JVM + emülatör yeşil. Sahte sunucuda yeni bayraklar: stories_500, highlights_500, reels_media_fail_n, clips_refused.
 
 ## Yarım / sıradaki
+- v1.7.0 (düzeltme, aynı sürüm numarası): @vv_sechko raporunda Instagram hız sınırına takıldı (429, "spam" 400) ve öne çıkan liste isteğine yanıt gelmedi;
+  her istek 45 sn + 2 tekrar beklediği için 21 öne çıkan ~40 dk sürdü. Artık `call(..., quick=True)`: 20 sn, tekrarsız; ilk zaman aşımından sonra
+  `api_down` olur, liste yolu bırakılır ve doğrudan `/stories/highlights/<id>/` sayfasına geçilir (Python `highlight_reels`, Kotlin `highlightReels`).
+  Testler: test_e5b (Python), e5b (Kotlin; JvmWeb artık fetch zaman aşımına uyuyor). Hız sınırındayken sayfa yedeği de yavaş (60 sn "Sayfa yavaş açılıyor");
+  bu durumda kullanıcı 1-2 saat dinlendirmeli. Gönderi listesi / Reels doğrulaması hâlâ bekliyor.
 - v1.7.0 GERÇEK INSTAGRAM'DA DENENMEDİ (buradan erişim yok): Reels `clips/user` POST, `usertags` GET, `/reels|tagged|reposts/` sayfa
   kaydırma, `/stories/highlights/<id>/` sayfa yedeği yalnız sahte sunucuda sınandı. Kullanıcıdan bakılacak: @heroiiinya'da Reels
   klasörü Reels sekmesindeki sayıyla uyuşuyor mu, Öne Çıkanlar iniyor mu (Ayrıntılar'da `highlight_from_page` / HTTP 500 satırı),
