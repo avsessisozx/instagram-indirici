@@ -257,7 +257,7 @@ class EngineTest {
             assertEquals(snap.toString(), "done", snap.getString("phase"))
             val keys = e.logKeys()
             assertFalse(keys.toString(), "browser.slow_down" in keys)
-            assertFalse(keys.toString(), "engine.auto_wait" in keys)
+            // (Öne çıkan listesi sayfadan okunamazsa — JVM'de tarayıcı yok — 1.7'den beri bir kez bekleyip yeniden denenir.)
             assertTrue(keys.toString(), "browser.highlights_from_page" in keys)
             assertEquals(1, feedCalls())
             assertEquals(totalPosts + 1, snap.getInt("found_posts"))
