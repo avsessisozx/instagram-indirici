@@ -309,6 +309,7 @@ class FakeInstagram:
         self.rest_refused = False      # REST gönderi listesi hep HTTP 400 "biraz bekle" (gerçek telefonda görüldü)
         self.stories_500 = False       # hikaye listesi isteği hep HTTP 500 (gerçek telefonda görüldü)
         self.highlights_500 = False    # öne çıkan içerik isteği hep HTTP 500
+        self.highlights_hang = 0.0     # öne çıkan içerik isteğine bu kadar saniye geç yanıt verir (zaman aşımı)
         self.reels_media_fail_n = 0    # reels_media ilk bu kadar istekte HTTP 500 döner, sonra düzelir
         self.clips_refused = False     # Reels liste isteği reddedilir (sayfa kaydırma yedeği denenir)
         self.usertags_refused = False  # Etiketlenenler liste isteği reddedilir
@@ -678,6 +679,8 @@ def make_handler(fake: FakeInstagram):
                 if fake.reels_media_fail_n > 0:
                     fake.reels_media_fail_n -= 1
                     return self.json({"message": "Sorry, there was a problem. Please try again.", "status": "fail"}, 500)
+                if fake.highlights_hang and is_hl:
+                    time.sleep(fake.highlights_hang)
                 if (fake.highlights_500 and is_hl) or (fake.stories_500 and not is_hl):
                     return self.json({"message": "Sorry, there was a problem. Please try again.", "status": "fail"}, 500)
                 reels = []

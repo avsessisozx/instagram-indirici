@@ -419,6 +419,23 @@ class EngineTest {
     }
 
     @Test
+    fun e5b_unansweredHighlightListGoesStraightToPages() {
+        login()
+        TestHooks.quickTimeoutMs = 1000
+        try {
+            set("highlights_hang" to 4)
+            val e = engine()
+            val snap = run(e, profile, s = settings(posts = false, stories = false, avatar = false))
+            assertEquals(snap.toString(), "done", snap.getString("phase"))
+            assertTrue("browser.highlight_from_page" in e.logKeys())
+            assertEquals(2, files().count { it.startsWith("$profile/Öne Çıkanlar/Tatil/") })
+        } finally {
+            TestHooks.quickTimeoutMs = null
+            set("highlights_hang" to 0)
+        }
+    }
+
+    @Test
     fun e6_infoCsvIsWrittenOncePerPost() {
         login()
         val e = engine()

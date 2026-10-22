@@ -191,7 +191,8 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
     }
 
     // ------------------------------------------------------------ API
-    private suspend fun rawApi(path: String, params: List<Pair<String, String>>?, form: Map<String, String>?): Triple<RawResponse, Any?, String> {
+    private suspend fun rawApi(path: String, params: List<Pair<String, String>>?, form: Map<String, String>?,
+                               timeoutMs: Long = 45_000): Triple<RawResponse, Any?, String> {
         ensureOnSite()
         var url = if (path.startsWith("http")) path else base + path
         if (!params.isNullOrEmpty()) {
@@ -204,7 +205,7 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
         if (lastCall > 0 && wait > 0) sleep(wait)
         lastCall = System.currentTimeMillis()
         apiCalls++
-        val raw = web.fetch(url, form, 45_000)
+        val raw = web.fetch(url, form, timeoutMs)
         return Triple(raw, parseJsonText(raw.text), url)
     }
 
@@ -213,7 +214,7 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
      * hız sınırında bekleyip tekrar dener; diğerlerinde hemen vazgeçip başka yoldan devam edilir.
      */
     suspend fun call(path: String, params: List<Pair<String, String>>? = null, form: Map<String, String>? = null,
-                     what: String = "", essential: Boolean = false): Any? {
+                     what: String = "", essential: Boolean = false, quick: Boolean = false): Any? {
         val steps = if (essential) backoff() else emptyList()
         if (essential) pace(countsAsPage = what == "feed" || what == "graphql")
         var attempt = 0
@@ -223,12 +224,12 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
         while (true) {
             checkCancel()
             pauseGate()
-            val (res, data, _) = rawApi(path, params, form)
+            val (res, data, _) = rawApi(path, params, form, if (quick) (TestHooks.quickTimeoutMs ?: 20_000) else 45_000)
             val kind = classify(res.status, res.url, data)
             if (kind == "ok") return data
             if (res.status == 0 && kind == "error") {
                 connectionErrors++
-                if (connectionErrors <= 2) {
+                if (connectionErrors <= 2 && !quick) {
                     log("warn", msg("browser.retrying", "detail" to res.error.ifEmpty { "?" }))
                     sleep(5000L * connectionErrors)
                     continue
@@ -757,15 +758,20 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
                                titles: Map<String, String> = emptyMap()): List<Reel> {
         val got = LinkedHashMap<String, Reel>()
         var limited = false
+        var apiDown = false   // Liste isteğine yanıt gelmiyor: bir daha denenmez, doğrudan öne çıkanın sayfasına geçilir
         for (chunk in reelIds.chunked(3)) {
             checkCancel()
+            if (apiDown) break
             val data = try {
-                call("/api/v1/feed/reels_media/", chunk.map { "reel_ids" to it }, what = "highlights", essential = true)
+                call("/api/v1/feed/reels_media/", chunk.map { "reel_ids" to it }, what = "highlights", essential = true, quick = true)
             } catch (e: RateLimited) {
                 limited = true; break
             } catch (e: IgError) {
                 if (e !is ApiError && e !is NotFound) throw e
-                debug("highlights chunk: ${(e as? ApiError)?.detail ?: e.m.key}"); null
+                val detail = (e as? ApiError)?.detail ?: e.m.key
+                debug("highlights chunk: $detail")
+                if (detail.endsWith("timeout")) apiDown = true
+                null
             }
             for (reel in reelsFrom(data)) {
                 val r = reelEntry(reel)
@@ -779,18 +785,22 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
             if (entry != null && entry.items.isNotEmpty() && entry.items.size >= want) continue
             if (!limited) {
                 try {
-                    val data = call("/api/v1/feed/reels_media/", listOf("reel_ids" to rid), what = "highlights", essential = true)
-                    for (reel in reelsFrom(data)) {
-                        val single = reelEntry(reel)
-                        if (single.id == rid && (entry == null || single.items.size > entry.items.size)) {
-                            got[rid] = single; entry = single
+                    if (!apiDown) {
+                        val data = call("/api/v1/feed/reels_media/", listOf("reel_ids" to rid), what = "highlights", essential = true, quick = true)
+                        for (reel in reelsFrom(data)) {
+                            val single = reelEntry(reel)
+                            if (single.id == rid && (entry == null || single.items.size > entry.items.size)) {
+                                got[rid] = single; entry = single
+                            }
                         }
                     }
                 } catch (e: RateLimited) {
                     limited = true
                 } catch (e: IgError) {
                     if (e !is ApiError && e !is NotFound) throw e
-                    debug("highlight $rid: ${(e as? ApiError)?.detail ?: e.m.key}")
+                    val detail = (e as? ApiError)?.detail ?: e.m.key
+                    debug("highlight $rid: $detail")
+                    if (detail.endsWith("timeout")) apiDown = true
                 }
             }
             if ((entry == null || entry.items.isEmpty()) && !limited) {

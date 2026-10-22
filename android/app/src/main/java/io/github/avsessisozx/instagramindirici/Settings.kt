@@ -130,6 +130,8 @@ object TestHooks {
     /** İstekler arası bekleme (ms): alt-üst sınır. */
     @Volatile var delayMs: LongRange? = null
     @Volatile var backoffSeconds: List<Long>? = null
+    /** Hızlı (tek denemelik) isteklerin zaman aşımı (ms). */
+    @Volatile var quickTimeoutMs: Long? = null
     /** Liste sayfaları arası ek bekleme (ms): alt-üst sınır. */
     @Volatile var pageDelayMs: LongRange? = null
     /** Mola: her kaç liste sayfasında, kaç ms (0 = kapalı). */

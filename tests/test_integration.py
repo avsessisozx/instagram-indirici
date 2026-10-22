@@ -573,6 +573,21 @@ class IntegrationTests(unittest.TestCase):
         files = self.files(out)
         self.assertEqual(len([f for f in files if f.startswith(f"{fi.PROFILE_OK}/Öne Çıkanlar/Tatil/")]), 2, files)
 
+    def test_e5b_unanswered_highlight_list_goes_straight_to_pages(self):
+        """Raporda görülen: liste isteğine yanıt gelmiyor; her öne çıkan için dakikalarca beklenmemeli."""
+        self.ensure_login()
+        os.environ["INSTAGRAM_INDIRICI_QUICK_TIMEOUT"] = "1"
+        try:
+            self.fake.highlights_hang = 4.0
+            snap, out = self.run_job(fi.PROFILE_OK, "profile", posts=False, stories=False, avatar=False)
+        finally:
+            os.environ.pop("INSTAGRAM_INDIRICI_QUICK_TIMEOUT", None)
+            self.fake.highlights_hang = 0.0
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertIn("browser.highlight_from_page", self.keys(snap))
+        files = self.files(out)
+        self.assertEqual(len([f for f in files if f.startswith(f"{fi.PROFILE_OK}/Öne Çıkanlar/Tatil/")]), 2, files)
+
     def test_e6_short_http_500_is_retried(self):
         self.ensure_login()
         os.environ["INSTAGRAM_INDIRICI_5XX_WAIT"] = "0"

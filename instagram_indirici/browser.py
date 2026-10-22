@@ -550,8 +550,11 @@ class InstagramBrowser:
                          text, parse_json_text(text), str(raw.get("error") or ""))
 
     async def call(self, path: str, *, params: Optional[List[Tuple[str, str]]] = None,
-                   form: Optional[Dict[str, str]] = None, what: str = "", essential: bool = False) -> Any:
+                   form: Optional[Dict[str, str]] = None, what: str = "", essential: bool = False,
+                   quick: bool = False) -> Any:
         """API çağrısı: doğrulama isterse kullanıcıyı bekler.
+
+        quick=True: yanıt gelmezse 20 sn sonra vazgeçer ve aynı isteği tekrar denemez (başka yol varsa).
 
         Instagram bazı adresleri (ör. profil bilgisi) bazı oturumlara hiç vermiyor ve bunu "biraz bekle"
         diye söylüyor. Bu yüzden sadece vazgeçilmez çağrılarda (gönderi listesi) beklenip tekrar denenir;
@@ -568,7 +571,7 @@ class InstagramBrowser:
         while True:
             self._check_cancel()
             await self.pause_gate()
-            res = await self._raw_api(path, params=params, form=form)
+            res = await self._raw_api(path, params=params, form=form, timeout=float(os.environ.get("INSTAGRAM_INDIRICI_QUICK_TIMEOUT", "20")) if quick else 45)
             kind = classify(res)
             if os.environ.get("INSTAGRAM_INDIRICI_DEBUG"):
                 self.log("debug", f"API {path} -> {res.status} {kind} {res.text[:200]!r}")
@@ -576,7 +579,7 @@ class InstagramBrowser:
                 return res.data
             if res.status == 0 and kind == "error":
                 connection_errors += 1
-                if connection_errors <= 2:
+                if connection_errors <= 2 and not quick:
                     self.log("warn", msg("browser.retrying", detail=res.error or "?"))
                     await self._sleep(5 * connection_errors)
                     continue
@@ -1325,14 +1328,20 @@ class InstagramBrowser:
         got: Dict[str, Dict[str, Any]] = {}
         order = list(reel_ids)
         limited = False
+        api_down = False   # Liste isteğine yanıt gelmiyor: bir daha denenmez, doğrudan öne çıkanın sayfasına geçilir
         for start in range(0, len(order), 3):
             self._check_cancel()
+            if api_down:
+                break
             chunk = order[start:start + 3]
             try:
                 data = await self.call("/api/v1/feed/reels_media/", params=[("reel_ids", r) for r in chunk],
-                                       what="highlights", essential=True)
+                                       what="highlights", essential=True, quick=True)
             except (ApiError, NotFound) as exc:
-                self.log("debug", f"highlights chunk: {getattr(exc, 'detail', '') or exc.message.key}")
+                detail = getattr(exc, 'detail', '') or exc.message.key
+                self.log("debug", f"highlights chunk: {detail}")
+                if str(detail).endswith("timeout"):
+                    api_down = True
                 data = None
             except RateLimited:
                 limited = True   # Instagram durdurdu: kalanları zorlamadan bırak
@@ -1353,14 +1362,20 @@ class InstagramBrowser:
                     failed.append(rid)
                 continue
             try:
+                if api_down:
+                    raise NotFound()
                 data = await self.call("/api/v1/feed/reels_media/", params=[("reel_ids", rid)],
-                                       what="highlights", essential=True)
+                                       what="highlights", essential=True, quick=True)
                 for reel in self._reels_from(data):
                     single = self._reel_entry(reel)
                     if single["id"] == rid and (entry is None or len(single["items"]) > len(entry["items"])):
                         got[rid] = entry = single
             except (ApiError, NotFound) as exc:
-                self.log("debug", f"highlight {rid}: {getattr(exc, 'detail', '') or exc.message.key}")
+                detail = getattr(exc, 'detail', '') or exc.message.key
+                if not api_down:
+                    self.log("debug", f"highlight {rid}: {detail}")
+                if str(detail).endswith("timeout"):
+                    api_down = True
             except RateLimited:
                 limited = True
             if (entry is None or not entry["items"]) and not limited:
