@@ -235,7 +235,7 @@ class Data:
         """Yalnız Reels sekmesinde görünen (profil ızgarasında olmayan) klipler."""
         out = []
         for n in range(5):
-            item = self._post(username, 100 + n)
+            item = self._post(username, 150 + n)
             item["media_type"] = 2
             item["product_type"] = "clips"
             item["video_versions"] = self._videos(int(item["pk"]))
@@ -254,7 +254,7 @@ class Data:
         """Etiketlenenler: başkasının gönderileri."""
         if username != PROFILE_OK:
             return []
-        return [self._post(PROFILE_EMPTY, 200 + n) for n in range(3)]
+        return [self._post(PROFILE_EMPTY, 202 + n - 2) for n in range(3)]
 
     def reposts(self, username: str) -> List[Dict[str, Any]]:
         if username != PROFILE_OK:

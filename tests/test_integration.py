@@ -608,7 +608,7 @@ class IntegrationTests(unittest.TestCase):
                                  highlights=False, avatar=False)
         self.assertEqual(snap["phase"], "done", snap["summary"])
         files = self.files(out)
-        self.assertEqual(len([f for f in files if "/Etiketlenenler/" in f]), 3, files)
+        self.assertEqual(len([f for f in files if "/Etiketlenenler/" in f]), 5, files)
         self.assertEqual(len([f for f in files if "/Yeniden Paylaşımlar/" in f]), 2, files)
 
 
