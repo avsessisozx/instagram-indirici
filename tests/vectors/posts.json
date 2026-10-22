@@ -43,14 +43,19 @@
   "name": "pinned",
   "results": [
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0aM",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2024-09-04_gonderi_C8vOfxsY0aM",
-      "rel_stem": "Fotoğraflar/2024-09-04_gonderi_C8vOfxsY0aM",
+      "legacy_stems": [
+       "Fotoğraflar/2024-09-04_gonderi_C8vOfxsY0aM",
+       "2024-09-04_gonderi_C8vOfxsY0aM"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2024-09-04_gonderi_C8vOfxsY0aM",
       "urls": [
        "https://cdn.test/cdn/3400000000001001100_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001100_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -59,34 +64,47 @@
      }
     ],
     "key": "C8vOfxsY0aM",
+    "likes": 110,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0aM/",
     "pinned": true,
+    "section": "posts",
     "skipped": null,
     "stem": "2024-09-04_gonderi_C8vOfxsY0aM",
     "taken_at": 1725440000,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0aM",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "C8vOfxsY0aM",
+    "likes": 110,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0aM/",
     "pinned": true,
+    "section": "posts",
     "skipped": "skip.video_only",
     "stem": "2024-09-04_gonderi_C8vOfxsY0aM",
     "taken_at": 1725440000,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0aM",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2024-09-04_gonderi_C8vOfxsY0aM",
-      "rel_stem": "Fotoğraflar/2024-09-04_gonderi_C8vOfxsY0aM",
+      "legacy_stems": [
+       "Fotoğraflar/2024-09-04_gonderi_C8vOfxsY0aM",
+       "2024-09-04_gonderi_C8vOfxsY0aM"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2024-09-04_gonderi_C8vOfxsY0aM",
       "urls": [
        "https://cdn.test/cdn/3400000000001001100_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001100_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -95,8 +113,11 @@
      }
     ],
     "key": "C8vOfxsY0aM",
+    "likes": 110,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0aM/",
     "pinned": true,
+    "section": "posts",
     "skipped": null,
     "stem": "2024-09-04_gonderi_C8vOfxsY0aM",
     "taken_at": 1725440000,
@@ -143,6 +164,7 @@
      "username": "sahte.kisi"
     }
    ],
+   "product_type": "feed",
    "shortcode": "C8vOfxsY0aM",
    "taken_at_timestamp": 1725440000
   },
@@ -150,14 +172,19 @@
   "name": "pinned_graphql",
   "results": [
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0aM",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2024-09-04_gonderi_C8vOfxsY0aM",
-      "rel_stem": "Fotoğraflar/2024-09-04_gonderi_C8vOfxsY0aM",
+      "legacy_stems": [
+       "Fotoğraflar/2024-09-04_gonderi_C8vOfxsY0aM",
+       "2024-09-04_gonderi_C8vOfxsY0aM"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2024-09-04_gonderi_C8vOfxsY0aM",
       "urls": [
        "https://cdn.test/cdn/3400000000001001100_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001100_150.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
@@ -165,34 +192,47 @@
      }
     ],
     "key": "C8vOfxsY0aM",
+    "likes": 110,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0aM/",
     "pinned": true,
+    "section": "posts",
     "skipped": null,
     "stem": "2024-09-04_gonderi_C8vOfxsY0aM",
     "taken_at": 1725440000,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0aM",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "C8vOfxsY0aM",
+    "likes": 110,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0aM/",
     "pinned": true,
+    "section": "posts",
     "skipped": "skip.video_only",
     "stem": "2024-09-04_gonderi_C8vOfxsY0aM",
     "taken_at": 1725440000,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0aM",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2024-09-04_gonderi_C8vOfxsY0aM",
-      "rel_stem": "Fotoğraflar/2024-09-04_gonderi_C8vOfxsY0aM",
+      "legacy_stems": [
+       "Fotoğraflar/2024-09-04_gonderi_C8vOfxsY0aM",
+       "2024-09-04_gonderi_C8vOfxsY0aM"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2024-09-04_gonderi_C8vOfxsY0aM",
       "urls": [
        "https://cdn.test/cdn/3400000000001001100_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001100_150.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
@@ -200,8 +240,11 @@
      }
     ],
     "key": "C8vOfxsY0aM",
+    "likes": 110,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0aM/",
     "pinned": true,
+    "section": "posts",
     "skipped": null,
     "stem": "2024-09-04_gonderi_C8vOfxsY0aM",
     "taken_at": 1725440000,
@@ -251,14 +294,19 @@
   "name": "i0",
   "results": [
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0Yo",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-09_gonderi_C8vOfxsY0Yo",
-      "rel_stem": "Fotoğraflar/2025-10-09_gonderi_C8vOfxsY0Yo",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-09_gonderi_C8vOfxsY0Yo",
+       "2025-10-09_gonderi_C8vOfxsY0Yo"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-10-09_gonderi_C8vOfxsY0Yo",
       "urls": [
        "https://cdn.test/cdn/3400000000001001000_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001000_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -267,34 +315,47 @@
      }
     ],
     "key": "C8vOfxsY0Yo",
+    "likes": 10,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yo/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-09_gonderi_C8vOfxsY0Yo",
     "taken_at": 1760000000,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0Yo",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "C8vOfxsY0Yo",
+    "likes": 10,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yo/",
     "pinned": false,
+    "section": "posts",
     "skipped": "skip.video_only",
     "stem": "2025-10-09_gonderi_C8vOfxsY0Yo",
     "taken_at": 1760000000,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0Yo",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-09_gonderi_C8vOfxsY0Yo",
-      "rel_stem": "Fotoğraflar/2025-10-09_gonderi_C8vOfxsY0Yo",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-09_gonderi_C8vOfxsY0Yo",
+       "2025-10-09_gonderi_C8vOfxsY0Yo"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-10-09_gonderi_C8vOfxsY0Yo",
       "urls": [
        "https://cdn.test/cdn/3400000000001001000_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001000_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -303,8 +364,11 @@
      }
     ],
     "key": "C8vOfxsY0Yo",
+    "likes": 10,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yo/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-09_gonderi_C8vOfxsY0Yo",
     "taken_at": 1760000000,
@@ -345,6 +409,7 @@
     "id": "1001",
     "username": "sahte.kisi"
    },
+   "product_type": "feed",
    "shortcode": "C8vOfxsY0Yo",
    "taken_at_timestamp": 1760000000
   },
@@ -352,14 +417,19 @@
   "name": "i0_graphql",
   "results": [
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0Yo",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-09_gonderi_C8vOfxsY0Yo",
-      "rel_stem": "Fotoğraflar/2025-10-09_gonderi_C8vOfxsY0Yo",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-09_gonderi_C8vOfxsY0Yo",
+       "2025-10-09_gonderi_C8vOfxsY0Yo"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-10-09_gonderi_C8vOfxsY0Yo",
       "urls": [
        "https://cdn.test/cdn/3400000000001001000_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001000_150.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
@@ -367,34 +437,47 @@
      }
     ],
     "key": "C8vOfxsY0Yo",
+    "likes": 10,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yo/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-09_gonderi_C8vOfxsY0Yo",
     "taken_at": 1760000000,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0Yo",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "C8vOfxsY0Yo",
+    "likes": 10,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yo/",
     "pinned": false,
+    "section": "posts",
     "skipped": "skip.video_only",
     "stem": "2025-10-09_gonderi_C8vOfxsY0Yo",
     "taken_at": 1760000000,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0Yo",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-09_gonderi_C8vOfxsY0Yo",
-      "rel_stem": "Fotoğraflar/2025-10-09_gonderi_C8vOfxsY0Yo",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-09_gonderi_C8vOfxsY0Yo",
+       "2025-10-09_gonderi_C8vOfxsY0Yo"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-10-09_gonderi_C8vOfxsY0Yo",
       "urls": [
        "https://cdn.test/cdn/3400000000001001000_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001000_150.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
@@ -402,8 +485,11 @@
      }
     ],
     "key": "C8vOfxsY0Yo",
+    "likes": 10,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yo/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-09_gonderi_C8vOfxsY0Yo",
     "taken_at": 1760000000,
@@ -475,14 +561,20 @@
   "name": "i1",
   "results": [
    {
+    "caption_stem": "Reels/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
     "code": "C8vOfxsY0Yp",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": ".mp4",
       "kind": "video",
-      "legacy_stem": "2025-10-08_Gönderi 1_C8vOfxsY0Yp",
-      "rel_stem": "Videolar/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
+      "legacy_stems": [
+       "Gönderiler/Videolar/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
+       "Videolar/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
+       "2025-10-08_Gönderi 1_C8vOfxsY0Yp"
+      ],
+      "rel_stem": "Reels/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
       "urls": [
        "https://cdn.test/cdn/3400000000001001001_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001001_720.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -491,22 +583,31 @@
      }
     ],
     "key": "C8vOfxsY0Yp",
+    "likes": 11,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/reel/C8vOfxsY0Yp/",
     "pinned": false,
+    "section": "reels",
     "skipped": null,
     "stem": "2025-10-08_Gönderi 1_C8vOfxsY0Yp",
     "taken_at": 1759913600,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Reels/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
     "code": "C8vOfxsY0Yp",
+    "comments": 0,
     "content": "video",
     "files": [
      {
       "ext": ".mp4",
       "kind": "video",
-      "legacy_stem": "2025-10-08_Gönderi 1_C8vOfxsY0Yp",
-      "rel_stem": "Videolar/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
+      "legacy_stems": [
+       "Gönderiler/Videolar/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
+       "Videolar/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
+       "2025-10-08_Gönderi 1_C8vOfxsY0Yp"
+      ],
+      "rel_stem": "Reels/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
       "urls": [
        "https://cdn.test/cdn/3400000000001001001_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001001_720.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -515,20 +616,28 @@
      }
     ],
     "key": "C8vOfxsY0Yp",
+    "likes": 11,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/reel/C8vOfxsY0Yp/",
     "pinned": false,
+    "section": "reels",
     "skipped": null,
     "stem": "2025-10-08_Gönderi 1_C8vOfxsY0Yp",
     "taken_at": 1759913600,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Reels/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
     "code": "C8vOfxsY0Yp",
+    "comments": 0,
     "content": "image",
     "files": [],
     "key": "C8vOfxsY0Yp",
+    "likes": 11,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/reel/C8vOfxsY0Yp/",
     "pinned": false,
+    "section": "reels",
     "skipped": "skip.image_only",
     "stem": "2025-10-08_Gönderi 1_C8vOfxsY0Yp",
     "taken_at": 1759913600,
@@ -575,6 +684,7 @@
     "id": "1001",
     "username": "sahte.kisi"
    },
+   "product_type": "clips",
    "shortcode": "C8vOfxsY0Yp",
    "taken_at_timestamp": 1759913600,
    "video_url": "https://cdn.test/cdn/3400000000001001001_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
@@ -583,56 +693,79 @@
   "name": "i1_graphql",
   "results": [
    {
+    "caption_stem": "Reels/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
     "code": "C8vOfxsY0Yp",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": ".mp4",
       "kind": "video",
-      "legacy_stem": "2025-10-08_Gönderi 1_C8vOfxsY0Yp",
-      "rel_stem": "Videolar/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
+      "legacy_stems": [
+       "Gönderiler/Videolar/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
+       "Videolar/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
+       "2025-10-08_Gönderi 1_C8vOfxsY0Yp"
+      ],
+      "rel_stem": "Reels/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
       "urls": [
        "https://cdn.test/cdn/3400000000001001001_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
       ]
      }
     ],
     "key": "C8vOfxsY0Yp",
+    "likes": 11,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/reel/C8vOfxsY0Yp/",
     "pinned": false,
+    "section": "reels",
     "skipped": null,
     "stem": "2025-10-08_Gönderi 1_C8vOfxsY0Yp",
     "taken_at": 1759913600,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Reels/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
     "code": "C8vOfxsY0Yp",
+    "comments": 0,
     "content": "video",
     "files": [
      {
       "ext": ".mp4",
       "kind": "video",
-      "legacy_stem": "2025-10-08_Gönderi 1_C8vOfxsY0Yp",
-      "rel_stem": "Videolar/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
+      "legacy_stems": [
+       "Gönderiler/Videolar/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
+       "Videolar/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
+       "2025-10-08_Gönderi 1_C8vOfxsY0Yp"
+      ],
+      "rel_stem": "Reels/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
       "urls": [
        "https://cdn.test/cdn/3400000000001001001_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
       ]
      }
     ],
     "key": "C8vOfxsY0Yp",
+    "likes": 11,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/reel/C8vOfxsY0Yp/",
     "pinned": false,
+    "section": "reels",
     "skipped": null,
     "stem": "2025-10-08_Gönderi 1_C8vOfxsY0Yp",
     "taken_at": 1759913600,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Reels/2025-10-08_Gönderi 1_C8vOfxsY0Yp",
     "code": "C8vOfxsY0Yp",
+    "comments": 0,
     "content": "image",
     "files": [],
     "key": "C8vOfxsY0Yp",
+    "likes": 11,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/reel/C8vOfxsY0Yp/",
     "pinned": false,
+    "section": "reels",
     "skipped": "skip.image_only",
     "stem": "2025-10-08_Gönderi 1_C8vOfxsY0Yp",
     "taken_at": 1759913600,
@@ -779,14 +912,19 @@
   "name": "i2",
   "results": [
    {
+    "caption_stem": "Gönderiler/Albümler/2025-10-07_Gönderi 2_C8vOfxsY0Yq/2025-10-07_Gönderi 2_C8vOfxsY0Yq",
     "code": "C8vOfxsY0Yq",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-07_Gönderi 2_C8vOfxsY0Yq_01",
-      "rel_stem": "Fotoğraflar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_01",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_01",
+       "2025-10-07_Gönderi 2_C8vOfxsY0Yq_01"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-07_Gönderi 2_C8vOfxsY0Yq/2025-10-07_Gönderi 2_C8vOfxsY0Yq_01",
       "urls": [
        "https://cdn.test/cdn/34000000000010010020_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/34000000000010010020_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -796,8 +934,11 @@
      {
       "ext": ".mp4",
       "kind": "video",
-      "legacy_stem": "2025-10-07_Gönderi 2_C8vOfxsY0Yq_02",
-      "rel_stem": "Videolar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_02",
+      "legacy_stems": [
+       "Videolar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_02",
+       "2025-10-07_Gönderi 2_C8vOfxsY0Yq_02"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-07_Gönderi 2_C8vOfxsY0Yq/2025-10-07_Gönderi 2_C8vOfxsY0Yq_02",
       "urls": [
        "https://cdn.test/cdn/34000000000010010021_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/34000000000010010021_720.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -807,8 +948,11 @@
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-07_Gönderi 2_C8vOfxsY0Yq_03",
-      "rel_stem": "Fotoğraflar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_03",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_03",
+       "2025-10-07_Gönderi 2_C8vOfxsY0Yq_03"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-07_Gönderi 2_C8vOfxsY0Yq/2025-10-07_Gönderi 2_C8vOfxsY0Yq_03",
       "urls": [
        "https://cdn.test/cdn/34000000000010010022_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/34000000000010010022_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -817,22 +961,30 @@
      }
     ],
     "key": "C8vOfxsY0Yq",
+    "likes": 12,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yq/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-07_Gönderi 2_C8vOfxsY0Yq",
     "taken_at": 1759827200,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Albümler/2025-10-07_Gönderi 2_C8vOfxsY0Yq/2025-10-07_Gönderi 2_C8vOfxsY0Yq",
     "code": "C8vOfxsY0Yq",
+    "comments": 0,
     "content": "video",
     "files": [
      {
       "ext": ".mp4",
       "kind": "video",
-      "legacy_stem": "2025-10-07_Gönderi 2_C8vOfxsY0Yq_02",
-      "rel_stem": "Videolar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_02",
+      "legacy_stems": [
+       "Videolar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_02",
+       "2025-10-07_Gönderi 2_C8vOfxsY0Yq_02"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-07_Gönderi 2_C8vOfxsY0Yq/2025-10-07_Gönderi 2_C8vOfxsY0Yq_02",
       "urls": [
        "https://cdn.test/cdn/34000000000010010021_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/34000000000010010021_720.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -841,22 +993,30 @@
      }
     ],
     "key": "C8vOfxsY0Yq",
+    "likes": 12,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yq/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-07_Gönderi 2_C8vOfxsY0Yq",
     "taken_at": 1759827200,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Albümler/2025-10-07_Gönderi 2_C8vOfxsY0Yq/2025-10-07_Gönderi 2_C8vOfxsY0Yq",
     "code": "C8vOfxsY0Yq",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-07_Gönderi 2_C8vOfxsY0Yq_01",
-      "rel_stem": "Fotoğraflar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_01",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_01",
+       "2025-10-07_Gönderi 2_C8vOfxsY0Yq_01"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-07_Gönderi 2_C8vOfxsY0Yq/2025-10-07_Gönderi 2_C8vOfxsY0Yq_01",
       "urls": [
        "https://cdn.test/cdn/34000000000010010020_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/34000000000010010020_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -866,8 +1026,11 @@
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-07_Gönderi 2_C8vOfxsY0Yq_03",
-      "rel_stem": "Fotoğraflar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_03",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_03",
+       "2025-10-07_Gönderi 2_C8vOfxsY0Yq_03"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-07_Gönderi 2_C8vOfxsY0Yq/2025-10-07_Gönderi 2_C8vOfxsY0Yq_03",
       "urls": [
        "https://cdn.test/cdn/34000000000010010022_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/34000000000010010022_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -876,8 +1039,11 @@
      }
     ],
     "key": "C8vOfxsY0Yq",
+    "likes": 12,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yq/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-07_Gönderi 2_C8vOfxsY0Yq",
     "taken_at": 1759827200,
@@ -968,6 +1134,7 @@
     "id": "1001",
     "username": "sahte.kisi"
    },
+   "product_type": "carousel_container",
    "shortcode": "C8vOfxsY0Yq",
    "taken_at_timestamp": 1759827200
   },
@@ -975,14 +1142,19 @@
   "name": "i2_graphql",
   "results": [
    {
+    "caption_stem": "Gönderiler/Albümler/2025-10-07_Gönderi 2_C8vOfxsY0Yq/2025-10-07_Gönderi 2_C8vOfxsY0Yq",
     "code": "C8vOfxsY0Yq",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-07_Gönderi 2_C8vOfxsY0Yq_01",
-      "rel_stem": "Fotoğraflar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_01",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_01",
+       "2025-10-07_Gönderi 2_C8vOfxsY0Yq_01"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-07_Gönderi 2_C8vOfxsY0Yq/2025-10-07_Gönderi 2_C8vOfxsY0Yq_01",
       "urls": [
        "https://cdn.test/cdn/34000000000010010020_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
       ]
@@ -990,8 +1162,11 @@
      {
       "ext": ".mp4",
       "kind": "video",
-      "legacy_stem": "2025-10-07_Gönderi 2_C8vOfxsY0Yq_02",
-      "rel_stem": "Videolar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_02",
+      "legacy_stems": [
+       "Videolar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_02",
+       "2025-10-07_Gönderi 2_C8vOfxsY0Yq_02"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-07_Gönderi 2_C8vOfxsY0Yq/2025-10-07_Gönderi 2_C8vOfxsY0Yq_02",
       "urls": [
        "https://cdn.test/cdn/34000000000010010021_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
       ]
@@ -999,52 +1174,71 @@
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-07_Gönderi 2_C8vOfxsY0Yq_03",
-      "rel_stem": "Fotoğraflar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_03",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_03",
+       "2025-10-07_Gönderi 2_C8vOfxsY0Yq_03"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-07_Gönderi 2_C8vOfxsY0Yq/2025-10-07_Gönderi 2_C8vOfxsY0Yq_03",
       "urls": [
        "https://cdn.test/cdn/34000000000010010022_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
       ]
      }
     ],
     "key": "C8vOfxsY0Yq",
+    "likes": 12,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yq/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-07_Gönderi 2_C8vOfxsY0Yq",
     "taken_at": 1759827200,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Albümler/2025-10-07_Gönderi 2_C8vOfxsY0Yq/2025-10-07_Gönderi 2_C8vOfxsY0Yq",
     "code": "C8vOfxsY0Yq",
+    "comments": 0,
     "content": "video",
     "files": [
      {
       "ext": ".mp4",
       "kind": "video",
-      "legacy_stem": "2025-10-07_Gönderi 2_C8vOfxsY0Yq_02",
-      "rel_stem": "Videolar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_02",
+      "legacy_stems": [
+       "Videolar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_02",
+       "2025-10-07_Gönderi 2_C8vOfxsY0Yq_02"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-07_Gönderi 2_C8vOfxsY0Yq/2025-10-07_Gönderi 2_C8vOfxsY0Yq_02",
       "urls": [
        "https://cdn.test/cdn/34000000000010010021_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
       ]
      }
     ],
     "key": "C8vOfxsY0Yq",
+    "likes": 12,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yq/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-07_Gönderi 2_C8vOfxsY0Yq",
     "taken_at": 1759827200,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Albümler/2025-10-07_Gönderi 2_C8vOfxsY0Yq/2025-10-07_Gönderi 2_C8vOfxsY0Yq",
     "code": "C8vOfxsY0Yq",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-07_Gönderi 2_C8vOfxsY0Yq_01",
-      "rel_stem": "Fotoğraflar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_01",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_01",
+       "2025-10-07_Gönderi 2_C8vOfxsY0Yq_01"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-07_Gönderi 2_C8vOfxsY0Yq/2025-10-07_Gönderi 2_C8vOfxsY0Yq_01",
       "urls": [
        "https://cdn.test/cdn/34000000000010010020_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
       ]
@@ -1052,16 +1246,22 @@
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-07_Gönderi 2_C8vOfxsY0Yq_03",
-      "rel_stem": "Fotoğraflar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_03",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-07_Gönderi 2_C8vOfxsY0Yq_03",
+       "2025-10-07_Gönderi 2_C8vOfxsY0Yq_03"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-07_Gönderi 2_C8vOfxsY0Yq/2025-10-07_Gönderi 2_C8vOfxsY0Yq_03",
       "urls": [
        "https://cdn.test/cdn/34000000000010010022_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
       ]
      }
     ],
     "key": "C8vOfxsY0Yq",
+    "likes": 12,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yq/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-07_Gönderi 2_C8vOfxsY0Yq",
     "taken_at": 1759827200,
@@ -1113,14 +1313,19 @@
   "name": "i3",
   "results": [
    {
+    "caption_stem": "Gönderiler/Fotoğraflar/2025-10-06_Gönderi 3_C8vOfxsY0Yr",
     "code": "C8vOfxsY0Yr",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-06_Gönderi 3_C8vOfxsY0Yr",
-      "rel_stem": "Fotoğraflar/2025-10-06_Gönderi 3_C8vOfxsY0Yr",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-06_Gönderi 3_C8vOfxsY0Yr",
+       "2025-10-06_Gönderi 3_C8vOfxsY0Yr"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-10-06_Gönderi 3_C8vOfxsY0Yr",
       "urls": [
        "https://cdn.test/cdn/3400000000001001003_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001003_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -1129,34 +1334,47 @@
      }
     ],
     "key": "C8vOfxsY0Yr",
+    "likes": 13,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yr/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-06_Gönderi 3_C8vOfxsY0Yr",
     "taken_at": 1759740800,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Fotoğraflar/2025-10-06_Gönderi 3_C8vOfxsY0Yr",
     "code": "C8vOfxsY0Yr",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "C8vOfxsY0Yr",
+    "likes": 13,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yr/",
     "pinned": false,
+    "section": "posts",
     "skipped": "skip.video_only",
     "stem": "2025-10-06_Gönderi 3_C8vOfxsY0Yr",
     "taken_at": 1759740800,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Fotoğraflar/2025-10-06_Gönderi 3_C8vOfxsY0Yr",
     "code": "C8vOfxsY0Yr",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-06_Gönderi 3_C8vOfxsY0Yr",
-      "rel_stem": "Fotoğraflar/2025-10-06_Gönderi 3_C8vOfxsY0Yr",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-06_Gönderi 3_C8vOfxsY0Yr",
+       "2025-10-06_Gönderi 3_C8vOfxsY0Yr"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-10-06_Gönderi 3_C8vOfxsY0Yr",
       "urls": [
        "https://cdn.test/cdn/3400000000001001003_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001003_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -1165,8 +1383,11 @@
      }
     ],
     "key": "C8vOfxsY0Yr",
+    "likes": 13,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yr/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-06_Gönderi 3_C8vOfxsY0Yr",
     "taken_at": 1759740800,
@@ -1213,6 +1434,7 @@
     "id": "1001",
     "username": "sahte.kisi"
    },
+   "product_type": "feed",
    "shortcode": "C8vOfxsY0Yr",
    "taken_at_timestamp": 1759740800
   },
@@ -1220,14 +1442,19 @@
   "name": "i3_graphql",
   "results": [
    {
+    "caption_stem": "Gönderiler/Fotoğraflar/2025-10-06_Gönderi 3_C8vOfxsY0Yr",
     "code": "C8vOfxsY0Yr",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-06_Gönderi 3_C8vOfxsY0Yr",
-      "rel_stem": "Fotoğraflar/2025-10-06_Gönderi 3_C8vOfxsY0Yr",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-06_Gönderi 3_C8vOfxsY0Yr",
+       "2025-10-06_Gönderi 3_C8vOfxsY0Yr"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-10-06_Gönderi 3_C8vOfxsY0Yr",
       "urls": [
        "https://cdn.test/cdn/3400000000001001003_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001003_150.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
@@ -1235,34 +1462,47 @@
      }
     ],
     "key": "C8vOfxsY0Yr",
+    "likes": 13,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yr/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-06_Gönderi 3_C8vOfxsY0Yr",
     "taken_at": 1759740800,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Fotoğraflar/2025-10-06_Gönderi 3_C8vOfxsY0Yr",
     "code": "C8vOfxsY0Yr",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "C8vOfxsY0Yr",
+    "likes": 13,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yr/",
     "pinned": false,
+    "section": "posts",
     "skipped": "skip.video_only",
     "stem": "2025-10-06_Gönderi 3_C8vOfxsY0Yr",
     "taken_at": 1759740800,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Fotoğraflar/2025-10-06_Gönderi 3_C8vOfxsY0Yr",
     "code": "C8vOfxsY0Yr",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-06_Gönderi 3_C8vOfxsY0Yr",
-      "rel_stem": "Fotoğraflar/2025-10-06_Gönderi 3_C8vOfxsY0Yr",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-06_Gönderi 3_C8vOfxsY0Yr",
+       "2025-10-06_Gönderi 3_C8vOfxsY0Yr"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-10-06_Gönderi 3_C8vOfxsY0Yr",
       "urls": [
        "https://cdn.test/cdn/3400000000001001003_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001003_150.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
@@ -1270,8 +1510,11 @@
      }
     ],
     "key": "C8vOfxsY0Yr",
+    "likes": 13,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yr/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-06_Gönderi 3_C8vOfxsY0Yr",
     "taken_at": 1759740800,
@@ -1321,14 +1564,19 @@
   "name": "i4",
   "results": [
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0Ys",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-05_gonderi_C8vOfxsY0Ys",
-      "rel_stem": "Fotoğraflar/2025-10-05_gonderi_C8vOfxsY0Ys",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-05_gonderi_C8vOfxsY0Ys",
+       "2025-10-05_gonderi_C8vOfxsY0Ys"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-10-05_gonderi_C8vOfxsY0Ys",
       "urls": [
        "https://cdn.test/cdn/3400000000001001004_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001004_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -1337,34 +1585,47 @@
      }
     ],
     "key": "C8vOfxsY0Ys",
+    "likes": 14,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Ys/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-05_gonderi_C8vOfxsY0Ys",
     "taken_at": 1759654400,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0Ys",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "C8vOfxsY0Ys",
+    "likes": 14,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Ys/",
     "pinned": false,
+    "section": "posts",
     "skipped": "skip.video_only",
     "stem": "2025-10-05_gonderi_C8vOfxsY0Ys",
     "taken_at": 1759654400,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0Ys",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-05_gonderi_C8vOfxsY0Ys",
-      "rel_stem": "Fotoğraflar/2025-10-05_gonderi_C8vOfxsY0Ys",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-05_gonderi_C8vOfxsY0Ys",
+       "2025-10-05_gonderi_C8vOfxsY0Ys"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-10-05_gonderi_C8vOfxsY0Ys",
       "urls": [
        "https://cdn.test/cdn/3400000000001001004_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001004_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -1373,8 +1634,11 @@
      }
     ],
     "key": "C8vOfxsY0Ys",
+    "likes": 14,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Ys/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-05_gonderi_C8vOfxsY0Ys",
     "taken_at": 1759654400,
@@ -1415,6 +1679,7 @@
     "id": "1001",
     "username": "sahte.kisi"
    },
+   "product_type": "feed",
    "shortcode": "C8vOfxsY0Ys",
    "taken_at_timestamp": 1759654400
   },
@@ -1422,14 +1687,19 @@
   "name": "i4_graphql",
   "results": [
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0Ys",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-05_gonderi_C8vOfxsY0Ys",
-      "rel_stem": "Fotoğraflar/2025-10-05_gonderi_C8vOfxsY0Ys",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-05_gonderi_C8vOfxsY0Ys",
+       "2025-10-05_gonderi_C8vOfxsY0Ys"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-10-05_gonderi_C8vOfxsY0Ys",
       "urls": [
        "https://cdn.test/cdn/3400000000001001004_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001004_150.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
@@ -1437,34 +1707,47 @@
      }
     ],
     "key": "C8vOfxsY0Ys",
+    "likes": 14,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Ys/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-05_gonderi_C8vOfxsY0Ys",
     "taken_at": 1759654400,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0Ys",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "C8vOfxsY0Ys",
+    "likes": 14,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Ys/",
     "pinned": false,
+    "section": "posts",
     "skipped": "skip.video_only",
     "stem": "2025-10-05_gonderi_C8vOfxsY0Ys",
     "taken_at": 1759654400,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0Ys",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-05_gonderi_C8vOfxsY0Ys",
-      "rel_stem": "Fotoğraflar/2025-10-05_gonderi_C8vOfxsY0Ys",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-05_gonderi_C8vOfxsY0Ys",
+       "2025-10-05_gonderi_C8vOfxsY0Ys"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-10-05_gonderi_C8vOfxsY0Ys",
       "urls": [
        "https://cdn.test/cdn/3400000000001001004_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001004_150.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
@@ -1472,8 +1755,11 @@
      }
     ],
     "key": "C8vOfxsY0Ys",
+    "likes": 14,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Ys/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-05_gonderi_C8vOfxsY0Ys",
     "taken_at": 1759654400,
@@ -1525,14 +1811,19 @@
   "name": "i5",
   "results": [
    {
+    "caption_stem": "Gönderiler/Fotoğraflar/2025-10-04_Gönderi 5_C8vOfxsY0Yt",
     "code": "C8vOfxsY0Yt",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-04_Gönderi 5_C8vOfxsY0Yt",
-      "rel_stem": "Fotoğraflar/2025-10-04_Gönderi 5_C8vOfxsY0Yt",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-04_Gönderi 5_C8vOfxsY0Yt",
+       "2025-10-04_Gönderi 5_C8vOfxsY0Yt"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-10-04_Gönderi 5_C8vOfxsY0Yt",
       "urls": [
        "https://cdn.test/cdn/3400000000001001005_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001005_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -1541,34 +1832,47 @@
      }
     ],
     "key": "C8vOfxsY0Yt",
+    "likes": 15,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yt/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-04_Gönderi 5_C8vOfxsY0Yt",
     "taken_at": 1759568000,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Fotoğraflar/2025-10-04_Gönderi 5_C8vOfxsY0Yt",
     "code": "C8vOfxsY0Yt",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "C8vOfxsY0Yt",
+    "likes": 15,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yt/",
     "pinned": false,
+    "section": "posts",
     "skipped": "skip.video_only",
     "stem": "2025-10-04_Gönderi 5_C8vOfxsY0Yt",
     "taken_at": 1759568000,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Fotoğraflar/2025-10-04_Gönderi 5_C8vOfxsY0Yt",
     "code": "C8vOfxsY0Yt",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-04_Gönderi 5_C8vOfxsY0Yt",
-      "rel_stem": "Fotoğraflar/2025-10-04_Gönderi 5_C8vOfxsY0Yt",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-04_Gönderi 5_C8vOfxsY0Yt",
+       "2025-10-04_Gönderi 5_C8vOfxsY0Yt"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-10-04_Gönderi 5_C8vOfxsY0Yt",
       "urls": [
        "https://cdn.test/cdn/3400000000001001005_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001005_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -1577,8 +1881,11 @@
      }
     ],
     "key": "C8vOfxsY0Yt",
+    "likes": 15,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yt/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-04_Gönderi 5_C8vOfxsY0Yt",
     "taken_at": 1759568000,
@@ -1625,6 +1932,7 @@
     "id": "1001",
     "username": "sahte.kisi"
    },
+   "product_type": "feed",
    "shortcode": "C8vOfxsY0Yt",
    "taken_at_timestamp": 1759568000
   },
@@ -1632,14 +1940,19 @@
   "name": "i5_graphql",
   "results": [
    {
+    "caption_stem": "Gönderiler/Fotoğraflar/2025-10-04_Gönderi 5_C8vOfxsY0Yt",
     "code": "C8vOfxsY0Yt",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-04_Gönderi 5_C8vOfxsY0Yt",
-      "rel_stem": "Fotoğraflar/2025-10-04_Gönderi 5_C8vOfxsY0Yt",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-04_Gönderi 5_C8vOfxsY0Yt",
+       "2025-10-04_Gönderi 5_C8vOfxsY0Yt"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-10-04_Gönderi 5_C8vOfxsY0Yt",
       "urls": [
        "https://cdn.test/cdn/3400000000001001005_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001005_150.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
@@ -1647,34 +1960,47 @@
      }
     ],
     "key": "C8vOfxsY0Yt",
+    "likes": 15,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yt/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-04_Gönderi 5_C8vOfxsY0Yt",
     "taken_at": 1759568000,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Fotoğraflar/2025-10-04_Gönderi 5_C8vOfxsY0Yt",
     "code": "C8vOfxsY0Yt",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "C8vOfxsY0Yt",
+    "likes": 15,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yt/",
     "pinned": false,
+    "section": "posts",
     "skipped": "skip.video_only",
     "stem": "2025-10-04_Gönderi 5_C8vOfxsY0Yt",
     "taken_at": 1759568000,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Fotoğraflar/2025-10-04_Gönderi 5_C8vOfxsY0Yt",
     "code": "C8vOfxsY0Yt",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-04_Gönderi 5_C8vOfxsY0Yt",
-      "rel_stem": "Fotoğraflar/2025-10-04_Gönderi 5_C8vOfxsY0Yt",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-04_Gönderi 5_C8vOfxsY0Yt",
+       "2025-10-04_Gönderi 5_C8vOfxsY0Yt"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-10-04_Gönderi 5_C8vOfxsY0Yt",
       "urls": [
        "https://cdn.test/cdn/3400000000001001005_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001005_150.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
@@ -1682,8 +2008,11 @@
      }
     ],
     "key": "C8vOfxsY0Yt",
+    "likes": 15,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yt/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-04_Gönderi 5_C8vOfxsY0Yt",
     "taken_at": 1759568000,
@@ -1755,14 +2084,20 @@
   "name": "i6",
   "results": [
    {
+    "caption_stem": "Reels/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
     "code": "C8vOfxsY0Yu",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": ".mp4",
       "kind": "video",
-      "legacy_stem": "2025-10-03_Gönderi 6_C8vOfxsY0Yu",
-      "rel_stem": "Videolar/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
+      "legacy_stems": [
+       "Gönderiler/Videolar/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
+       "Videolar/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
+       "2025-10-03_Gönderi 6_C8vOfxsY0Yu"
+      ],
+      "rel_stem": "Reels/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
       "urls": [
        "https://cdn.test/cdn/3400000000001001006_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001006_720.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -1771,22 +2106,31 @@
      }
     ],
     "key": "C8vOfxsY0Yu",
+    "likes": 16,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/reel/C8vOfxsY0Yu/",
     "pinned": false,
+    "section": "reels",
     "skipped": null,
     "stem": "2025-10-03_Gönderi 6_C8vOfxsY0Yu",
     "taken_at": 1759481600,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Reels/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
     "code": "C8vOfxsY0Yu",
+    "comments": 0,
     "content": "video",
     "files": [
      {
       "ext": ".mp4",
       "kind": "video",
-      "legacy_stem": "2025-10-03_Gönderi 6_C8vOfxsY0Yu",
-      "rel_stem": "Videolar/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
+      "legacy_stems": [
+       "Gönderiler/Videolar/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
+       "Videolar/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
+       "2025-10-03_Gönderi 6_C8vOfxsY0Yu"
+      ],
+      "rel_stem": "Reels/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
       "urls": [
        "https://cdn.test/cdn/3400000000001001006_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001006_720.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -1795,20 +2139,28 @@
      }
     ],
     "key": "C8vOfxsY0Yu",
+    "likes": 16,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/reel/C8vOfxsY0Yu/",
     "pinned": false,
+    "section": "reels",
     "skipped": null,
     "stem": "2025-10-03_Gönderi 6_C8vOfxsY0Yu",
     "taken_at": 1759481600,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Reels/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
     "code": "C8vOfxsY0Yu",
+    "comments": 0,
     "content": "image",
     "files": [],
     "key": "C8vOfxsY0Yu",
+    "likes": 16,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/reel/C8vOfxsY0Yu/",
     "pinned": false,
+    "section": "reels",
     "skipped": "skip.image_only",
     "stem": "2025-10-03_Gönderi 6_C8vOfxsY0Yu",
     "taken_at": 1759481600,
@@ -1855,6 +2207,7 @@
     "id": "1001",
     "username": "sahte.kisi"
    },
+   "product_type": "clips",
    "shortcode": "C8vOfxsY0Yu",
    "taken_at_timestamp": 1759481600,
    "video_url": "https://cdn.test/cdn/3400000000001001006_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
@@ -1863,56 +2216,79 @@
   "name": "i6_graphql",
   "results": [
    {
+    "caption_stem": "Reels/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
     "code": "C8vOfxsY0Yu",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": ".mp4",
       "kind": "video",
-      "legacy_stem": "2025-10-03_Gönderi 6_C8vOfxsY0Yu",
-      "rel_stem": "Videolar/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
+      "legacy_stems": [
+       "Gönderiler/Videolar/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
+       "Videolar/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
+       "2025-10-03_Gönderi 6_C8vOfxsY0Yu"
+      ],
+      "rel_stem": "Reels/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
       "urls": [
        "https://cdn.test/cdn/3400000000001001006_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
       ]
      }
     ],
     "key": "C8vOfxsY0Yu",
+    "likes": 16,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/reel/C8vOfxsY0Yu/",
     "pinned": false,
+    "section": "reels",
     "skipped": null,
     "stem": "2025-10-03_Gönderi 6_C8vOfxsY0Yu",
     "taken_at": 1759481600,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Reels/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
     "code": "C8vOfxsY0Yu",
+    "comments": 0,
     "content": "video",
     "files": [
      {
       "ext": ".mp4",
       "kind": "video",
-      "legacy_stem": "2025-10-03_Gönderi 6_C8vOfxsY0Yu",
-      "rel_stem": "Videolar/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
+      "legacy_stems": [
+       "Gönderiler/Videolar/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
+       "Videolar/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
+       "2025-10-03_Gönderi 6_C8vOfxsY0Yu"
+      ],
+      "rel_stem": "Reels/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
       "urls": [
        "https://cdn.test/cdn/3400000000001001006_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
       ]
      }
     ],
     "key": "C8vOfxsY0Yu",
+    "likes": 16,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/reel/C8vOfxsY0Yu/",
     "pinned": false,
+    "section": "reels",
     "skipped": null,
     "stem": "2025-10-03_Gönderi 6_C8vOfxsY0Yu",
     "taken_at": 1759481600,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Reels/2025-10-03_Gönderi 6_C8vOfxsY0Yu",
     "code": "C8vOfxsY0Yu",
+    "comments": 0,
     "content": "image",
     "files": [],
     "key": "C8vOfxsY0Yu",
+    "likes": 16,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/reel/C8vOfxsY0Yu/",
     "pinned": false,
+    "section": "reels",
     "skipped": "skip.image_only",
     "stem": "2025-10-03_Gönderi 6_C8vOfxsY0Yu",
     "taken_at": 1759481600,
@@ -2059,14 +2435,19 @@
   "name": "i7",
   "results": [
    {
+    "caption_stem": "Gönderiler/Albümler/2025-10-02_Gönderi 7_C8vOfxsY0Yv/2025-10-02_Gönderi 7_C8vOfxsY0Yv",
     "code": "C8vOfxsY0Yv",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-02_Gönderi 7_C8vOfxsY0Yv_01",
-      "rel_stem": "Fotoğraflar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_01",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_01",
+       "2025-10-02_Gönderi 7_C8vOfxsY0Yv_01"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-02_Gönderi 7_C8vOfxsY0Yv/2025-10-02_Gönderi 7_C8vOfxsY0Yv_01",
       "urls": [
        "https://cdn.test/cdn/34000000000010010070_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/34000000000010010070_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -2076,8 +2457,11 @@
      {
       "ext": ".mp4",
       "kind": "video",
-      "legacy_stem": "2025-10-02_Gönderi 7_C8vOfxsY0Yv_02",
-      "rel_stem": "Videolar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_02",
+      "legacy_stems": [
+       "Videolar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_02",
+       "2025-10-02_Gönderi 7_C8vOfxsY0Yv_02"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-02_Gönderi 7_C8vOfxsY0Yv/2025-10-02_Gönderi 7_C8vOfxsY0Yv_02",
       "urls": [
        "https://cdn.test/cdn/34000000000010010071_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/34000000000010010071_720.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -2087,8 +2471,11 @@
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-02_Gönderi 7_C8vOfxsY0Yv_03",
-      "rel_stem": "Fotoğraflar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_03",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_03",
+       "2025-10-02_Gönderi 7_C8vOfxsY0Yv_03"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-02_Gönderi 7_C8vOfxsY0Yv/2025-10-02_Gönderi 7_C8vOfxsY0Yv_03",
       "urls": [
        "https://cdn.test/cdn/34000000000010010072_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/34000000000010010072_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -2097,22 +2484,30 @@
      }
     ],
     "key": "C8vOfxsY0Yv",
+    "likes": 17,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yv/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-02_Gönderi 7_C8vOfxsY0Yv",
     "taken_at": 1759395200,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Albümler/2025-10-02_Gönderi 7_C8vOfxsY0Yv/2025-10-02_Gönderi 7_C8vOfxsY0Yv",
     "code": "C8vOfxsY0Yv",
+    "comments": 0,
     "content": "video",
     "files": [
      {
       "ext": ".mp4",
       "kind": "video",
-      "legacy_stem": "2025-10-02_Gönderi 7_C8vOfxsY0Yv_02",
-      "rel_stem": "Videolar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_02",
+      "legacy_stems": [
+       "Videolar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_02",
+       "2025-10-02_Gönderi 7_C8vOfxsY0Yv_02"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-02_Gönderi 7_C8vOfxsY0Yv/2025-10-02_Gönderi 7_C8vOfxsY0Yv_02",
       "urls": [
        "https://cdn.test/cdn/34000000000010010071_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/34000000000010010071_720.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -2121,22 +2516,30 @@
      }
     ],
     "key": "C8vOfxsY0Yv",
+    "likes": 17,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yv/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-02_Gönderi 7_C8vOfxsY0Yv",
     "taken_at": 1759395200,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Albümler/2025-10-02_Gönderi 7_C8vOfxsY0Yv/2025-10-02_Gönderi 7_C8vOfxsY0Yv",
     "code": "C8vOfxsY0Yv",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-02_Gönderi 7_C8vOfxsY0Yv_01",
-      "rel_stem": "Fotoğraflar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_01",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_01",
+       "2025-10-02_Gönderi 7_C8vOfxsY0Yv_01"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-02_Gönderi 7_C8vOfxsY0Yv/2025-10-02_Gönderi 7_C8vOfxsY0Yv_01",
       "urls": [
        "https://cdn.test/cdn/34000000000010010070_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/34000000000010010070_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -2146,8 +2549,11 @@
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-02_Gönderi 7_C8vOfxsY0Yv_03",
-      "rel_stem": "Fotoğraflar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_03",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_03",
+       "2025-10-02_Gönderi 7_C8vOfxsY0Yv_03"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-02_Gönderi 7_C8vOfxsY0Yv/2025-10-02_Gönderi 7_C8vOfxsY0Yv_03",
       "urls": [
        "https://cdn.test/cdn/34000000000010010072_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/34000000000010010072_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -2156,8 +2562,11 @@
      }
     ],
     "key": "C8vOfxsY0Yv",
+    "likes": 17,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yv/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-02_Gönderi 7_C8vOfxsY0Yv",
     "taken_at": 1759395200,
@@ -2248,6 +2657,7 @@
     "id": "1001",
     "username": "sahte.kisi"
    },
+   "product_type": "carousel_container",
    "shortcode": "C8vOfxsY0Yv",
    "taken_at_timestamp": 1759395200
   },
@@ -2255,14 +2665,19 @@
   "name": "i7_graphql",
   "results": [
    {
+    "caption_stem": "Gönderiler/Albümler/2025-10-02_Gönderi 7_C8vOfxsY0Yv/2025-10-02_Gönderi 7_C8vOfxsY0Yv",
     "code": "C8vOfxsY0Yv",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-02_Gönderi 7_C8vOfxsY0Yv_01",
-      "rel_stem": "Fotoğraflar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_01",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_01",
+       "2025-10-02_Gönderi 7_C8vOfxsY0Yv_01"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-02_Gönderi 7_C8vOfxsY0Yv/2025-10-02_Gönderi 7_C8vOfxsY0Yv_01",
       "urls": [
        "https://cdn.test/cdn/34000000000010010070_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
       ]
@@ -2270,8 +2685,11 @@
      {
       "ext": ".mp4",
       "kind": "video",
-      "legacy_stem": "2025-10-02_Gönderi 7_C8vOfxsY0Yv_02",
-      "rel_stem": "Videolar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_02",
+      "legacy_stems": [
+       "Videolar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_02",
+       "2025-10-02_Gönderi 7_C8vOfxsY0Yv_02"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-02_Gönderi 7_C8vOfxsY0Yv/2025-10-02_Gönderi 7_C8vOfxsY0Yv_02",
       "urls": [
        "https://cdn.test/cdn/34000000000010010071_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
       ]
@@ -2279,52 +2697,71 @@
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-02_Gönderi 7_C8vOfxsY0Yv_03",
-      "rel_stem": "Fotoğraflar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_03",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_03",
+       "2025-10-02_Gönderi 7_C8vOfxsY0Yv_03"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-02_Gönderi 7_C8vOfxsY0Yv/2025-10-02_Gönderi 7_C8vOfxsY0Yv_03",
       "urls": [
        "https://cdn.test/cdn/34000000000010010072_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
       ]
      }
     ],
     "key": "C8vOfxsY0Yv",
+    "likes": 17,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yv/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-02_Gönderi 7_C8vOfxsY0Yv",
     "taken_at": 1759395200,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Albümler/2025-10-02_Gönderi 7_C8vOfxsY0Yv/2025-10-02_Gönderi 7_C8vOfxsY0Yv",
     "code": "C8vOfxsY0Yv",
+    "comments": 0,
     "content": "video",
     "files": [
      {
       "ext": ".mp4",
       "kind": "video",
-      "legacy_stem": "2025-10-02_Gönderi 7_C8vOfxsY0Yv_02",
-      "rel_stem": "Videolar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_02",
+      "legacy_stems": [
+       "Videolar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_02",
+       "2025-10-02_Gönderi 7_C8vOfxsY0Yv_02"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-02_Gönderi 7_C8vOfxsY0Yv/2025-10-02_Gönderi 7_C8vOfxsY0Yv_02",
       "urls": [
        "https://cdn.test/cdn/34000000000010010071_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
       ]
      }
     ],
     "key": "C8vOfxsY0Yv",
+    "likes": 17,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yv/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-02_Gönderi 7_C8vOfxsY0Yv",
     "taken_at": 1759395200,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Albümler/2025-10-02_Gönderi 7_C8vOfxsY0Yv/2025-10-02_Gönderi 7_C8vOfxsY0Yv",
     "code": "C8vOfxsY0Yv",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-02_Gönderi 7_C8vOfxsY0Yv_01",
-      "rel_stem": "Fotoğraflar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_01",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_01",
+       "2025-10-02_Gönderi 7_C8vOfxsY0Yv_01"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-02_Gönderi 7_C8vOfxsY0Yv/2025-10-02_Gönderi 7_C8vOfxsY0Yv_01",
       "urls": [
        "https://cdn.test/cdn/34000000000010010070_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
       ]
@@ -2332,16 +2769,22 @@
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-10-02_Gönderi 7_C8vOfxsY0Yv_03",
-      "rel_stem": "Fotoğraflar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_03",
+      "legacy_stems": [
+       "Fotoğraflar/2025-10-02_Gönderi 7_C8vOfxsY0Yv_03",
+       "2025-10-02_Gönderi 7_C8vOfxsY0Yv_03"
+      ],
+      "rel_stem": "Gönderiler/Albümler/2025-10-02_Gönderi 7_C8vOfxsY0Yv/2025-10-02_Gönderi 7_C8vOfxsY0Yv_03",
       "urls": [
        "https://cdn.test/cdn/34000000000010010072_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
       ]
      }
     ],
     "key": "C8vOfxsY0Yv",
+    "likes": 17,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yv/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-10-02_Gönderi 7_C8vOfxsY0Yv",
     "taken_at": 1759395200,
@@ -2391,36 +2834,51 @@
   "name": "i8",
   "results": [
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0Yw",
+    "comments": 0,
     "content": "all",
     "files": [],
     "key": "C8vOfxsY0Yw",
+    "likes": 18,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/reel/C8vOfxsY0Yw/",
     "pinned": false,
+    "section": "reels",
     "skipped": "skip.no_video",
     "stem": "2025-10-01_gonderi_C8vOfxsY0Yw",
     "taken_at": 1759308800,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0Yw",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "C8vOfxsY0Yw",
+    "likes": 18,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/reel/C8vOfxsY0Yw/",
     "pinned": false,
+    "section": "reels",
     "skipped": "skip.no_video",
     "stem": "2025-10-01_gonderi_C8vOfxsY0Yw",
     "taken_at": 1759308800,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0Yw",
+    "comments": 0,
     "content": "image",
     "files": [],
     "key": "C8vOfxsY0Yw",
+    "likes": 18,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/reel/C8vOfxsY0Yw/",
     "pinned": false,
+    "section": "reels",
     "skipped": "skip.image_only",
     "stem": "2025-10-01_gonderi_C8vOfxsY0Yw",
     "taken_at": 1759308800,
@@ -2461,6 +2919,7 @@
     "id": "1001",
     "username": "sahte.kisi"
    },
+   "product_type": "clips",
    "shortcode": "C8vOfxsY0Yw",
    "taken_at_timestamp": 1759308800
   },
@@ -2468,36 +2927,51 @@
   "name": "i8_graphql",
   "results": [
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0Yw",
+    "comments": 0,
     "content": "all",
     "files": [],
     "key": "C8vOfxsY0Yw",
+    "likes": 18,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/reel/C8vOfxsY0Yw/",
     "pinned": false,
+    "section": "reels",
     "skipped": "skip.no_video",
     "stem": "2025-10-01_gonderi_C8vOfxsY0Yw",
     "taken_at": 1759308800,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0Yw",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "C8vOfxsY0Yw",
+    "likes": 18,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/reel/C8vOfxsY0Yw/",
     "pinned": false,
+    "section": "reels",
     "skipped": "skip.no_video",
     "stem": "2025-10-01_gonderi_C8vOfxsY0Yw",
     "taken_at": 1759308800,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "C8vOfxsY0Yw",
+    "comments": 0,
     "content": "image",
     "files": [],
     "key": "C8vOfxsY0Yw",
+    "likes": 18,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/reel/C8vOfxsY0Yw/",
     "pinned": false,
+    "section": "reels",
     "skipped": "skip.image_only",
     "stem": "2025-10-01_gonderi_C8vOfxsY0Yw",
     "taken_at": 1759308800,
@@ -2549,14 +3023,19 @@
   "name": "i9",
   "results": [
    {
+    "caption_stem": "Gönderiler/Fotoğraflar/2025-09-30_Gönderi 9_C8vOfxsY0Yx",
     "code": "C8vOfxsY0Yx",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-09-30_Gönderi 9_C8vOfxsY0Yx",
-      "rel_stem": "Fotoğraflar/2025-09-30_Gönderi 9_C8vOfxsY0Yx",
+      "legacy_stems": [
+       "Fotoğraflar/2025-09-30_Gönderi 9_C8vOfxsY0Yx",
+       "2025-09-30_Gönderi 9_C8vOfxsY0Yx"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-09-30_Gönderi 9_C8vOfxsY0Yx",
       "urls": [
        "https://cdn.test/cdn/3400000000001001009_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001009_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -2565,34 +3044,47 @@
      }
     ],
     "key": "C8vOfxsY0Yx",
+    "likes": 19,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yx/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-09-30_Gönderi 9_C8vOfxsY0Yx",
     "taken_at": 1759222400,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Fotoğraflar/2025-09-30_Gönderi 9_C8vOfxsY0Yx",
     "code": "C8vOfxsY0Yx",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "C8vOfxsY0Yx",
+    "likes": 19,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yx/",
     "pinned": false,
+    "section": "posts",
     "skipped": "skip.video_only",
     "stem": "2025-09-30_Gönderi 9_C8vOfxsY0Yx",
     "taken_at": 1759222400,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Fotoğraflar/2025-09-30_Gönderi 9_C8vOfxsY0Yx",
     "code": "C8vOfxsY0Yx",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-09-30_Gönderi 9_C8vOfxsY0Yx",
-      "rel_stem": "Fotoğraflar/2025-09-30_Gönderi 9_C8vOfxsY0Yx",
+      "legacy_stems": [
+       "Fotoğraflar/2025-09-30_Gönderi 9_C8vOfxsY0Yx",
+       "2025-09-30_Gönderi 9_C8vOfxsY0Yx"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-09-30_Gönderi 9_C8vOfxsY0Yx",
       "urls": [
        "https://cdn.test/cdn/3400000000001001009_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001009_640.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -2601,8 +3093,11 @@
      }
     ],
     "key": "C8vOfxsY0Yx",
+    "likes": 19,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yx/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-09-30_Gönderi 9_C8vOfxsY0Yx",
     "taken_at": 1759222400,
@@ -2649,6 +3144,7 @@
     "id": "1001",
     "username": "sahte.kisi"
    },
+   "product_type": "feed",
    "shortcode": "C8vOfxsY0Yx",
    "taken_at_timestamp": 1759222400
   },
@@ -2656,14 +3152,19 @@
   "name": "i9_graphql",
   "results": [
    {
+    "caption_stem": "Gönderiler/Fotoğraflar/2025-09-30_Gönderi 9_C8vOfxsY0Yx",
     "code": "C8vOfxsY0Yx",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-09-30_Gönderi 9_C8vOfxsY0Yx",
-      "rel_stem": "Fotoğraflar/2025-09-30_Gönderi 9_C8vOfxsY0Yx",
+      "legacy_stems": [
+       "Fotoğraflar/2025-09-30_Gönderi 9_C8vOfxsY0Yx",
+       "2025-09-30_Gönderi 9_C8vOfxsY0Yx"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-09-30_Gönderi 9_C8vOfxsY0Yx",
       "urls": [
        "https://cdn.test/cdn/3400000000001001009_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001009_150.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
@@ -2671,34 +3172,47 @@
      }
     ],
     "key": "C8vOfxsY0Yx",
+    "likes": 19,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yx/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-09-30_Gönderi 9_C8vOfxsY0Yx",
     "taken_at": 1759222400,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Fotoğraflar/2025-09-30_Gönderi 9_C8vOfxsY0Yx",
     "code": "C8vOfxsY0Yx",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "C8vOfxsY0Yx",
+    "likes": 19,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yx/",
     "pinned": false,
+    "section": "posts",
     "skipped": "skip.video_only",
     "stem": "2025-09-30_Gönderi 9_C8vOfxsY0Yx",
     "taken_at": 1759222400,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "Gönderiler/Fotoğraflar/2025-09-30_Gönderi 9_C8vOfxsY0Yx",
     "code": "C8vOfxsY0Yx",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "2025-09-30_Gönderi 9_C8vOfxsY0Yx",
-      "rel_stem": "Fotoğraflar/2025-09-30_Gönderi 9_C8vOfxsY0Yx",
+      "legacy_stems": [
+       "Fotoğraflar/2025-09-30_Gönderi 9_C8vOfxsY0Yx",
+       "2025-09-30_Gönderi 9_C8vOfxsY0Yx"
+      ],
+      "rel_stem": "Gönderiler/Fotoğraflar/2025-09-30_Gönderi 9_C8vOfxsY0Yx",
       "urls": [
        "https://cdn.test/cdn/3400000000001001009_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
        "https://cdn.test/cdn/3400000000001001009_150.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
@@ -2706,8 +3220,11 @@
      }
     ],
     "key": "C8vOfxsY0Yx",
+    "likes": 19,
     "owner_id": "1001",
+    "permalink": "https://www.instagram.com/p/C8vOfxsY0Yx/",
     "pinned": false,
+    "section": "posts",
     "skipped": null,
     "stem": "2025-09-30_Gönderi 9_C8vOfxsY0Yx",
     "taken_at": 1759222400,
@@ -2751,13 +3268,15 @@
   "name": "story0",
   "results": [
    {
+    "caption_stem": "",
     "code": "DCSf3TJ3gAA",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "",
+      "legacy_stems": [],
       "rel_stem": "Hikayeler/2025-10-09_3500000000000000000",
       "urls": [
        "https://cdn.test/cdn/3500000000000000000_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -2767,33 +3286,43 @@
      }
     ],
     "key": "3500000000000000000",
+    "likes": 0,
     "owner_id": "1001",
+    "permalink": "",
     "pinned": false,
+    "section": "stories",
     "skipped": null,
     "stem": "2025-10-09_3500000000000000000",
     "taken_at": 1760000000,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "DCSf3TJ3gAA",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "3500000000000000000",
+    "likes": 0,
     "owner_id": "1001",
+    "permalink": "",
     "pinned": false,
+    "section": "stories",
     "skipped": "skip.video_only",
     "stem": "2025-10-09_3500000000000000000",
     "taken_at": 1760000000,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "DCSf3TJ3gAA",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "",
+      "legacy_stems": [],
       "rel_stem": "Hikayeler/2025-10-09_3500000000000000000",
       "urls": [
        "https://cdn.test/cdn/3500000000000000000_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -2803,8 +3332,11 @@
      }
     ],
     "key": "3500000000000000000",
+    "likes": 0,
     "owner_id": "1001",
+    "permalink": "",
     "pinned": false,
+    "section": "stories",
     "skipped": null,
     "stem": "2025-10-09_3500000000000000000",
     "taken_at": 1760000000,
@@ -2848,13 +3380,15 @@
   "name": "story1",
   "results": [
    {
+    "caption_stem": "",
     "code": "DCSf3TJ3gAB",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "",
+      "legacy_stems": [],
       "rel_stem": "Hikayeler/2025-10-09_3500000000000000001",
       "urls": [
        "https://cdn.test/cdn/3500000000000000001_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -2864,33 +3398,43 @@
      }
     ],
     "key": "3500000000000000001",
+    "likes": 0,
     "owner_id": "1001",
+    "permalink": "",
     "pinned": false,
+    "section": "stories",
     "skipped": null,
     "stem": "2025-10-09_3500000000000000001",
     "taken_at": 1760003600,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "DCSf3TJ3gAB",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "3500000000000000001",
+    "likes": 0,
     "owner_id": "1001",
+    "permalink": "",
     "pinned": false,
+    "section": "stories",
     "skipped": "skip.video_only",
     "stem": "2025-10-09_3500000000000000001",
     "taken_at": 1760003600,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "DCSf3TJ3gAB",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "",
+      "legacy_stems": [],
       "rel_stem": "Hikayeler/2025-10-09_3500000000000000001",
       "urls": [
        "https://cdn.test/cdn/3500000000000000001_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -2900,8 +3444,11 @@
      }
     ],
     "key": "3500000000000000001",
+    "likes": 0,
     "owner_id": "1001",
+    "permalink": "",
     "pinned": false,
+    "section": "stories",
     "skipped": null,
     "stem": "2025-10-09_3500000000000000001",
     "taken_at": 1760003600,
@@ -2965,13 +3512,15 @@
   "name": "story2",
   "results": [
    {
+    "caption_stem": "",
     "code": "DCSf3TJ3gAC",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": ".mp4",
       "kind": "video",
-      "legacy_stem": "",
+      "legacy_stems": [],
       "rel_stem": "Hikayeler/2025-10-09_3500000000000000002",
       "urls": [
        "https://cdn.test/cdn/3500000000000000002_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -2981,21 +3530,26 @@
      }
     ],
     "key": "3500000000000000002",
+    "likes": 0,
     "owner_id": "1001",
+    "permalink": "",
     "pinned": false,
+    "section": "stories",
     "skipped": null,
     "stem": "2025-10-09_3500000000000000002",
     "taken_at": 1760007200,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "DCSf3TJ3gAC",
+    "comments": 0,
     "content": "video",
     "files": [
      {
       "ext": ".mp4",
       "kind": "video",
-      "legacy_stem": "",
+      "legacy_stems": [],
       "rel_stem": "Hikayeler/2025-10-09_3500000000000000002",
       "urls": [
        "https://cdn.test/cdn/3500000000000000002_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -3005,20 +3559,28 @@
      }
     ],
     "key": "3500000000000000002",
+    "likes": 0,
     "owner_id": "1001",
+    "permalink": "",
     "pinned": false,
+    "section": "stories",
     "skipped": null,
     "stem": "2025-10-09_3500000000000000002",
     "taken_at": 1760007200,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "DCSf3TJ3gAC",
+    "comments": 0,
     "content": "image",
     "files": [],
     "key": "3500000000000000002",
+    "likes": 0,
     "owner_id": "1001",
+    "permalink": "",
     "pinned": false,
+    "section": "stories",
     "skipped": "skip.image_only",
     "stem": "2025-10-09_3500000000000000002",
     "taken_at": 1760007200,
@@ -3061,13 +3623,15 @@
   "name": "hl00",
   "results": [
    {
+    "caption_stem": "",
     "code": "DH1xO0naADI",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "",
+      "legacy_stems": [],
       "rel_stem": "Öne Çıkanlar/İş Proje/2025-08-20_3600000000000000200",
       "urls": [
        "https://cdn.test/cdn/3600000000000000200_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -3077,33 +3641,43 @@
      }
     ],
     "key": "3600000000000000200",
+    "likes": 0,
     "owner_id": "1001",
+    "permalink": "",
     "pinned": false,
+    "section": "highlights",
     "skipped": null,
     "stem": "2025-08-20_3600000000000000200",
     "taken_at": 1755680000,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "DH1xO0naADI",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "3600000000000000200",
+    "likes": 0,
     "owner_id": "1001",
+    "permalink": "",
     "pinned": false,
+    "section": "highlights",
     "skipped": "skip.video_only",
     "stem": "2025-08-20_3600000000000000200",
     "taken_at": 1755680000,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "DH1xO0naADI",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "",
+      "legacy_stems": [],
       "rel_stem": "Öne Çıkanlar/İş Proje/2025-08-20_3600000000000000200",
       "urls": [
        "https://cdn.test/cdn/3600000000000000200_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -3113,8 +3687,11 @@
      }
     ],
     "key": "3600000000000000200",
+    "likes": 0,
     "owner_id": "1001",
+    "permalink": "",
     "pinned": false,
+    "section": "highlights",
     "skipped": null,
     "stem": "2025-08-20_3600000000000000200",
     "taken_at": 1755680000,
@@ -3157,13 +3734,15 @@
   "name": "hl01",
   "results": [
    {
+    "caption_stem": "",
     "code": "DH1xO0naADJ",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "",
+      "legacy_stems": [],
       "rel_stem": "Öne Çıkanlar/İş Proje/2025-08-20_3600000000000000201",
       "urls": [
        "https://cdn.test/cdn/3600000000000000201_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -3173,33 +3752,43 @@
      }
     ],
     "key": "3600000000000000201",
+    "likes": 0,
     "owner_id": "1001",
+    "permalink": "",
     "pinned": false,
+    "section": "highlights",
     "skipped": null,
     "stem": "2025-08-20_3600000000000000201",
     "taken_at": 1755680001,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "DH1xO0naADJ",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "3600000000000000201",
+    "likes": 0,
     "owner_id": "1001",
+    "permalink": "",
     "pinned": false,
+    "section": "highlights",
     "skipped": "skip.video_only",
     "stem": "2025-08-20_3600000000000000201",
     "taken_at": 1755680001,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "DH1xO0naADJ",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "",
+      "legacy_stems": [],
       "rel_stem": "Öne Çıkanlar/İş Proje/2025-08-20_3600000000000000201",
       "urls": [
        "https://cdn.test/cdn/3600000000000000201_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -3209,8 +3798,11 @@
      }
     ],
     "key": "3600000000000000201",
+    "likes": 0,
     "owner_id": "1001",
+    "permalink": "",
     "pinned": false,
+    "section": "highlights",
     "skipped": null,
     "stem": "2025-08-20_3600000000000000201",
     "taken_at": 1755680001,
@@ -3253,13 +3845,15 @@
   "name": "hl02",
   "results": [
    {
+    "caption_stem": "",
     "code": "DH1xO0naADK",
+    "comments": 0,
     "content": "all",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "",
+      "legacy_stems": [],
       "rel_stem": "Öne Çıkanlar/İş Proje/2025-08-20_3600000000000000202",
       "urls": [
        "https://cdn.test/cdn/3600000000000000202_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -3269,33 +3863,43 @@
      }
     ],
     "key": "3600000000000000202",
+    "likes": 0,
     "owner_id": "1001",
+    "permalink": "",
     "pinned": false,
+    "section": "highlights",
     "skipped": null,
     "stem": "2025-08-20_3600000000000000202",
     "taken_at": 1755680002,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "DH1xO0naADK",
+    "comments": 0,
     "content": "video",
     "files": [],
     "key": "3600000000000000202",
+    "likes": 0,
     "owner_id": "1001",
+    "permalink": "",
     "pinned": false,
+    "section": "highlights",
     "skipped": "skip.video_only",
     "stem": "2025-08-20_3600000000000000202",
     "taken_at": 1755680002,
     "username": "sahte.kisi"
    },
    {
+    "caption_stem": "",
     "code": "DH1xO0naADK",
+    "comments": 0,
     "content": "image",
     "files": [
      {
       "ext": "",
       "kind": "image",
-      "legacy_stem": "",
+      "legacy_stems": [],
       "rel_stem": "Öne Çıkanlar/İş Proje/2025-08-20_3600000000000000202",
       "urls": [
        "https://cdn.test/cdn/3600000000000000202_n.jpg?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent",
@@ -3305,8 +3909,11 @@
      }
     ],
     "key": "3600000000000000202",
+    "likes": 0,
     "owner_id": "1001",
+    "permalink": "",
     "pinned": false,
+    "section": "highlights",
     "skipped": null,
     "stem": "2025-08-20_3600000000000000202",
     "taken_at": 1755680002,

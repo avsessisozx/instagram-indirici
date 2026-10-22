@@ -19,10 +19,11 @@ from .browser import (ApiError, BrowserError, FeedResult, InstagramBrowser, Logi
 from .fetcher import Cancelled, existing_file, ext_from_content_type, fetch, fetch_dash, write_bytes
 from .history import History
 from .i18n import Msg, msg
-from .media import (KIND_AVATAR, KIND_HIGHLIGHT, KIND_POST, KIND_STORY, STORIES_DIR, MediaFile, Post, author_folder,
-                    build_avatar, build_post, highlight_folder, is_pinned, owner_of, taken_at_of)
+from .media import (KIND_AVATAR, KIND_HIGHLIGHT, KIND_POST, KIND_REEL, KIND_REPOST, KIND_STORY, KIND_TAGGED,
+                    STORIES_DIR, MediaFile, Post, author_folder, build_avatar, build_post, highlight_folder,
+                    is_pinned, owner_of, taken_at_of)
 from .pacing import for_settings as pacing_for
-from .paths import CONTENT_ALL, app_data_dir, clean_settings
+from .paths import CONTENT_ALL, app_data_dir, clean_settings, date_end_ts, date_start_ts
 
 MODE_SINGLE = "single"
 MODE_PROFILE = "profile"
@@ -30,6 +31,10 @@ MODE_LOGIN = "login"
 WORKERS = 3
 UNMATCHED_REASONS = {"skip.video_only", "skip.image_only", "skip.image_only_avatar"}
 MARKER_NAME = ".instagram-indirici.json"
+INFO_NAME = "bilgi.csv"
+INFO_HEADER = ["kod", "tür", "tarih", "bağlantı", "beğeni", "yorum", "dosyalar", "açıklama"]
+SECTIONS = ("posts", "reels", "reposts", "tagged", "stories", "highlights", "avatar")
+MAX_FAILURES = 60
 
 
 @dataclass
@@ -109,6 +114,14 @@ def needs_repair(item: Dict[str, Any], post: Post) -> bool:
                 and "video_versions" not in item and post.code)
 
 
+def other_rounds() -> int:
+    """Hikaye / öne çıkan / Reels gibi listelerde hız sınırında kaç kez bekleyip yeniden denenir."""
+    try:
+        return int(os.environ.get("INSTAGRAM_INDIRICI_OTHER_ROUNDS", "2"))
+    except ValueError:
+        return 2
+
+
 def resume_wait() -> float:
     try:
         return float(os.environ.get("INSTAGRAM_INDIRICI_RESUME_WAIT", "900"))
@@ -170,6 +183,19 @@ class Engine:
         self._progress_ctx: Optional[tuple] = None   # (user_id, content, username) için imleç kaydı
         self._jumped = False
         self.started_at = 0.0
+        self.paused = False
+        self.posts_repaired = 0
+        self.tabs: Dict[str, Dict[str, int]] = {}
+        self.failures: List[Dict[str, str]] = []
+        self._verify = True
+        self.history_auto = True
+        self._caption_min = 0
+        self._out_root: Optional[Path] = None
+        self._date_from = 0
+        self._date_to = 0
+        self._info_csv = True
+        self._info_rows: Dict[str, Dict[str, List[str]]] = {}   # kişi klasörü -> kod -> satır
+        self._failed_posts: List[Post] = []
         self.logs = []
 
     def log(self, level: str, message: Any) -> None:
@@ -204,6 +230,10 @@ class Engine:
                 "posts_skipped": self.posts_skipped,
                 "posts_unavailable": self.posts_unavailable,
                 "posts_known": self.posts_known,
+                "posts_repaired": self.posts_repaired,
+                "paused": self.paused,
+                "tabs": {k: dict(v) for k, v in self.tabs.items() if v.get("found") or v.get("failed")},
+                "failures": list(self.failures),
                 "waiting": max(0, int(self.wait_until - time.time())) if self.wait_until else 0,
                 "wait_kind": self.wait_kind,
                 "collecting": self.collecting,
@@ -246,7 +276,26 @@ class Engine:
     def stop(self) -> None:
         if self.running:
             self.log("warn", msg("engine.stopping"))
+            self.paused = False
             self._cancel.set()
+
+    def pause(self) -> None:
+        if self.running and not self.paused:
+            self.paused = True
+            self.log("info", msg("engine.paused"))
+
+    def resume(self) -> None:
+        if self.paused:
+            self.paused = False
+            self.log("info", msg("engine.resumed"))
+
+    async def pause_gate(self) -> None:
+        """Duraklatıldıysa devam edilene (ya da durdurulana) kadar bekler."""
+        while self.paused and not self._cancel.is_set():
+            await asyncio.sleep(0.3)
+
+    def _tab(self, section: str) -> Dict[str, int]:
+        return self.tabs.setdefault(section or "posts", {"found": 0, "done": 0, "failed": 0, "skipped": 0})
 
     def wait(self, timeout: float = 10) -> None:
         thread = self._thread
@@ -271,6 +320,7 @@ class Engine:
     async def _run(self, job: Job) -> None:
         settings = clean_settings(job.settings)
         self._use_history = bool(settings.get("history", True))
+        self.history_auto = bool(settings.get("auto_continue", True))
         try:
             self.history = History()
         except Exception as exc:  # geçmiş açılamazsa yine de çalış
@@ -337,6 +387,13 @@ class Engine:
         self.logged_in = logged_in
         save_session_state(logged_in)
         self.log("info", msg("engine.account_yes" if logged_in else "engine.account_no"))
+        self._out_root = out_root
+        self._verify = bool(settings.get("verify_files", True)) and self._use_history
+        self._caption_min = int(settings.get("caption_min") or 0)
+        self._info_csv = bool(settings.get("info_csv", True))
+        self._date_from = date_start_ts(settings.get("date_from", ""))
+        self._date_to = date_end_ts(settings.get("date_to", ""))
+        browser.pause_gate = self.pause_gate
 
         queue: asyncio.Queue = asyncio.Queue()
         downloads = DownloadPool(self, browser, out_root, queue)
@@ -371,11 +428,14 @@ class Engine:
                 queue.put_nowait(None)
             self.phase = "downloading"
             await asyncio.gather(*workers)
+            await self._retry_failed(downloads)
         except BaseException:
             for w in workers:
                 w.cancel()
             await asyncio.gather(*workers, return_exceptions=True)
+            self._write_info()
             raise
+        self._write_info()
 
         if self._cancel.is_set():
             self._finish_stopped()
@@ -395,6 +455,80 @@ class Engine:
             if self.found_posts == 0 and self.notes:
                 self.summary = self.notes[0]
         self.log("ok" if self.phase == "done" else "error", self.summary)
+
+    # ------------------------------------------------------------ yeniden deneme ve bilgi dosyası
+    async def _retry_failed(self, downloads: "DownloadPool") -> None:
+        """İnemeyen gönderileri bir kez daha dener (geçici bağlantı sorunları için)."""
+        posts = [p for p in self._failed_posts if p.attempts < 2]
+        if not posts or self._cancel.is_set():
+            return
+        wait = float(os.environ.get("INSTAGRAM_INDIRICI_RETRY_WAIT", "15"))
+        self.log("warn", msg("engine.retrying", n=len(posts)))
+        end = time.monotonic() + wait
+        while time.monotonic() < end and not self._cancel.is_set():
+            await asyncio.sleep(0.2)
+        for post in posts:
+            self._failed_posts.remove(post)
+            self.failures = [f for f in self.failures if f.get("key") != f"{post.kind}:{post.key}"]
+            self.files_failed = max(0, self.files_failed - post.failed_files)
+            self._tab(post.section)["failed"] = max(0, self._tab(post.section)["failed"] - 1)
+            post.failed_files = 0
+        queue: asyncio.Queue = asyncio.Queue()
+        pool = DownloadPool(self, downloads.browser, downloads.out_root, queue)
+        workers = [asyncio.ensure_future(pool.worker()) for _ in range(min(WORKERS, len(posts)))]
+        for post in posts:
+            queue.put_nowait(post)
+        for _ in workers:
+            queue.put_nowait(None)
+        try:
+            await asyncio.gather(*workers)
+        except BaseException:
+            for w in workers:
+                w.cancel()
+            await asyncio.gather(*workers, return_exceptions=True)
+            raise
+
+    def note_info(self, post: Post, results: List[str]) -> None:
+        """Başarıyla inen gönderiyi profilin bilgi.csv dosyasına eklenecekler arasına alır."""
+        if not self._info_csv or post.kind not in (KIND_POST, KIND_REEL, KIND_REPOST, KIND_TAGGED) or not post.code:
+            return
+        user = author_folder(post.dest_user or post.username or self.author)
+        names = ";".join(Path(f.rel_stem).name for f in post.files)
+        when = time.strftime("%Y-%m-%d %H:%M", time.gmtime(post.taken_at)) if post.taken_at else ""
+        kind = {KIND_POST: "gönderi", KIND_REEL: "reels", KIND_REPOST: "yeniden paylaşım",
+                KIND_TAGGED: "etiketlenen"}[post.kind]
+        caption = " ".join(post.caption.split())[:140]
+        row = [post.code, kind, when, post.permalink, str(post.likes), str(post.comments), names, caption]
+        self._info_rows.setdefault(user, {})[post.code] = row
+
+    def _write_info(self) -> None:
+        """Her profil klasöründeki bilgi.csv'yi yeni satırlarla günceller (aynı kod bir kez yazılır)."""
+        if not self._info_rows or self._out_root is None:
+            return
+        import csv
+
+        for user, rows in self._info_rows.items():
+            path = self._out_root / user / INFO_NAME
+            old: Dict[str, List[str]] = {}
+            try:
+                with open(path, "r", encoding="utf-8-sig", newline="") as fh:
+                    for line in csv.reader(fh, delimiter=";"):
+                        if line and line[0] != INFO_HEADER[0]:
+                            old[line[0]] = line
+            except OSError:
+                pass
+            old.update(rows)
+            try:
+                path.parent.mkdir(parents=True, exist_ok=True)
+                tmp = path.with_name(path.name + ".part")
+                with open(tmp, "w", encoding="utf-8-sig", newline="") as fh:
+                    writer = csv.writer(fh, delimiter=";")
+                    writer.writerow(INFO_HEADER)
+                    writer.writerows(old.values())
+                os.replace(tmp, path)
+            except OSError as exc:
+                self.log("debug", f"bilgi.csv: {exc}")
+        self._info_rows = {}
 
     # ------------------------------------------------------------ tek öğe
     async def _single(self, browser: InstagramBrowser, parsed: links.ParsedLink, settings: Dict[str, Any],
@@ -476,7 +610,9 @@ class Engine:
         if settings["avatar"]:
             try:
                 urls = await browser.avatar_urls(info, logged_in=logged_in)
-                self._enqueue(queue, build_avatar(info.user, urls, content=content), quiet_skip=True)
+                avatar = build_avatar(info.user, urls, content=content)
+                avatar.dest_user = info.username
+                self._enqueue(queue, avatar, quiet_skip=True)
             except (ApiError, NotFound, RateLimited) as exc:
                 self.log("warn", msg("engine.avatar_failed", error=exc.message))
 
@@ -492,7 +628,10 @@ class Engine:
             await self._highlights(browser, info, content, queue, logged_in)
         if settings["posts"]:
             await self._posts(browser, info, settings, queue, logged_in, folder)
-        if not (settings["posts"] or settings["stories"] or settings["highlights"] or settings["avatar"]):
+        for tab, kind in (("reels", KIND_REEL), ("reposts", KIND_REPOST), ("tagged", KIND_TAGGED)):
+            if settings[tab]:
+                await self._tab_pass(browser, info, settings, queue, logged_in, tab, kind)
+        if not any(settings[k] for k in ("posts", "stories", "highlights", "avatar", "reels", "reposts", "tagged")):
             self.notes.append(msg("engine.nothing_selected"))
 
     async def _stories(self, browser: InstagramBrowser, info: ProfileInfo, content: str,
@@ -501,7 +640,7 @@ class Engine:
             self.log("info", msg("engine.stories_skipped_login"))
             return
         try:
-            items = await browser.stories(info.user_id)
+            items = await self._with_rate_wait(lambda: browser.stories(info.user_id, info.username))
         except (ApiError, NotFound, RateLimited) as exc:
             self.log("warn", msg("engine.stories_failed", error=exc.message))
             return
@@ -513,9 +652,9 @@ class Engine:
             return
         self.log("info", msg("engine.stories_found", n=len(items)))
         for item in items:
-            self._enqueue(queue, build_post(item, content=content, kind=KIND_STORY,
-                                            subdir=STORIES_DIR, username=info.username),
-                          content=content, user_id=info.user_id)
+            post = build_post(item, content=content, kind=KIND_STORY, subdir=STORIES_DIR, username=info.username)
+            post.dest_user = info.username
+            self._enqueue(queue, post, content=content, user_id=info.user_id)
 
     async def _highlights(self, browser: InstagramBrowser, info: ProfileInfo, content: str,
                           queue: asyncio.Queue, logged_in: bool) -> None:
@@ -524,14 +663,19 @@ class Engine:
             return
         failed: List[str] = []
         try:
-            tray = await browser.highlights_tray(info.user_id, info.username)
+            tray = await self._with_rate_wait(lambda: browser.highlights_tray(info.user_id, info.username))
             if not tray:
                 self.log("info", msg("engine.no_highlights"))
                 return
             self.log("info", msg("engine.highlights_found", n=len(tray)))
             titles = {h["id"]: h["title"] for h in tray}
             expected = {h["id"]: h.get("media_count") or 0 for h in tray}
-            reels = await browser.highlight_reels([h["id"] for h in tray], expected=expected, failed=failed)
+
+            async def fetch_reels():
+                failed.clear()
+                return await browser.highlight_reels([h["id"] for h in tray], expected=expected, failed=failed,
+                                                     titles=titles)
+            reels = await self._with_rate_wait(fetch_reels)
         except LoginRequired:
             self.log("warn", msg("browser.session_expired"))
             return
@@ -544,9 +688,9 @@ class Engine:
             folder = highlight_folder(title, hid.split(":")[-1])
             self.log("info", msg("engine.highlight_items", title=title or hid.split(":")[-1], n=len(reel["items"])))
             for item in reel["items"]:
-                self._enqueue(queue, build_post(item, content=content, kind=KIND_HIGHLIGHT,
-                                                subdir=folder, username=info.username),
-                              content=content, user_id=info.user_id)
+                post = build_post(item, content=content, kind=KIND_HIGHLIGHT, subdir=folder, username=info.username)
+                post.dest_user = info.username
+                self._enqueue(queue, post, content=content, user_id=info.user_id)
         if failed:
             names = ", ".join(titles.get(h) or h.split(":")[-1] for h in failed)
             note = msg("engine.highlights_partial", n=len(failed), names=names)
@@ -559,7 +703,8 @@ class Engine:
         limit = settings["limit"]
         uid = info.user_id
         newest_known = 0
-        if settings.get("only_new", True):
+        # Dosya kontrolü açıkken profilin tamamı taranır: geçmişte "indi" görünen ama dosyası olmayanlar bulunur.
+        if settings.get("only_new", True) and not self._verify:
             newest_known = self.history.complete_newest(uid, content) if self.history else 0
             marker = read_marker(folder)   # 1.0.x sürümünün klasöre yazdığı not
             if not newest_known and str(marker.get("user_id") or "") == uid:
@@ -567,7 +712,7 @@ class Engine:
         if newest_known:
             self.log("info", msg("engine.only_new"))
         resume = None
-        if self.history and self._use_history and not newest_known and not limit:
+        if self.history and self._use_history and not newest_known and not limit and not self._verify:
             resume = self.history.resume_point(uid, content)
             if resume:
                 self.log("info", msg("engine.resume_found"))
@@ -585,14 +730,19 @@ class Engine:
             regular_known = 0
             for item in items:
                 ts = taken_at_of(item)
-                post = build_post(item, content=content, username=info.username)
+                post = build_post(item, content=content, username=info.username, caption_min=self._caption_min)
+                post.dest_user = info.username
                 if not is_pinned(item):
                     newest_seen["ts"] = max(newest_seen["ts"], ts)
                     if newest_known and ts and ts <= newest_known:
                         reached_old = True
+                    if self._date_from and ts and ts < self._date_from:
+                        reached_old = True       # liste yeniden eskiye doğru; bundan sonrası aralık dışı
                     regular += 1
                     if post.key in self._known or post.skipped_reason:
                         regular_known += 1
+                if not self._in_range(ts):
+                    continue
                 if needs_repair(item, post) and post.key not in self._known:
                     if post.key not in repair_keys:
                         repair_keys.add(post.key)
@@ -637,16 +787,123 @@ class Engine:
             await self._repair(browser, repairs, content, queue, logged_in, info.username, uid)
         self.collecting = False
 
-        if result.reason in ("end", "up_to_date") and not limit:
+        if result.reason in ("end", "up_to_date") and not limit and not self._date_from and not self._date_to:
             newest = newest_seen["ts"]
             if result.reason == "up_to_date":
                 newest = max(newest, newest_known)
             # İndirmeler hatasız biterse yazılır (bkz. _download_job).
             self._pending_complete = (uid, content, newest, info.username)
 
-    async def _wait_and_continue(self, round_no: int) -> None:
+    def _files_state(self, post: Post) -> str:
+        """Gönderinin dosyaları diskte mi? "ok" (hepsi yeni yerinde), "legacy" (eski klasörde var) ya da "missing"."""
+        if self._out_root is None:
+            return "ok"
+        folder = self._out_root / author_folder(post.dest_user or post.username or self.author)
+        state = "ok"
+        for media_file in post.files:
+            if existing_file(folder / Path(media_file.rel_stem), media_file.ext):
+                continue
+            if any(existing_file(folder / old, media_file.ext) for old in media_file.legacy_stems):
+                state = "legacy"
+                continue
+            return "missing"
+        if post.caption_stem and not (folder / (post.caption_stem + ".txt")).is_file():
+            return "missing" if state == "ok" else state
+        return state
+
+    def _in_range(self, ts: int) -> bool:
+        if not ts:
+            return True
+        if self._date_from and ts < self._date_from:
+            return False
+        if self._date_to and ts > self._date_to:
+            return False
+        return True
+
+    async def _tab_pass(self, browser: InstagramBrowser, info: ProfileInfo, settings: Dict[str, Any],
+                   queue: asyncio.Queue, logged_in: bool, tab: str, kind: str) -> None:
+        """Profil sayfasındaki ayrı bir sekmeyi (Reels, Yeniden paylaşımlar, Etiketlenenler) toplar."""
+        content = settings["content"]
+        limit = settings["limit"]
+        uid = info.user_id
+        label = msg(f"engine.tab_{tab}")
+        if not logged_in and tab != "reels":
+            self.log("info", msg("engine.tab_needs_login", tab=label))
+            return
+        self.log("info", msg("engine.tab_scanning", tab=label))
+        stop_known = bool(settings.get("only_new", True)) and not self._verify
+
+        def on_page(items: List[Dict[str, Any]], cursor_kind: str = "", next_cursor: str = "") -> str:
+            fresh = 0
+            reached_old = False
+            for item in items:
+                ts = taken_at_of(item)
+                post = build_post(item, content=content, kind=kind, username=info.username,
+                                  caption_min=self._caption_min)
+                post.dest_user = info.username
+                post.owner_id = uid          # geçmiş, indirilen profile bağlı (gönderi başka kişinin olsa bile)
+                if self._date_from and ts and ts < self._date_from and not is_pinned(item):
+                    reached_old = True
+                if not self._in_range(ts):
+                    continue
+                if post.key not in self._known and not post.skipped_reason:
+                    fresh += 1
+                self._enqueue(queue, post, content=content, user_id=uid)
+            if reached_old or (stop_known and items and fresh == 0):
+                return "stop"
+            return ""
+
+        rounds = 0
+        while True:
+            self.collecting = True
+            try:
+                result: FeedResult = await browser.collect_tab(info, tab, logged_in=logged_in, limit=limit,
+                                                               on_page=on_page)
+            except RateLimited:
+                result = FeedResult(collected=0, reason="rate_limited")
+            self.log("debug", f"{tab} via={result.via} reason={result.reason} n={result.collected}")
+            if (result.reason == "rate_limited" and settings.get("auto_continue", True)
+                    and rounds < other_rounds() and result.collected == 0):
+                rounds += 1
+                await self._wait_and_continue(rounds, total=other_rounds())
+                if self.history and self._use_history:
+                    self._known |= self.history.known(uid, content)
+                continue
+            break
+        self.collecting = False
+        if result.reason == "rate_limited":
+            self.rate_limited = True
+            note = msg("engine.tab_rate_limited", tab=label, n=result.collected)
+            self.notes.append(note)
+            self.log("warn", note)
+        elif result.reason in ("login_wall", "session_expired"):
+            self.login_wall = True
+            note = msg("engine.tab_login_wall", tab=label, n=result.collected)
+            self.notes.append(note)
+            self.log("warn", note)
+        elif result.collected == 0:
+            self.log("info", msg("engine.tab_empty", tab=label))
+        else:
+            self.log("ok", msg("engine.tab_scanned", tab=label, n=result.collected))
+
+    async def _with_rate_wait(self, fn):
+        """Hız sınırına takılan listeyi (hikaye, öne çıkan, Reels…) bekleyip birkaç kez yeniden dener."""
+        rounds = 0
+        while True:
+            try:
+                return await fn()
+            except RateLimited:
+                if not self.history_auto or rounds >= other_rounds():
+                    raise
+                rounds += 1
+                self.rate_limited = True
+                await self._wait_and_continue(rounds, total=other_rounds())
+                self.rate_limited = False
+
+    async def _wait_and_continue(self, round_no: int, total: Optional[int] = None) -> None:
         seconds = resume_wait()
-        self.log("warn", msg("engine.auto_wait", m=max(1, round(seconds / 60)), n=round_no, total=max_rounds()))
+        self.log("warn", msg("engine.auto_wait", m=max(1, round(seconds / 60)), n=round_no,
+                             total=total if total is not None else max_rounds()))
         self.wait_until = time.time() + seconds
         self.wait_kind = "rate"
         try:
@@ -668,8 +925,19 @@ class Engine:
                 uid, content, username = self._progress_ctx
                 self.history.set_resume_point(uid, content, page["cursor_kind"], page["cursor"], username)
 
-    def post_finished(self, post: Post, ok: bool) -> None:
+    def post_finished(self, post: Post, ok: bool, results: Optional[List[str]] = None) -> None:
         """İndirme havuzu bir gönderiyi bitirince çağırır."""
+        tab = self._tab(post.section)
+        if ok:
+            tab["done"] += 1
+            self.note_info(post, results or [])
+        else:
+            tab["failed"] += 1
+            if post not in self._failed_posts:
+                self._failed_posts.append(post)
+            if len(self.failures) < MAX_FAILURES:
+                self.failures.append({"key": f"{post.kind}:{post.key}", "name": post.stem,
+                                      "section": post.section, "error": post.last_error})
         if ok and self.history and post.kind != KIND_AVATAR and post.owner_id:
             self.history.mark(post.owner_id, post.key, post.history_content or CONTENT_ALL, post.kind, post.username)
             if post.history_content:
@@ -690,7 +958,8 @@ class Engine:
                 return
             try:
                 item = await browser.get_post(post.code, logged_in=logged_in)
-                fixed = build_post(item, content=content, username=username)
+                fixed = build_post(item, content=content, username=username, caption_min=self._caption_min)
+                fixed.dest_user = username
                 if not fixed.skipped_reason:
                     self._enqueue(queue, fixed, content=content, user_id=user_id)
                     continue
@@ -742,8 +1011,10 @@ class Engine:
         if dedupe in self._enqueued:
             return   # aynı iş içinde ikinci kez listelendi (ör. bekleyip devam ederken)
         self._enqueued.add(dedupe)
-        if post.kind == KIND_POST:
+        if post.kind in (KIND_POST, KIND_REEL, KIND_REPOST, KIND_TAGGED):
             self.found_posts += 1
+        if post.kind != KIND_AVATAR:
+            self._tab(post.section)["found"] += 1
         if not self.author and post.username:
             self.author = post.username
         if post.skipped_reason:
@@ -752,13 +1023,22 @@ class Engine:
                     self.posts_skipped += 1
             else:
                 self.posts_unavailable += 1
+            if post.kind != KIND_AVATAR:
+                self._tab(post.section)["skipped"] += 1
             if not quiet_skip:
                 self.log("skip", msg("engine.skipped_post", reason=post.skipped_reason, name=post.stem))
             return
         if post.kind != KIND_AVATAR and post.key in self._known:
             # Geçmişe göre daha önce (belki başka hesapla, başka klasöre) inmiş.
-            self.posts_known += 1
-            return
+            state = self._files_state(post) if self._verify else "ok"
+            if state == "ok":
+                self.posts_known += 1
+                self._tab(post.section)["done"] += 1
+                return
+            # Dosyası yok ya da eski klasörde: indirme havuzu eksikleri indirir / eski dosyaları yeni yere taşır.
+            if state == "missing":
+                self.posts_repaired += 1
+                self.log("info", msg("engine.missing_file", name=post.stem))
         post.history_content = content
         if page is not None:
             post.page = page
@@ -787,43 +1067,68 @@ class DownloadPool:
                 return
             if self.engine._cancel.is_set():
                 continue
+            await self.engine.pause_gate()
             await self._download_post(post)
 
     async def _download_post(self, post: Post) -> None:
         eng = self.engine
-        folder = self.out_root / author_folder(post.username or eng.author)
+        folder = self.out_root / author_folder(post.dest_user or post.username or eng.author)
         if not eng.folder:
             eng.folder = str(folder)
+        post.attempts += 1
+        post.last_error = ""
         results = []
+        failed_before = eng.files_failed
         for media_file in post.files:
             if eng._cancel.is_set():
                 return
-            results.append(await self._download_file(folder, media_file))
-        eng.posts_done += 1
-        eng.post_finished(post, bool(results) and all(r != "failed" for r in results))
-        if results and all(r != "failed" for r in results):
+            await eng.pause_gate()
+            results.append(await self._download_file(folder, media_file, post))
+        post.failed_files = max(0, eng.files_failed - failed_before)
+        ok = bool(results) and all(r != "failed" for r in results)
+        if post.attempts == 1:
+            eng.posts_done += 1
+        if ok and post.caption_stem:
+            self._write_caption(folder, post)
+        eng.post_finished(post, ok, results)
+        if ok:
             if any(r == "downloaded" for r in results):
                 kinds = {f.kind for f in post.files}
                 key = {
                     "story": "engine.downloaded_story",
                     "highlight": "engine.downloaded_highlight",
                     "avatar": "engine.downloaded_avatar",
+                    "reel": "engine.downloaded_reel",
                 }.get(post.kind) or ("engine.downloaded_gallery" if post.is_gallery
                                      else "engine.downloaded_video" if "video" in kinds else "engine.downloaded_image")
             else:
                 key = "engine.already_had"
             eng.log("ok", msg(key, name=post.stem))
 
-    async def _download_file(self, folder: Path, media_file: MediaFile) -> str:
+    def _write_caption(self, folder: Path, post: Post) -> None:
+        """Uzun açıklamayı gönderinin dosyasıyla aynı adlı .txt olarak yanına kaydeder."""
+        path = folder / (post.caption_stem + ".txt")
+        try:
+            if path.is_file() and path.stat().st_size > 0:
+                return
+            path.parent.mkdir(parents=True, exist_ok=True)
+            tmp = path.with_name(path.name + ".part")
+            tmp.write_text(post.caption + "\n", encoding="utf-8")
+            os.replace(tmp, path)
+            self.engine.log("info", msg("engine.caption_saved", name=path.name))
+        except OSError as exc:
+            self.engine.log("warn", msg("engine.caption_failed", name=path.name, error=str(exc)))
+
+    async def _download_file(self, folder: Path, media_file: MediaFile, post: Optional[Post] = None) -> str:
         """Sonuç: "downloaded", "skipped" (zaten vardı) ya da "failed"."""
         eng = self.engine
         stem_path = folder / Path(media_file.rel_stem)
         if existing_file(stem_path, media_file.ext):
             eng.files_skipped += 1
             return "skipped"
-        if media_file.legacy_stem:
-            # 1.0.x sürümü gönderileri doğrudan kişinin klasörüne koyuyordu: yeni yerine taşı.
-            old = existing_file(folder / media_file.legacy_stem, media_file.ext)
+        for legacy in media_file.legacy_stems:
+            # Eski sürümler dosyayı başka klasöre koyuyordu (kök, Fotoğraflar, Videolar): yeni yerine taşı.
+            old = existing_file(folder / legacy, media_file.ext)
             if old is not None:
                 try:
                     stem_path.parent.mkdir(parents=True, exist_ok=True)
@@ -858,6 +1163,8 @@ class DownloadPool:
             eng.log("warn", msg("engine.quality_fallback", res=media_file.plain_res or "?", error=got.error or ""))
             if not media_file.urls:
                 eng.files_failed += 1
+                if post is not None:
+                    post.last_error = got.error or ""
                 eng.log("error", msg("engine.download_failed", name=stem_path.name, error=got.error or ""))
                 return "failed"
         result = await asyncio.to_thread(
@@ -880,5 +1187,7 @@ class DownloadPool:
         if eng._cancel.is_set():
             return "failed"
         eng.files_failed += 1
+        if post is not None:
+            post.last_error = result.error or ""
         eng.log("error", msg("engine.download_failed", name=stem_path.name, error=result.error or ""))
         return "failed"

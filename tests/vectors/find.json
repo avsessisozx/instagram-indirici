@@ -1,13 +1,15 @@
 {
  "avatars": [
   {
+   "caption_stem": "",
    "code": "",
+   "comments": 0,
    "content": "all",
    "files": [
     {
      "ext": "",
      "kind": "image",
-     "legacy_stem": "",
+     "legacy_stems": [],
      "rel_stem": "Profil Fotoğrafı/123",
      "urls": [
       "https://c/a_hd.jpg",
@@ -17,8 +19,11 @@
     }
    ],
    "key": "avatar:123",
+   "likes": 0,
    "owner_id": "",
+   "permalink": "",
    "pinned": false,
+   "section": "avatar",
    "skipped": null,
    "stem": "123",
    "taken_at": 0,
@@ -39,12 +44,17 @@
    "username": "x"
   },
   {
+   "caption_stem": "",
    "code": "",
+   "comments": 0,
    "content": "video",
    "files": [],
    "key": "avatar:123",
+   "likes": 0,
    "owner_id": "",
+   "permalink": "",
    "pinned": false,
+   "section": "avatar",
    "skipped": "skip.image_only_avatar",
    "stem": "123",
    "taken_at": 0,
@@ -65,13 +75,15 @@
    "username": "x"
   },
   {
+   "caption_stem": "",
    "code": "",
+   "comments": 0,
    "content": "all",
    "files": [
     {
      "ext": "",
      "kind": "image",
-     "legacy_stem": "",
+     "legacy_stems": [],
      "rel_stem": "Profil Fotoğrafı/v640",
      "urls": [
       "https://c/v640.jpg",
@@ -81,8 +93,11 @@
     }
    ],
    "key": "avatar:v640",
+   "likes": 0,
    "owner_id": "",
+   "permalink": "",
    "pinned": false,
+   "section": "avatar",
    "skipped": null,
    "stem": "v640",
    "taken_at": 0,
@@ -110,12 +125,17 @@
    "username": "y"
   },
   {
+   "caption_stem": "",
    "code": "",
+   "comments": 0,
    "content": "video",
    "files": [],
    "key": "avatar:v640",
+   "likes": 0,
    "owner_id": "",
+   "permalink": "",
    "pinned": false,
+   "section": "avatar",
    "skipped": "skip.image_only_avatar",
    "stem": "v640",
    "taken_at": 0,
@@ -143,12 +163,17 @@
    "username": "y"
   },
   {
+   "caption_stem": "",
    "code": "",
+   "comments": 0,
    "content": "all",
    "files": [],
    "key": "avatar:profil",
+   "likes": 0,
    "owner_id": "",
+   "permalink": "",
    "pinned": false,
+   "section": "avatar",
    "skipped": "skip.no_media",
    "stem": "profil",
    "taken_at": 0,
@@ -159,12 +184,17 @@
    "username": "z"
   },
   {
+   "caption_stem": "",
    "code": "",
+   "comments": 0,
    "content": "video",
    "files": [],
    "key": "avatar:profil",
+   "likes": 0,
    "owner_id": "",
+   "permalink": "",
    "pinned": false,
+   "section": "avatar",
    "skipped": "skip.image_only_avatar",
    "stem": "profil",
    "taken_at": 0,
@@ -522,6 +552,7 @@
            "id": "1001",
            "username": "sahte.kisi"
           },
+          "product_type": "clips",
           "shortcode": "C8vOfxsY0Yp",
           "taken_at_timestamp": 1759913600,
           "video_url": "https://cdn.test/cdn/3400000000001001001_1080.mp4?oh=00_AbC&oe=6A0B1C2D&_nc_ht=scontent"
@@ -609,6 +640,7 @@
            "id": "1001",
            "username": "sahte.kisi"
           },
+          "product_type": "carousel_container",
           "shortcode": "C8vOfxsY0Yq",
           "taken_at_timestamp": 1759827200
          }
@@ -651,6 +683,7 @@
            "id": "1001",
            "username": "sahte.kisi"
           },
+          "product_type": "feed",
           "shortcode": "C8vOfxsY0Yr",
           "taken_at_timestamp": 1759740800
          }

@@ -178,6 +178,11 @@ input.switch:disabled { opacity: .5; cursor: not-allowed; }
 .tile small { display: block; color: var(--muted); font-size: 13px; }
 .tile b { display: block; font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .tile.bad b { color: var(--err); }
+.counts.tabs .tile b { font-size: 18px; }
+.counts.tabs .tile em { font-style: normal; color: var(--err); font-size: 13px; margin-left: 6px; }
+.fails { margin: 8px 0 12px; padding-left: 18px; font-size: 13px; color: var(--muted); max-height: 220px; overflow: auto; }
+.fails li { margin: 3px 0; word-break: break-all; }
+.num-in { width: 110px; }
 .note { border-radius: 16px; padding: 12px 14px; margin-top: 12px; font-size: 14.5px; text-align: left; }
 .note.warn { background: var(--warn-soft); color: var(--warn); }
 .note.ok { background: var(--ok-soft); color: var(--ok); }
@@ -294,7 +299,16 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
       <div class="hero" id="hero"><b id="hero-num">0</b><span id="hero-unit">%</span></div>
       <div class="bar" id="bar"><i></i></div>
       <div class="counts" id="counts"></div>
+      <div class="counts tabs" id="tabs" hidden></div>
+      <div class="actions" id="run-actions" hidden>
+        <button class="btn" id="pause" type="button"></button>
+      </div>
       <div id="notes"></div>
+      <details id="fails-box" hidden>
+        <summary id="fails-title"></summary>
+        <ul class="fails" id="fails"></ul>
+        <button class="btn primary" id="retry" type="button" data-i18n="ui.retry_failed"></button>
+      </details>
       <div class="actions" id="done-actions" hidden>
         <button class="btn primary" id="open-result" type="button"></button>
       </div>
@@ -338,6 +352,9 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
             <label class="check"><input type="checkbox" id="w-stories"><span><span data-i18n="ui.what_stories"></span><small data-i18n="ui.needs_login"></small></span></label>
             <label class="check"><input type="checkbox" id="w-highlights"><span><span data-i18n="ui.what_highlights"></span><small data-i18n="ui.needs_login"></small></span></label>
             <label class="check"><input type="checkbox" id="w-avatar"><span data-i18n="ui.what_avatar"></span></label>
+            <label class="check"><input type="checkbox" id="w-reels"><span data-i18n="ui.what_reels"></span></label>
+            <label class="check"><input type="checkbox" id="w-reposts"><span><span data-i18n="ui.what_reposts"></span><small data-i18n="ui.needs_login"></small></span></label>
+            <label class="check"><input type="checkbox" id="w-tagged"><span><span data-i18n="ui.what_tagged"></span><small data-i18n="ui.needs_login"></small></span></label>
           </div>
         </div>
         <div class="row" id="row-content">
@@ -418,6 +435,30 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
         <button class="linklike" id="clear-history" type="button" data-i18n="ui.history_clear"></button>
         <span class="hint" id="history-msg" aria-live="polite"></span>
       </div>
+    </div>
+
+    <h3 class="sec" data-i18n="ui.sec_content"></h3>
+    <div class="card flush">
+      <label class="opt" id="row-verify">
+        <span class="txt"><b data-i18n="ui.verify_title"></b><small data-i18n="ui.verify_desc"></small></span>
+        <input class="switch" type="checkbox" id="verify">
+      </label>
+      <label class="opt" id="row-infocsv">
+        <span class="txt"><b data-i18n="ui.infocsv_title"></b><small data-i18n="ui.infocsv_desc"></small></span>
+        <input class="switch" type="checkbox" id="infocsv">
+      </label>
+      <label class="opt" id="row-capmin">
+        <span class="txt"><b data-i18n="ui.capmin_title"></b><small data-i18n="ui.capmin_desc"></small></span>
+        <input class="num-in" type="number" min="0" max="20000" step="50" id="capmin">
+      </label>
+      <label class="opt" id="row-datefrom">
+        <span class="txt"><b data-i18n="ui.datefrom_title"></b><small data-i18n="ui.datefrom_desc"></small></span>
+        <input type="date" id="datefrom">
+      </label>
+      <label class="opt" id="row-dateto">
+        <span class="txt"><b data-i18n="ui.dateto_title"></b><small data-i18n="ui.dateto_desc"></small></span>
+        <input type="date" id="dateto">
+      </label>
     </div>
 
     <h3 class="sec" data-i18n="ui.sec_account"></h3>
@@ -716,6 +757,14 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
       stories: $('w-stories').checked,
       highlights: $('w-highlights').checked,
       avatar: $('w-avatar').checked,
+      reels: $('w-reels').checked,
+      reposts: $('w-reposts').checked,
+      tagged: $('w-tagged').checked,
+      verify_files: $('verify').checked,
+      info_csv: $('infocsv').checked,
+      caption_min: Math.max(0, parseInt($('capmin').value, 10) || 0),
+      date_from: $('datefrom').value || '',
+      date_to: $('dateto').value || '',
       only_new: $('onlynew').checked,
       history: $('history').checked,
       auto_continue: $('autocont').checked,
@@ -735,6 +784,14 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
     $('w-stories').checked = !!s.stories;
     $('w-highlights').checked = !!s.highlights;
     $('w-avatar').checked = !!s.avatar;
+    $('w-reels').checked = s.reels !== false;
+    $('w-reposts').checked = !!s.reposts;
+    $('w-tagged').checked = !!s.tagged;
+    $('verify').checked = s.verify_files !== false;
+    $('infocsv').checked = s.info_csv !== false;
+    if (document.activeElement !== $('capmin')) $('capmin').value = String(s.caption_min === undefined ? 300 : s.caption_min);
+    $('datefrom').value = s.date_from || '';
+    $('dateto').value = s.date_to || '';
     $('onlynew').checked = !!s.only_new;
     $('history').checked = s.history !== false;
     $('autocont').checked = s.auto_continue !== false;
@@ -745,7 +802,7 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
   }
   const saveSettings = () => api('/api/settings', readSettings()).then(r => applySettings(r.settings)).catch(() => {});
   const patchSettings = (patch) => api('/api/settings', patch).then(r => applySettings(r.settings)).catch(() => {});
-  ['limit', 'w-posts', 'w-stories', 'w-highlights', 'w-avatar', 'onlynew', 'history', 'autocont', 'outdir', 'identity', 'speed'].forEach(id => $(id).addEventListener('change', saveSettings));
+  ['limit', 'w-posts', 'w-stories', 'w-highlights', 'w-avatar', 'w-reels', 'w-reposts', 'w-tagged', 'verify', 'infocsv', 'capmin', 'datefrom', 'dateto', 'onlynew', 'history', 'autocont', 'outdir', 'identity', 'speed'].forEach(id => $(id).addEventListener('change', saveSettings));
   document.querySelectorAll('input[name=content]').forEach(el => el.addEventListener('change', saveSettings));
   $('lang').addEventListener('change', async () => { await saveSettings(); await loadStrings(); });
 
@@ -887,6 +944,10 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
     }
   }
   $('start').addEventListener('click', startOrStop);
+  $('pause').addEventListener('click', () => {
+    api(lastState && lastState.paused ? '/api/resume' : '/api/pause', {}).then(() => poll(true)).catch(() => {});
+  });
+  $('retry').addEventListener('click', () => { if (!running) startOrStop(); });
   $('login').addEventListener('click', async () => {
     $('form-error').textContent = '';
     showView('download');
@@ -904,7 +965,7 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
     running = s.running;
     $('start').textContent = t(running ? 'ui.stop' : 'ui.start');
     $('start').classList.toggle('stop', running);
-    ['link', 'paste', 'choose', 'outdir', 'login', 'lang', 'clear-history', 'identity', 'speed', 'clear-cache', 'clear-cookies'].forEach(id => { $(id).disabled = running; });
+    ['link', 'paste', 'choose', 'outdir', 'login', 'lang', 'clear-history', 'identity', 'speed', 'clear-cache', 'clear-cookies', 'verify', 'infocsv', 'capmin', 'datefrom', 'dateto'].forEach(id => { $(id).disabled = running; });
     document.querySelectorAll('#step2 input, #step3 input, #step3 select').forEach(e => {
       e.disabled = running || (e.id === 'mode-single' && linkKind === 'profile');
     });
@@ -978,6 +1039,35 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
       if (s.posts_unavailable) add('ui.count_unavailable', s.posts_unavailable);
       if (s.posts_known) add('ui.count_known', s.posts_known);
       if (s.files_failed) add('ui.count_failed', s.files_failed, true);
+    }
+
+    // Sekme sayaçları (gönderiler, reels, öne çıkanlar…)
+    const tabsBox = $('tabs');
+    tabsBox.textContent = '';
+    const tabKeys = Object.keys(s.tabs || {});
+    tabsBox.hidden = s.mode === 'login' || tabKeys.length < 2;
+    if (!tabsBox.hidden) {
+      for (const k of tabKeys) {
+        const v = s.tabs[k];
+        const tile = el('div'); tile.className = 'tile';
+        tile.appendChild(el('small', k === 'posts' ? t('ui.tab_posts') : k === 'reels' ? t('ui.tab_reels') : k === 'reposts' ? t('ui.tab_reposts') : k === 'tagged' ? t('ui.tab_tagged') : k === 'stories' ? t('ui.tab_stories') : k === 'highlights' ? t('ui.tab_highlights') : t('ui.tab_avatar')));
+        const b = el('b', `${v.done + v.skipped}/${v.found}`);
+        if (v.failed) b.appendChild(el('em', t('ui.tab_failed', { n: v.failed })));
+        tile.appendChild(b);
+        tabsBox.appendChild(tile);
+      }
+    }
+    // Duraklat / devam et
+    $('run-actions').hidden = !(running && s.mode !== 'login');
+    $('pause').textContent = t(s.paused ? 'ui.resume' : 'ui.pause');
+    // İnemeyenler listesi
+    const failList = s.failures || [];
+    $('fails-box').hidden = running || !failList.length;
+    if (!$('fails-box').hidden) {
+      $('fails-title').textContent = t('ui.fails_title', { n: failList.length });
+      const ul = $('fails');
+      ul.textContent = '';
+      for (const f of failList) ul.appendChild(el('li', `${f.name}${f.error ? ' — ' + f.error : ''}`));
     }
 
     // Notlar sadece değiştiğinde yeniden çizilir (yoksa düğmeye basılırken kaybolabilir).

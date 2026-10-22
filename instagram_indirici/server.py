@@ -371,6 +371,14 @@ def make_handler(state: AppState):
                 state.engine.stop()
                 return self._json({"ok": True})
 
+            if path == "/api/pause":
+                state.engine.pause()
+                return self._json({"ok": True})
+
+            if path == "/api/resume":
+                state.engine.resume()
+                return self._json({"ok": True})
+
             if path == "/api/choose-folder":
                 if sys.platform != "win32":
                     return self._json({"error": msg("server.no_folder_dialog").to_json()}, 400)

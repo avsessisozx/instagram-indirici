@@ -127,6 +127,16 @@ class Api(private val host: ApiHost) {
                 200 to JSONObject().put("ok", true)
             }
 
+            "/api/pause" -> {
+                engine.pause()
+                200 to JSONObject().put("ok", true)
+            }
+
+            "/api/resume" -> {
+                engine.resume()
+                200 to JSONObject().put("ok", true)
+            }
+
             "/api/clipboard" -> {
                 val cm = Core.app.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val text = try { cm.primaryClip?.getItemAt(0)?.coerceToText(Core.app)?.toString() } catch (e: Exception) { null }

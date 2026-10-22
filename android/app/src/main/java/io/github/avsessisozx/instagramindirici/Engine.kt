@@ -55,6 +55,8 @@ class Engine(
     val postsSkipped = AtomicInteger()
     val postsUnavailable = AtomicInteger()
     val postsKnown = AtomicInteger()
+    val postsRepaired = AtomicInteger()
+    @Volatile var paused = false; private set
     val filesTotal = AtomicInteger()
     val filesDone = AtomicInteger()
     val filesSkipped = AtomicInteger()
@@ -76,17 +78,32 @@ class Engine(
     private var jumped = false
     private var pendingComplete: (() -> Unit)? = null
 
+    // sekme sayaçları: bölüm -> [bulunan, inen, inemeyen, atlanan]
+    private val tabs = LinkedHashMap<String, IntArray>()
+    private val failures = ArrayList<JSONObject>()
+    private val failedPosts = ArrayList<Media.Post>()
+    private val infoRows = LinkedHashMap<String, LinkedHashMap<String, List<String>>>()
+    @Volatile private var curSink: MediaSink? = null
+    @Volatile private var verifyFiles = true
+    @Volatile private var historyAuto = true
+    @Volatile private var captionMin = 0
+    @Volatile private var infoCsv = true
+    @Volatile private var dateFrom = 0L
+    @Volatile private var dateTo = 0L
+
     private fun reset() {
         phase = "idle"; mode = ""; verify = false; loginWall = false; rateLimited = false; loggedIn = null
         author = ""; folder = ""; collecting = false; summary = null; current = ""; lastLocation = null
         waitUntil = 0; waitKind = ""
-        for (a in listOf(foundPosts, postsDone, postsSkipped, postsUnavailable, postsKnown, filesTotal, filesDone, filesSkipped, filesFailed)) a.set(0)
+        for (a in listOf(foundPosts, postsDone, postsSkipped, postsUnavailable, postsKnown, postsRepaired, filesTotal, filesDone, filesSkipped, filesFailed)) a.set(0)
+        paused = false
         currentBytes.set(0); currentTotal.set(0)
         synchronized(progressLock) {
             known.clear(); enqueued.clear(); pages.clear()
             progressCtx = null; jumped = false; pendingComplete = null
         }
         synchronized(lock) {
+            tabs.clear(); failures.clear(); failedPosts.clear(); infoRows.clear()
             notes.clear()
             logOffset += logs.size
             logs.clear()
@@ -130,6 +147,14 @@ class Engine(
             next = logOffset + logs.size
             for (n in notes) noteArr.put(n.toJson())
         }
+        val tabObj = JSONObject()
+        val failArr = JSONArray()
+        synchronized(lock) {
+            for ((k, v) in tabs) if (v[0] > 0 || v[2] > 0) {
+                tabObj.put(k, JSONObject().put("found", v[0]).put("done", v[1]).put("failed", v[2]).put("skipped", v[3]))
+            }
+            for (f in failures) failArr.put(f)
+        }
         val waiting = if (waitUntil > 0) ((waitUntil - System.currentTimeMillis()) / 1000).coerceAtLeast(0) else 0
         return JSONObject()
             .put("running", running)
@@ -146,6 +171,10 @@ class Engine(
             .put("posts_skipped", postsSkipped.get())
             .put("posts_unavailable", postsUnavailable.get())
             .put("posts_known", postsKnown.get())
+            .put("posts_repaired", postsRepaired.get())
+            .put("paused", paused)
+            .put("tabs", tabObj)
+            .put("failures", failArr)
             .put("waiting", waiting)
             .put("wait_kind", waitKind)
             .put("collecting", collecting)
@@ -186,13 +215,33 @@ class Engine(
     fun stop() {
         if (running && !cancel.get()) {
             log("warn", msg("engine.stopping"))
+            paused = false
             cancel.set(true)
         }
+    }
+
+    fun pause() {
+        if (running && !paused) { paused = true; log("info", msg("engine.paused")) }
+    }
+
+    fun resume() {
+        if (paused) { paused = false; log("info", msg("engine.resumed")) }
+    }
+
+    /** Duraklatıldıysa devam edilene (ya da durdurulana) kadar bekler. */
+    internal suspend fun pauseGate() {
+        while (paused && !cancel.get()) delay(300)
+    }
+
+    private fun tab(section: String): IntArray = synchronized(lock) { tabs.getOrPut(section.ifEmpty { "posts" }) { IntArray(4) } }
+    private fun tabAdd(section: String, index: Int, by: Int = 1) {
+        synchronized(lock) { val t = tabs.getOrPut(section.ifEmpty { "posts" }) { IntArray(4) }; t[index] = (t[index] + by).coerceAtLeast(0) }
     }
 
     private suspend fun runJob(job: Job, cancel: AtomicBoolean) {
         val settings = job.settings
         useHistory = settings.history
+        historyAuto = settings.autoContinue
         history = try { historyProvider() } catch (e: Exception) {
             log("warn", msg("engine.history_failed", "error" to (e.message ?: e.javaClass.simpleName))); null
         }
@@ -253,6 +302,12 @@ class Engine(
 
     private suspend fun downloadJob(web: IgWeb, job: Job, s: SettingsValues, cancel: AtomicBoolean) {
         val insta = Insta(web, Pacing.forSpeed(s.speed))
+        insta.pauseGate = { pauseGate() }
+        verifyFiles = s.verifyFiles && useHistory
+        captionMin = s.captionMin
+        infoCsv = s.infoCsv
+        dateFrom = SettingsValues.dateStartTs(s.dateFrom)
+        dateTo = SettingsValues.dateEndTs(s.dateTo)
         var parsed = Links.parse(job.link)
         val li = web.loggedIn()
         loggedIn = li
@@ -271,6 +326,7 @@ class Engine(
         log("info", msg("engine.identity", "identity" to identityName, "speed" to speedName, "ua" to web.userAgent))
 
         val sink = sinkFactory()
+        curSink = sink
         val queue = Channel<Media.Post?>(Channel.UNLIMITED)
         val pool = DownloadPool(this, web, sink, cancel)
         var collectError: IgError? = null
@@ -300,12 +356,15 @@ class Engine(
                 repeat(workers) { queue.send(null) }
                 phase = "downloading"
                 ws.joinAll()
+                retryFailed(pool)
             } catch (e: Throwable) {
                 queue.close()
                 ws.forEach { it.cancel() }
+                writeInfo(sink)
                 throw e
             }
         }
+        writeInfo(sink)
 
         if (cancel.get()) { finishStopped(); return }
         val ce = collectError
@@ -325,6 +384,95 @@ class Engine(
         log(if (phase == "done") "ok" else "error", summary!!)
     }
 
+    // ------------------------------------------------------------ yeniden deneme ve bilgi dosyası
+    /** İnemeyen gönderileri bir kez daha dener (geçici bağlantı sorunları için). */
+    private suspend fun retryFailed(pool: DownloadPool) = coroutineScope {
+        val posts = synchronized(lock) { failedPosts.filter { it.attempts < 2 } }
+        if (posts.isEmpty() || cancel.get()) return@coroutineScope
+        log("warn", msg("engine.retrying", "n" to posts.size))
+        val end = System.currentTimeMillis() + (TestHooks.retryWaitMs ?: 15_000L)
+        while (System.currentTimeMillis() < end && !cancel.get()) delay(200)
+        for (post in posts) {
+            synchronized(lock) {
+                failedPosts.remove(post)
+                failures.removeAll { it.optString("key") == "${post.kind}:${post.key}" }
+            }
+            filesFailed.set((filesFailed.get() - post.failedFiles).coerceAtLeast(0))
+            tabAdd(post.section, 2, -1)
+            post.failedFiles = 0
+        }
+        val q = Channel<Media.Post?>(Channel.UNLIMITED)
+        val ws = List(minOf(workers, posts.size)) { launch(Dispatchers.IO) { pool.worker(q) } }
+        for (post in posts) q.trySend(post)
+        repeat(ws.size) { q.trySend(null) }
+        ws.joinAll()
+    }
+
+    /** Başarıyla inen gönderiyi profilin bilgi.csv dosyasına eklenecekler arasına alır. */
+    private fun noteInfo(post: Media.Post) {
+        if (!infoCsv || post.kind !in Media.FEED_KINDS || post.code.isEmpty()) return
+        val user = Media.authorFolder(post.destUser.ifEmpty { post.username.ifEmpty { author } })
+        val names = post.files.joinToString(";") { it.relStem.substringAfterLast('/') }
+        val whenText = if (post.takenAt > 0) SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ROOT).apply {
+            timeZone = java.util.TimeZone.getTimeZone("UTC")
+        }.format(Date(post.takenAt * 1000)) else ""
+        val kind = when (post.kind) {
+            Media.KIND_REEL -> "reels"; Media.KIND_REPOST -> "yeniden paylaşım"; Media.KIND_TAGGED -> "etiketlenen"; else -> "gönderi"
+        }
+        val caption = post.caption.split(Regex("\\s+")).filter { it.isNotEmpty() }.joinToString(" ").take(140)
+        val row = listOf(post.code, kind, whenText, post.permalink, post.likes.toString(), post.comments.toString(), names, caption)
+        synchronized(lock) { infoRows.getOrPut(user) { LinkedHashMap() }[post.code] = row }
+    }
+
+    private fun csvField(v: String): String =
+        if (v.any { it == ';' || it == '"' || it == '\n' || it == '\r' }) "\"" + v.replace("\"", "\"\"") + "\"" else v
+
+    private fun parseCsv(text: String): List<List<String>> {
+        val rows = ArrayList<List<String>>()
+        var row = ArrayList<String>()
+        val cur = StringBuilder()
+        var quoted = false
+        var i = 0
+        val t = text.removePrefix("\uFEFF")
+        while (i < t.length) {
+            val c = t[i]
+            when {
+                quoted && c == '"' && i + 1 < t.length && t[i + 1] == '"' -> { cur.append('"'); i++ }
+                c == '"' -> quoted = !quoted
+                !quoted && c == ';' -> { row.add(cur.toString()); cur.setLength(0) }
+                !quoted && (c == '\n' || c == '\r') -> {
+                    if (c == '\r' && i + 1 < t.length && t[i + 1] == '\n') i++
+                    row.add(cur.toString()); cur.setLength(0)
+                    if (row.size > 1 || row[0].isNotEmpty()) rows.add(row)
+                    row = ArrayList()
+                }
+                else -> cur.append(c)
+            }
+            i++
+        }
+        if (cur.isNotEmpty() || row.isNotEmpty()) { row.add(cur.toString()); rows.add(row) }
+        return rows
+    }
+
+    /** Her profil klasöründeki bilgi.csv'yi yeni satırlarla günceller (aynı kod bir kez yazılır). */
+    private fun writeInfo(sink: MediaSink) {
+        val all = synchronized(lock) { val c = LinkedHashMap(infoRows); infoRows.clear(); c }
+        for ((user, rows) in all) {
+            val path = "$user/$INFO_NAME"
+            val old = LinkedHashMap<String, List<String>>()
+            try {
+                sink.readText(path)?.let { text ->
+                    for (line in parseCsv(text)) if (line.isNotEmpty() && line[0] != INFO_HEADER[0]) old[line[0]] = line
+                }
+            } catch (e: Exception) {}
+            old.putAll(rows)
+            val out = StringBuilder("\uFEFF")
+            out.append(INFO_HEADER.joinToString(";") { csvField(it) }).append("\r\n")
+            for (r in old.values) out.append(r.joinToString(";") { csvField(it) }).append("\r\n")
+            if (!sink.writeText(path, out.toString())) logText("debug", "bilgi.csv: yazılamadı ($path)")
+        }
+    }
+
     // ------------------------------------------------------------ tek öğe
     private suspend fun single(insta: Insta, p: Links.Parsed, queue: Channel<Media.Post?>, li: Boolean) {
         val content = Media.CONTENT_ALL
@@ -338,7 +486,7 @@ class Engine(
                 if (!li) throw LoginRequired(msg("engine.stories_need_login"))
                 val info = insta.openProfile(p.username, li)
                 author = info.username
-                var items = insta.stories(info.userId)
+                var items = insta.stories(info.userId, info.username)
                 if (p.storyMediaId.isNotEmpty()) {
                     items = items.filter { Media.pyStr(Media.or(Media.opt(it, "pk"), Media.pyStr(Media.or(Media.opt(it, "id"), "")).substringBefore('_'))) == p.storyMediaId }
                 }
@@ -396,7 +544,9 @@ class Engine(
         if (s.avatar) {
             try {
                 val urls = insta.avatarUrls(info, li)
-                enqueue(queue, Media.buildAvatar(info.user, urls, content), quietSkip = true)
+                val avatar = Media.buildAvatar(info.user, urls, content)
+                avatar.destUser = info.username
+                enqueue(queue, avatar, quietSkip = true)
             } catch (e: IgError) {
                 if (e is LoginRequired) throw e
                 log("warn", msg("engine.avatar_failed", "error" to e.m))
@@ -409,13 +559,19 @@ class Engine(
         if (s.stories) stories(insta, info, content, queue, li)
         if (s.highlights) highlights(insta, info, content, queue, li)
         if (s.posts) posts(insta, info, s, queue, li)
-        if (!(s.posts || s.stories || s.highlights || s.avatar)) synchronized(lock) { notes += msg("engine.nothing_selected") }
+        for ((tab, kind) in listOf("reels" to Media.KIND_REEL, "reposts" to Media.KIND_REPOST, "tagged" to Media.KIND_TAGGED)) {
+            val on = when (tab) { "reels" -> s.reels; "reposts" -> s.reposts; else -> s.tagged }
+            if (on) tabPass(insta, info, s, queue, li, tab, kind)
+        }
+        if (!(s.posts || s.stories || s.highlights || s.avatar || s.reels || s.reposts || s.tagged)) {
+            synchronized(lock) { notes += msg("engine.nothing_selected") }
+        }
     }
 
     private suspend fun stories(insta: Insta, info: ProfileInfo, content: String, queue: Channel<Media.Post?>, li: Boolean) {
         if (!li) { log("info", msg("engine.stories_skipped_login")); return }
         val items = try {
-            insta.stories(info.userId)
+            withRateWait { insta.stories(info.userId, info.username) }
         } catch (e: LoginRequired) {
             log("warn", msg("browser.session_expired")); return
         } catch (e: IgError) {
@@ -423,8 +579,11 @@ class Engine(
         }
         if (items.isEmpty()) { log("info", msg("engine.no_stories_now")); return }
         log("info", msg("engine.stories_found", "n" to items.size))
-        for (item in items) enqueue(queue, Media.buildPost(item, content, Media.KIND_STORY, Media.STORIES_DIR, info.username),
-            content = content, userId = info.userId)
+        for (item in items) {
+            val post = Media.buildPost(item, content, Media.KIND_STORY, Media.STORIES_DIR, info.username)
+            post.destUser = info.username
+            enqueue(queue, post, content = content, userId = info.userId)
+        }
     }
 
     private suspend fun highlights(insta: Insta, info: ProfileInfo, content: String, queue: Channel<Media.Post?>, li: Boolean) {
@@ -432,12 +591,15 @@ class Engine(
         val failed = mutableListOf<String>()
         val titles = HashMap<String, String>()
         val reels = try {
-            val tray = insta.highlightsTray(info.userId, info.username)
+            val tray = withRateWait { insta.highlightsTray(info.userId, info.username) }
             if (tray.isEmpty()) { log("info", msg("engine.no_highlights")); return }
             log("info", msg("engine.highlights_found", "n" to tray.size))
             for (h in tray) titles[h.optString("id")] = h.optString("title")
             val expected = tray.associate { it.optString("id") to it.optInt("media_count", 0) }
-            insta.highlightReels(tray.map { it.optString("id") }, expected, failed)
+            withRateWait {
+                failed.clear()
+                insta.highlightReels(tray.map { it.optString("id") }, expected, failed, titles)
+            }
         } catch (e: LoginRequired) {
             log("warn", msg("browser.session_expired")); return
         } catch (e: IgError) {
@@ -447,8 +609,11 @@ class Engine(
             val title = reel.title.ifEmpty { titles[reel.id] ?: "" }
             val folder = Media.highlightFolder(title, reel.id.substringAfterLast(':'))
             log("info", msg("engine.highlight_items", "title" to title.ifEmpty { reel.id.substringAfterLast(':') }, "n" to reel.items.size))
-            for (item in reel.items) enqueue(queue, Media.buildPost(item, content, Media.KIND_HIGHLIGHT, folder, info.username),
-                content = content, userId = info.userId)
+            for (item in reel.items) {
+                val post = Media.buildPost(item, content, Media.KIND_HIGHLIGHT, folder, info.username)
+                post.destUser = info.username
+                enqueue(queue, post, content = content, userId = info.userId)
+            }
         }
         if (failed.isNotEmpty()) {
             val names = failed.joinToString(", ") { (titles[it] ?: "").ifEmpty { it.substringAfterLast(':') } }
@@ -461,10 +626,11 @@ class Engine(
         val limit = s.limit
         val uid = info.userId
         val h = history
-        val newestKnown = if (s.onlyNew && h != null) h.completeNewest(uid, content) else 0L
+        // Dosya kontrolü açıkken profilin tamamı taranır: geçmişte "indi" görünen ama dosyası olmayanlar bulunur.
+        val newestKnown = if (s.onlyNew && h != null && !verifyFiles) h.completeNewest(uid, content) else 0L
         if (newestKnown > 0) log("info", msg("engine.only_new"))
         var resume: Pair<String, String>? = null
-        if (h != null && useHistory && newestKnown == 0L && limit == 0) {
+        if (h != null && useHistory && newestKnown == 0L && limit == 0 && !verifyFiles) {
             resume = h.resumePoint(uid, content)
             if (resume != null) log("info", msg("engine.resume_found"))
         }
@@ -481,14 +647,17 @@ class Engine(
             var regularKnown = 0
             for (item in items) {
                 val ts = Media.takenAtOf(item)
-                val post = Media.buildPost(item, content, username = info.username)
+                val post = Media.buildPost(item, content, username = info.username, captionMin = captionMin)
+                post.destUser = info.username
                 val isKnown = synchronized(progressLock) { post.key in known }
                 if (!Media.isPinned(item)) {
                     newestSeen = maxOf(newestSeen, ts)
                     if (newestKnown > 0 && ts > 0 && ts <= newestKnown) reachedOld = true
+                    if (dateFrom > 0 && ts > 0 && ts < dateFrom) reachedOld = true   // liste eskiye doğru; sonrası aralık dışı
                     regular++
                     if (isKnown || post.skippedReason != null) regularKnown++
                 }
+                if (!inRange(ts)) continue
                 if (needsRepair(item, post) && !isKnown) {
                     if (repairKeys.add(post.key)) repairs += post
                     continue
@@ -539,16 +708,115 @@ class Engine(
         if (repairs.isNotEmpty()) repair(insta, repairs, content, queue, li, info.username, uid)
         collecting = false
 
-        if ((result.reason == "end" || result.reason == "up_to_date") && limit == 0) {
+        if ((result.reason == "end" || result.reason == "up_to_date") && limit == 0 && dateFrom == 0L && dateTo == 0L) {
             var newest = newestSeen
             if (result.reason == "up_to_date") newest = maxOf(newest, newestKnown)
             pendingComplete = { h?.setComplete(uid, content, newest, info.username) }
         }
     }
 
-    private suspend fun waitAndContinue(round: Int) {
+    private fun inRange(ts: Long): Boolean {
+        if (ts <= 0) return true
+        if (dateFrom > 0 && ts < dateFrom) return false
+        if (dateTo > 0 && ts > dateTo) return false
+        return true
+    }
+
+    /** Gönderinin dosyaları diskte mi? "ok" (hepsi yeni yerinde), "legacy" (eski klasörde var) ya da "missing". */
+    private fun filesState(post: Media.Post, sink: MediaSink): String {
+        val folder = Media.authorFolder(post.destUser.ifEmpty { post.username.ifEmpty { author } })
+        var state = "ok"
+        for (f in post.files) {
+            if (sink.exists("$folder/${f.relStem}", f.ext)) continue
+            if (f.legacyStems.any { sink.exists("$folder/$it", f.ext) }) { state = "legacy"; continue }
+            return "missing"
+        }
+        if (post.captionStem.isNotEmpty() && !sink.textExists("$folder/${post.captionStem}.txt")) {
+            return if (state == "ok") "missing" else state
+        }
+        return state
+    }
+
+    private fun otherRounds(): Int = TestHooks.otherRounds ?: 2
+
+    /** Hız sınırına takılan listeyi (hikaye, öne çıkan, Reels…) bekleyip birkaç kez yeniden dener. */
+    private suspend fun <T> withRateWait(fn: suspend () -> T): T {
+        var rounds = 0
+        while (true) {
+            try {
+                return fn()
+            } catch (e: RateLimited) {
+                if (!historyAuto || rounds >= otherRounds()) throw e
+                rounds++
+                rateLimited = true
+                waitAndContinue(rounds, otherRounds())
+                rateLimited = false
+            }
+        }
+    }
+
+    /** Profil sayfasındaki ayrı bir sekmeyi (Reels, Yeniden paylaşımlar, Etiketlenenler) toplar. */
+    private suspend fun tabPass(insta: Insta, info: ProfileInfo, s: SettingsValues, queue: Channel<Media.Post?>,
+                                li: Boolean, tab: String, kind: String) {
+        val content = s.content
+        val limit = s.limit
+        val uid = info.userId
+        val label = msg("engine.tab_$tab")
+        if (!li && tab != "reels") { log("info", msg("engine.tab_needs_login", "tab" to label)); return }
+        log("info", msg("engine.tab_scanning", "tab" to label))
+        val stopKnown = s.onlyNew && !verifyFiles
+        val h = history
+
+        val onPage: (List<JSONObject>, String, String) -> String = { items, _, _ ->
+            var fresh = 0
+            var reachedOld = false
+            for (item in items) {
+                val ts = Media.takenAtOf(item)
+                val post = Media.buildPost(item, content, kind, "", info.username, captionMin)
+                post.destUser = info.username
+                post.ownerId = uid           // geçmiş, indirilen profile bağlı (gönderi başka kişinin olsa bile)
+                if (dateFrom > 0 && ts > 0 && ts < dateFrom && !Media.isPinned(item)) reachedOld = true
+                if (!inRange(ts)) continue
+                val isKnown = synchronized(progressLock) { post.key in known }
+                if (!isKnown && post.skippedReason == null) fresh++
+                enqueue(queue, post, content = content, userId = uid)
+            }
+            if (reachedOld || (stopKnown && items.isNotEmpty() && fresh == 0)) "stop" else ""
+        }
+
+        var rounds = 0
+        var result: FeedResult
+        while (true) {
+            collecting = true
+            result = try {
+                insta.collectTab(info, tab, li, limit, onPage)
+            } catch (e: RateLimited) {
+                FeedResult(0, "rate_limited")
+            }
+            logText("debug", "$tab via=${result.via} reason=${result.reason} n=${result.collected}")
+            if (result.reason == "rate_limited" && s.autoContinue && rounds < otherRounds() && result.collected == 0) {
+                rounds++
+                waitAndContinue(rounds, otherRounds())
+                if (h != null && useHistory) {
+                    val k = h.known(uid, content)
+                    synchronized(progressLock) { known.addAll(k) }
+                }
+                continue
+            }
+            break
+        }
+        collecting = false
+        when (result.reason) {
+            "rate_limited" -> { rateLimited = true; note(msg("engine.tab_rate_limited", "tab" to label, "n" to result.collected), "warn") }
+            "login_wall", "session_expired" -> { loginWall = true; note(msg("engine.tab_login_wall", "tab" to label, "n" to result.collected), "warn") }
+            else -> if (result.collected == 0) log("info", msg("engine.tab_empty", "tab" to label))
+            else log("ok", msg("engine.tab_scanned", "tab" to label, "n" to result.collected))
+        }
+    }
+
+    private suspend fun waitAndContinue(round: Int, total: Int = maxRounds()) {
         val seconds = resumeWait()
-        log("warn", msg("engine.auto_wait", "m" to maxOf(1L, Math.round(seconds / 60.0)), "n" to round, "total" to maxRounds()))
+        log("warn", msg("engine.auto_wait", "m" to maxOf(1L, Math.round(seconds / 60.0)), "n" to round, "total" to total))
         waitUntil = System.currentTimeMillis() + seconds * 1000
         waitKind = "rate"
         try {
@@ -570,7 +838,8 @@ class Engine(
             if (cancel.get()) return
             try {
                 val item = insta.getPost(post.code, li)
-                val fixed = Media.buildPost(item, content, username = username)
+                val fixed = Media.buildPost(item, content, username = username, captionMin = captionMin)
+                fixed.destUser = username
                 if (fixed.skippedReason == null) { enqueue(queue, fixed, content = content, userId = userId); continue }
             } catch (e: IgError) {
                 logText("debug", "repair ${post.code}: ${e.m.key}")
@@ -605,17 +874,28 @@ class Engine(
         if (post.key.isEmpty()) return
         if (userId.isNotEmpty() && post.ownerId.isEmpty()) post.ownerId = userId
         synchronized(progressLock) { if (!enqueued.add("${post.kind}:${post.key}")) return }
-        if (post.kind == Media.KIND_POST) foundPosts.incrementAndGet()
+        if (post.kind in Media.FEED_KINDS) foundPosts.incrementAndGet()
+        if (post.kind != Media.KIND_AVATAR) tabAdd(post.section, 0)
         if (author.isEmpty() && post.username.isNotEmpty()) author = post.username
         val reason = post.skippedReason
         if (reason != null) {
             if (reason.key in UNMATCHED_REASONS) { if (post.kind != Media.KIND_AVATAR) postsSkipped.incrementAndGet() }
             else postsUnavailable.incrementAndGet()
+            if (post.kind != Media.KIND_AVATAR) tabAdd(post.section, 3)
             if (!quietSkip) log("skip", msg("engine.skipped_post", "reason" to reason, "name" to post.stem))
             return
         }
         val isKnown = synchronized(progressLock) { post.kind != Media.KIND_AVATAR && post.key in known }
-        if (isKnown) { postsKnown.incrementAndGet(); return }
+        if (isKnown) {
+            val sink = curSink
+            val state = if (verifyFiles && sink != null) filesState(post, sink) else "ok"
+            if (state == "ok") { postsKnown.incrementAndGet(); tabAdd(post.section, 1); return }
+            // Dosyası yok ya da eski klasörde: indirme havuzu eksikleri indirir / eski dosyaları yeni yere taşır.
+            if (state == "missing") {
+                postsRepaired.incrementAndGet()
+                log("info", msg("engine.missing_file", "name" to post.stem))
+            }
+        }
         post.historyContent = content
         if (page != null) {
             post.page = page
@@ -639,6 +919,19 @@ class Engine(
     }
 
     internal fun postFinished(post: Media.Post, ok: Boolean) {
+        if (ok) {
+            tabAdd(post.section, 1)
+            noteInfo(post)
+        } else {
+            tabAdd(post.section, 2)
+            synchronized(lock) {
+                if (post !in failedPosts) failedPosts += post
+                if (failures.size < MAX_FAILURES) {
+                    failures += JSONObject().put("key", "${post.kind}:${post.key}").put("name", post.stem)
+                        .put("section", post.section).put("error", post.lastError)
+                }
+            }
+        }
         if (ok && post.kind != Media.KIND_AVATAR && post.ownerId.isNotEmpty()) {
             history?.mark(post.ownerId, post.key, post.historyContent.ifEmpty { Media.CONTENT_ALL }, post.kind, post.username)
             if (post.historyContent.isNotEmpty()) synchronized(progressLock) { known += post.key }
@@ -660,6 +953,9 @@ class Engine(
         const val MODE_PROFILE = "profile"
         const val MODE_LOGIN = "login"
         val UNMATCHED_REASONS = setOf("skip.video_only", "skip.image_only", "skip.image_only_avatar")
+        const val INFO_NAME = "bilgi.csv"
+        val INFO_HEADER = listOf("kod", "tür", "tarih", "bağlantı", "beğeni", "yorum", "dosyalar", "açıklama")
+        const val MAX_FAILURES = 60
 
         fun resumeWait(): Long = TestHooks.resumeWaitSeconds ?: 900L
         fun maxRounds(): Int = TestHooks.resumeRounds ?: 4
@@ -688,6 +984,7 @@ class DownloadPool(
             if (post == null) return
             if (cancel.get()) continue
             try {
+                eng.pauseGate()
                 downloadPost(post)
             } catch (e: CancelledException) {
                 return
@@ -695,15 +992,33 @@ class DownloadPool(
         }
     }
 
-    private fun downloadPost(post: Media.Post) {
-        val folder = Media.authorFolder(post.username.ifEmpty { eng.author })
+    private fun writeCaption(folder: String, post: Media.Post) {
+        val path = "$folder/${post.captionStem}.txt"
+        val name = path.substringAfterLast('/')
+        try {
+            if (sink.textExists(path)) return
+            if (sink.writeText(path, post.caption + "\n")) eng.log("info", msg("engine.caption_saved", "name" to name))
+            else eng.log("warn", msg("engine.caption_failed", "name" to name, "error" to "?"))
+        } catch (e: Exception) {
+            eng.log("warn", msg("engine.caption_failed", "name" to name, "error" to (e.message ?: e.javaClass.simpleName)))
+        }
+    }
+
+    private suspend fun downloadPost(post: Media.Post) {
+        val folder = Media.authorFolder(post.destUser.ifEmpty { post.username.ifEmpty { eng.author } })
+        post.attempts++
+        post.lastError = ""
         val results = mutableListOf<String>()
+        val failedBefore = eng.filesFailed.get()
         for (media in post.files) {
             if (cancel.get()) return
-            results += downloadFile(folder, media)
+            eng.pauseGate()
+            results += downloadFile(folder, media, post)
         }
-        eng.postsDone.incrementAndGet()
+        post.failedFiles = (eng.filesFailed.get() - failedBefore).coerceAtLeast(0)
         val ok = results.isNotEmpty() && results.none { it == "failed" }
+        if (post.attempts == 1) eng.postsDone.incrementAndGet()
+        if (ok && post.captionStem.isNotEmpty()) writeCaption(folder, post)
         eng.postFinished(post, ok)
         if (ok) {
             val key = when {
@@ -711,6 +1026,7 @@ class DownloadPool(
                     Media.KIND_STORY -> "engine.downloaded_story"
                     Media.KIND_HIGHLIGHT -> "engine.downloaded_highlight"
                     Media.KIND_AVATAR -> "engine.downloaded_avatar"
+                    Media.KIND_REEL -> "engine.downloaded_reel"
                     else -> if (post.isGallery) "engine.downloaded_gallery"
                     else if (post.files.any { it.kind == "video" }) "engine.downloaded_video" else "engine.downloaded_image"
                 }
@@ -720,11 +1036,14 @@ class DownloadPool(
         }
     }
 
-    private fun downloadFile(folder: String, media: Media.MediaFile): String {
+    private fun downloadFile(folder: String, media: Media.MediaFile, post: Media.Post? = null): String {
         val rel = "$folder/${media.relStem}"
         if (sink.exists(rel, media.ext)) { eng.filesSkipped.incrementAndGet(); return "skipped" }
-        if (media.legacyStem.isNotEmpty() && sink.moveLegacy("$folder/${media.legacyStem}", rel, media.ext)) {
-            eng.filesSkipped.incrementAndGet(); return "skipped"
+        // Eski sürümler dosyayı başka klasöre koyuyordu (kök, Fotoğraflar, Videolar): yeni yerine taşı.
+        for (legacy in media.legacyStems) {
+            if (sink.exists("$folder/$legacy", media.ext) && sink.moveLegacy("$folder/$legacy", rel, media.ext)) {
+                eng.filesSkipped.incrementAndGet(); return "skipped"
+            }
         }
         eng.setCurrent(rel.substringAfterLast('/'))
         eng.currentBytes.set(0)
@@ -750,6 +1069,7 @@ class DownloadPool(
             if (cancel.get()) return "failed"
             eng.log("warn", msg("engine.quality_fallback", "res" to media.plainRes.ifEmpty { "?" }, "error" to (got.error ?: "")))
             if (media.urls.isEmpty()) {
+                post?.lastError = got.error ?: ""
                 eng.filesFailed.incrementAndGet()
                 eng.log("error", msg("engine.download_failed", "name" to rel.substringAfterLast('/'), "error" to (got.error ?: "")))
                 return "failed"
@@ -771,6 +1091,7 @@ class DownloadPool(
             return "downloaded"
         }
         if (cancel.get()) return "failed"
+        post?.lastError = result.error ?: ""
         eng.filesFailed.incrementAndGet()
         eng.log("error", msg("engine.download_failed", "name" to rel.substringAfterLast('/'), "error" to (result.error ?: "")))
         return "failed"

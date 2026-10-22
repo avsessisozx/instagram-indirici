@@ -77,8 +77,93 @@ class MediaStoreSink(private val ctx: Context) : MediaSink {
         }
     }
 
+    // ---- eski düzenden taşıma: aynı dosyanın satırında klasör ve ad güncellenir (kopyalamadan)
+    override fun moveLegacy(oldRelStem: String, newRelStem: String, ext: String): Boolean {
+        val (oldDir, oldName) = split(oldRelStem)
+        val names = if (ext.isNotEmpty()) listOf(oldName + ext) else KNOWN_EXTS.map { oldName + it }
+        val placeholders = names.joinToString(",") { "?" }
+        return try {
+            val files = MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+            var id = -1L
+            var display = ""
+            resolver.query(
+                files, arrayOf(MediaStore.MediaColumns._ID, MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.MediaColumns.SIZE),
+                "${MediaStore.MediaColumns.RELATIVE_PATH}=? AND ${MediaStore.MediaColumns.DISPLAY_NAME} IN ($placeholders) " +
+                    "AND ${MediaStore.MediaColumns.IS_PENDING}=0",
+                arrayOf(oldDir, *names.toTypedArray()), null,
+            )?.use { c ->
+                while (c.moveToNext()) if (c.getLong(2) > 0) { id = c.getLong(0); display = c.getString(1); break }
+            }
+            if (id < 0) return false
+            val (newDir, newName) = split(newRelStem)
+            val dot = display.lastIndexOf('.')
+            val values = ContentValues().apply {
+                put(MediaStore.MediaColumns.RELATIVE_PATH, newDir)
+                put(MediaStore.MediaColumns.DISPLAY_NAME, newName + if (dot >= 0) display.substring(dot) else ext)
+            }
+            resolver.update(android.content.ContentUris.withAppendedId(files, id), values, null, null) > 0
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    // ---- metin dosyaları: Documents/Instagram/<yol>/
+    private fun textSplit(relPath: String): Pair<String, String> {
+        val dir = relPath.substringBeforeLast('/', "")
+        return (if (dir.isEmpty()) TEXT_BASE else "$TEXT_BASE$dir/") to relPath.substringAfterLast('/')
+    }
+
+    private fun textUri(relPath: String): Uri? {
+        val (dir, name) = textSplit(relPath)
+        return try {
+            val files = MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+            resolver.query(
+                files, arrayOf(MediaStore.MediaColumns._ID, MediaStore.MediaColumns.SIZE),
+                "${MediaStore.MediaColumns.RELATIVE_PATH}=? AND ${MediaStore.MediaColumns.DISPLAY_NAME}=? " +
+                    "AND ${MediaStore.MediaColumns.IS_PENDING}=0",
+                arrayOf(dir, name), null,
+            )?.use { c -> if (c.moveToFirst()) android.content.ContentUris.withAppendedId(files, c.getLong(0)) else null }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    override fun textExists(relPath: String): Boolean {
+        val uri = textUri(relPath) ?: return false
+        return try {
+            resolver.openInputStream(uri)?.use { it.read() >= 0 } ?: false
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    override fun readText(relPath: String): String? {
+        val uri = textUri(relPath) ?: return null
+        return try { resolver.openInputStream(uri)?.use { String(it.readBytes(), Charsets.UTF_8) } } catch (e: Exception) { null }
+    }
+
+    override fun writeText(relPath: String, text: String): Boolean {
+        return try {
+            val existing = textUri(relPath)
+            val uri = existing ?: run {
+                val (dir, name) = textSplit(relPath)
+                val values = ContentValues().apply {
+                    put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+                    put(MediaStore.MediaColumns.MIME_TYPE, if (name.endsWith(".csv")) "text/csv" else "text/plain")
+                    put(MediaStore.MediaColumns.RELATIVE_PATH, dir)
+                }
+                resolver.insert(MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY), values)
+            } ?: return false
+            resolver.openOutputStream(uri, "wt")?.use { it.write(text.toByteArray(Charsets.UTF_8)) } ?: return false
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
     companion object {
         const val BASE = "DCIM/Instagram/"
+        const val TEXT_BASE = "Documents/Instagram/"
     }
 }
 
@@ -98,6 +183,22 @@ class FileSink(private val base: File) : MediaSink {
         stem.parentFile?.mkdirs()
         val target = File(stem.parentFile, stem.name + "." + old.extension)
         return old.renameTo(target)
+    }
+
+    override fun textExists(relPath: String): Boolean = File(base, relPath).let { it.isFile && it.length() > 0 }
+
+    override fun readText(relPath: String): String? =
+        File(base, relPath).takeIf { it.isFile }?.let { try { it.readText(Charsets.UTF_8) } catch (e: Exception) { null } }
+
+    override fun writeText(relPath: String, text: String): Boolean = try {
+        val f = File(base, relPath)
+        f.parentFile?.mkdirs()
+        val tmp = File(f.parentFile, f.name + ".part")
+        tmp.writeText(text, Charsets.UTF_8)
+        if (!tmp.renameTo(f)) { tmp.copyTo(f, overwrite = true); tmp.delete() }
+        true
+    } catch (e: Exception) {
+        false
     }
 
     override fun begin(relStem: String, ext: String, mime: String): PendingFile {

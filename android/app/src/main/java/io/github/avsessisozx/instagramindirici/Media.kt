@@ -22,6 +22,9 @@ object Media {
     val CONTENT_CHOICES = listOf(CONTENT_ALL, CONTENT_VIDEO, CONTENT_IMAGE)
 
     const val KIND_POST = "post"
+    const val KIND_REEL = "reel"
+    const val KIND_REPOST = "repost"
+    const val KIND_TAGGED = "tagged"
     const val KIND_STORY = "story"
     const val KIND_HIGHLIGHT = "highlight"
     const val KIND_AVATAR = "avatar"
@@ -31,6 +34,20 @@ object Media {
     const val AVATAR_DIR = "Profil Fotoğrafı"
     const val PHOTOS_DIR = "Fotoğraflar"
     const val VIDEOS_DIR = "Videolar"
+    const val POSTS_DIR = "Gönderiler"
+    const val ALBUMS_DIR = "Albümler"
+    const val REELS_DIR = "Reels"
+    const val REPOSTS_DIR = "Yeniden Paylaşımlar"
+    const val TAGGED_DIR = "Etiketlenenler"
+
+    /** Gönderi gibi adlandırılan (kod + açıklama + tarih) türler. */
+    val FEED_KINDS = setOf(KIND_POST, KIND_REEL, KIND_REPOST, KIND_TAGGED)
+
+    /** Arayüzdeki sekme sayaçları için: tür -> sekme. */
+    val SECTION_OF_KIND = mapOf(
+        KIND_POST to "posts", KIND_REEL to "reels", KIND_REPOST to "reposts", KIND_TAGGED to "tagged",
+        KIND_STORY to "stories", KIND_HIGHLIGHT to "highlights", KIND_AVATAR to "avatar",
+    )
 
     /** DASH bildirimindeki (video_dash_manifest) tek bir akış: ses ya da görüntü. */
     data class DashStream(
@@ -58,12 +75,22 @@ object Media {
         var relStem: String,            // kişinin klasörüne göre yol, uzantısız
         val ext: String = "",           // boşsa sunucunun bildirdiği türe göre
         val expectedSize: Long = 0,
-        var legacyStem: String = "",
+        var legacyStems: List<String> = emptyList(),
         val dash: DashChoice? = null,   // varsa: normal sürümden daha iyi ses+görüntü akışı (birleştirilerek indirilir)
         val plainRes: String = "",      // normal (tek parça) sürümün çözünürlüğü, ör. "720x1280" (kayıt için)
     )
 
-    class Post(val kind: String) {
+    class Post(var kind: String) {
+        var section = ""
+        var destUser = ""               // dosyaların kaydedileceği kişi klasörü (boşsa gönderinin sahibi)
+        var caption = ""
+        var captionStem = ""            // doluysa açıklama bu yola .txt olarak yazılır
+        var likes = 0L
+        var comments = 0L
+        var permalink = ""
+        var attempts = 0
+        var failedFiles = 0
+        var lastError = ""
         var key = ""
         var code = ""
         var ownerId = ""
@@ -448,9 +475,44 @@ object Media {
             plainRes = if (width > 0 && height > 0) "${width}x$height" else "")
     }
 
-    fun buildPost(item: JSONObject, content: String, kind: String = KIND_POST, subdir: String = "", username: String = ""): Post {
+    /** Reels olarak paylaşılmış mı? (product_type == "clips") */
+    fun isReel(item: JSONObject): Boolean = pyStr(or(opt(item, "product_type"), "")).lowercase() == "clips"
+
+    /** Beğeni / yorum sayısı: v1 biçiminde düz alan, eski GraphQL biçiminde edge_*.count. */
+    fun countOf(item: JSONObject, v1Key: String, edgeKey: String): Long {
+        val value = toInt(opt(item, v1Key))
+        if (value != 0L) return value
+        val edge = opt(item, edgeKey)
+        return if (edge is JSONObject) toInt(opt(edge, "count")) else 0L
+    }
+
+    /** Gönderi türüne göre klasör: Gönderiler/Fotoğraflar|Videolar|Albümler/<ad>, Reels, ... */
+    fun feedFolder(kind: String, mediaKind: String, album: Boolean, stem: String): String {
+        if (kind == KIND_POST) {
+            if (album) return "$POSTS_DIR/$ALBUMS_DIR/$stem"
+            return "$POSTS_DIR/${if (mediaKind == "video") VIDEOS_DIR else PHOTOS_DIR}"
+        }
+        val base = when (kind) { KIND_REEL -> REELS_DIR; KIND_REPOST -> REPOSTS_DIR; else -> TAGGED_DIR }
+        return if (album) "$base/$stem" else base
+    }
+
+    /** Eski sürümlerin (1.0.x kök klasör, 1.1+ Fotoğraflar/Videolar) aynı dosyayı koyduğu yerler. */
+    fun feedLegacy(kind: String, mediaKind: String, name: String): List<String> {
+        val oldDir = if (mediaKind == "video") VIDEOS_DIR else PHOTOS_DIR
+        return when (kind) {
+            KIND_POST -> listOf("$oldDir/$name", name)
+            KIND_REEL -> listOf("$POSTS_DIR/$VIDEOS_DIR/$name", "$VIDEOS_DIR/$name", name)
+            else -> emptyList()
+        }
+    }
+
+    fun buildPost(item: JSONObject, content: String, kind0: String = KIND_POST, subdir: String = "",
+                  username: String = "", captionMin: Int = 0): Post {
+        var kind = kind0
         val owner = ownerOf(item)
+        if (kind == KIND_POST && isReel(item)) kind = KIND_REEL     // ızgarada görünen Reels de Reels/ klasörüne iner
         val post = Post(kind)
+        post.section = SECTION_OF_KIND[kind] ?: ""
         post.key = mediaKey(item)
         post.code = pyStr(or(opt(item, "code"), opt(item, "shortcode"),
             Links.shortcodeFromId(or(opt(item, "pk"), opt(item, "id"))), ""))
@@ -458,7 +520,14 @@ object Media {
         post.authorName = pyStr(or(opt(owner, "full_name"), ""))
         post.takenAt = takenAtOf(item)
         post.pinned = isPinned(item)
-        post.stem = if (kind == KIND_POST) {
+        post.caption = captionOf(item).trim()
+        post.likes = countOf(item, "like_count", "edge_media_preview_like")
+        post.comments = countOf(item, "comment_count", "edge_media_to_comment")
+        val feed = kind in FEED_KINDS
+        if (post.code.isNotEmpty() && feed) {
+            post.permalink = "https://www.instagram.com/${if (kind == KIND_REEL) "reel" else "p"}/${post.code}/"
+        }
+        post.stem = if (feed) {
             Naming.postStem(post.code.ifEmpty { post.key }, captionOf(item), post.takenAt)
         } else {
             val pk = pyStr(or(opt(item, "pk"), pyStr(or(opt(item, "id"), "")).substringBefore('_'), post.key))
@@ -467,19 +536,26 @@ object Media {
         post.ownerId = pyStr(or(opt(owner, "pk"), opt(owner, "id"), opt(owner, "pk_id"), ""))
         val prefix = if (subdir.isNotEmpty()) "$subdir/" else ""
         val nodes = children(item).ifEmpty { listOf(item) }
+        val album = nodes.size > 1
         var unmatched = 0
         var missingVideo = 0
+        var captionFolder = ""
         for ((index0, node) in nodes.withIndex()) {
             val index = index0 + 1
-            val name = if (nodes.size > 1) "${post.stem}_${index.toString().padStart(2, '0')}" else post.stem
+            val name = if (album) "${post.stem}_${index.toString().padStart(2, '0')}" else post.stem
             val media = fileFor(node, "$prefix$name")
-            if (kind == KIND_POST) {
-                media.relStem = "${if (media.kind == "video") VIDEOS_DIR else PHOTOS_DIR}/$name"
-                media.legacyStem = name
+            if (feed) {
+                val folder = feedFolder(kind, media.kind, album, post.stem)
+                media.relStem = "$folder/$name"
+                media.legacyStems = feedLegacy(kind, media.kind, name)
+                if (captionFolder.isEmpty()) captionFolder = folder
             }
             if (!wanted(media.kind, content)) { unmatched++; continue }
             if (media.urls.isEmpty() && media.dash == null) { if (media.kind == "video") missingVideo++; continue }
             post.files += media
+        }
+        if (feed && captionMin > 0 && post.caption.length >= captionMin && captionFolder.isNotEmpty()) {
+            post.captionStem = "$captionFolder/${post.stem}"
         }
         if (post.files.isEmpty()) {
             post.skippedReason = when {
@@ -506,6 +582,7 @@ object Media {
 
     fun buildAvatar(user: JSONObject, urlsIn: List<String>, content: String): Post {
         val post = Post(KIND_AVATAR)
+        post.section = "avatar"
         post.username = pyStr(or(opt(user, "username"), ""))
         post.authorName = pyStr(or(opt(user, "full_name"), ""))
         val urls = dedupe(urlsIn)

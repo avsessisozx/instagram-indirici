@@ -10,6 +10,14 @@ data class SettingsValues(
     val stories: Boolean = true,
     val highlights: Boolean = true,
     val avatar: Boolean = true,
+    val reels: Boolean = true,                 // Reels sekmesi (ayrı liste; Reels/ klasörüne iner)
+    val reposts: Boolean = false,              // Yeniden paylaşımlar sekmesi
+    val tagged: Boolean = false,               // Etiketlenenler sekmesi
+    val verifyFiles: Boolean = true,           // geçmişte "indi" görünen ama dosyası olmayanları yeniden indir
+    val captionMin: Int = 300,                 // bu kadar karakterden uzun açıklamalar ayrı .txt olur (0 = kapalı)
+    val infoCsv: Boolean = true,               // her profile bilgi.csv yaz
+    val dateFrom: String = "",                 // YYYY-MM-DD: bundan eski gönderiler indirilmez
+    val dateTo: String = "",                   // YYYY-MM-DD: bundan yeni gönderiler indirilmez
     val onlyNew: Boolean = true,
     val history: Boolean = true,
     val autoContinue: Boolean = true,
@@ -27,6 +35,14 @@ data class SettingsValues(
         .put("stories", stories)
         .put("highlights", highlights)
         .put("avatar", avatar)
+        .put("reels", reels)
+        .put("reposts", reposts)
+        .put("tagged", tagged)
+        .put("verify_files", verifyFiles)
+        .put("caption_min", captionMin)
+        .put("info_csv", infoCsv)
+        .put("date_from", dateFrom)
+        .put("date_to", dateTo)
         .put("only_new", onlyNew)
         .put("history", history)
         .put("auto_continue", autoContinue)
@@ -55,10 +71,17 @@ data class SettingsValues(
         v = v.copy(
             posts = bool("posts", v.posts), stories = bool("stories", v.stories),
             highlights = bool("highlights", v.highlights), avatar = bool("avatar", v.avatar),
+            reels = bool("reels", v.reels), reposts = bool("reposts", v.reposts), tagged = bool("tagged", v.tagged),
+            verifyFiles = bool("verify_files", v.verifyFiles), infoCsv = bool("info_csv", v.infoCsv),
             onlyNew = bool("only_new", v.onlyNew), history = bool("history", v.history),
             autoContinue = bool("auto_continue", v.autoContinue),
             setupDone = bool("setup_done", v.setupDone), noConfirm = bool("no_confirm", v.noConfirm),
         )
+        if (o.has("caption_min")) {
+            v = v.copy(captionMin = Media.toInt(o.opt("caption_min")).coerceIn(0, CAPTION_MIN_MAX.toLong()).toInt())
+        }
+        if (o.has("date_from")) v = v.copy(dateFrom = cleanDate(o.opt("date_from")))
+        if (o.has("date_to")) v = v.copy(dateTo = cleanDate(o.opt("date_to")))
         val identity = o.opt("identity")
         if (identity is String && identity in Identity.ALL) v = v.copy(identity = identity)
         val speed = o.opt("speed")
@@ -69,6 +92,28 @@ data class SettingsValues(
     }
 
     companion object {
+        const val CAPTION_MIN_MAX = 20000
+
+        /** YYYY-MM-DD biçimindeki geçerli tarihi olduğu gibi, geçersizi boş metin olarak döndürür. */
+        fun cleanDate(value: Any?): String {
+            val text = (value as? String)?.trim() ?: return ""
+            if (text.length != 10) return ""
+            return try { java.time.LocalDate.parse(text).toString() } catch (e: Exception) { "" }
+        }
+
+        /** Günün başlangıcı (UTC) saniye olarak; boşsa 0. */
+        fun dateStartTs(value: String): Long {
+            val text = cleanDate(value)
+            if (text.isEmpty()) return 0
+            return java.time.LocalDate.parse(text).atStartOfDay(java.time.ZoneOffset.UTC).toEpochSecond()
+        }
+
+        /** Günün sonu (UTC) saniye olarak; boşsa 0 (sınır yok). */
+        fun dateEndTs(value: String): Long {
+            val start = dateStartTs(value)
+            return if (start != 0L) start + 86400 - 1 else 0L
+        }
+
         fun fromJson(raw: String?, languages: Collection<String>): SettingsValues = try {
             SettingsValues().merge(if (raw.isNullOrEmpty()) null else JSONObject(raw), languages)
         } catch (e: Exception) {
@@ -95,6 +140,12 @@ object TestHooks {
     @Volatile var resumeWaitSeconds: Long? = null
     @Volatile var resumeRounds: Int? = null
     @Volatile var verifyCalmMs: Long? = null
+    /** HTTP 5xx sonrası ilk bekleme (saniye); ikinci denemede iki katı. */
+    @Volatile var serverErrorWaitSeconds: Double? = null
+    /** Eksik dosyaları yeniden denemeden önceki bekleme (ms). */
+    @Volatile var retryWaitMs: Long? = null
+    /** Hikaye / öne çıkan / Reels listelerinde hız sınırında kaç kez bekleyip yeniden denenir. */
+    @Volatile var otherRounds: Int? = null
     /** Testlerde gerçek ses/görüntü birleştirici yerine kullanılır. */
     @Volatile var muxer: Muxer? = null
 }

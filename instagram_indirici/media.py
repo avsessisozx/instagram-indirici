@@ -22,15 +22,29 @@ from .naming import date_from_timestamp, post_stem, sanitize
 from .paths import CONTENT_IMAGE, CONTENT_VIDEO
 
 KIND_POST = "post"
+KIND_REEL = "reel"
+KIND_REPOST = "repost"
+KIND_TAGGED = "tagged"
 KIND_STORY = "story"
 KIND_HIGHLIGHT = "highlight"
 KIND_AVATAR = "avatar"
 
+# Gönderi gibi adlandırılan (kod + açıklama + tarih) türler
+FEED_KINDS = (KIND_POST, KIND_REEL, KIND_REPOST, KIND_TAGGED)
+# Arayüzdeki sekme sayaçları için: tür -> sekme
+SECTION_OF_KIND = {KIND_POST: "posts", KIND_REEL: "reels", KIND_REPOST: "reposts", KIND_TAGGED: "tagged",
+                   KIND_STORY: "stories", KIND_HIGHLIGHT: "highlights", KIND_AVATAR: "avatar"}
+
 STORIES_DIR = "Hikayeler"
 HIGHLIGHTS_DIR = "Öne Çıkanlar"
 AVATAR_DIR = "Profil Fotoğrafı"
+POSTS_DIR = "Gönderiler"
 PHOTOS_DIR = "Fotoğraflar"
 VIDEOS_DIR = "Videolar"
+ALBUMS_DIR = "Albümler"
+REELS_DIR = "Reels"
+REPOSTS_DIR = "Yeniden Paylaşımlar"
+TAGGED_DIR = "Etiketlenenler"
 
 
 @dataclass
@@ -59,7 +73,7 @@ class MediaFile:
     rel_stem: str             # klasöre göre yol, uzantısız (ör. "Hikayeler/2026-10-01_123")
     ext: str = ""             # boşsa sunucunun bildirdiği türe göre seçilir
     expected_size: int = 0
-    legacy_stem: str = ""     # 1.0.x sürümünün aynı dosyayı koyduğu yer (varsa buradan taşınır)
+    legacy_stems: List[str] = field(default_factory=list)   # eski sürümlerin aynı dosyayı koyduğu yerler (varsa buradan taşınır)
     dash: Optional[DashChoice] = None   # varsa: normal sürümden daha iyi ses+görüntü akışı (ffmpeg ile birleştirilir)
     plain_res: str = ""       # normal (tek parça) sürümün çözünürlüğü, ör. "720x1280" (kayıt için)
 
@@ -75,6 +89,16 @@ class Post:
     taken_at: int = 0
     pinned: bool = False
     stem: str = ""
+    section: str = ""               # arayüz sekmesi: posts / reels / reposts / tagged / stories / highlights / avatar
+    dest_user: str = ""             # dosyaların hangi profil klasörüne gideceği (boşsa username)
+    caption: str = ""
+    caption_stem: str = ""          # uzun açıklamanın .txt dosyası (uzantısız yol); boşsa açıklama ayrıca kaydedilmez
+    likes: int = 0
+    comments: int = 0
+    permalink: str = ""
+    attempts: int = 0               # kaç kez indirilmeye çalışıldı (yeniden deneme için)
+    failed_files: int = 0           # bu gönderide inemeyen dosya sayısı
+    last_error: str = ""            # son indirme hatası (arayüzdeki "inemeyenler" listesi için)
     files: List[MediaFile] = field(default_factory=list)
     skipped_reason: Optional[Msg] = None
     history_content: str = ""       # geçmişe hangi içerik seçimiyle yazılacağı
@@ -415,18 +439,61 @@ def _file_for(node: Dict[str, Any], rel_stem: str) -> Optional[MediaFile]:
     return MediaFile("image", urls, rel_stem, "")
 
 
+def is_reel(item: Dict[str, Any]) -> bool:
+    """Reels olarak paylaşılmış mı? (product_type == "clips")"""
+    return str(item.get("product_type") or "").lower() == "clips"
+
+
+def count_of(item: Dict[str, Any], v1_key: str, edge_key: str) -> int:
+    """Beğeni / yorum sayısı: v1 biçiminde düz alan, eski GraphQL biçiminde edge_*.count."""
+    value = _int(item.get(v1_key))
+    if value:
+        return value
+    edge = item.get(edge_key)
+    return _int(edge.get("count")) if isinstance(edge, dict) else 0
+
+
+def feed_folder(kind: str, media_kind: str, album: bool, stem: str) -> str:
+    """Gönderi türüne göre klasör: Gönderiler/Fotoğraflar|Videolar|Albümler/<ad>, Reels, ..."""
+    if kind == KIND_POST:
+        if album:
+            return f"{POSTS_DIR}/{ALBUMS_DIR}/{stem}"
+        return f"{POSTS_DIR}/{VIDEOS_DIR if media_kind == 'video' else PHOTOS_DIR}"
+    base = {KIND_REEL: REELS_DIR, KIND_REPOST: REPOSTS_DIR, KIND_TAGGED: TAGGED_DIR}[kind]
+    return f"{base}/{stem}" if album else base
+
+
+def feed_legacy(kind: str, media_kind: str, name: str) -> List[str]:
+    """Eski sürümlerin (1.0.x kök klasör, 1.1+ Fotoğraflar/Videolar) aynı dosyayı koyduğu yerler."""
+    old_dir = VIDEOS_DIR if media_kind == "video" else PHOTOS_DIR
+    if kind == KIND_POST:
+        return [f"{old_dir}/{name}", name]
+    if kind == KIND_REEL:
+        return [f"{POSTS_DIR}/{VIDEOS_DIR}/{name}", f"{VIDEOS_DIR}/{name}", name]
+    return []
+
+
 def build_post(item: Dict[str, Any], *, content: str, kind: str = KIND_POST,
-               subdir: str = "", username: str = "") -> Post:
+               subdir: str = "", username: str = "", caption_min: int = 0) -> Post:
     owner = owner_of(item)
+    if kind == KIND_POST and is_reel(item):
+        kind = KIND_REEL      # ızgarada görünen Reels de Reels/ klasörüne iner
     post = Post(kind=kind)
+    post.section = SECTION_OF_KIND.get(kind, "")
     post.key = media_key(item)
     post.code = str(item.get("code") or item.get("shortcode") or links.shortcode_from_id(item.get("pk") or item.get("id")) or "")
     post.username = str(owner.get("username") or username or "")
     post.author_name = str(owner.get("full_name") or "")
     post.taken_at = taken_at_of(item)
     post.pinned = is_pinned(item)
+    post.caption = caption_of(item).strip()
+    post.likes = count_of(item, "like_count", "edge_media_preview_like")
+    post.comments = count_of(item, "comment_count", "edge_media_to_comment")
+    if post.code and kind in FEED_KINDS:
+        post.permalink = f"https://www.instagram.com/{'reel' if kind == KIND_REEL else 'p'}/{post.code}/"
 
-    if kind == KIND_POST:
+    feed = kind in FEED_KINDS
+    if feed:
         post.stem = post_stem(post.code or post.key, caption_of(item), post.taken_at)
     else:
         pk = str(item.get("pk") or str(item.get("id") or "").split("_")[0] or post.key)
@@ -435,19 +502,21 @@ def build_post(item: Dict[str, Any], *, content: str, kind: str = KIND_POST,
     prefix = f"{subdir}/" if subdir else ""
 
     nodes = children(item) or [item]
+    album = len(nodes) > 1
     files: List[MediaFile] = []
     unmatched = 0
     missing_video = 0
+    caption_folder = ""
     for index, node in enumerate(nodes, 1):
-        name = f"{post.stem}_{index:02d}" if len(nodes) > 1 else post.stem
+        name = f"{post.stem}_{index:02d}" if album else post.stem
         media = _file_for(node, f"{prefix}{name}")
         if media is None:
             continue
-        if kind == KIND_POST:
-            # Gönderiler türüne göre ayrı klasöre: Fotoğraflar / Videolar
-            folder = VIDEOS_DIR if media.kind == "video" else PHOTOS_DIR
+        if feed:
+            folder = feed_folder(kind, media.kind, album, post.stem)
             media.rel_stem = f"{folder}/{name}"
-            media.legacy_stem = name
+            media.legacy_stems = feed_legacy(kind, media.kind, name)
+            caption_folder = caption_folder or folder
         if not _wanted(media.kind, content):
             unmatched += 1
             continue
@@ -457,6 +526,8 @@ def build_post(item: Dict[str, Any], *, content: str, kind: str = KIND_POST,
             continue
         files.append(media)
     post.files = files
+    if feed and caption_min > 0 and len(post.caption) >= caption_min and caption_folder:
+        post.caption_stem = f"{caption_folder}/{post.stem}"
     if not files:
         if unmatched:
             post.skipped_reason = msg("skip.video_only" if content == CONTENT_VIDEO else "skip.image_only")
@@ -469,7 +540,7 @@ def build_post(item: Dict[str, Any], *, content: str, kind: str = KIND_POST,
 
 def build_avatar(user: Dict[str, Any], urls: List[str], *, content: str) -> Post:
     post = Post(kind=KIND_AVATAR, username=str(user.get("username") or ""),
-                author_name=str(user.get("full_name") or ""))
+                author_name=str(user.get("full_name") or ""), section="avatar")
     urls = _dedupe(urls)
     pic_id = str(user.get("profile_pic_id") or "").split("_")[0]
     name = pic_id or (sanitize(_url_stem(urls[0]), 80, "profil") if urls else "profil")

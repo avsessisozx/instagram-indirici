@@ -58,7 +58,10 @@ class IntegrationTests(unittest.TestCase):
         # Geçmiş ve "sadece yeni" testler arasında birbirini etkilemesin diye varsayılan kapalı;
         # bu özellikleri deneyen testler açıkça açar.
         base = {"out_dir": str(out), "content": "all", "limit": 0, "posts": True, "stories": True,
-                "highlights": True, "avatar": True, "only_new": False, "history": False, "auto_continue": False}
+                "highlights": True, "avatar": True, "only_new": False, "history": False, "auto_continue": False,
+                # 1.7 özellikleri eski testleri etkilemesin diye kapalı; yeni testler açıkça açar.
+                "reels": False, "reposts": False, "tagged": False, "verify_files": False, "info_csv": False,
+                "caption_min": 0}
         base.update(settings)
         error = engine.start(Job(link, mode, base))
         self.assertIsNone(error, error and error.key)
@@ -239,9 +242,10 @@ class IntegrationTests(unittest.TestCase):
         is_proje = [f for f in files if f.startswith(prefix + "Öne Çıkanlar/İş Proje/")]
         self.assertEqual((len(tatil), len(is_proje)), (2, 3), files)
         self.assertIn(prefix + "Profil Fotoğrafı/9988776655.jpg", files)
-        posts = [f for f in files if f.startswith((prefix + "Fotoğraflar/", prefix + "Videolar/"))]
-        self.assertTrue(all(f.endswith(".mp4") for f in files if f.startswith(prefix + "Videolar/")))
-        self.assertFalse(any(f.endswith(".mp4") for f in files if f.startswith(prefix + "Fotoğraflar/")))
+        posts = [f for f in files if f.startswith((prefix + "Gönderiler/", prefix + "Reels/"))]
+        self.assertTrue(all(f.endswith(".mp4") for f in files if f.startswith(prefix + "Reels/")))
+        self.assertFalse(any(f.endswith(".mp4") for f in files if f.startswith(prefix + "Gönderiler/Fotoğraflar/")))
+        self.assertTrue(any(f.startswith(prefix + "Gönderiler/Albümler/") for f in files))
         self.assertEqual([f for f in files if f.count("/") == 1], [], "kişinin klasöründe başıboş dosya kalmamalı")
         # 41 gönderi: 8 albüm (3 dosya), 8 video, 1 videosuz (atlanır), geri kalanı tek resim
         albums = sum(1 for i in range(fi.TOTAL_POSTS) if i % 5 == 2)
@@ -445,7 +449,7 @@ class IntegrationTests(unittest.TestCase):
                                  limit=3)
         self.assertEqual(snap["phase"], "done", snap["summary"])
         self.assertFalse(old.exists())
-        moved = list((out / fi.PROFILE_OK / "Fotoğraflar").glob(f"{stem}.*"))
+        moved = list((out / fi.PROFILE_OK / "Gönderiler" / "Fotoğraflar").glob(f"{stem}.*"))
         self.assertEqual(len(moved), 1, moved)
         self.assertEqual(moved[0].read_bytes(), b"eski dosya")
 
@@ -506,6 +510,106 @@ class IntegrationTests(unittest.TestCase):
         h = History()
         h.clear()
         h.close()
+
+
+    # ------------------------------------------------------------ 1.7: sekmeler, açıklama, eksik dosya, yedek yollar
+    def test_e1_reels_tab_is_collected_separately(self):
+        self.ensure_login()
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", reels=True, stories=False, highlights=False, avatar=False)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        files = self.files(out)
+        reels = [f for f in files if f.startswith(f"{fi.PROFILE_OK}/Reels/")]
+        # ızgaradaki 8 klip + yalnız Reels sekmesinde olan 5 klip (videosu olmayan 1 klip indirilemez)
+        self.assertEqual(len(reels), 13, reels)
+        self.assertEqual(len({Path(f).name for f in reels}), 13)
+        self.assertEqual(snap["tabs"]["reels"]["found"], 14)
+        self.assertEqual(snap["tabs"]["reels"]["failed"], 0)
+        self.assertFalse(any("/Videolar/" in f and f.endswith(".mp4") for f in files))
+
+    def test_e2_reels_fall_back_to_tab_page_scroll(self):
+        self.ensure_login()
+        self.fake.clips_refused = True
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", reels=True, posts=False, stories=False,
+                                 highlights=False, avatar=False)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertIn("browser.scrolling", self.keys(snap))
+        reels = [f for f in self.files(out) if f.startswith(f"{fi.PROFILE_OK}/Reels/")]
+        self.assertGreaterEqual(len(reels), 5)
+
+    def test_e3_long_caption_saved_next_to_media(self):
+        self.ensure_login()
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", reels=True, caption_min=100, posts=False,
+                                 stories=False, highlights=False, avatar=False)
+        files = self.files(out)
+        txt = [f for f in files if f.endswith(".txt")]
+        self.assertEqual(len(txt), 1, txt)
+        self.assertIn(txt[0][:-4] + ".mp4", files)
+        self.assertIn("uzun açıklama", (out / txt[0]).read_text(encoding="utf-8"))
+
+    def test_e4_missing_files_are_redownloaded_even_if_history_knows_them(self):
+        self.ensure_login()
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", history=True, stories=False, highlights=False, avatar=False)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        before = self.files(out)
+        victims = [f for f in before if f.startswith(f"{fi.PROFILE_OK}/Reels/")][:2]
+        for f in victims:
+            (out / f).unlink()
+        snap2, _ = self.run_job(fi.PROFILE_OK, "profile", out=out, history=True, only_new=True, verify_files=True,
+                                stories=False, highlights=False, avatar=False)
+        self.assertEqual(snap2["phase"], "done", snap2["summary"])
+        self.assertEqual(snap2["posts_repaired"], 2)
+        self.assertEqual(self.files(out), before)
+
+    def test_e5_highlights_fall_back_to_their_own_page_on_http_500(self):
+        self.ensure_login()
+        os.environ["INSTAGRAM_INDIRICI_5XX_WAIT"] = "0"
+        try:
+            self.fake.highlights_500 = True
+            snap, out = self.run_job(fi.PROFILE_OK, "profile", posts=False, stories=False, avatar=False)
+        finally:
+            os.environ.pop("INSTAGRAM_INDIRICI_5XX_WAIT", None)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertIn("browser.highlight_from_page", self.keys(snap))
+        files = self.files(out)
+        self.assertEqual(len([f for f in files if f.startswith(f"{fi.PROFILE_OK}/Öne Çıkanlar/Tatil/")]), 2, files)
+
+    def test_e6_short_http_500_is_retried(self):
+        self.ensure_login()
+        os.environ["INSTAGRAM_INDIRICI_5XX_WAIT"] = "0"
+        try:
+            self.fake.reels_media_fail_n = 2
+            snap, out = self.run_job(fi.PROFILE_OK, "profile", posts=False, highlights=False, avatar=False)
+        finally:
+            os.environ.pop("INSTAGRAM_INDIRICI_5XX_WAIT", None)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertEqual(len([f for f in self.files(out) if "/Hikayeler/" in f]), 3)
+
+    def test_e7_info_csv_is_written(self):
+        self.ensure_login()
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", info_csv=True, limit=5, stories=False, highlights=False,
+                                 avatar=False)
+        csv_text = (out / fi.PROFILE_OK / "bilgi.csv").read_text(encoding="utf-8-sig")
+        lines = [l for l in csv_text.splitlines() if l]
+        self.assertTrue(lines[0].startswith("kod;tür;tarih"))
+        self.assertEqual(len(lines), 6, lines)
+
+    def test_e8_date_range_limits_posts(self):
+        self.ensure_login()
+        # BASE_TS ≈ 2025-10-09; her gönderi bir gün arayla eskiye gider
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", date_from="2025-09-25", date_to="2025-09-30",
+                                 stories=False, highlights=False, avatar=False)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertLessEqual(snap["found_posts"], 7)
+        self.assertGreaterEqual(snap["found_posts"], 5)
+
+    def test_e9_tagged_and_reposts_are_optional_tabs(self):
+        self.ensure_login()
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", tagged=True, reposts=True, posts=False, stories=False,
+                                 highlights=False, avatar=False)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        files = self.files(out)
+        self.assertEqual(len([f for f in files if "/Etiketlenenler/" in f]), 3, files)
+        self.assertEqual(len([f for f in files if "/Yeniden Paylaşımlar/" in f]), 2, files)
 
 
 if __name__ == "__main__":

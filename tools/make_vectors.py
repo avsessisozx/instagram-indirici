@@ -77,12 +77,17 @@ def naming_vectors():
     return {"cases": out, "dates": dates}
 
 
+CAPTION_MIN = 20   # vektörlerde kısa tutulur ki uzun açıklama yolu da denensin
+
+
 def post_dict(post):
     return {
         "key": post.key, "code": post.code, "owner_id": post.owner_id, "username": post.username,
         "taken_at": post.taken_at, "pinned": post.pinned, "stem": post.stem,
         "skipped": post.skipped_reason.key if post.skipped_reason else None,
-        "files": [{"kind": f.kind, "rel_stem": f.rel_stem, "legacy_stem": f.legacy_stem, "ext": f.ext,
+        "section": post.section, "caption_stem": post.caption_stem, "likes": post.likes,
+        "comments": post.comments, "permalink": post.permalink,
+        "files": [{"kind": f.kind, "rel_stem": f.rel_stem, "legacy_stems": f.legacy_stems, "ext": f.ext,
                    "urls": f.urls} for f in post.files],
     }
 
@@ -104,7 +109,7 @@ def post_vectors():
         case["results"] = []
         for content in ("all", "video", "image"):
             post = media.build_post(case["item"], content=content, kind=case["kind"], subdir=case["subdir"],
-                                    username=fi.PROFILE_OK)
+                                    username=fi.PROFILE_OK, caption_min=CAPTION_MIN)
             case["results"].append({"content": content, **post_dict(post)})
     return cases
 

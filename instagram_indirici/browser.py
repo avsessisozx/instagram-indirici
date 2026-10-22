@@ -22,7 +22,7 @@ import threading
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Awaitable, Callable, Dict, List, Optional, Tuple
 from urllib.parse import urlencode, urlsplit
 
 from . import links, media, winbrowsers
@@ -236,6 +236,11 @@ class InstagramBrowser:
         self.api_calls = 0
         self.list_pages = 0
         self.on_wait: Callable[[float], None] = lambda until: None
+        self.pause_gate: Callable[[], Awaitable[None]] = self._no_pause
+
+    @staticmethod
+    async def _no_pause() -> None:
+        return None
 
     # ------------------------------------------------------------ açılış
     async def __aenter__(self) -> "InstagramBrowser":
@@ -391,6 +396,7 @@ class InstagramBrowser:
         while True:
             self._check_cancel()
             self._check_alive()
+            await self.pause_gate()
             left = end - time.monotonic()
             if left <= 0:
                 return
@@ -557,9 +563,11 @@ class InstagramBrowser:
             await self._pace(counts_as_page=what != "highlights")
         attempt = 0
         connection_errors = 0
+        server_errors = 0
         verified = False
         while True:
             self._check_cancel()
+            await self.pause_gate()
             res = await self._raw_api(path, params=params, form=form)
             kind = classify(res)
             if os.environ.get("INSTAGRAM_INDIRICI_DEBUG"):
@@ -573,6 +581,14 @@ class InstagramBrowser:
                     await self._sleep(5 * connection_errors)
                     continue
                 raise ApiError(f"{what or path}: {res.error or 'no response'}")
+            if kind == "error" and res.status in (500, 502, 503, 504):
+                # "Üzgünüz, bir sorun oluştu. Lütfen tekrar dene." — Instagram'ın geçici sunucu hatası.
+                server_errors += 1
+                if server_errors <= 2:
+                    wait = float(os.environ.get("INSTAGRAM_INDIRICI_5XX_WAIT", "10")) * server_errors
+                    self.log("debug", f"{what or path}: HTTP {res.status}, {wait:g} sn sonra yeniden denenecek")
+                    await self._sleep(wait)
+                    continue
             if kind == "rate":
                 if attempt >= len(backoff):
                     self.log("info", msg("browser.refused", what=msg(f"what.{what or 'other'}"), code=res.status or "?"))
@@ -1008,6 +1024,192 @@ class InstagramBrowser:
             if tasks:
                 await asyncio.gather(*tasks, return_exceptions=True)
 
+    # ------------------------------------------------------------ Reels / etiketlenenler / yeniden paylaşımlar
+    async def collect_tab(self, info: ProfileInfo, tab: str, *, logged_in: bool, limit: int,
+                          on_page: Callable[..., str]) -> FeedResult:
+        """Profilin ayrı sekmelerini (reels | tagged | reposts) toplar.
+
+        Reels ve etiketlenenler için önce kendi liste isteği denenir; olmazsa (ya da yeniden paylaşımlar
+        için doğrudan) sekme sayfası kaydırılıp sayfanın kendi yüklediği veri yakalanır.
+        """
+        state = _FeedState(limit=limit, on_page=on_page)
+        result = FeedResult()
+
+        def finish(reason: str, via: str) -> FeedResult:
+            result.reason = "limit" if state.limit_hit else reason
+            result.collected = len(state.seen)
+            result.via = via
+            return result
+
+        strategies: List[Tuple[str, Callable[[], Any]]] = []
+        if logged_in and tab == "reels":
+            strategies.append(("clips", lambda: self._tab_clips(info, state)))
+        if logged_in and tab == "tagged":
+            strategies.append(("usertags", lambda: self._tab_usertags(info, state)))
+        strategies.append(("scroll", lambda: self._tab_scroll(info, tab, state)))
+
+        last_reason = "stalled"
+        rate_hits = 0
+        for name, run in strategies:
+            self._check_cancel()
+            try:
+                reason = await run()
+            except ApiError as exc:
+                self.log("info", msg("browser.strategy_failed", detail=exc.detail))
+                continue
+            except NotFound:
+                continue
+            except RateLimited:
+                last_reason = "rate_limited"
+                rate_hits += 1
+                continue
+            except LoginRequired:
+                if state.seen:
+                    return finish("session_expired", name)
+                last_reason = "login_wall"
+                continue
+            if reason in ("end", "up_to_date", "limit"):
+                return finish(reason, name)
+            last_reason = reason
+        if rate_hits and not state.seen:
+            raise RateLimited(tab)
+        if rate_hits:
+            return finish("rate_limited", "")
+        return finish(last_reason if state.seen else ("login_wall" if not logged_in else "stalled"), "")
+
+    def _tab_filter(self, info: ProfileInfo, tab: str, items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Etiketlenenler ve yeniden paylaşımlarda profilin kendi gönderileri hariç tutulur; reels'te yalnız klipler."""
+        out = []
+        for item in items:
+            owner = str(media.owner_of(item).get("username") or "").lower()
+            if tab in ("tagged", "reposts"):
+                if owner and owner == info.username.lower():
+                    continue
+            elif tab == "reels":
+                if owner and owner != info.username.lower():
+                    continue
+                if not media.is_reel(item) and media.is_media(item) and item.get("product_type") not in (None, ""):
+                    continue
+            out.append(item)
+        return out
+
+    async def _tab_clips(self, info: ProfileInfo, state: "_FeedState") -> str:
+        max_id = ""
+        pages = 0
+        while True:
+            self._check_cancel()
+            form = {"target_user_id": info.user_id, "page_size": "12", "include_feed_video": "true"}
+            if max_id:
+                form["max_id"] = max_id
+            data = await self.call("/api/v1/clips/user/", form=form, what="reels", essential=pages > 0)
+            if not isinstance(data, dict) or not isinstance(data.get("items"), list):
+                raise ApiError("clips: no items")
+            raw = []
+            for entry in data["items"]:
+                inner = entry.get("media") if isinstance(entry, dict) and isinstance(entry.get("media"), dict) else entry
+                if isinstance(inner, dict) and media.is_media(inner):
+                    raw.append(inner)
+            pages += 1
+            paging = data.get("paging_info") if isinstance(data.get("paging_info"), dict) else {}
+            next_id = str(paging.get("max_id") or "")
+            more = bool(paging.get("more_available")) and bool(next_id) and next_id != max_id
+            decision = state.accept(self._tab_filter(info, "reels", raw), "clips", next_id if more else "")
+            if decision == "stop":
+                return "up_to_date"
+            if state.done:
+                return "limit"
+            if not more:
+                return "end"
+            max_id = next_id
+
+    async def _tab_usertags(self, info: ProfileInfo, state: "_FeedState") -> str:
+        max_id = ""
+        pages = 0
+        while True:
+            self._check_cancel()
+            params = [("count", "30")]
+            if max_id:
+                params.append(("max_id", max_id))
+            data = await self.call(f"/api/v1/usertags/{info.user_id}/feed/", params=params, what="tagged",
+                                   essential=pages > 0)
+            if not isinstance(data, dict) or not isinstance(data.get("items"), list):
+                raise ApiError("usertags: no items")
+            items = [i for i in data["items"] if media.is_media(i)]
+            pages += 1
+            next_id = str(data.get("next_max_id") or "")
+            more = bool(data.get("more_available")) and bool(next_id) and next_id != max_id
+            decision = state.accept(self._tab_filter(info, "tagged", items), "usertags", next_id if more else "")
+            if decision == "stop":
+                return "up_to_date"
+            if state.done:
+                return "limit"
+            if not more:
+                return "end"
+            max_id = next_id
+
+    async def _tab_scroll(self, info: ProfileInfo, tab: str, state: "_FeedState") -> str:
+        """Sekme sayfasını kaydırıp sayfanın kendi yüklediği gönderileri yakalar."""
+        idle_limit = float(os.environ.get("INSTAGRAM_INDIRICI_IDLE", "25"))
+        page = self.page
+        tasks: List[asyncio.Task] = []
+        box: Dict[str, Any] = {"up_to_date": False, "last": time.monotonic()}
+        base = base_url()
+        kind = f"scroll_{tab}"
+
+        def feed(data: Any) -> None:
+            items = self._tab_filter(info, tab, media.find_media(data))
+            before = len(state.seen)
+            if state.accept(items, kind) == "stop":
+                box["up_to_date"] = True
+            if len(state.seen) > before:
+                box["last"] = time.monotonic()
+
+        async def handle(response) -> None:
+            url = response.url
+            if not url.startswith(base) or ("/graphql" not in url and "/api/v1/" not in url):
+                return
+            try:
+                data = parse_json_text(await response.text())
+            except Exception:
+                return
+            if data is not None:
+                feed(data)
+
+        def on_response(response) -> None:
+            tasks.append(asyncio.ensure_future(handle(response)))
+
+        self.log("info", msg("browser.scrolling"))
+        page.on("response", on_response)
+        try:
+            await self.goto(f"https://www.instagram.com/{info.username}/{tab}/")
+            await self._sleep(2)
+            for data in await self._embedded_data():
+                feed(data)
+            box["last"] = time.monotonic()
+            while True:
+                self._check_cancel()
+                self._check_alive()
+                if box["up_to_date"]:
+                    return "up_to_date"
+                if state.done:
+                    return "limit"
+                if await self._page_redirect_state() == "challenge":
+                    await self.wait_for_verification()
+                    box["last"] = time.monotonic()
+                    continue
+                try:
+                    await page.mouse.wheel(0, 2400)
+                    await page.evaluate("window.scrollBy(0, 2400)")
+                except Exception:
+                    pass
+                await self._sleep(1.5)
+                if time.monotonic() - box["last"] > idle_limit:
+                    return "end" if state.seen else "stalled"
+        finally:
+            page.remove_listener("response", on_response)
+            if tasks:
+                await asyncio.gather(*tasks, return_exceptions=True)
+
     # ------------------------------------------------------------ hikayeler ve öne çıkanlar
     @staticmethod
     def _reels_from(data: Any) -> List[Dict[str, Any]]:
@@ -1021,8 +1223,19 @@ class InstagramBrowser:
             return [r for r in reels.values() if isinstance(r, dict)]
         return []
 
-    async def stories(self, user_id: str) -> List[Dict[str, Any]]:
-        data = await self.call("/api/v1/feed/reels_media/", params=[("reel_ids", user_id)], what="stories")
+    async def stories(self, user_id: str, username: str = "") -> List[Dict[str, Any]]:
+        try:
+            data = await self.call("/api/v1/feed/reels_media/", params=[("reel_ids", user_id)], what="stories")
+        except ApiError as exc:
+            if not username:
+                raise
+            # Liste isteği çalışmadı: hikâye sayfası açılıp sayfanın kendi yüklediği öğeler yakalanır.
+            self.log("debug", f"stories: {getattr(exc, 'detail', '') or exc.message.key}")
+            self.log("info", msg("browser.stories_from_page"))
+            found = await self._capture_media_from_page(f"https://www.instagram.com/stories/{username}/", wait=10)
+            if found:
+                return found
+            raise
         items: List[Dict[str, Any]] = []
         for reel in self._reels_from(data):
             items.extend(i for i in reel.get("items") or [] if media.is_media(i))
@@ -1101,7 +1314,8 @@ class InstagramBrowser:
         }
 
     async def highlight_reels(self, reel_ids: List[str], expected: Optional[Dict[str, int]] = None,
-                              failed: Optional[List[str]] = None) -> List[Dict[str, Any]]:
+                              failed: Optional[List[str]] = None,
+                              titles: Optional[Dict[str, str]] = None) -> List[Dict[str, Any]]:
         """Öne çıkanların içeriği: [{"id", "title", "items", "user"}].
 
         Üçerli gruplar halinde istenir. Bir grubun içinde eksik gelen (öğe sayısı listedekinden az ya da
@@ -1118,7 +1332,7 @@ class InstagramBrowser:
                 data = await self.call("/api/v1/feed/reels_media/", params=[("reel_ids", r) for r in chunk],
                                        what="highlights", essential=True)
             except (ApiError, NotFound) as exc:
-                self.log("debug", f"highlights chunk: {exc.message.key}")
+                self.log("debug", f"highlights chunk: {getattr(exc, 'detail', '') or exc.message.key}")
                 data = None
             except RateLimited:
                 limited = True   # Instagram durdurdu: kalanları zorlamadan bırak
@@ -1146,12 +1360,72 @@ class InstagramBrowser:
                     if single["id"] == rid and (entry is None or len(single["items"]) > len(entry["items"])):
                         got[rid] = entry = single
             except (ApiError, NotFound) as exc:
-                self.log("debug", f"highlight {rid}: {exc.message.key}")
+                self.log("debug", f"highlight {rid}: {getattr(exc, 'detail', '') or exc.message.key}")
             except RateLimited:
                 limited = True
+            if (entry is None or not entry["items"]) and not limited:
+                # Liste isteği çalışmadı: öne çıkanın kendi sayfası açılır, sayfanın yaptığı istekler yakalanır.
+                page_entry = await self._highlight_from_page(rid, (titles or {}).get(rid, ""))
+                if page_entry is not None:
+                    got[rid] = entry = page_entry
             if (entry is None or not entry["items"]) and failed is not None:
                 failed.append(rid)
         return [got[r] for r in order if r in got and got[r]["items"]]
+
+    async def _highlight_from_page(self, rid: str, title: str) -> Optional[Dict[str, Any]]:
+        """Öne çıkanın sayfasını (/stories/highlights/<id>/) açıp sayfanın kendi yüklediği öğeleri yakalar."""
+        number = rid.split(":")[-1]
+        self.log("info", msg("browser.highlight_from_page", name=title or number))
+        items = await self._capture_media_from_page(f"https://www.instagram.com/stories/highlights/{number}/", wait=10)
+        if not items:
+            return None
+        return {"id": rid, "title": title, "user": {}, "items": items, "media_count": len(items)}
+
+    async def _capture_media_from_page(self, url: str, wait: float = 8, scroll: bool = False,
+                                       keep: Optional[Callable[[Dict[str, Any]], bool]] = None) -> List[Dict[str, Any]]:
+        """Sayfayı açar; sayfaya gömülü ve sayfanın kendi yüklediği yanıtlardaki gönderileri toplar."""
+        found: Dict[str, Dict[str, Any]] = {}
+        tasks: List[asyncio.Task] = []
+        base = base_url()
+
+        def take(data: Any) -> None:
+            for item in media.find_media(data):
+                key = media.media_key(item)
+                if key and key not in found and (keep is None or keep(item)):
+                    found[key] = item
+
+        async def handle(response) -> None:
+            if not response.url.startswith(base) or ("/graphql" not in response.url and "/api/v1/" not in response.url):
+                return
+            try:
+                data = parse_json_text(await response.text())
+            except Exception:
+                return
+            if data is not None:
+                take(data)
+
+        def on_response(response) -> None:
+            tasks.append(asyncio.ensure_future(handle(response)))
+
+        page = self.page
+        page.on("response", on_response)
+        try:
+            await self.goto(url)
+            end = time.monotonic() + wait
+            while time.monotonic() < end:
+                for data in await self._embedded_data():
+                    take(data)
+                if scroll:
+                    try:
+                        await page.mouse.wheel(0, 2400)
+                    except Exception:
+                        pass
+                await self._sleep(1)
+        finally:
+            page.remove_listener("response", on_response)
+            if tasks:
+                await asyncio.gather(*tasks, return_exceptions=True)
+        return list(found.values())
 
     # ------------------------------------------------------------ tek gönderi
     async def get_post(self, shortcode: str, *, logged_in: bool) -> Dict[str, Any]:

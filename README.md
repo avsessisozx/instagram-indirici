@@ -24,7 +24,7 @@ Gereken tek şey Microsoft Edge (Windows 10/11'de zaten yüklü) ya da Google Ch
 
 Android 10 ve üstü gerekir. Her şey uygulamanın içinde olur, ayrı tarayıcı açılmaz. Instagram'a giriş ya da doğrulama gerektiğinde uygulamanın içinde bir pencere açılır: **Gizle** pencereyi küçültür (iş beklemeye devam eder, arayüzdeki düğmeyle tekrar açılır), giriş penceresindeki **Kapat** girişten vazgeçer.
 
-En kolay yol: Instagram'da bir gönderide ya da profilde **Paylaş → Instagram İndirici**; link kutuya kendiliğinden gelir. İndirme sürerken uygulamadan çıkabilir ya da ekranı kapatabilirsin; ilerleme bildirimde görünür. Dosyalar galeride **DCIM › Instagram › <kullanıcı adı>** altında, Windows'takiyle aynı alt klasörlere (Fotoğraflar, Videolar, Hikayeler, Öne Çıkanlar, Profil Fotoğrafı) iner.
+En kolay yol: Instagram'da bir gönderide ya da profilde **Paylaş → Instagram İndirici**; link kutuya kendiliğinden gelir. İndirme sürerken uygulamadan çıkabilir ya da ekranı kapatabilirsin; ilerleme bildirimde görünür. Dosyalar galeride **DCIM › Instagram › <kullanıcı adı>** altında, Windows'takiyle aynı alt klasörlere (Gönderiler, Reels, Hikayeler, Öne Çıkanlar, Profil Fotoğrafı) iner.
 
 ## Kullanım
 
@@ -33,20 +33,30 @@ En kolay yol: Instagram'da bir gönderide ya da profilde **Paylaş → Instagram
 
 İndirme sırasında bir Edge penceresi açılıp Instagram'ı kendisi açar. **O pencereyi iş bitene kadar kapatma.**
 
-Dosyalar varsayılan olarak `İndirilenler\Instagram\<kullanıcı adı>\` klasörüne, türüne göre ayrı klasörlere iner:
+Dosyalar varsayılan olarak `İndirilenler\Instagram\<kullanıcı adı>\` klasörüne, Instagram sayfasındaki sekmeler gibi ayrı klasörlere iner:
 
 ```
 İndirilenler\Instagram\kullaniciadi\
-    Fotoğraflar\2026-10-01_gönderi açıklaması_DAbc123XyZ.jpg
-    Fotoğraflar\2026-10-05_albüm_DAbe789XyZ_01.jpg
-    Videolar\2026-10-03_reels başlığı_DAbd456XyZ.mp4
-    Videolar\2026-10-05_albüm_DAbe789XyZ_02.mp4
-    Hikayeler\2026-10-18_3500000000000000000.jpg
+    Gönderiler\Fotoğraflar\2026-10-01_gönderi açıklaması_DAbc123XyZ.jpg
+    Gönderiler\Videolar\2026-10-02_video gönderi_DAbf321XyZ.mp4
+    Gönderiler\Albümler\2026-10-05_albüm_DAbe789XyZ\2026-10-05_albüm_DAbe789XyZ_01.jpg
+    Reels\2026-10-03_reels başlığı_DAbd456XyZ.mp4
+    Reels\2026-10-03_reels başlığı_DAbd456XyZ.txt        (açıklama uzunsa)
     Öne Çıkanlar\Tatil\2026-07-01_3600000000000000000.jpg
+    Hikayeler\2026-10-18_3500000000000000000.jpg
     Profil Fotoğrafı\9988776655.jpg
+    Yeniden Paylaşımlar\...     (isteğe bağlı)
+    Etiketlenenler\...          (isteğe bağlı)
+    bilgi.csv                    (tarih, bağlantı, beğeni, yorum sayısı)
 ```
 
-Albümlerin parçaları türüne göre Fotoğraflar ya da Videolar'a gider; aynı albümden geldikleri dosya adındaki koddan ve `_01`, `_02` sırasından belli olur.
+- **Reels** ayrı bir sekme olarak taranır; profil ızgarasında görünen klipler de aynı klasöre iner, bir klip iki kez inmez.
+- **Uzun açıklamalar** (varsayılan 300 karakterden uzunsa; Ayarlar'dan değişir, 0 = kapalı) videonun/fotoğrafın yanına aynı adlı `.txt` olarak yazılır.
+- **Eksik dosyaları tamamla** (varsayılan açık): geçmişte "indi" görünen ama klasörde olmayan dosyalar bulunup yeniden indirilir.
+- İnemeyen gönderiler listelenir, bir kez kendiliğinden yeniden denenir ve **İnemeyenleri tekrar dene** düğmesiyle tekrar başlatılabilir. İndirme **duraklatılıp** devam ettirilebilir.
+- İsteğe bağlı tarih aralığı: sadece belli tarihler arasındaki gönderiler.
+- Android'de galeri yalnız görüntü/videoyu kabul ettiği için `.txt` açıklamaları ve `bilgi.csv` **Documents › Instagram › <kullanıcı adı>** altında aynı alt klasör yapısıyla durur.
+- Eski sürümlerin `Fotoğraflar`, `Videolar` ve kök klasördeki dosyaları ilk indirmede yeni yerlerine taşınır (yeniden inmez).
 
 ## Kaldığı yerden devam ve indirme geçmişi
 

@@ -184,6 +184,8 @@ class Data:
             "owner": {"id": item["user"]["pk"], "username": item["user"]["username"]},
             "edge_media_preview_like": {"count": item["like_count"]},
         }
+        if item.get("product_type"):
+            node["product_type"] = item["product_type"]
         if item.get("video_versions"):
             node["__typename"] = "GraphVideo"
             if self.fake is None or self.fake.graphql_video_urls:
@@ -228,6 +230,36 @@ class Data:
                         "media_type": 1, "image_versions2": self._image(pk, 1080, 1920),
                         "user": {"pk": "1001", "username": PROFILE_OK}})
         return out
+
+    def extra_reels(self, username: str) -> List[Dict[str, Any]]:
+        """Yalnız Reels sekmesinde görünen (profil ızgarasında olmayan) klipler."""
+        out = []
+        for n in range(5):
+            item = self._post(username, 100 + n)
+            item["media_type"] = 2
+            item["product_type"] = "clips"
+            item["video_versions"] = self._videos(int(item["pk"]))
+            item.pop("carousel_media", None)
+            item.pop("carousel_media_count", None)
+            item["caption"] = {"text": f"Reels {n} " + "uzun açıklama " * 30} if n == 0 else {"text": f"Reels {n}"}
+            out.append(item)
+        return out
+
+    def reels(self, username: str) -> List[Dict[str, Any]]:
+        """Reels sekmesi: ızgaradaki klipler + yalnız burada olanlar."""
+        grid = [p for p in self.posts.get(username, []) if p.get("product_type") == "clips"]
+        return grid + (self.extra_reels(username) if username == PROFILE_OK else [])
+
+    def tagged(self, username: str) -> List[Dict[str, Any]]:
+        """Etiketlenenler: başkasının gönderileri."""
+        if username != PROFILE_OK:
+            return []
+        return [self._post(PROFILE_EMPTY, 200 + n) for n in range(3)]
+
+    def reposts(self, username: str) -> List[Dict[str, Any]]:
+        if username != PROFILE_OK:
+            return []
+        return [self._post(PROFILE_EMPTY, 300 + n) for n in range(2)]
 
     def find_post(self, code: str) -> Optional[Dict[str, Any]]:
         for items in self.posts.values():
@@ -275,6 +307,11 @@ class FakeInstagram:
         self.highlights_batch_truncate = False  # çoklu istekte sadece ilk öne çıkanın öğeleri gelir
         self.highlights_tray_refused = False    # öne çıkan listesi isteği hep "biraz bekle"
         self.rest_refused = False      # REST gönderi listesi hep HTTP 400 "biraz bekle" (gerçek telefonda görüldü)
+        self.stories_500 = False       # hikaye listesi isteği hep HTTP 500 (gerçek telefonda görüldü)
+        self.highlights_500 = False    # öne çıkan içerik isteği hep HTTP 500
+        self.reels_media_fail_n = 0    # reels_media ilk bu kadar istekte HTTP 500 döner, sonra düzelir
+        self.clips_refused = False     # Reels liste isteği reddedilir (sayfa kaydırma yedeği denenir)
+        self.usertags_refused = False  # Etiketlenenler liste isteği reddedilir
         self.requests: List[str] = []
         self.api_calls: List[Tuple[str, bool]] = []   # (yol, giriş var mı)
 
@@ -389,6 +426,22 @@ def make_handler(fake: FakeInstagram):
                 if self.headers.get("X-CSRFToken") != "sahteCSRF123":
                     return self.json({"message": "CSRF token missing or incorrect", "status": "fail"}, 403)
                 return self.graphql(parse_qs(body))
+            if parts.path == "/api/v1/clips/user/":
+                fake.api_calls.append((parts.path, self.logged_in()))
+                if not self.logged_in():
+                    return self.login_required()
+                if fake.clips_refused:
+                    return self.json({"message": "not found", "status": "fail"}, 404)
+                form = parse_qs(body)
+                name = next((n for n, i in USER_IDS.items() if i == (form.get("target_user_id") or [""])[0]), "")
+                items = fake.data.reels(name)
+                size = int((form.get("page_size") or ["12"])[0] or 12)
+                start = int((form.get("max_id") or ["0"])[0] or 0)
+                chunk = items[start:start + size]
+                more = start + size < len(items)
+                return self.json({"items": [{"media": it} for it in chunk],
+                                  "paging_info": {"max_id": str(start + size) if more else "", "more_available": more},
+                                  "status": "ok"})
             self.json({"status": "fail"}, 404)
 
         # ---- sayfalar
@@ -441,6 +494,27 @@ def make_handler(fake: FakeInstagram):
                 return self.html("<html><body>Doğrulama<script>setTimeout(()=>location.href='/', 2500)</script></body></html>")
             if path == "/":
                 return self.html("<html><head><title>Instagram</title></head><body>Ana sayfa</body></html>")
+            m = re.match(r"^/stories/highlights/(\d+)/?$", path)
+            if m:
+                hid = m.group(1)
+                if not self.logged_in() or hid not in d.HIGHLIGHTS:
+                    return self.html("<html><body>Sorry, this page isn't available.</body></html>", 404)
+                return self.html("<html><body>" + _relay({"xdt_api__v1__feed__reels_media": {"reels_media": [{
+                    "id": f"highlight:{hid}", "title": d.HIGHLIGHTS[hid], "items": d.highlight_items(hid)}]}}) + "</body></html>")
+            m = re.match(r"^/stories/([A-Za-z0-9._]+)/?$", path)
+            if m:
+                name = m.group(1).lower()
+                if not self.logged_in() or name != PROFILE_OK:
+                    return self.html("<html><body>Sorry, this page isn't available.</body></html>", 404)
+                return self.html("<html><body>" + _relay({"xdt_api__v1__feed__reels_media": {"reels_media": [{
+                    "id": USER_IDS[name], "items": d.stories(name)}]}}) + "</body></html>")
+            m = re.match(r"^/([A-Za-z0-9._]+)/(reels|tagged|reposts)/?$", path)
+            if m and m.group(1).lower() in USER_IDS:
+                name, tab = m.group(1).lower(), m.group(2)
+                if tab != "reels" and not self.logged_in():
+                    return self.html("<html><body>Giriş yap</body></html>")
+                items = {"reels": d.reels, "tagged": d.tagged, "reposts": d.reposts}[tab](name)
+                return self.html("<html><body>" + _relay({"xdt_api__v1__clips__user": {"items": [{"media": i} for i in items]}}) + "</body></html>")
             m = re.match(r"^/(?:p|reel)/([A-Za-z0-9_-]+)/?$", path)
             if m:
                 item = d.find_post(m.group(1))
@@ -600,6 +674,12 @@ def make_handler(fake: FakeInstagram):
                 if not self.logged_in():
                     return self.login_required()
                 ids = query.get("reel_ids") or []
+                is_hl = any(r.startswith("highlight:") for r in ids)
+                if fake.reels_media_fail_n > 0:
+                    fake.reels_media_fail_n -= 1
+                    return self.json({"message": "Sorry, there was a problem. Please try again.", "status": "fail"}, 500)
+                if (fake.highlights_500 and is_hl) or (fake.stories_500 and not is_hl):
+                    return self.json({"message": "Sorry, there was a problem. Please try again.", "status": "fail"}, 500)
                 reels = []
                 for rid in ids:
                     if rid.startswith("highlight:"):
@@ -618,6 +698,15 @@ def make_handler(fake: FakeInstagram):
                             reels.append({"id": rid, "expiring_at": BASE_TS + 86400, "user": d.user(name),
                                           "items": d.stories(name)})
                 return self.json({"reels_media": reels, "reels": {r["id"]: r for r in reels}, "status": "ok"})
+            m = re.match(r"^/api/v1/usertags/(\d+)/feed/$", path)
+            if m:
+                if not self.logged_in():
+                    return self.login_required()
+                if fake.usertags_refused:
+                    return self.json({"message": "not found", "status": "fail"}, 404)
+                name = next((n for n, i in USER_IDS.items() if i == m.group(1)), "")
+                items = d.tagged(name)
+                return self.json({"items": items, "num_results": len(items), "more_available": False, "status": "ok"})
             m = re.match(r"^/api/v1/highlights/(\d+)/highlights_tray/$", path)
             if m:
                 if not self.logged_in():

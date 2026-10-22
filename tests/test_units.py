@@ -266,12 +266,16 @@ class HistoryTests(unittest.TestCase):
         data = fi.Data("https://cdn.test")
         album = data.posts[fi.PROFILE_OK][3]
         post = media.build_post(album, content="all")
-        self.assertEqual([f.rel_stem.split("/")[0] for f in post.files], ["Fotoğraflar", "Videolar", "Fotoğraflar"])
-        self.assertTrue(all(f.legacy_stem and "/" not in f.legacy_stem for f in post.files))
+        self.assertEqual([f.rel_stem.split("/")[:2] for f in post.files],
+                         [["Gönderiler", "Albümler"]] * 3)
+        self.assertTrue(all(f.rel_stem.split("/")[2] == post.stem for f in post.files))
+        # eski sürümlerin yerleri taşınmak üzere tanınır
+        self.assertTrue(all(f.legacy_stems and all(x for x in f.legacy_stems) for f in post.files))
+        self.assertIn(post.files[1].rel_stem.split("/")[-1], [x.split("/")[-1] for x in post.files[1].legacy_stems])
         story = media.build_post(data.stories(fi.PROFILE_OK)[2], content="all", kind=media.KIND_STORY,
                                  subdir=media.STORIES_DIR)
         self.assertTrue(story.files[0].rel_stem.startswith("Hikayeler/"))
-        self.assertEqual(story.files[0].legacy_stem, "")
+        self.assertEqual(story.files[0].legacy_stems, [])
 
 
 class NamingAndTextTests(unittest.TestCase):

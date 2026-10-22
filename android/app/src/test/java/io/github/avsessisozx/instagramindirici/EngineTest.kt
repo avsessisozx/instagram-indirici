@@ -51,6 +51,9 @@ class EngineTest {
         TestHooks.resumeWaitSeconds = 6L
         TestHooks.resumeRounds = 3
         TestHooks.verifyCalmMs = 1000L
+        TestHooks.serverErrorWaitSeconds = 0.0
+        TestHooks.retryWaitMs = 300L
+        TestHooks.otherRounds = 1
     }
 
     @After
@@ -73,8 +76,11 @@ class EngineTest {
     private fun settings(
         content: String = "all", limit: Int = 0, stories: Boolean = true, highlights: Boolean = true,
         avatar: Boolean = true, onlyNew: Boolean = false, history: Boolean = false, autoContinue: Boolean = false,
+        reels: Boolean = false, reposts: Boolean = false, tagged: Boolean = false, verifyFiles: Boolean = false,
+        infoCsv: Boolean = false, captionMin: Int = 0,
     ) = SettingsValues(content = content, limit = limit, stories = stories, highlights = highlights, avatar = avatar,
-        onlyNew = onlyNew, history = history, autoContinue = autoContinue)
+        onlyNew = onlyNew, history = history, autoContinue = autoContinue, reels = reels, reposts = reposts,
+        tagged = tagged, verifyFiles = verifyFiles, infoCsv = infoCsv, captionMin = captionMin)
 
     private fun run(e: Engine, link: String, mode: String = Engine.MODE_PROFILE, s: SettingsValues = settings(),
                     timeoutMs: Long = 120_000): JSONObject {
@@ -115,8 +121,10 @@ class EngineTest {
         val f = files()
         assertTrue(f.all { it.startsWith("$profile/") })
         assertTrue(f.any { it.startsWith("$profile/Profil Fotoğrafı/") })
-        assertTrue(f.filter { it.startsWith("$profile/Videolar/") }.all { it.endsWith(".mp4") })
-        assertTrue(f.any { it.startsWith("$profile/Fotoğraflar/") && it.endsWith(".webp") })
+        // Izgarada görünen klipler (product_type = clips) Reels/ klasörüne iner.
+        assertTrue(f.any { it.startsWith("$profile/Reels/") })
+        assertTrue(f.filter { it.startsWith("$profile/Reels/") }.all { it.endsWith(".mp4") })
+        assertTrue(f.any { it.startsWith("$profile/Gönderiler/Fotoğraflar/") && it.endsWith(".webp") })
         assertTrue(f.none { it.endsWith(".part") })
         assertTrue("engine.stories_skipped_login" in e.logKeys())
         assertEquals(1, snap.getInt("posts_unavailable"))
@@ -138,7 +146,7 @@ class EngineTest {
         assertEquals(snap.toString(), "done", snap.getString("phase"))
         val f = files()
         assertEquals(f.toString(), 3, f.size)
-        assertTrue(f.any { it.startsWith("$profile/Videolar/") && it.endsWith("_02.mp4") })
+        assertTrue(f.any { it.startsWith("$profile/Gönderiler/Albümler/") && it.endsWith("_02.mp4") })
     }
 
     @Test
@@ -167,6 +175,8 @@ class EngineTest {
         assertEquals(totalPosts + 1, snap.getInt("found_posts"))
         val f = files()
         val p = "$profile/"
+        assertTrue(f.any { it.startsWith(p + "Gönderiler/Albümler/") })
+        assertTrue(f.any { it.startsWith(p + "Reels/") })
         assertEquals(3, f.count { it.startsWith(p + "Hikayeler/") })
         assertEquals(2, f.count { it.startsWith(p + "Öne Çıkanlar/Tatil/") })
         assertEquals(3, f.count { it.startsWith(p + "Öne Çıkanlar/İş Proje/") })
@@ -337,6 +347,105 @@ class EngineTest {
         assertFalse(e.running)
         assertEquals("stopped", e.snapshot(0).getString("phase"))
         assertTrue(files().none { it.endsWith(".part") })
+    }
+
+    // ---------------------------------------------------------------- 1.7: sekmeler, açıklama, eksik dosya, yedek yollar
+    @Test
+    fun e1_reelsTabIsCollectedSeparately() {
+        login()
+        val e = engine()
+        val snap = run(e, profile, s = settings(stories = false, highlights = false, avatar = false, reels = true))
+        assertEquals(snap.toString(), "done", snap.getString("phase"))
+        val f = files()
+        val reels = f.filter { it.startsWith("$profile/Reels/") }
+        // ızgaradaki 8 klip + yalnız Reels sekmesinde olan 5 klip (videosu olmayan 1 klip indirilemez)
+        assertEquals(reels.toString(), 13, reels.size)
+        assertEquals(13, reels.map { it.substringAfterLast('/') }.toSet().size)
+        assertEquals(14, snap.getJSONObject("tabs").getJSONObject("reels").getInt("found"))
+    }
+
+    @Test
+    fun e2_reelsFallBackToTabPageScroll() {
+        login()
+        set("clips_refused" to 1)
+        val e = engine()
+        val snap = run(e, profile, s = settings(posts = false, stories = false, highlights = false, avatar = false, reels = true))
+        assertEquals(snap.toString(), "done", snap.getString("phase"))
+        assertTrue("browser.scrolling" in e.logKeys())
+        assertTrue(files().count { it.startsWith("$profile/Reels/") } >= 5)
+    }
+
+    @Test
+    fun e3_longCaptionIsSavedNextToMedia() {
+        login()
+        val e = engine()
+        run(e, profile, s = settings(stories = false, highlights = false, avatar = false, reels = true, captionMin = 100))
+        val f = files()
+        val txt = f.filter { it.endsWith(".txt") }
+        assertEquals(txt.toString(), 1, txt.size)
+        assertTrue(txt[0].startsWith("$profile/Reels/"))
+        assertTrue(f.contains(txt[0].removeSuffix(".txt") + ".mp4"))
+        assertTrue(File(out, txt[0]).readText().contains("uzun açıklama"))
+    }
+
+    @Test
+    fun e4_missingFilesAreRedownloadedEvenIfHistoryKnowsThem() {
+        login()
+        val hist = History(historyFile)
+        val first = run(engine(hist), profile, s = settings(stories = false, highlights = false, avatar = false, history = true))
+        assertEquals("done", first.getString("phase"))
+        hist.flush()
+        val before = files()
+        val victims = before.filter { it.startsWith("$profile/Reels/") }.take(2)
+        victims.forEach { File(out, it).delete() }
+        val e = engine(hist)
+        val snap = run(e, profile, s = settings(stories = false, highlights = false, avatar = false, history = true,
+            onlyNew = true, verifyFiles = true))
+        assertEquals(snap.toString(), "done", snap.getString("phase"))
+        assertEquals(2, snap.getInt("posts_repaired"))
+        assertEquals(before, files())
+    }
+
+    @Test
+    fun e5_highlightsFallBackToTheirOwnPageWhen500() {
+        login()
+        TestHooks.serverErrorWaitSeconds = 0.0
+        set("highlights_500" to 1)
+        val e = engine()
+        val snap = run(e, profile, s = settings(posts = false, stories = false, avatar = false))
+        assertEquals(snap.toString(), "done", snap.getString("phase"))
+        assertTrue("browser.highlight_from_page" in e.logKeys())
+        assertEquals(2, files().count { it.startsWith("$profile/Öne Çıkanlar/Tatil/") })
+    }
+
+    @Test
+    fun e6_infoCsvIsWrittenOncePerPost() {
+        login()
+        val e = engine()
+        run(e, profile, s = settings(stories = false, highlights = false, avatar = false, limit = 5, infoCsv = true))
+        val csv = File(out, "$profile/bilgi.csv").readText()
+        assertTrue(csv.startsWith("\uFEFFkod;tür;tarih"))
+        assertEquals(6, csv.trim().lines().size)
+    }
+
+    @Test
+    fun e7_pauseAndResume() {
+        login()
+        set("slow_cdn" to 0.3)
+        val e = engine()
+        assertNull(e.start(Engine.Job(profile, Engine.MODE_PROFILE, settings(stories = false, highlights = false, limit = 6))))
+        val end = System.currentTimeMillis() + 60_000
+        while (e.filesDone.get() < 1 && System.currentTimeMillis() < end) Thread.sleep(50)
+        e.pause()
+        Thread.sleep(1500)
+        val frozen = e.filesDone.get()
+        Thread.sleep(1500)
+        assertTrue(e.snapshot(0).getBoolean("paused"))
+        assertTrue(e.filesDone.get() <= frozen + 3)
+        e.resume()
+        val end2 = System.currentTimeMillis() + 90_000
+        while (e.running && System.currentTimeMillis() < end2) Thread.sleep(50)
+        assertEquals("done", e.snapshot(0).getString("phase"))
     }
 
     // ---------------------------------------------------------------- sahte sunucunun gönderi kodları

@@ -16,6 +16,15 @@ interface MediaSink {
     fun begin(relStem: String, ext: String, mime: String): PendingFile
     /** Eski düzendeki dosyayı yeni yerine taşır (varsa). Taşındıysa true. */
     fun moveLegacy(oldRelStem: String, newRelStem: String, ext: String): Boolean = false
+
+    /**
+     * Metin dosyaları (uzun açıklama .txt, bilgi.csv). Galeri (DCIM) yalnız görüntü/video kabul ettiği için
+     * Android'de bunlar Documents/Instagram/<aynı yol>/ altına yazılır. relPath uzantılıdır.
+     */
+    fun textExists(relPath: String): Boolean = false
+    fun readText(relPath: String): String? = null
+    /** Varsa üzerine yazar. Yazılabildiyse true. */
+    fun writeText(relPath: String, text: String): Boolean = false
 }
 
 interface PendingFile {

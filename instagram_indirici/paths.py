@@ -66,15 +66,53 @@ DEFAULT_SETTINGS: Dict[str, Any] = {
     "stories": True,
     "highlights": True,
     "avatar": True,
+    "reels": True,          # Reels sekmesi (ayrı liste; Reels/ klasörüne iner)
+    "reposts": False,       # Yeniden paylaşımlar sekmesi
+    "tagged": False,        # Etiketlenenler sekmesi
     "only_new": True,
     "history": True,
     "auto_continue": True,
+    "verify_files": True,   # geçmişte "indi" görünen ama dosyası olmayanları yeniden indir
+    "caption_min": 300,     # bu kadar karakterden uzun açıklamalar ayrı .txt olarak kaydedilir (0 = kapalı)
+    "info_csv": True,       # her profil klasörüne bilgi.csv (tarih, bağlantı, beğeni…) yaz
+    "date_from": "",        # YYYY-MM-DD: bundan eski gönderiler indirilmez (boş = sınırsız)
+    "date_to": "",          # YYYY-MM-DD: bundan yeni gönderiler indirilmez
     "lang": "auto",
     "identity": "desktop",
     "speed": "normal",
     "setup_done": False,    # ilk açılış sihirbazı bitti mi
     "no_confirm": False,    # silmeden önce onay sorma
 }
+
+CAPTION_MIN_MAX = 20000
+
+
+def clean_date(value: Any) -> str:
+    """YYYY-MM-DD biçimindeki geçerli tarihi olduğu gibi, geçersizi boş metin olarak döndürür."""
+    import datetime
+
+    text = str(value or "").strip()
+    try:
+        return datetime.date.fromisoformat(text).isoformat() if len(text) == 10 else ""
+    except ValueError:
+        return ""
+
+
+def date_start_ts(value: str) -> int:
+    """Günün başlangıcı (UTC) saniye olarak; boşsa 0."""
+    import calendar
+    import datetime
+
+    text = clean_date(value)
+    if not text:
+        return 0
+    return calendar.timegm(datetime.date.fromisoformat(text).timetuple())
+
+
+def date_end_ts(value: str) -> int:
+    """Günün sonu (UTC) saniye olarak; boşsa 0 (sınır yok)."""
+    start = date_start_ts(value)
+    return start + 86400 - 1 if start else 0
 
 
 def settings_path() -> Path:
@@ -103,9 +141,16 @@ def clean_settings(settings: Dict[str, Any]) -> Dict[str, Any]:
     except (TypeError, ValueError):
         limit = 0
     out["limit"] = max(0, min(limit, 100000))
-    for key in ("posts", "stories", "highlights", "avatar", "only_new", "history", "auto_continue",
-                "setup_done", "no_confirm"):
+    for key in ("posts", "stories", "highlights", "avatar", "reels", "reposts", "tagged", "only_new", "history",
+                "auto_continue", "verify_files", "info_csv", "setup_done", "no_confirm"):
         out[key] = bool(settings.get(key, DEFAULT_SETTINGS[key]))
+    try:
+        caption_min = int(settings.get("caption_min", DEFAULT_SETTINGS["caption_min"]))
+    except (TypeError, ValueError):
+        caption_min = DEFAULT_SETTINGS["caption_min"]
+    out["caption_min"] = max(0, min(caption_min, CAPTION_MIN_MAX))
+    out["date_from"] = clean_date(settings.get("date_from"))
+    out["date_to"] = clean_date(settings.get("date_to"))
     out["identity"] = settings.get("identity") if settings.get("identity") in IDENTITY_CHOICES else "desktop"
     out["speed"] = settings.get("speed") if settings.get("speed") in SPEED_CHOICES else "normal"
     lang = str(settings.get("lang") or "auto")

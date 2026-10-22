@@ -111,6 +111,9 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
     private var listPages = 0
     private val base: String get() = web.baseUrl.trimEnd('/')
 
+    /** Duraklatıldıysa devam edilene kadar bekler (motor atar). */
+    var pauseGate: suspend () -> Unit = {}
+
     // ------------------------------------------------------------ zaman
     private fun checkCancel() { if (web.cancel.get()) throw CancelledException() }
 
@@ -118,6 +121,7 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
         val end = System.currentTimeMillis() + ms
         while (true) {
             checkCancel()
+            pauseGate()
             val left = end - System.currentTimeMillis()
             if (left <= 0) return
             delay(minOf(500L, left))
@@ -214,9 +218,11 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
         if (essential) pace(countsAsPage = what == "feed" || what == "graphql")
         var attempt = 0
         var connectionErrors = 0
+        var serverErrors = 0
         var verified = false
         while (true) {
             checkCancel()
+            pauseGate()
             val (res, data, _) = rawApi(path, params, form)
             val kind = classify(res.status, res.url, data)
             if (kind == "ok") return data
@@ -228,6 +234,16 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
                     continue
                 }
                 throw ApiError("${what.ifEmpty { path }}: ${res.error.ifEmpty { "no response" }}")
+            }
+            if (kind == "error" && res.status in listOf(500, 502, 503, 504)) {
+                // "Üzgünüz, bir sorun oluştu. Lütfen tekrar dene." — Instagram'ın geçici sunucu hatası.
+                serverErrors++
+                if (serverErrors <= 2) {
+                    val wait = ((TestHooks.serverErrorWaitSeconds ?: 10.0) * 1000 * serverErrors).toLong()
+                    debug("${what.ifEmpty { path }}: HTTP ${res.status}, ${wait / 1000.0} sn sonra yeniden denenecek")
+                    sleep(wait)
+                    continue
+                }
             }
             if (kind == "rate") {
                 val label = msg("what.${what.ifEmpty { "other" }}")
@@ -638,9 +654,45 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
         return (0 until arr.length()).mapNotNull { arr.opt(it) as? JSONObject }.filter { Media.isMedia(it) }
     }
 
-    suspend fun stories(userId: String): List<JSONObject> {
-        val data = call("/api/v1/feed/reels_media/", listOf("reel_ids" to userId), what = "stories")
+    suspend fun stories(userId: String, username: String = ""): List<JSONObject> {
+        val data = try {
+            call("/api/v1/feed/reels_media/", listOf("reel_ids" to userId), what = "stories")
+        } catch (e: ApiError) {
+            if (username.isEmpty()) throw e
+            // Liste isteği çalışmadı: hikâye sayfası açılıp sayfanın kendi yüklediği öğeler yakalanır.
+            debug("stories: ${e.detail}")
+            log("info", msg("browser.stories_from_page"))
+            val found = captureMediaFromPage("$base/stories/$username/", 10_000)
+            if (found.isNotEmpty()) return found
+            throw e
+        }
         return reelsFrom(data).flatMap { itemsOf(it) }
+    }
+
+    /** Sayfayı açar; sayfaya gömülü ve sayfanın kendi yüklediği yanıtlardaki gönderileri toplar. */
+    private suspend fun captureMediaFromPage(url: String, waitMs: Long = 8000, scroll: Boolean = false,
+                                             keep: ((JSONObject) -> Boolean)? = null): List<JSONObject> {
+        val found = LinkedHashMap<String, JSONObject>()
+        val lock = Any()
+        fun take(data: Any) = synchronized(lock) {
+            for (item in Media.findMedia(data)) {
+                val key = Media.mediaKey(item)
+                if (key.isNotEmpty() && key !in found && (keep == null || keep(item))) found[key] = item
+            }
+        }
+        web.setCapture { u, data -> if ("/graphql" in u || "/api/v1/" in u) take(data) }
+        try {
+            goto(url)
+            val end = System.currentTimeMillis() + waitMs
+            while (System.currentTimeMillis() < end) {
+                for (d in web.embeddedJson()) take(d)
+                if (scroll) web.scrollDown()
+                sleep(1000)
+            }
+        } finally {
+            web.setCapture(null)
+        }
+        return synchronized(lock) { found.values.toList() }
     }
 
     suspend fun highlightsTray(userId: String, username: String = ""): List<JSONObject> {
@@ -701,7 +753,8 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
      * başına tekrar istenir. Alınamayanlar failed listesine yazılır.
      */
     suspend fun highlightReels(reelIds: List<String>, expected: Map<String, Int> = emptyMap(),
-                               failed: MutableList<String>? = null): List<Reel> {
+                               failed: MutableList<String>? = null,
+                               titles: Map<String, String> = emptyMap()): List<Reel> {
         val got = LinkedHashMap<String, Reel>()
         var limited = false
         for (chunk in reelIds.chunked(3)) {
@@ -712,7 +765,7 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
                 limited = true; break
             } catch (e: IgError) {
                 if (e !is ApiError && e !is NotFound) throw e
-                debug("highlights chunk: ${e.m.key}"); null
+                debug("highlights chunk: ${(e as? ApiError)?.detail ?: e.m.key}"); null
             }
             for (reel in reelsFrom(data)) {
                 val r = reelEntry(reel)
@@ -737,12 +790,172 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
                     limited = true
                 } catch (e: IgError) {
                     if (e !is ApiError && e !is NotFound) throw e
-                    debug("highlight $rid: ${e.m.key}")
+                    debug("highlight $rid: ${(e as? ApiError)?.detail ?: e.m.key}")
                 }
+            }
+            if ((entry == null || entry.items.isEmpty()) && !limited) {
+                // Liste isteği çalışmadı: öne çıkanın kendi sayfası açılıp sayfanın yüklediği öğeler yakalanır.
+                val pageEntry = highlightFromPage(rid, titles[rid] ?: "")
+                if (pageEntry != null) { got[rid] = pageEntry; entry = pageEntry }
             }
             if ((entry == null || entry.items.isEmpty())) failed?.add(rid)
         }
         return reelIds.mapNotNull { got[it] }.filter { it.items.isNotEmpty() }
+    }
+
+    private suspend fun highlightFromPage(rid: String, title: String): Reel? {
+        val number = rid.substringAfterLast(':')
+        log("info", msg("browser.highlight_from_page", "name" to title.ifEmpty { number }))
+        val items = captureMediaFromPage("$base/stories/highlights/$number/", 10_000)
+        if (items.isEmpty()) return null
+        return Reel(rid, title, JSONObject(), items, items.size)
+    }
+
+    // ------------------------------------------------------------ Reels / etiketlenenler / yeniden paylaşımlar
+    /**
+     * Profilin ayrı sekmelerini (reels | tagged | reposts) toplar. Reels ve etiketlenenler için önce kendi
+     * liste isteği denenir; olmazsa (ya da yeniden paylaşımlar için doğrudan) sekme sayfası kaydırılır.
+     */
+    suspend fun collectTab(info: ProfileInfo, tab: String, loggedIn: Boolean, limit: Int,
+                           onPage: (List<JSONObject>, String, String) -> String): FeedResult {
+        val state = FeedState(limit, onPage, null)
+        val result = FeedResult()
+        fun finish(reason: String, via: String): FeedResult {
+            result.reason = if (state.limitHit) "limit" else reason
+            result.collected = state.seen.size
+            result.via = via
+            return result
+        }
+        val strategies = mutableListOf<String>()
+        if (loggedIn && tab == "reels") strategies += "clips"
+        if (loggedIn && tab == "tagged") strategies += "usertags"
+        strategies += "scroll"
+        var lastReason = "stalled"
+        var rateHits = 0
+        for (name in strategies) {
+            checkCancel()
+            val reason = try {
+                when (name) {
+                    "clips" -> tabClips(info, state)
+                    "usertags" -> tabUsertags(info, state)
+                    else -> tabScroll(info, tab, state)
+                }
+            } catch (e: ApiError) {
+                log("info", msg("browser.strategy_failed", "detail" to e.detail)); continue
+            } catch (e: NotFound) {
+                continue
+            } catch (e: RateLimited) {
+                lastReason = "rate_limited"; rateHits++; continue
+            } catch (e: LoginRequired) {
+                if (state.seen.isNotEmpty()) return finish("session_expired", name)
+                lastReason = "login_wall"; continue
+            }
+            if (reason in setOf("end", "up_to_date", "limit")) return finish(reason, name)
+            lastReason = reason
+        }
+        if (rateHits > 0 && state.seen.isEmpty()) throw RateLimited(tab)
+        if (rateHits > 0) return finish("rate_limited", "")
+        return finish(if (state.seen.isNotEmpty()) lastReason else if (!loggedIn) "login_wall" else "stalled", "")
+    }
+
+    /** Etiketlenenler ve yeniden paylaşımlarda profilin kendi gönderileri hariç tutulur; reels'te yalnız klipler. */
+    private fun tabFilter(info: ProfileInfo, tab: String, items: List<JSONObject>): List<JSONObject> = items.filter {
+        val owner = Media.pyStr(Media.or(Media.opt(Media.ownerOf(it), "username"), "")).lowercase()
+        when (tab) {
+            "tagged", "reposts" -> !(owner.isNotEmpty() && owner == info.username.lowercase())
+            "reels" -> {
+                if (owner.isNotEmpty() && owner != info.username.lowercase()) false
+                else if (!Media.isReel(it) && Media.isMedia(it) &&
+                    Media.pyStr(Media.or(Media.opt(it, "product_type"), "")).isNotEmpty()) false
+                else true
+            }
+            else -> true
+        }
+    }
+
+    private suspend fun tabClips(info: ProfileInfo, state: FeedState): String {
+        var maxId = ""
+        var pages = 0
+        while (true) {
+            checkCancel()
+            val form = linkedMapOf("target_user_id" to info.userId, "page_size" to "12", "include_feed_video" to "true")
+            if (maxId.isNotEmpty()) form["max_id"] = maxId
+            val data = call("/api/v1/clips/user/", form = form, what = "reels", essential = pages > 0) as? JSONObject
+            val arr = data?.optJSONArray("items") ?: throw ApiError("clips: no items")
+            val raw = mutableListOf<JSONObject>()
+            for (i in 0 until arr.length()) {
+                val entry = arr.opt(i) as? JSONObject ?: continue
+                val inner = entry.optJSONObject("media") ?: entry
+                if (Media.isMedia(inner)) raw += inner
+            }
+            pages++
+            val paging = data.optJSONObject("paging_info")
+            val nextId = Media.pyStr(Media.or(Media.opt(paging, "max_id"), ""))
+            val more = Media.truthy(Media.opt(paging, "more_available")) && nextId.isNotEmpty() && nextId != maxId
+            val decision = state.accept(tabFilter(info, "reels", raw), "clips", if (more) nextId else "")
+            if (decision == "stop") return "up_to_date"
+            if (state.limitHit) return "limit"
+            if (!more) return "end"
+            maxId = nextId
+        }
+    }
+
+    private suspend fun tabUsertags(info: ProfileInfo, state: FeedState): String {
+        var maxId = ""
+        var pages = 0
+        while (true) {
+            checkCancel()
+            val params = mutableListOf("count" to "30")
+            if (maxId.isNotEmpty()) params += "max_id" to maxId
+            val data = call("/api/v1/usertags/${info.userId}/feed/", params, what = "tagged", essential = pages > 0) as? JSONObject
+            val arr = data?.optJSONArray("items") ?: throw ApiError("usertags: no items")
+            val items = (0 until arr.length()).mapNotNull { arr.opt(it) as? JSONObject }.filter { Media.isMedia(it) }
+            pages++
+            val nextId = Media.pyStr(Media.or(Media.opt(data, "next_max_id"), ""))
+            val more = Media.truthy(Media.opt(data, "more_available")) && nextId.isNotEmpty() && nextId != maxId
+            val decision = state.accept(tabFilter(info, "tagged", items), "usertags", if (more) nextId else "")
+            if (decision == "stop") return "up_to_date"
+            if (state.limitHit) return "limit"
+            if (!more) return "end"
+            maxId = nextId
+        }
+    }
+
+    /** Sekme sayfasını kaydırıp sayfanın kendi yüklediği gönderileri yakalar. */
+    private suspend fun tabScroll(info: ProfileInfo, tab: String, state: FeedState): String {
+        val idleMs = ((TestHooks.idleSeconds ?: 25.0) * 1000).toLong()
+        var upToDate = false
+        var last = System.currentTimeMillis()
+        val lock = Any()
+        val kind = "scroll_$tab"
+        fun feed(data: Any) = synchronized(lock) {
+            val before = state.seen.size
+            if (state.accept(tabFilter(info, tab, Media.findMedia(data)), kind) == "stop") upToDate = true
+            if (state.seen.size > before) last = System.currentTimeMillis()
+        }
+        log("info", msg("browser.scrolling"))
+        web.setCapture { url, data -> if ("/graphql" in url || "/api/v1/" in url) feed(data) }
+        try {
+            goto("https://www.instagram.com/${info.username}/$tab/")
+            sleep(2000)
+            for (d in web.embeddedJson()) feed(d)
+            last = System.currentTimeMillis()
+            while (true) {
+                checkCancel()
+                if (upToDate) return "up_to_date"
+                if (state.limitHit) return "limit"
+                if (pageRedirectState() == "challenge") {
+                    waitForVerification()
+                    last = System.currentTimeMillis()
+                    continue
+                }
+                web.scrollDown()
+                sleep(1500)
+                if (System.currentTimeMillis() - last > idleMs) return if (state.seen.isNotEmpty()) "end" else "stalled"
+            }
+        } finally {
+            web.setCapture(null)
+        }
     }
 
     // ------------------------------------------------------------ tek gönderi
