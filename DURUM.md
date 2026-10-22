@@ -3,7 +3,7 @@
 > Claude'un çalışma notu. Yalnızca `durum` dalında durur; `main`'e, README'ye ve sürüm notlarına girmez.
 > Yeni sohbette önce bunu oku, repoyu baştan tarama. Her sürümden sonra güncelle.
 
-Son güncelleme: 2026-10-22 · Son sürüm: **v1.8.0** (2026-10-22)
+Son güncelleme: 2026-10-22 · Son sürüm: **v1.9.0** (2026-10-22)
 
 ## Ne yapıyor
 Herkese açık Instagram profillerini toplu indirir: gönderiler/reels/albümler, hikayeler, öne çıkanlar,
@@ -154,6 +154,19 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   Android JVM + emülatör yeşil. Sahte sunucuda yeni bayraklar: stories_500, highlights_500, reels_media_fail_n, clips_refused.
 
 ## Yarım / sıradaki
+- v1.9.0 (yalnız Windows): "Chrome'dan giriş yap". Kullanıcı Epic/Steam'deki "tarayıcıdan giriş yap, programa dön" akışını istedi; Instagram'ın resmi
+  kapısı yok, Chrome çerezi dışarıdan okutmuyor → MV3 Chrome eklentisi `instagram_indirici/chrome_eklenti/` (manifest, content.js, background.js).
+  Akış: `/api/login-chrome` tek kullanımlık kod üretir (10 dk) ve `https://www.instagram.com/#ii=<port>.<kod>` adresini varsayılan tarayıcıda açar;
+  content.js kodu okuyup adresten siler; background.js `chrome.cookies` ile sessionid/csrftoken/ds_user_id/mid/ig_did/datr/ig_nrcb'yi (girişli değilse
+  giriş olunca `cookies.onChanged` ile) `POST http://127.0.0.1:<port>/api/extension-session`'a yollar; sunucu kod + `chrome-extension://` kökeni + tek
+  kullanımı denetler, MODE_COOKIE işini başlatır (aynı içe aktarma/doğrulama). Başka uçlara eklenti kökeni kabul edilmez.
+  `/api/extension-open` eklentiyi `%APPDATA%…/chrome-eklenti` klasörüne kopyalar (EXE'ye `--add-data chrome_eklenti`); kullanıcı Chrome'da
+  chrome://extensions > Geliştirici modu > Paketlenmemiş öğe yükle ile bir kere kurar. Cihaz çerezleri (mid, ig_did, datr) de alınır → program tarayıcısı aynı cihaz sayılsın.
+  Testler: `tests/test_extension.py` (gerçek Chromium'a eklenti yükler; sahte Instagram + gerçek sunucu; CI'da ayrı `eklenti` Linux işi, release buna bağlı),
+  sunucu güvenlik birim testleri (ChromeLoginEndpointTests). Android'de Chrome eklenti desteklemediği için yalnız yapıştırma yöntemi var.
+  GERÇEK CHROME + GERÇEK INSTAGRAM'DA DENENMEDİ. Kullanıcıdan bakılacak: eklenti kuruluyor mu (Chrome "geliştirici modu" uyarısı normal), Chrome varsayılan tarayıcı mı,
+  bağlantı Chrome'da açılınca üstte yeşil "gönderildi" şeridi çıkıyor mu, program oturumu `cookie_ok` ile kabul ediyor mu ya da Instagram yine doğrulama (challenge) istiyor mu.
+  Chrome Web Store'a yüklenmedi (ücret/inceleme); paketlenmemiş yükleme her Chrome açılışında "geliştirici modu eklentileri" uyarısı gösterebilir.
 - v1.8.0 (iki platform): kullanıcı Windows'ta uygulamanın giriş penceresinde Instagram'ın "devam etmek için başka cihazda giriş yap" kilidine takıldı
   (normal Chrome'da giriş sorunsuzdu; pencere her seferinde sıfırdan, tanınmayan tarayıcı sayılıyor; ekranda Chrome'un `--no-sandbox` uyarısı vardı).
   Yapılanlar: Ayarlar > Hesap > "Giriş yapamıyorum": kullanıcı tanıdığı tarayıcıdan `sessionid` değerini yapıştırır (`/api/login-cookie`, `MODE_COOKIE`,
