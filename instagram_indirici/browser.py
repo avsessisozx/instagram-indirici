@@ -1660,6 +1660,15 @@ class InstagramBrowser:
         try:
             res = await self._raw_api("/api/v1/accounts/current_user/", params=[("edit", "true")])
             kind = classify(res)
+            head = re.sub(r"\s+", " ", res.text or "")[:120]
+            self.log("debug", f"import_session: kind={kind} status={res.status} path={urlsplit(res.url or '').path} "
+                              f"err={res.error} body={head!r}")
+            if kind == "error" and await self.logged_in():
+                # Instagram bu adresi yanıtlamadı ama oturumu reddetmedi mi? Sayfa girişli kalıyorsa kabul et.
+                await self._sleep(3)
+                if await self.logged_in() and not await self._page_redirect_state():
+                    self.log("debug", "import_session: doğrulama yanıtı yok ama sayfa girişli kaldı; kabul edildi")
+                    kind = "ok"
             if kind == "ok":
                 result = "ok"
             elif kind == "login":

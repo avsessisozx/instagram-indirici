@@ -269,6 +269,17 @@ class IntegrationTests(unittest.TestCase):
         self.assertIs(snap2["logged_in"], True)
         self.assertFalse(snap2["login_wall"])
 
+    def test_b0_cookie_2b_unverifiable_but_logged_in_is_accepted(self):
+        from instagram_indirici.engine import MODE_COOKIE
+
+        self.fake.current_user_broken = True
+        try:
+            snap, _ = self.run_job("Cookie: csrftoken=sahteCSRF123; sessionid=gecerli", MODE_COOKIE, timeout=90)
+        finally:
+            self.fake.current_user_broken = False
+        self.assertEqual(snap["summary"]["key"], "engine.cookie_ok", snap["logs"])
+        self.assertIs(snap["logged_in"], True)
+
     def test_b0_cookie_3_rejected_code_keeps_old_session(self):
         from instagram_indirici.engine import MODE_COOKIE
 
