@@ -1,0 +1,146 @@
+[
+ {
+  "input": "61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-",
+  "parsed": {
+   "ds_user_id": "61234567890",
+   "sessionid": "61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-"
+  }
+ },
+ {
+  "input": "  61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-\n",
+  "parsed": {
+   "ds_user_id": "61234567890",
+   "sessionid": "61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-"
+  }
+ },
+ {
+  "input": "61234567890:AbCdEfGhIjKl:15:AYexampleVALUE_-",
+  "parsed": {
+   "ds_user_id": "61234567890",
+   "sessionid": "61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-"
+  }
+ },
+ {
+  "input": "sessionid=61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-",
+  "parsed": {
+   "ds_user_id": "61234567890",
+   "sessionid": "61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-"
+  }
+ },
+ {
+  "input": "sessionid=\"61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-\"",
+  "parsed": {
+   "ds_user_id": "61234567890",
+   "sessionid": "61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-"
+  }
+ },
+ {
+  "input": "SessionID=61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-",
+  "parsed": {
+   "ds_user_id": "61234567890",
+   "sessionid": "61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-"
+  }
+ },
+ {
+  "input": "Cookie: mid=abc; csrftoken=TOK123; sessionid=61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-; ds_user_id=777777; ig_did=x",
+  "parsed": {
+   "csrftoken": "TOK123",
+   "ds_user_id": "777777",
+   "sessionid": "61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-"
+  }
+ },
+ {
+  "input": "cookie:csrftoken=TOK123;sessionid=61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-",
+  "parsed": {
+   "csrftoken": "TOK123",
+   "ds_user_id": "61234567890",
+   "sessionid": "61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-"
+  }
+ },
+ {
+  "input": "mid=abc\nsessionid=61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-\ncsrftoken=T0KEN9",
+  "parsed": {
+   "csrftoken": "T0KEN9",
+   "ds_user_id": "61234567890",
+   "sessionid": "61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-"
+  }
+ },
+ {
+  "input": "sessionid\t61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-\t.instagram.com\t/\t2027-10-22T10:00:00.000Z\t120\t✓\t✓",
+  "parsed": {
+   "ds_user_id": "61234567890",
+   "sessionid": "61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-"
+  }
+ },
+ {
+  "input": "gecerli",
+  "parsed": {
+   "sessionid": "gecerli"
+  }
+ },
+ {
+  "input": "yanlis-kod-123",
+  "parsed": {
+   "sessionid": "yanlis-kod-123"
+  }
+ },
+ {
+  "input": "",
+  "parsed": {}
+ },
+ {
+  "input": "   ",
+  "parsed": {}
+ },
+ {
+  "input": "abc",
+  "parsed": {}
+ },
+ {
+  "input": "merhaba dünya",
+  "parsed": {}
+ },
+ {
+  "input": "https://www.instagram.com/",
+  "parsed": {}
+ },
+ {
+  "input": "csrftoken=abcdef123",
+  "parsed": {}
+ },
+ {
+  "input": "a b c d e f g",
+  "parsed": {}
+ },
+ {
+  "input": "sessionid=kısa",
+  "parsed": {}
+ },
+ {
+  "input": "sessionid=61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-; csrftoken=bad value",
+  "parsed": {
+   "ds_user_id": "61234567890",
+   "sessionid": "61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-"
+  }
+ },
+ {
+  "input": "'61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-'",
+  "parsed": {
+   "ds_user_id": "61234567890",
+   "sessionid": "61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-"
+  }
+ },
+ {
+  "input": "sessionid=12345%3Aabcdef; ds_user_id=99999999",
+  "parsed": {
+   "ds_user_id": "99999999",
+   "sessionid": "12345%3Aabcdef"
+  }
+ },
+ {
+  "input": "sessionid=abcdef123456",
+  "parsed": {
+   "sessionid": "abcdef123456"
+  }
+ }
+]

@@ -3,6 +3,7 @@ package io.github.avsessisozx.instagramindirici
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -131,6 +132,50 @@ class EngineTest {
         // En iyi video seçildi
         val video = File(out, f.first { it.endsWith(".mp4") }).readText(Charsets.ISO_8859_1)
         assertTrue("_1080.mp4" in video)
+    }
+
+    // ---------------------------------------------------------------- oturum kodu yapıştırma
+    @Test
+    fun a4_cookieGarbageRejectedBeforeStart() {
+        val e = engine()
+        val err = e.start(Engine.Job("merhaba dünya", Engine.MODE_COOKIE, settings()))
+        assertEquals("engine.cookie_invalid", err?.key)
+        assertFalse(e.running)
+    }
+
+    @Test
+    fun a4_cookieRejectedByInstagram() {
+        val snap = run(engine(), "yanlis-kod-123", Engine.MODE_COOKIE)
+        assertEquals(snap.toString(), "error", snap.getString("phase"))
+        assertEquals("engine.cookie_expired", snap.getJSONObject("summary").getString("key"))
+        assertFalse(runBlocking { web.loggedIn() })
+        assertFalse("yanlis-kod-123" in snap.toString())
+    }
+
+    @Test
+    fun a4_cookieAcceptedLogsIn() {
+        val snap = run(engine(), "Cookie: csrftoken=sahteCSRF123; sessionid=gecerli", Engine.MODE_COOKIE)
+        assertEquals(snap.toString(), "done", snap.getString("phase"))
+        assertEquals("engine.cookie_ok", snap.getJSONObject("summary").getString("key"))
+        assertTrue(snap.getBoolean("logged_in"))
+        assertTrue(runBlocking { web.loggedIn() })
+        assertFalse("gecerli" in snap.getJSONArray("logs").toString())
+        // Oturum aynı pencerede kalır: sonraki iş girişli çalışır.
+        val next = run(engine(), "https://www.instagram.com/$profile/", s = settings(limit = 3, stories = false, highlights = false))
+        assertEquals(next.toString(), "done", next.getString("phase"))
+        assertTrue(next.getBoolean("logged_in"))
+        assertFalse(next.getBoolean("login_wall"))
+    }
+
+    @Test
+    fun a4_cookieRejectedKeepsOldSession() {
+        login()
+        val snap = run(engine(), "baska-yanlis-kod", Engine.MODE_COOKIE)
+        assertEquals("engine.cookie_expired", snap.getJSONObject("summary").getString("key"))
+        assertTrue("eski oturum geri yüklenmeli", runBlocking { web.loggedIn() })
+        val next = run(engine(), "https://www.instagram.com/$profile/", s = settings(limit = 3, stories = false, highlights = false))
+        assertTrue(next.getBoolean("logged_in"))
+        assertFalse(next.getBoolean("login_wall"))
     }
 
     @Test

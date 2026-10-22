@@ -73,6 +73,8 @@ Geçmişi ayarlardaki **Geçmişi temizle** ile silebilirsin (indirilen dosyalar
 
 Giriş yapmadan da çalışır ama Instagram, giriş yapmayanlara çoğu profilin sadece ilk gönderilerini gösteriyor; hikaye ve öne çıkanları hiç göstermiyor. Hepsini indirmek için programın altındaki **Instagram'a giriş yap** ile bir kez giriş yap. Giriş, programın kendi tarayıcı penceresinde Instagram'ın kendi sayfasında yapılır; şifren programa girmez, oturum sadece senin bilgisayarında durur.
 
+**Instagram "başka bir cihazdan onayla" diyor ya da giriş penceresinde girişe izin vermiyorsa:** Ayarlar > Hesap bölümündeki **Giriş yapamıyorum**'u aç. Zaten giriş yaptığın tarayıcıdan (örneğin normal Chrome'dan) `sessionid` çerez değerini kopyalayıp oraya yapıştırırsın; program Instagram'a o oturumla bağlanır. Bu kod şifre gibidir: kimseyle paylaşma, yalnızca senin cihazında saklanır, o tarayıcıdan çıkış yaparsan geçersiz olur.
+
 **Ana hesabın yerine yedek bir hesap kullanman daha güvenli.** Instagram, çok sayıda indirme yapan hesapları geçici olarak kısıtlayabiliyor.
 
 ## Sık sorulanlar

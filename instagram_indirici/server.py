@@ -17,7 +17,7 @@ from typing import Any, Dict, Optional
 
 from . import APP_NAME, __version__, i18n, links, report
 from .i18n import msg
-from .engine import MODE_LOGIN, MODE_PROFILE, MODE_SINGLE, Engine, Job, load_session_state
+from .engine import MODE_COOKIE, MODE_LOGIN, MODE_PROFILE, MODE_SINGLE, Engine, Job, load_session_state
 from .media import author_folder
 from .paths import app_data_dir, clean_settings, load_settings, save_settings
 
@@ -309,6 +309,12 @@ def make_handler(state: AppState):
 
             if path == "/api/login":
                 error = state.engine.start(Job("", MODE_LOGIN, state.settings))
+                if error:
+                    return self._json({"error": error.to_json()}, 400)
+                return self._json({"ok": True})
+
+            if path == "/api/login-cookie":
+                error = state.engine.start(Job(str(data.get("cookie") or ""), MODE_COOKIE, state.settings))
                 if error:
                     return self._json({"error": error.to_json()}, 400)
                 return self._json({"ok": True})

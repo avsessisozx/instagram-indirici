@@ -50,6 +50,20 @@ class SharedVectorsTest {
     }
 
     @Test
+    fun session() {
+        val cases = JSONArray(load("session.json"))
+        assertTrue(cases.length() > 20)
+        for (i in 0 until cases.length()) {
+            val c = cases.getJSONObject(i)
+            val label = c.getString("input")
+            val want = c.getJSONObject("parsed")
+            val got = SessionInput.parse(label)
+            assertEquals(label, want.length(), got.size)
+            for (key in want.keys()) assertEquals("$label [$key]", want.getString(key), got[key])
+        }
+    }
+
+    @Test
     fun naming() {
         val data = JSONObject(load("naming.json"))
         val cases = data.getJSONArray("cases")

@@ -200,6 +200,8 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
 .log .debug { display: none; }
 
 /* ---------- hesap ---------- */
+.cookie-text { white-space: pre-line; font-size: 14px; line-height: 1.5; color: var(--muted); margin: 10px 0 8px; }
+.cookie-warn { color: var(--warn); }
 .account { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
 .account .who { display: inline-flex; gap: 10px; align-items: center; }
 .account .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); display: inline-block; }
@@ -467,6 +469,16 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
         <span class="who"><i class="dot" aria-hidden="true"></i><span id="account-text"></span></span>
         <button class="btn" id="login" type="button"></button>
       </div>
+      <details id="cookie-box">
+        <summary data-i18n="ui.cookie_title"></summary>
+        <p class="cookie-text" data-i18n="ui.cookie_steps"></p>
+        <p class="cookie-text cookie-warn" data-i18n="ui.cookie_warn"></p>
+        <div class="link-row">
+          <input id="cookie-input" type="password" autocomplete="off" spellcheck="false"
+                 data-i18n-placeholder="ui.cookie_placeholder">
+          <button class="btn" id="cookie-use" type="button" data-i18n="ui.cookie_use"></button>
+        </div>
+      </details>
     </div>
 
     <h3 class="sec" data-i18n="ui.sec_language"></h3>
@@ -955,6 +967,18 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
     catch (e) { $('form-error').textContent = errText(e); }
   });
 
+  $('cookie-use').addEventListener('click', async () => {
+    const value = $('cookie-input').value.trim();
+    if (!value) return;
+    $('form-error').textContent = '';
+    showView('download');
+    try {
+      await api('/api/login-cookie', { cookie: value });
+      $('cookie-input').value = '';
+      clearLog(); $('progress').hidden = false; poll(true);
+    } catch (e) { $('form-error').textContent = errText(e); }
+  });
+
   // ---------------- durum
   const fmtMB = (b) => (b / 1048576).toFixed(b > 104857600 ? 0 : 1) + ' MB';
   function note(kind, nodes) { const d = document.createElement('div'); d.className = 'note ' + kind; for (const n of nodes) d.appendChild(n); return d; }
@@ -965,7 +989,7 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
     running = s.running;
     $('start').textContent = t(running ? 'ui.stop' : 'ui.start');
     $('start').classList.toggle('stop', running);
-    ['link', 'paste', 'choose', 'outdir', 'login', 'lang', 'clear-history', 'identity', 'speed', 'clear-cache', 'clear-cookies', 'verify', 'infocsv', 'capmin', 'datefrom', 'dateto'].forEach(id => { $(id).disabled = running; });
+    ['link', 'paste', 'choose', 'outdir', 'login', 'cookie-input', 'cookie-use', 'lang', 'clear-history', 'identity', 'speed', 'clear-cache', 'clear-cookies', 'verify', 'infocsv', 'capmin', 'datefrom', 'dateto'].forEach(id => { $(id).disabled = running; });
     document.querySelectorAll('#step2 input, #step3 input, #step3 select').forEach(e => {
       e.disabled = running || (e.id === 'mode-single' && linkKind === 'profile');
     });
@@ -984,7 +1008,10 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
     const total = s.files_total, finished = s.files_done + s.files_skipped + s.files_failed;
     let status = '', sub = '', pct = null;
     const who = s.author ? `${s.author}: ` : '';
-    if (s.mode === 'login') {
+    if (s.mode === 'cookie' && running) {
+      status = t('ui.cookie_title');
+      sub = '';
+    } else if (s.mode === 'login') {
       status = t(running ? 'ui.status_login_open' : 'ui.status_login_closed');
       sub = running ? pick('ui.sub_login_open') : renderMsg(s.summary);
     } else if (s.phase === 'starting') {
@@ -1017,16 +1044,16 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
     bar.firstElementChild.style.width = (pct === null ? 0 : pct) + '%';
 
     // Büyük sayı: indirirken yüzde, tararken bulunan gönderi sayısı
-    const state = s.mode === 'login' ? (running ? 'running' : 'done') : running ? 'running' : s.phase === 'done' ? 'done' : (s.phase === 'error' ? 'error' : 'idle');
+    const state = s.mode === 'login' ? (running ? 'running' : 'done') : s.mode === 'cookie' ? (running ? 'running' : s.phase === 'done' ? 'done' : 'error') : running ? 'running' : s.phase === 'done' ? 'done' : (s.phase === 'error' ? 'error' : 'idle');
     $('progress').dataset.state = state;
-    $('hero').hidden = s.mode === 'login';
+    $('hero').hidden = (s.mode === 'login' || s.mode === 'cookie');
     if (pct === null) { $('hero-num').textContent = String(s.found_posts || 0); $('hero-unit').textContent = t('ui.hero_found'); }
     else { $('hero-num').textContent = String(Math.round(pct)); $('hero-unit').textContent = '%'; }
 
     const counts = $('counts');
     counts.textContent = '';
-    counts.hidden = s.mode === 'login';
-    if (s.mode !== 'login') {
+    counts.hidden = (s.mode === 'login' || s.mode === 'cookie');
+    if (s.mode !== 'login' && s.mode !== 'cookie') {
       const add = (key, n, bad) => {
         const tile = el('div'); tile.className = 'tile' + (bad ? ' bad' : '');
         tile.appendChild(el('small', t(key))); tile.appendChild(el('b', String(n)));
@@ -1045,7 +1072,7 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
     const tabsBox = $('tabs');
     tabsBox.textContent = '';
     const tabKeys = Object.keys(s.tabs || {});
-    tabsBox.hidden = s.mode === 'login' || tabKeys.length < 2;
+    tabsBox.hidden = (s.mode === 'login' || s.mode === 'cookie') || tabKeys.length < 2;
     if (!tabsBox.hidden) {
       for (const k of tabKeys) {
         const v = s.tabs[k];
@@ -1058,7 +1085,7 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
       }
     }
     // Duraklat / devam et
-    $('run-actions').hidden = !(running && s.mode !== 'login');
+    $('run-actions').hidden = !(running && s.mode !== 'login' && s.mode !== 'cookie');
     $('pause').textContent = t(s.paused ? 'ui.resume' : 'ui.pause');
     // İnemeyenler listesi
     const failList = s.failures || [];
@@ -1104,7 +1131,7 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
       }
     }
 
-    $('done-actions').hidden = running || s.mode === 'login' || !(s.files_done || s.files_skipped);
+    $('done-actions').hidden = running || (s.mode === 'login' || s.mode === 'cookie') || !(s.files_done || s.files_skipped);
 
     if (!relabelOnly && s.logs && s.logs.length) {
       const log = $('log');

@@ -249,6 +249,36 @@ class WebInstagram(private val webView: WebView, private val overlay: OverlayHos
         return loggedIn()
     }
 
+    override suspend fun readCookies(names: List<String>): Map<String, String> = withContext(Dispatchers.Main) {
+        val raw = try { CookieManager.getInstance().getCookie("$baseUrl/") } catch (e: Exception) { null } ?: ""
+        raw.split(';').mapNotNull {
+            val part = it.trim()
+            val i = part.indexOf('=')
+            if (i > 0) part.substring(0, i) to part.substring(i + 1) else null
+        }.filter { it.first in names && it.second.isNotEmpty() }.toMap()
+    }
+
+    private fun cookieAttrs(name: String): String {
+        val host = try { java.net.URI(baseUrl).host ?: "" } catch (e: Exception) { "" }
+        val domain = if (host.endsWith("instagram.com")) "; Domain=.instagram.com" else ""
+        val secure = if (baseUrl.startsWith("https")) "; Secure" else ""
+        val httpOnly = if (name == "sessionid") "; HttpOnly" else ""
+        return "$domain; Path=/$secure$httpOnly"
+    }
+
+    override suspend fun writeCookies(cookies: Map<String, String>) = withContext(Dispatchers.Main) {
+        val cm = CookieManager.getInstance()
+        for ((name, value) in cookies) cm.setCookie("$baseUrl/", "$name=$value; Max-Age=31536000" + cookieAttrs(name))
+        cm.flush()
+    }
+
+    override suspend fun deleteCookie(name: String) = withContext(Dispatchers.Main) {
+        val cm = CookieManager.getInstance()
+        cm.setCookie("$baseUrl/", "$name=; Max-Age=0" + cookieAttrs(name))
+        cm.setCookie("$baseUrl/", "$name=; Max-Age=0; Path=/")
+        cm.flush()
+    }
+
     /** Kimlik ayarı değişince: sonraki sayfa ve isteklerde yeni kimlik kullanılır. */
     fun setIdentity(identity: String) {
         val ua = Identity.userAgentFor(identity, deviceUserAgent)

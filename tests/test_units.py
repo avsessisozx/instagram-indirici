@@ -12,7 +12,8 @@ from unittest import mock
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from instagram_indirici import links, media  # noqa: E402
-from instagram_indirici.browser import ApiResult, classify, parse_json_text  # noqa: E402
+from instagram_indirici.browser import (ApiResult, classify, parse_json_text, parse_session_input,  # noqa: E402
+                                        use_chromium_sandbox)
 from instagram_indirici.engine import known_newest, needs_repair, read_marker, write_marker  # noqa: E402
 from instagram_indirici.i18n import translate  # noqa: E402
 from instagram_indirici.naming import sanitize  # noqa: E402
@@ -482,3 +483,64 @@ class ServerFeatureTests(unittest.TestCase):
         self.assertEqual(res["settings"]["speed"], "very_careful")
         self.assertTrue(res["settings"]["setup_done"])
         self.assertEqual(self.get("/api/state")["settings"]["speed"], "very_careful")
+
+
+class SessionImportTests(unittest.TestCase):
+    """Yapıştırılan oturum kodunun ayrıştırılması ve sandbox ayarı (tarayıcı gerektirmez)."""
+
+    SID = "61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-"
+
+    def test_plain_value(self):
+        got = parse_session_input("  " + self.SID + "\n")
+        self.assertEqual(got["sessionid"], self.SID)
+        self.assertEqual(got["ds_user_id"], "61234567890")
+
+    def test_decoded_colons_are_encoded_back(self):
+        got = parse_session_input(self.SID.replace("%3A", ":"))
+        self.assertEqual(got["sessionid"], self.SID)
+
+    def test_name_equals_value_and_quotes(self):
+        self.assertEqual(parse_session_input('sessionid="%s"' % self.SID)["sessionid"], self.SID)
+
+    def test_full_cookie_header(self):
+        got = parse_session_input("Cookie: mid=abc; csrftoken=TOK123; sessionid=%s; ds_user_id=777777; ig_did=x" % self.SID)
+        self.assertEqual(got, {"sessionid": self.SID, "csrftoken": "TOK123", "ds_user_id": "777777"})
+
+    def test_devtools_row(self):
+        row = "sessionid\t%s\t.instagram.com\t/\t2027-10-22T10:00:00.000Z\t120\t✓\t✓" % self.SID
+        self.assertEqual(parse_session_input(row)["sessionid"], self.SID)
+
+    def test_rejects_bad_input(self):
+        for bad in ("", "   ", "abc", "merhaba dünya", "https://www.instagram.com/", "csrftoken=abcdef123", "a b c d e f g"):
+            self.assertEqual(parse_session_input(bad), {}, bad)
+
+    def test_value_never_in_error_messages(self):
+        from instagram_indirici.i18n import translate
+        for key in ("engine.cookie_ok", "engine.cookie_invalid", "engine.cookie_expired",
+                    "engine.cookie_challenge", "engine.cookie_error"):
+            self.assertNotIn("{", translate(key))
+
+    def test_sandbox_on_windows_only(self):
+        with mock.patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("INSTAGRAM_INDIRICI_SANDBOX", None)
+            with mock.patch("instagram_indirici.browser.sys.platform", "win32"):
+                self.assertTrue(use_chromium_sandbox())
+            with mock.patch("instagram_indirici.browser.sys.platform", "linux"):
+                self.assertFalse(use_chromium_sandbox())
+        with mock.patch.dict(os.environ, {"INSTAGRAM_INDIRICI_SANDBOX": "0"}):
+            with mock.patch("instagram_indirici.browser.sys.platform", "win32"):
+                self.assertFalse(use_chromium_sandbox())
+
+
+class CookieEndpointTests(ServerFeatureTests):
+    """/api/login-cookie: bozuk kod tarayıcı açılmadan reddedilir."""
+
+    def test_rejects_garbage_without_starting(self):
+        code, data = self.post("/api/login-cookie", {"cookie": "merhaba dünya"})
+        self.assertEqual(code, 400)
+        self.assertEqual(data["error"]["key"], "engine.cookie_invalid")
+        self.assertFalse(self.state.engine.running)
+
+    def test_rejects_empty(self):
+        code, data = self.post("/api/login-cookie", {})
+        self.assertEqual(code, 400)

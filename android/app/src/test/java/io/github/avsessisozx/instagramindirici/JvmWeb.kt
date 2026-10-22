@@ -160,4 +160,24 @@ class JvmWeb(override val baseUrl: String) : IgWeb {
         if (autoLogin) navigate("$baseUrl/")   // sahte sunucu girişi yaptı; sayfa ana sayfaya döner
         return loggedIn()
     }
+
+    override suspend fun readCookies(names: List<String>): Map<String, String> =
+        cookies.cookieStore.get(URI("$baseUrl/")).filter { it.name in names && it.value.isNotEmpty() && !it.hasExpired() }
+            .associate { it.name to it.value }
+
+    override suspend fun writeCookies(cookies: Map<String, String>) {
+        val uri = URI("$baseUrl/")
+        for ((name, value) in cookies) {
+            this.cookies.cookieStore.get(uri).filter { it.name == name }.forEach { this.cookies.cookieStore.remove(uri, it) }
+            val c = HttpCookie(name, value)
+            c.path = "/"
+            c.maxAge = 31_536_000
+            this.cookies.cookieStore.add(uri, c)
+        }
+    }
+
+    override suspend fun deleteCookie(name: String) {
+        val uri = URI("$baseUrl/")
+        cookies.cookieStore.get(uri).filter { it.name == name }.forEach { cookies.cookieStore.remove(uri, it) }
+    }
 }

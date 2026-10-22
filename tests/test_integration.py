@@ -213,6 +213,41 @@ class IntegrationTests(unittest.TestCase):
         self.assertLess(snap["files_done"], 20)
         self.assert_clean(out)
 
+    # ------------------------------------------------------------ oturum kodu yapıştırma
+    def test_b0_cookie_1_rejected_code(self):
+        from instagram_indirici.engine import MODE_COOKIE
+
+        snap, _ = self.run_job("yanlis-kod-123", MODE_COOKIE, timeout=90)
+        self.assertEqual(snap["phase"], "error", snap["logs"])
+        self.assertEqual(snap["summary"]["key"], "engine.cookie_expired", snap["logs"])
+        self.assertNotEqual(snap["logged_in"], True)
+        self.assertNotIn("yanlis-kod-123", json.dumps(snap, ensure_ascii=False))
+
+    def test_b0_cookie_2_accepted_code_logs_in(self):
+        from instagram_indirici.engine import MODE_COOKIE
+
+        snap, _ = self.run_job("Cookie: csrftoken=sahteCSRF123; sessionid=gecerli", MODE_COOKIE, timeout=90)
+        self.assertEqual(snap["phase"], "done", snap["logs"])
+        self.assertEqual(snap["summary"]["key"], "engine.cookie_ok", snap["logs"])
+        self.assertIs(snap["logged_in"], True)
+        self.assertNotIn("gecerli", json.dumps(snap["logs"], ensure_ascii=False))
+        # Oturum tarayıcı profilinde kalıcı: sonraki iş girişli çalışır (giriş penceresi açılmadan).
+        snap2, _ = self.run_job(fi.PROFILE_OK, "profile", timeout=240)
+        self.assertEqual(snap2["phase"], "done", snap2["summary"])
+        self.assertIs(snap2["logged_in"], True)
+        self.assertFalse(snap2["login_wall"])
+
+    def test_b0_cookie_3_rejected_code_keeps_old_session(self):
+        from instagram_indirici.engine import MODE_COOKIE
+
+        self.ensure_login()
+        snap, _ = self.run_job("baska-yanlis-kod", MODE_COOKIE, timeout=90)
+        self.assertEqual(snap["summary"]["key"], "engine.cookie_expired", snap["logs"])
+        snap2, _ = self.run_job(fi.PROFILE_OK, "profile", timeout=240)
+        self.assertEqual(snap2["phase"], "done", snap2["summary"])
+        self.assertIs(snap2["logged_in"], True)
+        self.assertFalse(snap2["login_wall"])
+
     # ------------------------------------------------------------ giriş
     def test_b1_login(self):
         snap = self.ensure_login()

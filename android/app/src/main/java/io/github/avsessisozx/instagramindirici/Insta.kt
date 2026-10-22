@@ -1,6 +1,8 @@
 package io.github.avsessisozx.instagramindirici
 
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener
@@ -52,6 +54,10 @@ interface IgWeb {
     suspend fun showVerify(show: Boolean)
     /** Giriş ekranını açar; giriş tamamlanınca ya da kullanıcı bitirince döner. Giriş yapıldıysa true. */
     suspend fun loginSession(): Boolean
+    /** Oturum çerezlerini (sessionid, csrftoken, ds_user_id) okur / yazar / siler: başka tarayıcıdan kopyalanan oturumu içe aktarmak için. */
+    suspend fun readCookies(names: List<String>): Map<String, String>
+    suspend fun writeCookies(cookies: Map<String, String>)
+    suspend fun deleteCookie(name: String)
 }
 
 data class ProfileInfo(val username: String) {
@@ -188,6 +194,46 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
             web.listener?.verify(false)
             web.showVerify(false)
         }
+    }
+
+    // ------------------------------------------------------------ oturum kodu
+    /**
+     * Kullanıcının tanıdığı tarayıcıdan kopyaladığı oturum kodunu bu pencereye yerleştirir ve dener
+     * (browser.import_session). Dönüş: ok | invalid | expired | challenge | error. Başarısızsa önceki oturum geri yüklenir.
+     */
+    suspend fun importSession(text: String): String {
+        val cookies = SessionInput.parse(text)
+        if (cookies["sessionid"].isNullOrEmpty()) return "invalid"
+        val names = listOf("sessionid", "csrftoken", "ds_user_id")
+        val previous = try { web.readCookies(names) } catch (e: Exception) { emptyMap() }
+        web.writeCookies(cookies)
+        var result = "error"
+        try {
+            goto("$base/")
+            val (res, data, _) = rawApi("/api/v1/accounts/current_user/", listOf("edit" to "true"), null)
+            result = when (classify(res.status, res.url, data)) {
+                "ok" -> "ok"
+                "login" -> "expired"
+                "challenge" -> "challenge"
+                "rate" -> if (web.loggedIn() && pageRedirectState().isEmpty()) "ok" else "error"   // sıkıştı ama çerez duruyor
+                else -> "error"
+            }
+        } catch (e: CancelledException) {
+            result = "error"
+            throw e
+        } catch (e: IgError) {
+            debug("import_session: ${e.m.key}")
+        } finally {
+            if (result != "ok") {
+                withContext(NonCancellable) {
+                    try {
+                        web.deleteCookie("sessionid")
+                        if (previous.isNotEmpty()) web.writeCookies(previous)
+                    } catch (e: Exception) { debug("import_session restore: ${e.message}") }
+                }
+            }
+        }
+        return result
     }
 
     // ------------------------------------------------------------ API

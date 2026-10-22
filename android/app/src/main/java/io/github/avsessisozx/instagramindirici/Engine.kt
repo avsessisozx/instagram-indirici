@@ -194,7 +194,9 @@ class Engine(
     // ------------------------------------------------------------ kontrol
     fun start(job: Job): Msg? {
         synchronized(lock) { if (running) return msg("engine.already_running") }
-        if (job.mode != MODE_LOGIN) {
+        if (job.mode == MODE_COOKIE) {
+            if (SessionInput.parse(job.link).isEmpty()) return msg("engine.cookie_invalid")
+        } else if (job.mode != MODE_LOGIN) {
             val p = Links.parse(job.link)
             if (!p.ok) return p.error
             if (job.mode == MODE_SINGLE && p.kind == Links.PROFILE) return msg("engine.single_needs_post")
@@ -256,6 +258,21 @@ class Engine(
                 override fun waitUntil(epochMs: Long, kind: String) { this@Engine.waitUntil = epochMs; this@Engine.waitKind = kind }
             }
             web.prepare()
+            if (job.mode == MODE_COOKIE) {
+                val result = Insta(web, Pacing.forSpeed(settings.speed)).importSession(job.link)
+                val ok = result == "ok"
+                if (ok) { loggedIn = true; onLoginState(true) }
+                phase = if (ok) "done" else "error"
+                summary = when (result) {
+                    "ok" -> msg("engine.cookie_ok")
+                    "invalid" -> msg("engine.cookie_invalid")
+                    "expired" -> msg("engine.cookie_expired")
+                    "challenge" -> msg("engine.cookie_challenge")
+                    else -> msg("engine.cookie_error")
+                }
+                log(if (ok) "ok" else "error", summary!!)
+                return
+            }
             if (job.mode == MODE_LOGIN) {
                 val ok = web.loginSession()
                 loggedIn = ok
@@ -952,6 +969,7 @@ class Engine(
         const val MODE_SINGLE = "single"
         const val MODE_PROFILE = "profile"
         const val MODE_LOGIN = "login"
+        const val MODE_COOKIE = "cookie"
         val UNMATCHED_REASONS = setOf("skip.video_only", "skip.image_only", "skip.image_only_avatar")
         const val INFO_NAME = "bilgi.csv"
         val INFO_HEADER = listOf("kod", "tür", "tarih", "bağlantı", "beğeni", "yorum", "dosyalar", "açıklama")

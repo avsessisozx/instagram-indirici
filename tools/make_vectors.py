@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from instagram_indirici import links, media, naming  # noqa: E402
-from instagram_indirici.browser import ApiResult, classify  # noqa: E402
+from instagram_indirici.browser import ApiResult, classify, parse_session_input  # noqa: E402
 from tests import fake_instagram as fi  # noqa: E402
 
 OUT = ROOT / "tests" / "vectors"
@@ -186,8 +186,25 @@ def classify_vectors():
     return cases
 
 
+SID = "61234567890%3AAbCdEfGhIjKl%3A15%3AAYexampleVALUE_-"
+SESSION_INPUTS = [
+    SID, "  " + SID + "\n", SID.replace("%3A", ":"), "sessionid=" + SID, 'sessionid="' + SID + '"', "SessionID=" + SID,
+    "Cookie: mid=abc; csrftoken=TOK123; sessionid=" + SID + "; ds_user_id=777777; ig_did=x",
+    "cookie:csrftoken=TOK123;sessionid=" + SID, "mid=abc\nsessionid=" + SID + "\ncsrftoken=T0KEN9",
+    "sessionid\t" + SID + "\t.instagram.com\t/\t2027-10-22T10:00:00.000Z\t120\t✓\t✓",
+    "gecerli", "yanlis-kod-123", "", "   ", "abc", "merhaba dünya", "https://www.instagram.com/", "csrftoken=abcdef123",
+    "a b c d e f g", "sessionid=kısa", "sessionid=" + SID + "; csrftoken=bad value", "'" + SID + "'",
+    "sessionid=12345%3Aabcdef; ds_user_id=99999999", "sessionid=abcdef123456",
+]
+
+
+def session_vectors():
+    return [{"input": text, "parsed": parse_session_input(text)} for text in SESSION_INPUTS]
+
+
 def build():
     return {
+        "session.json": session_vectors(),
         "links.json": link_vectors(),
         "naming.json": naming_vectors(),
         "posts.json": post_vectors(),

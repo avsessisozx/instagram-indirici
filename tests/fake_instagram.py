@@ -616,6 +616,10 @@ def make_handler(fake: FakeInstagram):
 
         def api_get(self, path: str, query) -> None:
             d = fake.data
+            if path == "/api/v1/accounts/current_user/":
+                if not self.logged_in():
+                    return self.login_required()
+                return self.json({"user": {"pk": "1234567890", "username": "nowoserhi"}, "status": "ok"})
             if fake.profile_api_refused and path in ("/api/v1/users/web_profile_info/", "/web/search/topsearch/"):
                 return self.json({"message": "Please wait a few minutes before you try again.",
                                   "require_login": True, "status": "fail"}, 401)

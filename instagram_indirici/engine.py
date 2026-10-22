@@ -15,7 +15,7 @@ from typing import Any, Dict, List, Optional
 
 from . import links
 from .browser import (ApiError, BrowserError, FeedResult, InstagramBrowser, LoginRequired, NotFound,
-                      ProfileInfo, RateLimited)
+                      ProfileInfo, RateLimited, parse_session_input)
 from .fetcher import Cancelled, existing_file, ext_from_content_type, fetch, fetch_dash, write_bytes
 from .history import History
 from .i18n import Msg, msg
@@ -28,6 +28,7 @@ from .paths import CONTENT_ALL, app_data_dir, clean_settings, date_end_ts, date_
 MODE_SINGLE = "single"
 MODE_PROFILE = "profile"
 MODE_LOGIN = "login"
+MODE_COOKIE = "cookie"
 WORKERS = 3
 UNMATCHED_REASONS = {"skip.video_only", "skip.image_only", "skip.image_only_avatar"}
 MARKER_NAME = ".instagram-indirici.json"
@@ -255,7 +256,10 @@ class Engine:
         with self._lock:
             if self.running:
                 return msg("engine.already_running")
-        if job.mode != MODE_LOGIN:
+        if job.mode == MODE_COOKIE:
+            if not parse_session_input(job.link):
+                return msg("engine.cookie_invalid")
+        elif job.mode != MODE_LOGIN:
             parsed = links.parse_link(job.link)
             if not parsed.ok:
                 return parsed.error
@@ -340,6 +344,25 @@ class Engine:
                                         identity=str(settings.get("identity") or "desktop")) as browser:
                 browser.on_wait = self._set_wait
                 self.browser_name = browser.channel_name
+                if job.mode == MODE_COOKIE:
+                    result = await browser.import_session(job.link)
+                    ok = result == "ok"
+                    if ok:
+                        self.logged_in = True
+                        save_session_state(True)
+                    self.phase = "done" if ok else "error"
+                    if ok:
+                        self.summary = msg("engine.cookie_ok")
+                    elif result == "invalid":
+                        self.summary = msg("engine.cookie_invalid")
+                    elif result == "expired":
+                        self.summary = msg("engine.cookie_expired")
+                    elif result == "challenge":
+                        self.summary = msg("engine.cookie_challenge")
+                    else:
+                        self.summary = msg("engine.cookie_error")
+                    self.log("ok" if ok else "error", self.summary)
+                    return
                 if job.mode == MODE_LOGIN:
                     ok = await browser.login_session()
                     self.logged_in = ok

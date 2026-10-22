@@ -18,6 +18,7 @@ import json
 import os
 import random
 import re
+import sys
 import threading
 import time
 from dataclasses import dataclass, field
@@ -210,6 +211,61 @@ def classify(res: ApiResult) -> str:
     return "error"
 
 
+_SESSION_VALUE = re.compile(r"^[A-Za-z0-9%:_.\-]{6,}$")
+_SESSION_NAMES = ("sessionid", "csrftoken", "ds_user_id")
+
+
+def parse_session_input(text: str) -> Dict[str, str]:
+    """Kullanıcının yapıştırdığı metinden Instagram oturum çerezlerini çıkarır.
+
+    Kabul edilen biçimler: yalın sessionid değeri, ``sessionid=...``, tüm ``Cookie:`` satırı ya da
+    tarayıcı geliştirici araçlarından kopyalanan satır (``sessionid<TAB>değer<TAB>...``).
+    Geçersizse boş sözlük döner. Değer asla günlüğe yazılmaz.
+    """
+    raw = (text or "").strip().strip("'\"").strip()
+    if not raw:
+        return {}
+    found: Dict[str, str] = {}
+    body = re.sub(r"^\s*cookie:\s*", "", raw, flags=re.I)
+    if "=" in body:
+        for part in re.split(r"[;\n]", body):
+            if "=" not in part:
+                continue
+            key, value = part.split("=", 1)
+            key = key.strip().lower()
+            value = value.strip().strip("'\"")
+            if key in _SESSION_NAMES and value:
+                found[key] = value
+    if "sessionid" not in found:
+        m = re.match(r"^\s*sessionid\s+(\S+)", raw, flags=re.I)
+        if m:
+            found["sessionid"] = m.group(1)
+    if "sessionid" not in found and re.fullmatch(r"[^\s;=]+", raw):
+        found["sessionid"] = raw
+    sid = found.get("sessionid", "").replace(":", "%3A")
+    if not _SESSION_VALUE.match(sid):
+        return {}
+    found["sessionid"] = sid
+    for key in ("csrftoken", "ds_user_id"):
+        if key in found and not _SESSION_VALUE.match(found[key]):
+            del found[key]
+    if "ds_user_id" not in found:
+        m = re.match(r"^(\d{5,})%3A", sid)
+        if m:
+            found["ds_user_id"] = m.group(1)
+    return {k: v for k, v in found.items() if k in _SESSION_NAMES}
+
+
+def use_chromium_sandbox() -> bool:
+    """Windows'ta tarayıcı normal (korumalı) başlar; Playwright'ın varsayılan `--no-sandbox` bayrağı
+    Chrome'da "desteklenmeyen komut satırı işareti" uyarısı çıkarıp tarayıcıyı alışılmadık gösteriyordu.
+    Linux'ta (geliştirme ortamı, root) kapalı kalır; `INSTAGRAM_INDIRICI_SANDBOX=0/1` ile değiştirilir."""
+    forced = os.environ.get("INSTAGRAM_INDIRICI_SANDBOX", "")
+    if forced in ("0", "1"):
+        return forced == "1"
+    return sys.platform == "win32"
+
+
 class InstagramBrowser:
     def __init__(
         self,
@@ -337,6 +393,7 @@ class InstagramBrowser:
             no_viewport=True,
             locale="tr-TR",
             accept_downloads=False,
+            chromium_sandbox=use_chromium_sandbox(),
             timeout=60000,
         )
         if channel and channel != "chromium":
@@ -1543,6 +1600,70 @@ class InstagramBrowser:
         return None
 
     # ------------------------------------------------------------ giriş
+    async def import_session(self, text: str) -> str:
+        """Kullanıcının tanıdığı tarayıcıdan kopyaladığı oturum kodunu (sessionid) bu tarayıcıya yerleştirir.
+
+        Dönüş: ok | invalid (biçim bozuk) | expired (Instagram kabul etmedi) | challenge | error.
+        Başarısızsa önceki oturum geri yüklenir.
+        """
+        cookies = parse_session_input(text)
+        if not cookies.get("sessionid"):
+            return "invalid"
+        self._check_alive()
+        host = urlsplit(base_url()).hostname or "www.instagram.com"
+        domain = ".instagram.com" if host.endswith("instagram.com") else host
+        secure = base_url().startswith("https")
+        previous: Dict[str, Any] = {}
+        try:
+            for c in await self.context.cookies([base_url() + "/"]):
+                if c.get("name") in ("sessionid", "csrftoken", "ds_user_id") and c.get("value"):
+                    previous[c["name"]] = c
+        except Exception:
+            previous = {}
+        expires = time.time() + 365 * 24 * 3600
+        items = []
+        for name, value in cookies.items():
+            items.append({"name": name, "value": value, "domain": domain, "path": "/", "expires": expires,
+                          "httpOnly": name == "sessionid", "secure": secure})
+        try:
+            await self.context.add_cookies(items)
+        except Exception as exc:
+            self.log("debug", f"import_session: {str(exc).splitlines()[0] if str(exc) else exc}")
+            return "error"
+        await self.goto(base_url() + "/")
+        result = "error"
+        try:
+            res = await self._raw_api("/api/v1/accounts/current_user/", params=[("edit", "true")])
+            kind = classify(res)
+            if kind == "ok":
+                result = "ok"
+            elif kind == "login":
+                result = "expired"
+            elif kind == "challenge":
+                result = "challenge"
+            elif kind == "rate" and await self.logged_in() and not await self._page_redirect_state():
+                result = "ok"   # Instagram sıkıştı ama oturum çerezi duruyor: kabul et
+        except (asyncio.CancelledError, BrowserError):
+            raise
+        except Exception as exc:
+            self.log("debug", f"import_session: {str(exc).splitlines()[0] if str(exc) else exc}")
+        if result != "ok":
+            await self._restore_cookies(previous, domain, secure)
+        return result
+
+    async def _restore_cookies(self, previous: Dict[str, Any], domain: str, secure: bool) -> None:
+        """Başarısız içe aktarmada eski oturumu geri koyar (yoksa yeni, geçersiz çerezi siler)."""
+        try:
+            await self.context.clear_cookies(name="sessionid")
+            if previous.get("sessionid"):
+                keep = []
+                for c in previous.values():
+                    d = {k: c[k] for k in ("name", "value", "domain", "path", "expires", "httpOnly", "secure", "sameSite") if k in c}
+                    keep.append(d)
+                await self.context.add_cookies(keep)
+        except Exception as exc:
+            self.log("debug", f"import_session restore: {str(exc).splitlines()[0] if str(exc) else exc}")
+
     async def login_session(self) -> bool:
         """Kullanıcının Instagram'a giriş yapması için pencereyi açar. Giriş tamamlanınca True döner."""
         page = self.page

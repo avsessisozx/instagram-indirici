@@ -41,8 +41,8 @@
   "ui.form_need_link": "Önce bir kullanıcı adı ya da Instagram linki yapıştır.",
   "ui.form_need_mode": "Ne indirileceğini seç: sadece bu gönderi mi, profilin tamamı mı?",
   "ui.status_login_open": "Instagram giriş penceresi açık",
-  "ui.sub_login_open_desktop": "Açılan pencerede Instagram'a giriş yap. Giriş tamamlanınca pencere kendiliğinden kapanır.",
-  "ui.sub_login_open_mobile": "Açılan pencerede Instagram'a giriş yap; tamamlanınca pencere kendiliğinden kapanır. 'Gizle' ile küçültebilir, 'Kapat' ile vazgeçebilirsin.",
+  "ui.sub_login_open_desktop": "Açılan pencerede Instagram'a giriş yap. Giriş tamamlanınca pencere kendiliğinden kapanır. Instagram 'başka cihazda onayla' derse pencereyi kapat; Ayarlar > Hesap bölümündeki 'Giriş yapamıyorum' ile oturum kodunu yapıştır.",
+  "ui.sub_login_open_mobile": "Açılan pencerede Instagram'a giriş yap; tamamlanınca pencere kendiliğinden kapanır. 'Gizle' ile küçültebilir, 'Kapat' ile vazgeçebilirsin. Instagram 'başka cihazda onayla' derse pencereyi kapat; Ayarlar > Hesap bölümündeki 'Giriş yapamıyorum' ile oturum kodunu yapıştır.",
   "ui.status_login_closed": "Giriş penceresi kapandı",
   "ui.status_starting": "Hazırlanıyor…",
   "ui.sub_starting": "İlk açılış birkaç saniye sürebilir.",
@@ -385,5 +385,15 @@
   "ui.tab_tagged": "Etiketlenenler",
   "ui.tab_stories": "Hikayeler",
   "ui.tab_highlights": "Öne çıkanlar",
-  "ui.tab_avatar": "Profil fotoğrafı"
+  "ui.tab_avatar": "Profil fotoğrafı",
+  "ui.cookie_title": "Giriş yapamıyorum",
+  "ui.cookie_steps": "Instagram bu programın penceresinde girişe izin vermiyorsa, zaten giriş yaptığın tarayıcıdan oturum kodunu al:\n1) Normal Chrome'unda instagram.com'a giriş yapmış ol.\n2) instagram.com açıkken F12'ye bas, üstteki 'Uygulama' (Application) sekmesini aç. Gözükmüyorsa >> okuna bas.\n3) Soldan 'Çerezler' > 'https://www.instagram.com' seç.\n4) Listede 'sessionid' satırına tıkla, alttaki 'Değer'i (ya da satırdaki Değer hücresini) kopyala.\n5) Aşağıya yapıştırıp 'Bu oturumu kullan'a bas.",
+  "ui.cookie_warn": "Bu kod şifre gibidir: kimseyle paylaşma. Yalnızca bu cihazda saklanır. O tarayıcıdan çıkış yaparsan kod geçersiz olur.",
+  "ui.cookie_placeholder": "sessionid değerini buraya yapıştır",
+  "ui.cookie_use": "Bu oturumu kullan",
+  "engine.cookie_ok": "Oturum kodu kabul edildi. Bundan sonraki indirmelerde bu hesap kullanılacak.",
+  "engine.cookie_invalid": "Yapıştırılan kod geçersiz görünüyor. 'sessionid' satırının değerini eksiksiz kopyalayıp yapıştır.",
+  "engine.cookie_expired": "Instagram bu oturum kodunu kabul etmedi (süresi dolmuş ya da o tarayıcıdan çıkış yapılmış olabilir). Tarayıcıda oturumun açık olduğundan emin olup kodu yeniden kopyala.",
+  "engine.cookie_challenge": "Instagram bu oturum için yine doğrulama istedi. Önce normal tarayıcında/telefonunda hesabı doğrulayıp tekrar dene.",
+  "engine.cookie_error": "Oturum kodu denenemedi (Instagram'a ulaşılamadı ya da yanıt vermedi). Biraz sonra tekrar dene."
 }

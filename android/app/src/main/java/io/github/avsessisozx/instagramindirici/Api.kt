@@ -95,6 +95,12 @@ class Api(private val host: ApiHost) {
                 200 to JSONObject().put("ok", true)
             }
 
+            "/api/login-cookie" -> {
+                val e = engine.start(Engine.Job(data?.optString("cookie", "") ?: "", Engine.MODE_COOKIE, Core.settings))
+                if (e != null) return err(400, e)
+                200 to JSONObject().put("ok", true)
+            }
+
             "/api/clear-history" -> {
                 if (engine.running) return err(400, msg("engine.already_running"))
                 val n = try { Core.history().clear() } catch (e: Exception) {

@@ -41,8 +41,8 @@
   "ui.form_need_link": "Paste a username or an Instagram link first.",
   "ui.form_need_mode": "Choose what to download: only this post or the whole profile?",
   "ui.status_login_open": "Instagram login window is open",
-  "ui.sub_login_open_desktop": "Log in to Instagram in the window that opened. It closes by itself once you're logged in.",
-  "ui.sub_login_open_mobile": "Log in to Instagram in the window that opened; it closes by itself when done. Use 'Hide' to minimize it or 'Close' to cancel.",
+  "ui.sub_login_open_desktop": "Log in to Instagram in the window that opened. It closes by itself once you're logged in. If Instagram says 'approve on another device', close the window and use 'I can't log in' under Settings > Account to paste a session code.",
+  "ui.sub_login_open_mobile": "Log in to Instagram in the window that opened; it closes by itself when done. Use 'Hide' to minimize it or 'Close' to cancel. If Instagram says 'approve on another device', close it and use 'I can't log in' under Settings > Account to paste a session code.",
   "ui.status_login_closed": "Login window closed",
   "ui.status_starting": "Getting ready…",
   "ui.sub_starting": "The first start can take a few seconds.",
@@ -385,5 +385,15 @@
   "ui.tab_tagged": "Tagged",
   "ui.tab_stories": "Stories",
   "ui.tab_highlights": "Highlights",
-  "ui.tab_avatar": "Profile photo"
+  "ui.tab_avatar": "Profile photo",
+  "ui.cookie_title": "I can't log in",
+  "ui.cookie_steps": "If Instagram refuses the login in this program's window, take the session code from a browser you already use:\n1) Be logged in to instagram.com in your normal Chrome.\n2) With instagram.com open, press F12 and open the 'Application' tab (use the >> arrow if it's hidden).\n3) On the left pick 'Cookies' > 'https://www.instagram.com'.\n4) Click the 'sessionid' row and copy its 'Value'.\n5) Paste it below and press 'Use this session'.",
+  "ui.cookie_warn": "This code works like a password: don't share it. It is stored only on this device. Logging out in that browser makes it invalid.",
+  "ui.cookie_placeholder": "Paste the sessionid value here",
+  "ui.cookie_use": "Use this session",
+  "engine.cookie_ok": "Session code accepted. This account will be used for the following downloads.",
+  "engine.cookie_invalid": "The pasted code doesn't look valid. Copy the full value of the 'sessionid' row and paste it.",
+  "engine.cookie_expired": "Instagram did not accept this session code (it may have expired or you may have logged out in that browser). Make sure you're logged in there and copy the code again.",
+  "engine.cookie_challenge": "Instagram asked for verification again for this session. Verify the account in your normal browser or phone first, then try again.",
+  "engine.cookie_error": "The session code could not be tried (Instagram was unreachable or did not answer). Try again in a moment."
 }
