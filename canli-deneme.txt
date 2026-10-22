@@ -1,0 +1,4 @@
+  [info] Microsoft Edge opened. Don't close this window until the job is done.
+Tarayıcı: Microsoft Edge
+  [info] Opening the profile of @instagram…
+PROFİL AÇILAMADI: browser.profile_login_required {}
