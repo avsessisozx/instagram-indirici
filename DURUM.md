@@ -3,7 +3,7 @@
 > Claude'un çalışma notu. Yalnızca `durum` dalında durur; `main`'e, README'ye ve sürüm notlarına girmez.
 > Yeni sohbette önce bunu oku, repoyu baştan tarama. Her sürümden sonra güncelle.
 
-Son güncelleme: 2026-10-22 · Son sürüm: **v1.7.0** (2026-10-22)
+Son güncelleme: 2026-10-22 · Son sürüm: **v1.8.0** (2026-10-22)
 
 ## Ne yapıyor
 Herkese açık Instagram profillerini toplu indirir: gönderiler/reels/albümler, hikayeler, öne çıkanlar,
@@ -154,6 +154,16 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   Android JVM + emülatör yeşil. Sahte sunucuda yeni bayraklar: stories_500, highlights_500, reels_media_fail_n, clips_refused.
 
 ## Yarım / sıradaki
+- v1.8.0 (iki platform): kullanıcı Windows'ta uygulamanın giriş penceresinde Instagram'ın "devam etmek için başka cihazda giriş yap" kilidine takıldı
+  (normal Chrome'da giriş sorunsuzdu; pencere her seferinde sıfırdan, tanınmayan tarayıcı sayılıyor; ekranda Chrome'un `--no-sandbox` uyarısı vardı).
+  Yapılanlar: Ayarlar > Hesap > "Giriş yapamıyorum": kullanıcı tanıdığı tarayıcıdan `sessionid` değerini yapıştırır (`/api/login-cookie`, `MODE_COOKIE`,
+  `browser.parse_session_input` = Kotlin `SessionInput`, ortak vektör `tests/vectors/session.json`). `import_session`: çerezleri yazar, `/api/v1/accounts/current_user/`
+  ile doğrular (ok/expired/challenge/error), başarısızsa eski oturumu geri yükler; değer günlüğe/rapora yazılmaz. Windows'ta `chromium_sandbox=True`
+  (`use_chromium_sandbox`, Linux'ta kapalı; `INSTAGRAM_INDIRICI_SANDBOX=0/1`). Giriş penceresi açıkken ipucu metni. Testler: 15 birim (SessionImportTests, CookieEndpointTests),
+  3 uçtan uca (b0_cookie_*), JVM `EngineTest.a4_cookie*` + `SharedVectorsTest.session`; CI yeşil.
+  Chrome/Edge çerezini programın kendisi okumuyor: Windows'ta Chrome'un çerez şifrelemesi (app-bound) buna izin vermiyor; bu yüzden yapıştırma yöntemi.
+  GERÇEK INSTAGRAM'DA DENENMEDİ: yapıştırılan kodla giriş (özellikle Windows'ta `current_user` doğrulaması ve Android WebView `CookieManager` yazımı).
+  Kullanıcının yedek hesabı kimlik/selfie doğrulaması istiyor (VPN/yeni IP + otomatik istek şüphesi); doğrulamayı atlatma yardımı verilmedi.
 - v1.7.0 (düzeltme, aynı sürüm numarası): @vv_sechko raporunda Instagram hız sınırına takıldı (429, "spam" 400) ve öne çıkan liste isteğine yanıt gelmedi;
   her istek 45 sn + 2 tekrar beklediği için 21 öne çıkan ~40 dk sürdü. Artık `call(..., quick=True)`: 20 sn, tekrarsız; ilk zaman aşımından sonra
   `api_down` olur, liste yolu bırakılır ve doğrudan `/stories/highlights/<id>/` sayfasına geçilir (Python `highlight_reels`, Kotlin `highlightReels`).
