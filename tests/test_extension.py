@@ -73,6 +73,12 @@ class ExtensionE2E(unittest.TestCase):
     def setUp(self):
         self.fake.reset()
         self.fake.autologin = False
+        # Önceki testten kalan iş durumu yeni iş sanılmasın: ancak bu testte başlayan iş sayılır.
+        end = time.monotonic() + 60
+        while self.state.engine.running and time.monotonic() < end:
+            time.sleep(0.2)
+        self.assertFalse(self.state.engine.running)
+        self.mark = self.state.engine.started_at
 
     # ------------------------------------------------------------ yardımcılar
     def start_chrome_login(self) -> str:
@@ -98,7 +104,8 @@ class ExtensionE2E(unittest.TestCase):
         end = time.monotonic() + timeout
         engine = self.state.engine
         while time.monotonic() < end:
-            if engine.mode == "cookie" and not engine.running and engine.phase in ("done", "error"):
+            if engine.started_at != self.mark and engine.mode == "cookie" and not engine.running \
+                    and engine.phase in ("done", "error"):
                 return engine.snapshot()
             time.sleep(0.3)
         self.fail("oturum içe aktarma işi zamanında bitmedi")
