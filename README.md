@@ -11,6 +11,8 @@ Herkese açık Instagram profillerindeki fotoğraf ve videoları toplu indiren, 
 
 ## İndirme ve kurulum
 
+> **Yalnızca bu deponun Releases sayfasından indirin.** Android APK'sının imza anahtarı herkese açıktır (açık kaynak), EXE ise imzasızdır; başka bir yerden gelen dosya değiştirilmiş bir kopya olabilir.
+
 1. [Releases](../../releases) sayfasından en yeni `InstagramIndirici.exe` dosyasını indir.
 2. Çift tıklayıp aç. Kurulum gerekmez.
 3. İlk açılışta Windows **"Bilgisayarınız korundu"** diyebilir: **Ek bilgi → Yine de çalıştır**. (Program imzalı olmadığı için bu uyarı çıkar.)
