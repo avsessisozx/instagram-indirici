@@ -369,8 +369,8 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
         var html = ""
         if (info.userId.isEmpty()) {
             html = web.pageHtml()
-            val m = Regex("\"profile_id\"\\s*:\\s*\"(\\d+)\"").find(html) ?: Regex("\"user_id\"\\s*:\\s*\"(\\d+)\"").find(html)
-            if (m != null) { info.userId = m.groupValues[1]; info.sources += "html" }
+            val foundId = userIdFromHtml(html, username)
+            if (foundId.isNotEmpty()) { info.userId = foundId; info.sources += "html" }
         }
 
         var rateHit = false
@@ -414,6 +414,22 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
             throw IgError(msg("browser.profile_failed", "name" to username))
         }
         return info
+    }
+
+    /** Profil sayfasının HTML'inden hesabın kimliğini okur; önce kullanıcı adıyla aynı nesnedeki kimlik, son çare adsız ilk eşleşme. */
+    private fun userIdFromHtml(html: String, username: String): String {
+        if (username.isNotEmpty()) {
+            val name = Regex.escape(username)
+            val idKey = "\"(?:id|pk|pk_id|profile_id)\"\\s*:\\s*\"(\\d+)\""
+            val userKey = "\"username\"\\s*:\\s*\"$name\""
+            val patterns = listOf(
+                Regex("$userKey[^{}]{0,400}?$idKey", RegexOption.IGNORE_CASE),
+                Regex("$idKey[^{}]{0,400}?$userKey", RegexOption.IGNORE_CASE),
+            )
+            for (p in patterns) p.find(html)?.let { return it.groupValues[1] }
+        }
+        val m = Regex("\"profile_id\"\\s*:\\s*\"(\\d+)\"").find(html) ?: Regex("\"user_id\"\\s*:\\s*\"(\\d+)\"").find(html)
+        return m?.groupValues?.get(1) ?: ""
     }
 
     private fun mergeUser(info: ProfileInfo, user: JSONObject) {
@@ -516,6 +532,8 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
                 }
             } catch (e: ApiError) {
                 log("info", msg("browser.strategy_failed", "detail" to e.detail)); continue
+            } catch (e: NotFound) {
+                log("info", msg("browser.strategy_failed", "detail" to "$name: 404")); continue
             } catch (e: RateLimited) {
                 lastReason = "rate_limited"; rateHits++; continue
             } catch (e: LoginRequired) {

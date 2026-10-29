@@ -358,6 +358,18 @@ class IntegrationTests(unittest.TestCase):
         self.assertIn("browser.strategy_failed", self.keys(snap))
         self.assertTrue(any(p.startswith("/graphql/query") and li for p, li in self.fake.api_calls))
 
+    def test_c2b_rest_404_uses_graphql(self):
+        """Kullanıcı raporu: REST gönderi listesi 404 dönünce iş "bulunamadı" ile duruyordu."""
+        self.ensure_login()
+        self.fake.feed_404 = True
+        try:
+            snap, out = self.run_job(fi.PROFILE_OK, "profile", stories=False, highlights=False, avatar=False)
+        finally:
+            self.fake.feed_404 = False
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertEqual(snap["found_posts"], fi.TOTAL_POSTS + 1)
+        self.assertIn("browser.strategy_failed", self.keys(snap))
+
     def test_c3_everything_broken_scrolls(self):
         self.ensure_login()
         self.fake.break_rest = True

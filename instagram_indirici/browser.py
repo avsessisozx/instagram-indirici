@@ -211,6 +211,25 @@ def classify(res: ApiResult) -> str:
     return "error"
 
 
+def user_id_from_html(html: str, username: str) -> str:
+    """Profil sayfasının HTML'inden hesabın sayısal kimliğini okur.
+
+    Önce kullanıcı adıyla aynı nesnede geçen kimlik alınır; sayfada giriş yapan kişinin ya da başka
+    hesapların kimlikleri de bulunabildiği için, adsız ilk eşleşme yalnız son çaredir.
+    """
+    if username:
+        name = re.escape(username)
+        for pattern in (
+            rf'"username"\s*:\s*"{name}"[^{{}}]{{0,400}}?"(?:id|pk|pk_id|profile_id)"\s*:\s*"(\d+)"',
+            rf'"(?:id|pk|pk_id|profile_id)"\s*:\s*"(\d+)"[^{{}}]{{0,400}}?"username"\s*:\s*"{name}"',
+        ):
+            m = re.search(pattern, html, re.IGNORECASE)
+            if m:
+                return m.group(1)
+    m = re.search(r'"profile_id"\s*:\s*"(\d+)"', html) or re.search(r'"user_id"\s*:\s*"(\d+)"', html)
+    return m.group(1) if m else ""
+
+
 _SESSION_VALUE = re.compile(r"^[A-Za-z0-9%:_.\-]{6,}$")
 _SESSION_NAMES = ("sessionid", "csrftoken", "ds_user_id", "mid", "ig_did", "datr", "ig_nrcb")
 _DEVICE_VALUE = re.compile(r"^[A-Za-z0-9%:_.\-]{1,200}$")   # mid / ig_did / datr: Instagram'ın cihazı tanıdığı çerezler
@@ -767,9 +786,9 @@ class InstagramBrowser:
         html = ""
         if not info.user_id:
             html = await self._page_html()
-            m = re.search(r'"profile_id"\s*:\s*"(\d+)"', html) or re.search(r'"user_id"\s*:\s*"(\d+)"', html)
-            if m:
-                info.user_id = m.group(1)
+            found_id = user_id_from_html(html, username)
+            if found_id:
+                info.user_id = found_id
                 info.sources.append("html")
 
         # 2) Profil bilgisi isteği (sayılar, gizlilik, ilk gönderiler)
@@ -916,6 +935,10 @@ class InstagramBrowser:
                 reason = await run()
             except ApiError as exc:
                 self.log("info", msg("browser.strategy_failed", detail=exc.detail))
+                continue
+            except NotFound:
+                # Liste isteği 404 döndü (ör. profil kimliği yanlış okunmuş olabilir); sıradaki yola geçilir.
+                self.log("info", msg("browser.strategy_failed", detail=f"{name}: 404"))
                 continue
             except RateLimited:
                 # Bu yol kısıtlandı; sıradaki yol (en son sayfanın kendi istekleri) denenir.

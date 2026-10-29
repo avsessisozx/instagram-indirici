@@ -307,6 +307,7 @@ class FakeInstagram:
         self.highlights_batch_truncate = False  # çoklu istekte sadece ilk öne çıkanın öğeleri gelir
         self.highlights_tray_refused = False    # öne çıkan listesi isteği hep "biraz bekle"
         self.rest_refused = False      # REST gönderi listesi hep HTTP 400 "biraz bekle" (gerçek telefonda görüldü)
+        self.feed_404 = False          # REST gönderi listesi hep HTTP 404 (yanlış okunan profil kimliği; kullanıcı raporu)
         self.stories_500 = False       # hikaye listesi isteği hep HTTP 500 (gerçek telefonda görüldü)
         self.highlights_500 = False    # öne çıkan içerik isteği hep HTTP 500
         self.highlights_hang = 0.0     # öne çıkan içerik isteğine bu kadar saniye geç yanıt verir (zaman aşımı)
@@ -625,6 +626,8 @@ def make_handler(fake: FakeInstagram):
             if fake.profile_api_refused and path in ("/api/v1/users/web_profile_info/", "/web/search/topsearch/"):
                 return self.json({"message": "Please wait a few minutes before you try again.",
                                   "require_login": True, "status": "fail"}, 401)
+            if fake.feed_404 and path.startswith("/api/v1/feed/user/"):
+                return self.json({"message": "Not found", "status": "fail"}, 404)
             if fake.rest_refused and path.startswith("/api/v1/feed/user/"):
                 return self.json({"message": "Please wait a few minutes before you try again.", "spam": True,
                                   "status": "fail"}, 400)

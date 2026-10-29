@@ -290,6 +290,24 @@ class NamingAndTextTests(unittest.TestCase):
         self.assertEqual(translate("summary", "tr", done=2, skipped=1), "Bitti: 2 dosya indirildi, 1 dosya zaten vardı.")
 
 
+class UserIdFromHtmlTests(unittest.TestCase):
+    def test_prefers_id_next_to_username(self):
+        from instagram_indirici.browser import user_id_from_html
+        html = ('{"viewer":{"user_id":"111"},"x":{"profile_id":"222"},'
+                '"user":{"username":"artikleopard","id":"1008237709","full_name":"A"}}')
+        self.assertEqual(user_id_from_html(html, "artikleopard"), "1008237709")
+
+    def test_id_before_username_and_case(self):
+        from instagram_indirici.browser import user_id_from_html
+        html = '{"user_id":"111","owner":{"pk":"555","username":"ArtikLeopard"}}'
+        self.assertEqual(user_id_from_html(html, "artikleopard"), "555")
+
+    def test_falls_back_to_first_match(self):
+        from instagram_indirici.browser import user_id_from_html
+        self.assertEqual(user_id_from_html('{"profile_id":"222"}', "yok"), "222")
+        self.assertEqual(user_id_from_html("<html></html>", "yok"), "")
+
+
 if __name__ == "__main__":
     unittest.main()
 

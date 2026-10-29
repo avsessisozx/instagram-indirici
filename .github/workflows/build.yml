@@ -279,6 +279,8 @@ jobs:
             dist/InstagramIndirici/InstagramIndirici.exe
             dist/InstagramIndirici-apk/*.apk
           body: |
+            **Bu sürümde:** Gönderi listesi Instagram'dan "bulunamadı" (404) dönünce indirme hata verip duruyordu; artık sıradaki yola geçip devam ediyor. Profil kimliği sayfadan daha doğru okunuyor. (Windows + Android)
+
             **Windows:** `InstagramIndirici.exe` dosyasını indir, çift tıklayıp aç. Kurulum gerekmez.
             İlk açılışta Windows "Bilgisayarınız korundu" uyarısı verebilir: **Ek bilgi → Yine de çalıştır**.
 
