@@ -26,7 +26,8 @@ class DenemeExtension(unittest.TestCase):
         cls.ext = Path(cls.tmp.name) / "ext"
         shutil.copytree(EXT_SRC, cls.ext)
         manifest = json.loads((cls.ext / "manifest.json").read_text(encoding="utf-8"))
-        manifest["content_scripts"][0]["matches"] = ["http://127.0.0.1/*"]
+        for script in manifest["content_scripts"]:
+            script["matches"] = ["http://127.0.0.1/*"]
         (cls.ext / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
 
     @classmethod
@@ -38,7 +39,7 @@ class DenemeExtension(unittest.TestCase):
         self.fake.reset()
         self.fake.autologin = False
 
-    def run_report(self, name="p"):
+    def run_report(self, name="p", page_fetch=False):
         from playwright.sync_api import sync_playwright
 
         pw = sync_playwright().start()
@@ -52,6 +53,13 @@ class DenemeExtension(unittest.TestCase):
         page = ctx.new_page()
         page.goto(f"{self.fake.base}/{fi.PROFILE_OK}/")
         page.wait_for_selector("#ii-deneme-btn", timeout=15000)
+        if page_fetch:
+            # Sayfanın kendi isteği (hook.js yakalar): kullanıcı adı → kimlik eşleşmesi rapora girmeli
+            page.evaluate(
+                "fetch('/api/v1/users/web_profile_info/?username=" + fi.PROFILE_OK + "', "
+                "{headers: {'X-IG-App-ID': '936619743392459', 'X-Requested-With': 'XMLHttpRequest'}, "
+                "credentials: 'include'}).then(r => r.text())")
+            time.sleep(1.0)
         page.click("#ii-deneme-btn")
         end = time.monotonic() + 60
         text = ""
@@ -71,6 +79,13 @@ class DenemeExtension(unittest.TestCase):
         self.assertIn(f"@{fi.PROFILE_OK}", text)
         self.assertNotIn("gecerli", text)          # oturum değeri rapora girmez
         self.assertNotIn("sahteCSRF123", text)
+
+    def test_report_includes_page_own_requests_and_ids(self):
+        text = self.run_report("p3", page_fetch=True)
+        self.assertIn("gelen kimlikler: 1001", text)
+        self.assertIn("/api/v1/users/web_profile_info/ -> 200", text)
+        self.assertIn("Sayfadaki kimlik alanları:", text)
+        self.assertNotIn("gecerli", text)
 
     def test_report_shows_failing_codes(self):
         self.fake.feed_404 = True

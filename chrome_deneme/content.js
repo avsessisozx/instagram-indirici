@@ -1,14 +1,20 @@
-// Instagram İndirici – Deneme eklentisi (v0.1.0)
+// Instagram İndirici – Deneme eklentisi (v0.2.0)
 // Amaç: programın kullandığı liste isteklerini, programın açtığı ayrı tarayıcı yerine senin gerçek
 // Chrome oturumunda dener; hangisi hangi kodu döndürdü kopyalanabilir rapor olarak gösterir.
 // Hiçbir şey indirmez. Rapor yalnız bu sayfada gösterilir; hiçbir yere gönderilmez. Çerez/oturum değeri rapora yazılmaz.
 (() => {
   "use strict";
-  const VERSION = "0.1.0";
+  const VERSION = "0.2.0";
   const APP_ID = "936619743392459";
   const ASBD_ID = "129477";
   const RESERVED = new Set(["", "p", "reel", "reels", "tv", "stories", "explore", "direct", "accounts", "about", "web", "s", "share", "tags", "locations", "challenge", "emails", "legal", "directory"]);
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  // Sayfanın kendi istekleri (hook.js yakalar): { path, status, bytes, users: [["kullanıcı|anahtar", "kimlik"], ...] }
+  const captured = [];
+  window.addEventListener("message", (ev) => {
+    if (ev.source !== window || !ev.data || ev.data.__ii !== 1) return;
+    if (captured.length < 300) captured.push(ev.data.entry);
+  });
   const pageUser = () => {
     const seg = location.pathname.split("/").filter(Boolean)[0] || "";
     return RESERVED.has(seg.toLowerCase()) ? "" : seg;
@@ -56,6 +62,50 @@
     return { profile_id: first(/"profile_id"\s*:\s*"(\d+)"/), user_id: first(/"user_id"\s*:\s*"(\d+)"/), anchored };
   }
 
+
+  const REDACT = /("[^"]*(?:token|csrf|lsd|dtsg|claim|session|cookie|auth)[^"]*"\s*:\s*")[^"]*/gi;
+
+  function htmlContext(username) {
+    const html = document.documentElement.innerHTML;
+    const out = [];
+    const needle = `"username":"${username}"`;
+    let from = 0;
+    for (let i = 0; i < 3; i++) {
+      const at = html.toLowerCase().indexOf(needle.toLowerCase(), from);
+      if (at < 0) break;
+      from = at + needle.length;
+      out.push("   ..." + html.slice(Math.max(0, at - 140), at + needle.length + 140).replace(REDACT, "$1<gizli>").replace(/\s+/g, " ") + "...");
+    }
+    return out;
+  }
+
+  function idKeyStats() {
+    const html = document.documentElement.innerHTML;
+    const re = /"([A-Za-z_]*(?:id|pk))"\s*:\s*"(\d{5,})"/g;
+    const counts = new Map();
+    let m;
+    let n = 0;
+    while ((m = re.exec(html)) && n++ < 5000) {
+      const key = m[1];
+      const cur = counts.get(key) || { count: 0, first: m[2] };
+      cur.count++;
+      counts.set(key, cur);
+    }
+    return [...counts.entries()].sort((a, b) => b[1].count - a[1].count).slice(0, 12)
+      .map(([k, v]) => `${k}=${v.first} (x${v.count})`);
+  }
+
+  function capturedFor(username) {
+    const u = username.toLowerCase();
+    const ids = new Set();
+    for (const e of captured) {
+      for (const [key, id] of e.users || []) {
+        if (key.split("|")[0] === u) ids.add(id);
+      }
+    }
+    return [...ids];
+  }
+
   async function runTests(log) {
     const out = [];
     const add = (s) => { out.push(s); log(out.join("\n")); };
@@ -70,6 +120,11 @@
 
     const ids = idsFromHtml(username);
     add(`Sayfadan okunan kimlikler: profile_id=${ids.profile_id || "-"} user_id=${ids.user_id || "-"} kullanıcı adıyla eşleşen=${ids.anchored || "-"}`);
+    for (const l of htmlContext(username)) add(l);
+    add("Sayfadaki kimlik alanları: " + (idKeyStats().join(", ") || "-"));
+    const pageIds = capturedFor(username);
+    add(`Sayfanın kendi isteklerinden bu kullanıcı için gelen kimlikler: ${pageIds.join(", ") || "-"}` +
+        (captured.length ? ` (${captured.length} istek yakalandı)` : " (hiç istek yakalanmadı: sayfayı F5 ile yenileyip tekrar dene)"));
     await wait();
 
     const prof = await api("/api/v1/users/web_profile_info/", [["username", username]]);
@@ -119,6 +174,26 @@
 
     const info = await api(`/api/v1/users/${id}/info/`);
     add(line("6) kullanıcı bilgisi", info, info.data && info.data.user ? `kullanıcı=${info.data.user.username}` : ""));
+    await wait();
+
+    const tried = new Set([id, ids.profile_id, ids.user_id].filter(Boolean));
+    let extraTested = 0;
+    for (const cand of pageIds) {
+      if (tried.has(cand) || extraTested >= 2) continue;
+      extraTested++;
+      const res = await api(`/api/v1/feed/user/${cand}/`, [["count", "12"]]);
+      add(line(`7) gönderi listesi, sayfanın kendi isteğinden gelen kimlik (${cand}) ile`, res,
+               res.data && res.data.items ? `öğe=${res.data.items.length}` : ""));
+      await wait();
+    }
+
+    const seen = new Map();
+    for (const e of captured) {
+      const k = `${e.path} -> ${e.status}`;
+      seen.set(k, (seen.get(k) || 0) + 1);
+    }
+    add("Sayfanın kendi istekleri (adres -> kod, adet):");
+    for (const [k, c] of [...seen.entries()].slice(0, 30)) add(`   ${k} x${c}`);
     add("Bitti. Raporu kopyalayıp Claude'a yapıştır.");
     return out.join("\n");
   }
@@ -175,6 +250,7 @@
     document.documentElement.appendChild(root);
   }
 
-  mount();
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);
+  else mount();
   window.__iiDeneme = { runTests, version: VERSION };
 })();

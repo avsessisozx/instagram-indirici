@@ -1,13 +1,19 @@
 {
   "manifest_version": 3,
   "name": "Instagram İndirici – Deneme",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Gerçek Chrome oturumunda Instagram'ın liste isteklerinin (profil, gönderi, hikaye, öne çıkan) hangi kodu döndürdüğünü dener ve kopyalanabilir rapor verir. Hiçbir şey indirmez, hiçbir yere göndermez.",
   "content_scripts": [
     {
       "matches": ["https://www.instagram.com/*"],
+      "js": ["hook.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://www.instagram.com/*"],
       "js": ["content.js"],
-      "run_at": "document_idle"
+      "run_at": "document_start"
     }
   ]
 }
