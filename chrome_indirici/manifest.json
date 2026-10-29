@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Instagram İndirici",
+  "version": "1.10.0",
+  "description": "Instagram profillerinin gönderilerini, hikayelerini ve öne çıkanlarını Chrome içinden, kendi oturumunla indirir.",
+  "permissions": ["downloads", "downloads.ui", "storage", "tabs", "unlimitedStorage"],
+  "host_permissions": [
+    "https://www.instagram.com/*",
+    "https://*.cdninstagram.com/*",
+    "https://*.fbcdn.net/*"
+  ],
+  "background": { "service_worker": "background.js" },
+  "action": { "default_title": "Instagram İndirici" },
+  "icons": { "16": "icon16.png", "48": "icon48.png", "128": "icon128.png" },
+  "content_scripts": [
+    {
+      "matches": ["https://www.instagram.com/*"],
+      "js": ["hook.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://www.instagram.com/*"],
+      "js": ["core.js", "bridge.js"],
+      "run_at": "document_start"
+    }
+  ]
+}

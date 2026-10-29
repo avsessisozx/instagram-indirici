@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Instagram İndirici</title>
+<link rel="stylesheet" href="panel.css">
+</head>
+<body>
+<header>
+  <h1>Instagram İndirici <small id="ver"></small></h1>
+  <p class="sub">Kendi Instagram oturumunla, Chrome içinden indirir. Hesabına şifre sormaz, hiçbir yere veri göndermez.</p>
+</header>
+
+<main>
+  <section class="card">
+    <label for="targets">Profil, kullanıcı adı ya da bağlantı (her satıra bir tane)</label>
+    <textarea id="targets" rows="4" placeholder="@kullaniciadi&#10;https://www.instagram.com/kullaniciadi/&#10;https://www.instagram.com/p/XXXXXXXXXXX/"></textarea>
+
+    <div class="grid">
+      <fieldset>
+        <legend>Ne indirilsin?</legend>
+        <label class="chk"><input type="checkbox" id="posts"> Gönderiler</label>
+        <label class="chk"><input type="checkbox" id="stories"> Hikayeler</label>
+        <label class="chk"><input type="checkbox" id="highlights"> Öne çıkanlar</label>
+        <label class="chk"><input type="checkbox" id="avatar"> Profil fotoğrafı</label>
+        <label class="chk"><input type="checkbox" id="reels"> Reels sekmesi</label>
+        <label class="chk"><input type="checkbox" id="reposts"> Yeniden paylaşımlar</label>
+        <label class="chk"><input type="checkbox" id="tagged"> Etiketlenenler</label>
+      </fieldset>
+      <fieldset>
+        <legend>Seçenekler</legend>
+        <label class="row">İçerik
+          <select id="content"><option value="all">Hepsi</option><option value="video">Yalnız video</option><option value="image">Yalnız fotoğraf</option></select>
+        </label>
+        <label class="chk"><input type="checkbox" id="only_new"> Yalnız yeni olanları indir</label>
+        <label class="chk"><input type="checkbox" id="history"> İndirme geçmişini tut</label>
+        <label class="chk"><input type="checkbox" id="verify_files"> Dosyası silinenleri yeniden indir</label>
+        <label class="chk"><input type="checkbox" id="info_csv"> bilgi.csv yaz (tarih, bağlantı, beğeni…)</label>
+        <label class="row">Sayı sınırı (0 = hepsi) <input type="number" id="limit" min="0" step="1"></label>
+        <label class="row">Bu tarihten sonrası <input type="date" id="date_from"></label>
+        <label class="row">Bu tarihe kadar <input type="date" id="date_to"></label>
+        <label class="row">Uzun açıklama .txt (karakter, 0 = kapalı) <input type="number" id="caption_min" min="0" step="50"></label>
+        <label class="row">Hız
+          <select id="speed"><option value="fast">Hızlı</option><option value="normal">Normal</option><option value="slow">Yavaş (engelden kaçınmak için)</option></select>
+        </label>
+        <label class="row">Klasör adı (İndirilenler içinde) <input type="text" id="folder"></label>
+      </fieldset>
+    </div>
+
+    <div class="actions">
+      <button id="start" class="primary">Başlat</button>
+      <button id="stop" disabled>Durdur</button>
+      <span id="state" class="state"></span>
+    </div>
+    <p class="hint">Başlayınca ayrı bir Instagram penceresi açılır. İş bitene kadar o pencereyi <b>kapatma, küçültme ve başka pencerelerle örtme</b>; bu sekmeyi de açık tut. Dosyalar <b>İndirilenler / <span id="folderName"></span></b> içine iner.</p>
+  </section>
+
+  <section class="card">
+    <div class="counters">
+      <div><b id="c-found">0</b><span>gönderi bulundu</span></div>
+      <div><b id="c-done">0</b><span>dosya indi</span></div>
+      <div><b id="c-skip">0</b><span>zaten vardı</span></div>
+      <div><b id="c-fail">0</b><span>indirilemedi</span></div>
+      <div><b id="c-total">0</b><span>toplam dosya</span></div>
+    </div>
+    <div class="bar"><div id="bar-fill"></div></div>
+    <div class="logtools">
+      <b>Günlük</b>
+      <button id="copy">Raporu kopyala</button>
+      <label class="chk small"><input type="checkbox" id="debug"> ayrıntılı</label>
+    </div>
+    <pre id="log" aria-live="polite"></pre>
+  </section>
+
+  <section class="card">
+    <div class="logtools"><b>İndirme geçmişi</b><button id="clear-all" class="danger">Hepsini sil</button></div>
+    <p class="hint">Geçmiş yalnız tekrar indirmeyi önler; dosyalara dokunulmaz.</p>
+    <div id="hist"></div>
+  </section>
+</main>
+
+<script src="core.js"></script>
+<script src="mp4mux.js"></script>
+<script src="engine.js"></script>
+<script src="panel.js"></script>
+</body>
+</html>

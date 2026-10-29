@@ -251,7 +251,17 @@ jobs:
       - name: Chrome eklentisi testleri (gerçek Chromium + sahte Instagram)
         env:
           INSTAGRAM_INDIRICI_BROWSER: chromium
-        run: python tools/run_tests.py tests.test_extension
+        run: python tools/run_tests.py tests.test_extension tests.test_chrome_indirici
+
+      - name: Chrome eklentisini zip'le
+        run: |
+          mkdir -p out
+          (cd chrome_indirici && zip -r ../out/InstagramIndirici-Chrome.zip . -x "*.DS_Store")
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: InstagramIndirici-Chrome
+          path: out/InstagramIndirici-Chrome.zip
 
   release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -278,13 +288,16 @@ jobs:
           files: |
             dist/InstagramIndirici/InstagramIndirici.exe
             dist/InstagramIndirici-apk/*.apk
+            dist/InstagramIndirici-Chrome/InstagramIndirici-Chrome.zip
           body: |
-            **Bu sürümde:** Öne çıkanlar artık en sona bırakıldı (hikaye → gönderiler → diğer sekmeler → öne çıkanlar); önceden 77 öne çıkan bitmeden gönderilere sıra gelmiyordu. Öne çıkan ve hikaye sayfaları da içerik gelince 3 sn içinde bitiyor (eskiden hep ~11 sn). (Windows + Android)
+            **Bu sürümde:** Yeni: Chrome eklentisi. Instagram'ı kendi Chrome'unda açıp oradan indirir (gönderi, hikaye, öne çıkan, reels, video+ses birleştirme, geçmiş, bilgi.csv). Windows ve Android uygulamaları değişmedi.
 
             **Windows:** `InstagramIndirici.exe` dosyasını indir, çift tıklayıp aç. Kurulum gerekmez.
             İlk açılışta Windows "Bilgisayarınız korundu" uyarısı verebilir: **Ek bilgi → Yine de çalıştır**.
 
             **Android:** telefondan `InstagramIndirici-${{ steps.ver.outputs.version }}.apk` dosyasına dokunup kur.
             Telefon "bilinmeyen kaynak" izni isterse ver. Instagram'da bir gönderide ya da profilde **Paylaş → Instagram İndirici** ile link doğrudan gelir.
+
+            **Chrome eklentisi:** `InstagramIndirici-Chrome.zip` dosyasını indirip bir klasöre çıkar. Chrome'da `chrome://extensions` aç, **Geliştirici modu**nu aç, **Paketlenmemiş öğe yükle** (Load unpacked) ile çıkardığın klasörü seç. Sonra Instagram'da giriş yapıp eklenti simgesine bas.
 
             Profilin tamamını, hikayeleri ve öne çıkanları indirmek için programın altındaki **Instagram'a giriş yap** ile bir kez giriş yap. Ana hesabın yerine yedek bir hesap kullanman daha güvenli.
