@@ -308,6 +308,52 @@ class UserIdFromHtmlTests(unittest.TestCase):
         self.assertEqual(user_id_from_html("<html></html>", "yok"), "")
 
 
+class HighlightFailFastTests(unittest.IsolatedAsyncioTestCase):
+    """Kullanıcı raporu: 77 öne çıkanda her grup HTTP 500 alıp ~35 sn bekliyordu (~15 dk boşa)."""
+
+    def _browser(self, calls, outcomes):
+        from instagram_indirici.browser import ApiError, InstagramBrowser
+        b = object.__new__(InstagramBrowser)
+        b._check_cancel = lambda: None
+        b.log = lambda *a, **k: None
+        b._reels_from = lambda data: []
+        pages = []
+
+        async def call(path, **kw):
+            calls.append(kw.get("params"))
+            outcome = outcomes(len(calls))
+            if outcome == "500":
+                raise ApiError("highlights: HTTP 500 {}")
+            return {"reels": {}}
+
+        async def from_page(rid, title):
+            pages.append(rid)
+            return None
+
+        b.call = call
+        b._highlight_from_page = from_page
+        return b, pages
+
+    async def test_two_5xx_chunks_stop_chunk_requests(self):
+        calls = []
+        b, pages = self._browser(calls, lambda n: "500")
+        ids = [f"highlight:{i}" for i in range(30)]
+        failed = []
+        await b.highlight_reels(ids, failed=failed)
+        self.assertEqual(len(calls), 2, calls)          # 10 grup yerine 2 deneme, tek tek istek de yok
+        self.assertEqual(pages, ids)                      # hepsi doğrudan sayfadan denenir
+        self.assertEqual(failed, ids)
+
+    async def test_success_resets_the_counter(self):
+        calls = []
+        b, pages = self._browser(calls, lambda n: "500" if n in (1, 3) else "ok")
+        ids = [f"highlight:{i}" for i in range(12)]
+        await b.highlight_reels(ids, failed=[])
+        # 500, ok, 500, ok: art arda iki 500 yok → 4 grup isteği yapılır, ardından tek tek istekler de denenir.
+        # Sayaç sıfırlanmasaydı 3. istekte bırakılır, tek tek istek hiç yapılmazdı (toplam 3).
+        self.assertGreater(len(calls), 4, len(calls))
+
+
 if __name__ == "__main__":
     unittest.main()
 

@@ -1434,6 +1434,7 @@ class InstagramBrowser:
         order = list(reel_ids)
         limited = False
         api_down = False   # Liste isteğine yanıt gelmiyor: bir daha denenmez, doğrudan öne çıkanın sayfasına geçilir
+        server_fails = 0   # art arda HTTP 5xx alan grup sayısı (her biri ~35 sn bekletir; 77 öne çıkanda ~15 dk boşa gidiyordu)
         for start in range(0, len(order), 3):
             self._check_cancel()
             if api_down:
@@ -1442,11 +1443,19 @@ class InstagramBrowser:
             try:
                 data = await self.call("/api/v1/feed/reels_media/", params=[("reel_ids", r) for r in chunk],
                                        what="highlights", essential=True, quick=True)
+                server_fails = 0
             except (ApiError, NotFound) as exc:
                 detail = getattr(exc, 'detail', '') or exc.message.key
                 self.log("debug", f"highlights chunk: {detail}")
                 if str(detail).endswith("timeout"):
                     api_down = True
+                elif re.search(r"HTTP 5\d\d", str(detail)):
+                    server_fails += 1
+                    if server_fails >= 2:
+                        api_down = True
+                        self.log("debug", "highlights: art arda sunucu hatası, liste isteği bırakıldı")
+                else:
+                    server_fails = 0
                 data = None
             except RateLimited:
                 limited = True   # Instagram durdurdu: kalanları zorlamadan bırak

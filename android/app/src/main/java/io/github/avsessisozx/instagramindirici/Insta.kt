@@ -823,11 +823,13 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
         val got = LinkedHashMap<String, Reel>()
         var limited = false
         var apiDown = false   // Liste isteğine yanıt gelmiyor: bir daha denenmez, doğrudan öne çıkanın sayfasına geçilir
+        var serverFails = 0   // art arda HTTP 5xx alan grup sayısı; ikinciden sonra liste isteği bırakılır
         for (chunk in reelIds.chunked(3)) {
             checkCancel()
             if (apiDown) break
             val data = try {
                 call("/api/v1/feed/reels_media/", chunk.map { "reel_ids" to it }, what = "highlights", essential = true, quick = true)
+                    .also { serverFails = 0 }
             } catch (e: RateLimited) {
                 limited = true; break
             } catch (e: IgError) {
@@ -835,6 +837,10 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
                 val detail = (e as? ApiError)?.detail ?: e.m.key
                 debug("highlights chunk: $detail")
                 if (detail.endsWith("timeout")) apiDown = true
+                else if (Regex("HTTP 5\\d\\d").containsMatchIn(detail)) {
+                    serverFails++
+                    if (serverFails >= 2) { apiDown = true; debug("highlights: art arda sunucu hatası, liste isteği bırakıldı") }
+                } else serverFails = 0
                 null
             }
             for (reel in reelsFrom(data)) {
