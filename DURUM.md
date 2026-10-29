@@ -3,7 +3,7 @@
 > Claude'un çalışma notu. Yalnızca `durum` dalında durur; `main`'e, README'ye ve sürüm notlarına girmez.
 > Yeni sohbette önce bunu oku, repoyu baştan tarama. Her sürümden sonra güncelle.
 
-Son güncelleme: 2026-10-22 · Son sürüm: **v1.9.3** (2026-10-22)
+Son güncelleme: 2026-10-29 · Son sürüm: **v1.9.4** (2026-10-29)
 
 ## Ne yapıyor
 Herkese açık Instagram profillerini toplu indirir: gönderiler/reels/albümler, hikayeler, öne çıkanlar,
@@ -154,6 +154,17 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   Android JVM + emülatör yeşil. Sahte sunucuda yeni bayraklar: stories_500, highlights_500, reels_media_fail_n, clips_refused.
 
 ## Yarım / sıradaki
+- v1.9.4 (iki platform, 2026-10-29): kullanıcı raporu (@artikleopard, 1.9.3, Windows): profil bilgisi 429 verdi → kimlik HTML'den okundu (`sources=html`);
+  hikaye/öne çıkan istekleri HTTP 500 verdi (sayfadan okuma yedeği çalıştı, 17 hikaye + öne çıkan indi), sonra gönderi listesinde REST `/feed/user/{id}/` 404 →
+  `NotFound` `collect_posts`'ta yakalanmadığı için tüm iş "Aranan şey Instagram'da bulunamadı" (`browser.not_found`) ile durdu (`collect_tab` zaten yakalıyordu).
+  Düzeltme: `collect_posts` (Python) / `collectPosts` (Kotlin) `NotFound`'u `ApiError` gibi ele alıp sıradaki yola (GraphQL → kaydırma) geçer.
+  Ek: `browser.user_id_from_html` / Kotlin `userIdFromHtml` — kimlik önce kullanıcı adıyla aynı nesnedeki `id|pk|pk_id|profile_id`'den, son çare eski adsız eşleşme.
+  Şüphe: 429 sonrası HTML'den okunan kimlik yanlış olabilir (hikaye/öne çıkan 500 + feed 404 birlikte buna işaret ediyor) — kanıtlanmadı.
+  DOĞRULANDI (sahte sunucu, Linux Chromium): yeni test `test_c2b_rest_404_uses_graphql` düzeltme olmadan `browser.not_found` ile düşüyor, düzeltmeyle geçiyor;
+  `UserIdFromHtmlTests` (3); tüm set 125 test yeşil. Sahte sunucuya `feed_404` bayrağı eklendi.
+  DOĞRULANMADI: gerçek Instagram'da (yanlış kimliğin gerçekten sebep olup olmadığı; GraphQL yolunun bu hesapta gönderileri getirmesi); Android Kotlin derlemesi/JVM testi yalnız CI'da.
+  Kullanıcıdan bakılacak: yeni raporda `browser.strategy_failed` ("rest: 404") satırı + `posts via=… n=…` debug satırı; gönderiler inecek mi, `user_id=` değeri profilin gerçek kimliği mi.
+  Ayrıca raporda: "Geçmişte indi görünüyor ama dosyası yok" iki hikaye (2026-10-28_4017836390488480397, 2026-10-05_…) yeniden indirilecek — bu normal (dosya kontrolü açık).
 - v1.9.3 (iki platform): (1) Yeni sürümle ilk açılışta veri sıfırlanır: Windows `reset.py` (`.surum` işareti; silinmeyenler: chrome-eklenti, tarayici-bileseni, calisan.json, ayarlar.json'daki yalnız `out_dir`), Android `Core.resetIfNewVersion/resetData` (ayarlar, durum, geçmiş, giriş durumu; WebView çerezleri MainActivity'de silinir). İndirilenlere dokunulmaz. Ayarlar'a "Her şeyi sıfırla (indirilenler hariç)" düğmesi (`/api/reset-all`). Bedel: her güncellemeden sonra yeniden giriş gerekir. Kullanıcı istedi: program eski sürümün üstüne kurulu gibi davranıyordu.
   (2) `import_session` Instagram yanıtını günlüğe yazar (kind/status/path/err/body[:120]); `current_user` yanıt vermese de sayfa girişli kalıyorsa oturumu kabul eder (test: b0_cookie_2b).
   Kullanıcı testi (1.9.2): Chrome eklentisi kuruldu, "Oturum Instagram İndirici'ye gönderildi" göründü AMA programın kendi Chrome'u `current_user` doğrulamasında "Instagram'a ulaşılamadı ya da yanıt vermedi" (cookie_error) verdi. Sebep o sırada günlükte yoktu; 1.9.3 raporunda `import_session:` debug satırına bak. Şüpheler: ekran dışı pencere, oturumun başka profilde reddi ("useragent mismatch" gibi 400).
