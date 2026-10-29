@@ -3,7 +3,7 @@
 > Claude'un çalışma notu. Yalnızca `durum` dalında durur; `main`'e, README'ye ve sürüm notlarına girmez.
 > Yeni sohbette önce bunu oku, repoyu baştan tarama. Her sürümden sonra güncelle.
 
-Son güncelleme: 2026-10-29 · Son sürüm: **v1.9.4** (2026-10-29)
+Son güncelleme: 2026-10-29 · Son sürüm: **v1.9.5** (2026-10-29)
 
 ## Ne yapıyor
 Herkese açık Instagram profillerini toplu indirir: gönderiler/reels/albümler, hikayeler, öne çıkanlar,
@@ -154,6 +154,15 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   Android JVM + emülatör yeşil. Sahte sunucuda yeni bayraklar: stories_500, highlights_500, reels_media_fail_n, clips_refused.
 
 ## Yarım / sıradaki
+- v1.9.5 (iki platform, 2026-10-29): kullanıcı raporu (@amandaraemayo, hâlâ 1.9.3'ü çalıştırıyordu): `user_id=17987173 sources=html`, stories HTTP 500 → sayfadan okundu;
+  77 öne çıkan bulundu, her 3'lük `reels_media` grubu HTTP 500 → ~35 sn × ~26 grup (~15 dk) boşa gidiyordu. `highlight_reels` (Python) / `highlightReels` (Kotlin):
+  art arda 2 grup HTTP 5xx → `api_down`, tek tek istekler atlanıp doğrudan `/stories/highlights/<id>/` sayfalarına geçilir; başarılı grup sayacı sıfırlar.
+  DOĞRULANDI (sahte sunucu): `HighlightFailFastTests` (2), e5/e5b/e6/c8 uçtan uca, tüm set; CI yeşil. DOĞRULANMADI: gerçek Instagram'da sayfa yolunun 77 öne çıkanı getirmesi/süresi.
+  `chrome_deneme/` (v0.1.0): yalnız teşhis eklentisi (indirme yok, gönderme yok). Gerçek Chrome oturumunda 6 isteği dener (profil bilgisi, REST gönderi, hikaye, öne çıkan listesi/içeriği, kullanıcı bilgisi),
+  sayfadan okunan kimlikleri API kimliğiyle karşılaştırır (yanlış kimlik kuramı), `navigator.webdriver` yazar; kopyalanabilir rapor. Test: `tests/test_deneme.py` (CI'a eklenmedi). EXE'ye girmez; zip olarak sohbetten verildi.
+  Kullanıcı sorusu: tam Chrome eklentisi (tüm özellikler) mümkün mü → evet ama büyük iş (DASH birleştirme JS'e port, geçmiş IndexedDB, MV3 service worker ömrü, klasör yalnız İndirilenler içinde).
+  KARAR BEKLİYOR: deneme raporu gelince bak — gerçek Chrome'da 429/500 yoksa tam eklentiye geç; varsa eklenti çözüm değil (Instagram tarafı).
+  Not: yeni sürümde ilk açılışta veri sıfırlanır (1.9.3 davranışı) → her güncellemede yeniden giriş gerekir; sık sürüm çıkarmak kullanıcıyı yorar.
 - v1.9.4 (iki platform, 2026-10-29): kullanıcı raporu (@artikleopard, 1.9.3, Windows): profil bilgisi 429 verdi → kimlik HTML'den okundu (`sources=html`);
   hikaye/öne çıkan istekleri HTTP 500 verdi (sayfadan okuma yedeği çalıştı, 17 hikaye + öne çıkan indi), sonra gönderi listesinde REST `/feed/user/{id}/` 404 →
   `NotFound` `collect_posts`'ta yakalanmadığı için tüm iş "Aranan şey Instagram'da bulunamadı" (`browser.not_found`) ile durdu (`collect_tab` zaten yakalıyordu).
