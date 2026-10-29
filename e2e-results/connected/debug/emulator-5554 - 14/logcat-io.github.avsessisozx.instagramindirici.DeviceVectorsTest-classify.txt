@@ -1,0 +1,9 @@
+10-29 13:29:29.989  4575  4610 I TestRunner: started: classify(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-29 13:29:29.990   524   524 I RegistrationProxy: onServiceConnected: com.android.rkpdapp.service.RemoteProvisioningService
+10-29 13:29:29.993   524  1970 I RegistrationProxy: IGetRegistrationCallback.onSuccess
+10-29 13:29:29.995   524  2679 I RemoteProvisionSysSvc: Fetching key 10131 for client 113287511
+10-29 13:29:29.996   524  2679 I RegistrationProxy: getKeyAsync operation started with callback 24601668
+10-29 13:29:29.996  3692  3814 I RkpdRegistrationBinder: Key requested for : android.hardware.security.keymint.IRemotelyProvisionedComponent/default, clientUid: 1017, keyId: 10131, callback: 200333244
+10-29 13:29:29.996  3692  3814 I RkpdRegistrationBinder: Key successfully assigned to client
+10-29 13:29:29.997   524   524 I RemoteProvisionSysSvc: Successfully fetched key for client 113287511
+10-29 13:29:30.012  4575  4610 I TestRunner: finished: classify(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

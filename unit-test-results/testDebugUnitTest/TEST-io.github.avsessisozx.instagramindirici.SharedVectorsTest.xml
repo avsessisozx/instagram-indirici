@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="io.github.avsessisozx.instagramindirici.SharedVectorsTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-29T13:27:19.191Z" hostname="runnervm48cm3" time="0.029">
+  <properties/>
+  <testcase name="naming" classname="io.github.avsessisozx.instagramindirici.SharedVectorsTest" time="0.009"/>
+  <testcase name="finders" classname="io.github.avsessisozx.instagramindirici.SharedVectorsTest" time="0.004"/>
+  <testcase name="links" classname="io.github.avsessisozx.instagramindirici.SharedVectorsTest" time="0.004"/>
+  <testcase name="posts" classname="io.github.avsessisozx.instagramindirici.SharedVectorsTest" time="0.01"/>
+  <testcase name="classify" classname="io.github.avsessisozx.instagramindirici.SharedVectorsTest" time="0.0"/>
+  <testcase name="session" classname="io.github.avsessisozx.instagramindirici.SharedVectorsTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,2 @@
+10-29 13:29:29.606  4575  4610 I TestRunner: started: finders(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-29 13:29:29.758  4575  4610 I TestRunner: finished: finders(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

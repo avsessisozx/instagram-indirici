@@ -1,0 +1,4 @@
+10-29 13:29:29.776  4575  4610 I TestRunner: started: links(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-29 13:29:29.808  4211  4244 W MetricsFeatureProvider: Disabled westworld logs writing!!!
+10-29 13:29:29.820  1463  1463 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.constellation.service.START pkg=com.google.android.gms }
+10-29 13:29:29.821  4575  4610 I TestRunner: finished: links(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

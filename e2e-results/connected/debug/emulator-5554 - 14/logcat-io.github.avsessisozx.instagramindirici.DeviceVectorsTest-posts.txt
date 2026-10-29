@@ -1,0 +1,11 @@
+10-29 13:29:29.831  4575  4610 I TestRunner: started: posts(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-29 13:29:29.834  1463  4203 I AlarmManager: setExactAndAllowWhileIdle [name: RemindersNSREFRESH_TIME_REMINDERS_ALARM type: 0 triggerAtMillis: 1793318400000]
+10-29 13:29:29.857  4211  4244 W AppSearchIndex: schedule indexing, force = true
+10-29 13:29:29.864  1463  4206 I SemanticLocation: [Scheduler] Periodic Task com.google.android.gms.semanticlocationhistory.geller.GellerCleanupService.GellerCleanup is scheduled to run EVERY_DAY [CONTEXT service_id=173 ]
+10-29 13:29:29.887  4211  4244 W MetricsFeatureProvider: Disabled westworld logs writing!!!
+10-29 13:29:29.974   337   370 I netd    : tetherGetStats() -> {[]} <0.35ms>
+10-29 13:29:29.980   337   370 I netd    : bandwidthSetGlobalAlert(2097152) <0.10ms>
+10-29 13:29:29.982   337   370 I netd    : bandwidthRemoveInterfaceQuota(eth0) <0.32ms>
+10-29 13:29:29.982   337   370 I netd    : bandwidthSetInterfaceQuota(eth0, 9223372036854775807) <0.25ms>
+10-29 13:29:29.984   524  2679 I RemoteProvisionSysSvc: getRegistration(android.hardware.security.keymint.IRemotelyProvisionedComponent/default)
+10-29 13:29:29.988  4575  4610 I TestRunner: finished: posts(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

@@ -1,0 +1,6 @@
+10-29 13:29:29.523  4575  4610 I TestRunner: started: naming(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-29 13:29:29.534  4575  4610 D CompatibilityChangeReporter: Compat change id reported: 247079863; UID 10192; state: ENABLED
+10-29 13:29:29.586  1412  1482 W ChimeraUtils: Module com.google.android.gms.nearby_en missing resource null(0)
+10-29 13:29:29.586  1412  1412 I rcs     : [RcsBindingManager] Checking if we should rebind to previous service. Attempt 0
+10-29 13:29:29.586  1412  1412 I rcs     : [RcsBindingManager] No valid settings for binding.
+10-29 13:29:29.599  4575  4610 I TestRunner: finished: naming(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
