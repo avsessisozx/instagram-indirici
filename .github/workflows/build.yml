@@ -251,7 +251,9 @@ jobs:
       - name: Chrome eklentisi testleri (gerçek Chromium + sahte Instagram)
         env:
           INSTAGRAM_INDIRICI_BROWSER: chromium
-        run: python tools/run_tests.py tests.test_extension tests.test_chrome_indirici
+        run: |
+          python tools/run_tests.py tests.test_extension
+          python tools/run_tests.py tests.test_chrome_indirici
 
       - name: Chrome eklentisini zip'le
         run: |
