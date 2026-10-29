@@ -279,7 +279,7 @@ jobs:
             dist/InstagramIndirici/InstagramIndirici.exe
             dist/InstagramIndirici-apk/*.apk
           body: |
-            **Bu sürümde:** Instagram öne çıkanların listesine art arda sunucu hatası (HTTP 500) verince program her grup için ~35 sn bekliyordu (77 öne çıkanda ~15 dk boşa gidiyordu); artık iki hatadan sonra doğrudan öne çıkan sayfalarına geçiyor. Önceki sürümdeki gönderi listesi (404) düzeltmesi de bu sürümde. (Windows + Android)
+            **Bu sürümde:** Öne çıkanlar artık en sona bırakıldı (hikaye → gönderiler → diğer sekmeler → öne çıkanlar); önceden 77 öne çıkan bitmeden gönderilere sıra gelmiyordu. Öne çıkan ve hikaye sayfaları da içerik gelince 3 sn içinde bitiyor (eskiden hep ~11 sn). (Windows + Android)
 
             **Windows:** `InstagramIndirici.exe` dosyasını indir, çift tıklayıp aç. Kurulum gerekmez.
             İlk açılışta Windows "Bilgisayarınız korundu" uyarısı verebilir: **Ek bilgi → Yine de çalıştır**.

@@ -1340,7 +1340,7 @@ class InstagramBrowser:
             # Liste isteği çalışmadı: hikâye sayfası açılıp sayfanın kendi yüklediği öğeler yakalanır.
             self.log("debug", f"stories: {getattr(exc, 'detail', '') or exc.message.key}")
             self.log("info", msg("browser.stories_from_page"))
-            found = await self._capture_media_from_page(f"https://www.instagram.com/stories/{username}/", wait=10)
+            found = await self._capture_media_from_page(f"https://www.instagram.com/stories/{username}/", wait=10, settle=3)
             if found:
                 return found
             raise
@@ -1505,23 +1505,29 @@ class InstagramBrowser:
         """Öne çıkanın sayfasını (/stories/highlights/<id>/) açıp sayfanın kendi yüklediği öğeleri yakalar."""
         number = rid.split(":")[-1]
         self.log("info", msg("browser.highlight_from_page", name=title or number))
-        items = await self._capture_media_from_page(f"https://www.instagram.com/stories/highlights/{number}/", wait=10)
+        items = await self._capture_media_from_page(f"https://www.instagram.com/stories/highlights/{number}/", wait=10, settle=3)
         if not items:
             return None
         return {"id": rid, "title": title, "user": {}, "items": items, "media_count": len(items)}
 
     async def _capture_media_from_page(self, url: str, wait: float = 8, scroll: bool = False,
-                                       keep: Optional[Callable[[Dict[str, Any]], bool]] = None) -> List[Dict[str, Any]]:
-        """Sayfayı açar; sayfaya gömülü ve sayfanın kendi yüklediği yanıtlardaki gönderileri toplar."""
+                                       keep: Optional[Callable[[Dict[str, Any]], bool]] = None,
+                                       settle: float = 0) -> List[Dict[str, Any]]:
+        """Sayfayı açar; sayfaya gömülü ve sayfanın kendi yüklediği yanıtlardaki gönderileri toplar.
+
+        settle > 0: öğe bulunduktan sonra bu kadar saniye yenisi gelmezse beklemeden biter (en çok wait kadar beklenir).
+        """
         found: Dict[str, Dict[str, Any]] = {}
         tasks: List[asyncio.Task] = []
         base = base_url()
+        last_new = [time.monotonic()]
 
         def take(data: Any) -> None:
             for item in media.find_media(data):
                 key = media.media_key(item)
                 if key and key not in found and (keep is None or keep(item)):
                     found[key] = item
+                    last_new[0] = time.monotonic()
 
         async def handle(response) -> None:
             if not response.url.startswith(base) or ("/graphql" not in response.url and "/api/v1/" not in response.url):
@@ -1550,6 +1556,8 @@ class InstagramBrowser:
                     except Exception:
                         pass
                 await self._sleep(1)
+                if settle and found and time.monotonic() - last_new[0] >= settle:
+                    break
         finally:
             page.remove_listener("response", on_response)
             if tasks:

@@ -354,6 +354,17 @@ class HighlightFailFastTests(unittest.IsolatedAsyncioTestCase):
         self.assertGreater(len(calls), 4, len(calls))
 
 
+class ProfileOrderTests(unittest.TestCase):
+    def test_highlights_run_last(self):
+        import inspect
+        from instagram_indirici import engine
+        src = inspect.getsource(engine.Engine._profile)
+        pos = {n: src.index(n) for n in ("self._stories(", "self._posts(", "self._tab_pass(", "self._highlights(")}
+        self.assertLess(pos["self._stories("], pos["self._posts("])
+        self.assertLess(pos["self._posts("], pos["self._tab_pass("])
+        self.assertLess(pos["self._tab_pass("], pos["self._highlights("])
+
+
 if __name__ == "__main__":
     unittest.main()
 

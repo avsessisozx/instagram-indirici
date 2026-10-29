@@ -638,13 +638,14 @@ class Engine:
 
         if settings["stories"]:
             await self._stories(browser, info, content, queue, logged_in)
-        if settings["highlights"]:
-            await self._highlights(browser, info, content, queue, logged_in)
         if settings["posts"]:
             await self._posts(browser, info, settings, queue, logged_in, folder)
         for tab, kind in (("reels", KIND_REEL), ("reposts", KIND_REPOST), ("tagged", KIND_TAGGED)):
             if settings[tab]:
                 await self._tab_pass(browser, info, settings, queue, logged_in, tab, kind)
+        # Öne çıkanlar en yavaş bölüm (listeden alınamazsa her biri ayrı sayfa açar): ana içerikten sonra.
+        if settings["highlights"]:
+            await self._highlights(browser, info, content, queue, logged_in)
         if not any(settings[k] for k in ("posts", "stories", "highlights", "avatar", "reels", "reposts", "tagged")):
             self.notes.append(msg("engine.nothing_selected"))
 

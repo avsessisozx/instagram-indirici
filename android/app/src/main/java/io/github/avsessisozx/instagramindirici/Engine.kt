@@ -574,15 +574,13 @@ class Engine(
             return
         }
         if (s.stories) stories(insta, info, content, queue, li)
-        if (s.highlights) highlights(insta, info, content, queue, li)
         if (s.posts) posts(insta, info, s, queue, li)
         for ((tab, kind) in listOf("reels" to Media.KIND_REEL, "reposts" to Media.KIND_REPOST, "tagged" to Media.KIND_TAGGED)) {
             val on = when (tab) { "reels" -> s.reels; "reposts" -> s.reposts; else -> s.tagged }
             if (on) tabPass(insta, info, s, queue, li, tab, kind)
         }
-        if (!(s.posts || s.stories || s.highlights || s.avatar || s.reels || s.reposts || s.tagged)) {
-            synchronized(lock) { notes += msg("engine.nothing_selected") }
-        }
+        // Öne çıkanlar en yavaş bölüm (listeden alınamazsa her biri ayrı sayfa açar): ana içerikten sonra.
+        if (s.highlights) highlights(insta, info, content, queue, li)
     }
 
     private suspend fun stories(insta: Insta, info: ProfileInfo, content: String, queue: Channel<Media.Post?>, li: Boolean) {

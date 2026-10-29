@@ -727,7 +727,7 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
             // Liste isteği çalışmadı: hikâye sayfası açılıp sayfanın kendi yüklediği öğeler yakalanır.
             debug("stories: ${e.detail}")
             log("info", msg("browser.stories_from_page"))
-            val found = captureMediaFromPage("$base/stories/$username/", 10_000)
+            val found = captureMediaFromPage("$base/stories/$username/", 10_000, settleMs = 3000)
             if (found.isNotEmpty()) return found
             throw e
         }
@@ -736,13 +736,14 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
 
     /** Sayfayı açar; sayfaya gömülü ve sayfanın kendi yüklediği yanıtlardaki gönderileri toplar. */
     private suspend fun captureMediaFromPage(url: String, waitMs: Long = 8000, scroll: Boolean = false,
-                                             keep: ((JSONObject) -> Boolean)? = null): List<JSONObject> {
+                                             keep: ((JSONObject) -> Boolean)? = null, settleMs: Long = 0): List<JSONObject> {
         val found = LinkedHashMap<String, JSONObject>()
         val lock = Any()
+        var lastNew = System.currentTimeMillis()
         fun take(data: Any) = synchronized(lock) {
             for (item in Media.findMedia(data)) {
                 val key = Media.mediaKey(item)
-                if (key.isNotEmpty() && key !in found && (keep == null || keep(item))) found[key] = item
+                if (key.isNotEmpty() && key !in found && (keep == null || keep(item))) { found[key] = item; lastNew = System.currentTimeMillis() }
             }
         }
         web.setCapture { u, data -> if ("/graphql" in u || "/api/v1/" in u) take(data) }
@@ -753,6 +754,7 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
                 for (d in web.embeddedJson()) take(d)
                 if (scroll) web.scrollDown()
                 sleep(1000)
+                if (settleMs > 0 && synchronized(lock) { found.isNotEmpty() && System.currentTimeMillis() - lastNew >= settleMs }) break
             }
         } finally {
             web.setCapture(null)
@@ -886,7 +888,7 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
     private suspend fun highlightFromPage(rid: String, title: String): Reel? {
         val number = rid.substringAfterLast(':')
         log("info", msg("browser.highlight_from_page", "name" to title.ifEmpty { number }))
-        val items = captureMediaFromPage("$base/stories/highlights/$number/", 10_000)
+        val items = captureMediaFromPage("$base/stories/highlights/$number/", 10_000, settleMs = 3000)
         if (items.isEmpty()) return null
         return Reel(rid, title, JSONObject(), items, items.size)
     }
