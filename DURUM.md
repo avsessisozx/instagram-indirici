@@ -3,7 +3,7 @@
 > Claude'un çalışma notu. Yalnızca `durum` dalında durur; `main`'e, README'ye ve sürüm notlarına girmez.
 > Yeni sohbette önce bunu oku, repoyu baştan tarama. Her sürümden sonra güncelle.
 
-Son güncelleme: 2026-10-29 · Son sürüm: **v1.9.5** (2026-10-29)
+Son güncelleme: 2026-10-29 · Son sürüm: **v1.10.0** (2026-10-29)
 
 ## Ne yapıyor
 Herkese açık Instagram profillerini toplu indirir: gönderiler/reels/albümler, hikayeler, öne çıkanlar,
@@ -154,6 +154,12 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   Android JVM + emülatör yeşil. Sahte sunucuda yeni bayraklar: stories_500, highlights_500, reels_media_fail_n, clips_refused.
 
 ## Yarım / sıradaki
+- v1.10.0 (2026-10-29) YENİ: **Chrome eklentisi** (`chrome_indirici/`, release'e `InstagramIndirici-Chrome.zip` olarak eklenir; EXE'ye gömülü DEĞİL, eski küçük `instagram_indirici/chrome_eklenti` köprüsünden ayrı).
+  Mimari: `hook.js` (MAIN dünyası, sayfanın fetch/XHR yanıtlarını dinler) → `bridge.js` (içerik betiği; `core.js` ile gönderi/öne çıkan/kullanıcıyı ayıklar, panele "take/scroll/ping" komutlarıyla verir) → `panel.html/js` + `engine.js` (ayrı Instagram penceresi açar, sırayla profil→hikaye→gönderi→reels/yeniden paylaşım/etiketlenen→öne çıkan; sayfayı kaydırır; `chrome.downloads` ile `İndirilenler/<klasör>/<profil>/…` altına iner). Elle API isteği YOK: yalnız sayfanın kendi yanıtları (1.9.x'te elle isteklerin 404/500/HTML dönmesinin çaresi).
+  `core.js` = media.py/naming.py/links.py'nin JS karşılığı; `mp4mux.js` = tools/mp4mux_ref.py (Android test vektörleriyle BAYT BAYT aynı çıktı doğrulandı: vp9+aac, h264). DASH (yüksek kalite) → birleştirip blob olarak indirir, olmazsa normal sürüm. Geçmiş IndexedDB'de (profil kimliği + anahtar); `only_new` için ilk 3 art arda bilinen gönderide durur (önceki tarama tamamlandıysa); tarih aralığı, sayı sınırı, bilgi.csv, uzun açıklama .txt, kopyalanabilir rapor var.
+  Doğrulandı (sahte Instagram + gerçek headless Chromium, tests/test_chrome_indirici.py): tüm bölümler iniyor, 2. çalıştırmada tekrar inmiyor, tek gönderi bağlantısı. DOĞRULANMADI (gerçek Instagram): sayfa kaydırmayla gönderi listesi gerçekten yükleniyor mu; ayrı Instagram penceresi örtülü/küçültülünce kaydırma duruyor mu; 429/500; downloads izni ("Her dosyanın nereye kaydedileceğini sor" açıksa sorabilir).
+  Bilinen sınır: klasör yalnız İndirilenler içinde; arka planda throttle'a karşı panelde sessiz WebRTC bağlantısı var (gerçekte etkisi doğrulanmadı).
+- v1.9.6 (iki platform): önce hikaye → gönderiler → reels/diğer sekmeler → EN SON öne çıkanlar (77 öne çıkan gönderilerin önüne geçiyordu); hikaye/öne çıkan sayfası içerik gelince 3 sn sonra biter (eskiden sabit ~11 sn). Gerçek Instagram'da doğrulanmadı (kullanıcının raporu bekleniyor). NOT: bu sürümün commit'ine yanlışlıkla `Claude-Session:` satırı girdi (kural ihlali, main'de kaldı; bir daha ekleme).
 - 2026-10-29 TEŞHİS (gerçek Chrome + Claude in Chrome ile kullanıcının oturumunda @amandaraemayo; v1.9.5 yayında, chrome_deneme 0.2.0):
   * Eski kuram ("profil kimliği yanlış okunuyor") BÜYÜK İHTİMALLE YANLIŞ: sayfadaki `profile_id`=17987173 sayfanın kendi `page_logging.params.profile_id` değeri; `id=59350138599` ise GİRİŞ YAPAN kullanıcının kendi kimliği.
   * Asıl sebep: Instagram web artık elle yapılan API çağrılarını reddediyor. `GET /api/v1/users/web_profile_info/` 429, `/api/v1/feed/user/{id}/` 404 HTML, `/api/v1/highlights/{id}/highlights_tray/` 200 HTML, stories 500, hem `/graphql/query` hem `/api/graphql` 200 HTML (sayfa kabuğu) döndü; webdriver=false gerçek Chrome'da da aynı → otomasyon izi değil.
