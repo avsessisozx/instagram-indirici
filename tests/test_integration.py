@@ -526,6 +526,20 @@ class IntegrationTests(unittest.TestCase):
             n = len([f for f in files if f.startswith(folder)])
             self.assertEqual(n, len(self.fake.data.highlight_items(hid)), (title, files))
 
+    def test_c9_highlights_need_view_confirmation(self):
+        """Öne çıkan sayfası "Hikayeyi Gör" onayı olmadan boş kalır (gerçek Instagram); program düğmeye basmalı."""
+        self.ensure_login()
+        self.fake.highlights_tray_refused = True
+        self.fake.highlights_500 = True
+        self.fake.story_confirm = True
+        snap, out = self.run_job(fi.PROFILE_OK, "profile", posts=False, stories=False, avatar=False, timeout=180)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        files = self.files(out)
+        for hid, title in self.fake.data.HIGHLIGHTS.items():
+            folder = f"{fi.PROFILE_OK}/Öne Çıkanlar/{title.replace('/', ' ')}/"
+            n = len([f for f in files if f.startswith(folder)])
+            self.assertEqual(n, len(self.fake.data.highlight_items(hid)), (title, files))
+
     def test_d1_old_layout_files_are_moved(self):
         self.ensure_login()
         out = Path(self.tmp.name) / "eski_duzen"

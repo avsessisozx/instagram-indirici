@@ -76,12 +76,14 @@ class ChromeIndirici(unittest.TestCase):
         return panel.evaluate("window.__e.report()")
 
     def test_profile_downloads_everything(self):
+        self.fake.story_confirm = True      # öne çıkanlar "Hikayeyi Gör" onayı ister
         panel, _dl = self.launch("a")
         report = self.run_engine(panel, fi.PROFILE_OK)
         files = panel.evaluate("window.__e.saved")
         text = "\n".join(files)
         self.assertTrue(any("/Hikayeler/" in f for f in files), report + "\n" + text)
         self.assertTrue(any("/Öne Çıkanlar/" in f for f in files), report + "\n" + text)
+        self.assertGreaterEqual(len([f for f in files if "/Öne Çıkanlar/" in f]), len(self.fake.data.HIGHLIGHTS), text)
         self.assertTrue(any("/Gönderiler/" in f for f in files), report + "\n" + text)
         self.assertTrue(any("/Reels/" in f for f in files), report + "\n" + text)
         self.assertTrue(any("Profil Fotoğrafı" in f for f in files), report + "\n" + text)

@@ -301,7 +301,7 @@
       let m = 0, h = 0, total = 0, last429 = 0;
       const maxMs = (o.maxSec || 20) * 1000;
       const idleMs = (o.idleSec || 3) * 1000;
-      let waitedChallenge = false;
+      let waitedChallenge = false, confirmed = false;
       let result = { reason: "", user: null, state: p, hlTotal: 0 };
       for (;;) {
         this.check();
@@ -318,6 +318,10 @@
           continue;
         }
         if (r.loginWall) throw new Problem("Instagram giriş istedi. Yeniden giriş yapıp tekrar dene.");
+        if (o.confirm && !confirmed) {
+          const c = await Work.send("confirm");
+          if (c && c.clicked) { confirmed = true; this.say("debug", "'Hikayeyi Gör' onayına basıldı"); }
+        }
         if (r.status429 > last429) { last429 = r.status429; this.say("debug", `Instagram 429 (çok fazla istek) yanıtı verdi (${r.status429})`); }
         if (r.media.length || r.highlights.length) {
           if (o.onItems) {
@@ -486,7 +490,7 @@
         const items = new Map();
         try {
           await this.collect(`${IG}/stories/highlights/${num}/`, {
-            maxSec: 12, idleSec: 3, allowNotFound: true,
+            maxSec: 14, idleSec: 3, allowNotFound: true, confirm: true,
             onItems: async (media) => { for (const s of media) items.set(s.key, s); },
           });
         } catch (e) { if (e instanceof Cancelled) throw e; this.say("warn", `Öne çıkan '${title}' okunamadı: ${e.message}`); continue; }
@@ -521,7 +525,7 @@
       this.say("info", `Öne çıkan ${num} açılıyor…`);
       const items = new Map();
       await this.collect(`${IG}/stories/highlights/${num}/`, {
-        maxSec: 12, idleSec: 3, allowNotFound: true,
+        maxSec: 14, idleSec: 3, allowNotFound: true, confirm: true,
         onItems: async (media) => { for (const s of media) items.set(s.key, s); },
       });
       if (!items.size) throw new Problem("Öne çıkan okunamadı.");

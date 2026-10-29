@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Instagram İndirici",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "description": "Instagram profillerinin gönderilerini, hikayelerini ve öne çıkanlarını Chrome içinden, kendi oturumunla indirir.",
   "permissions": ["downloads", "downloads.ui", "storage", "tabs", "unlimitedStorage"],
   "host_permissions": [

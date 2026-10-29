@@ -310,6 +310,7 @@ class FakeInstagram:
         self.feed_404 = False          # REST gönderi listesi hep HTTP 404 (yanlış okunan profil kimliği; kullanıcı raporu)
         self.stories_500 = False       # hikaye listesi isteği hep HTTP 500 (gerçek telefonda görüldü)
         self.highlights_500 = False    # öne çıkan içerik isteği hep HTTP 500
+        self.story_confirm = False     # öne çıkan sayfası içeriği ancak "Hikayeyi Gör" düğmesine basılınca yükler (gerçek Instagram)
         self.highlights_hang = 0.0     # öne çıkan içerik isteğine bu kadar saniye geç yanıt verir (zaman aşımı)
         self.reels_media_fail_n = 0    # reels_media ilk bu kadar istekte HTTP 500 döner, sonra düzelir
         self.clips_refused = False     # Reels liste isteği reddedilir (sayfa kaydırma yedeği denenir)
@@ -501,6 +502,9 @@ def make_handler(fake: FakeInstagram):
                 hid = m.group(1)
                 if not self.logged_in() or hid not in d.HIGHLIGHTS:
                     return self.html("<html><body>Sorry, this page isn't available.</body></html>", 404)
+                if fake.story_confirm:
+                    return self.html("<html><body><div>GOD</div><div>amandaraemayo hikayesini görüntülediğini görebilecek.</div>"
+                                     "<div role='button' tabindex='0' onclick=\"fetch('/graphql/query/?hlpage=" + hid + "')\">Hikayeyi Gör</div></body></html>")
                 return self.html("<html><body>" + _relay({"xdt_api__v1__feed__reels_media": {"reels_media": [{
                     "id": f"highlight:{hid}", "title": d.HIGHLIGHTS[hid], "items": d.highlight_items(hid)}]}}) + "</body></html>")
             m = re.match(r"^/stories/([A-Za-z0-9._]+)/?$", path)
@@ -551,6 +555,12 @@ def make_handler(fake: FakeInstagram):
         def scroll_page(self, query) -> None:
             """Profil sayfasının kaydırınca kendi yüklediği gönderiler (son çare yolunu denemek için)."""
             d = fake.data
+            if query.get("hlpage"):
+                hid = (query.get("hlpage") or [""])[0]
+                if not self.logged_in() or hid not in d.HIGHLIGHTS:
+                    return self.json({"status": "fail"}, 404)
+                return self.json({"data": {"xdt_api__v1__feed__reels_media": {"reels_media": [{
+                    "id": f"highlight:{hid}", "title": d.HIGHLIGHTS[hid], "items": d.highlight_items(hid)}]}}, "status": "ok"})
             if query.get("hl"):
                 # Profil sayfasının öne çıkanları kendi yüklemesi (sitenin GraphQL yanıtına benzer)
                 name = (query.get("u") or [""])[0]

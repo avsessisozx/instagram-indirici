@@ -73,6 +73,15 @@ PAGE_DATA_JS = r"""() => {
   return out;
 }"""
 
+CONFIRM_STORY_JS = r"""() => {
+  const re = /^(Hikayeyi Gör|Hikayeyi Görüntüle|View story|View Story)$/i;
+  for (const el of document.querySelectorAll('button,[role="button"]')) {
+    const t = (el.innerText || el.textContent || '').trim();
+    if (re.test(t)) { el.click(); return true; }
+  }
+  return false;
+}"""
+
 _CHALLENGE_PATHS = ("/challenge", "/checkpoint", "/auth_platform", "/accounts/suspended", "/accounts/disabled")
 _LOGIN_PATHS = ("/accounts/login", "/accounts/signup")
 
@@ -1505,17 +1514,18 @@ class InstagramBrowser:
         """Öne çıkanın sayfasını (/stories/highlights/<id>/) açıp sayfanın kendi yüklediği öğeleri yakalar."""
         number = rid.split(":")[-1]
         self.log("info", msg("browser.highlight_from_page", name=title or number))
-        items = await self._capture_media_from_page(f"https://www.instagram.com/stories/highlights/{number}/", wait=10, settle=3)
+        items = await self._capture_media_from_page(f"https://www.instagram.com/stories/highlights/{number}/", wait=10, settle=3, confirm=True)
         if not items:
             return None
         return {"id": rid, "title": title, "user": {}, "items": items, "media_count": len(items)}
 
     async def _capture_media_from_page(self, url: str, wait: float = 8, scroll: bool = False,
                                        keep: Optional[Callable[[Dict[str, Any]], bool]] = None,
-                                       settle: float = 0) -> List[Dict[str, Any]]:
+                                       settle: float = 0, confirm: bool = False) -> List[Dict[str, Any]]:
         """Sayfayı açar; sayfaya gömülü ve sayfanın kendi yüklediği yanıtlardaki gönderileri toplar.
 
         settle > 0: öğe bulunduktan sonra bu kadar saniye yenisi gelmezse beklemeden biter (en çok wait kadar beklenir).
+        confirm: Instagram'ın "Hikayeyi Gör" onay düğmesine basar (öne çıkan sayfaları içeriği ancak bundan sonra yükler).
         """
         found: Dict[str, Dict[str, Any]] = {}
         tasks: List[asyncio.Task] = []
@@ -1547,9 +1557,18 @@ class InstagramBrowser:
         try:
             await self.goto(url)
             end = time.monotonic() + wait
+            clicked = False
             while time.monotonic() < end:
                 for data in await self._embedded_data():
                     take(data)
+                if confirm and not clicked:
+                    try:
+                        clicked = bool(await page.evaluate(CONFIRM_STORY_JS))
+                    except Exception:
+                        clicked = False
+                    if clicked:
+                        self.log("debug", "highlights: 'Hikayeyi Gör' onayına basıldı")
+                        end = max(end, time.monotonic() + 8)
                 if scroll:
                     try:
                         await page.mouse.wheel(0, 2400)

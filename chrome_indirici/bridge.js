@@ -111,6 +111,16 @@
           state.users = {}; state.lastNew = Date.now(); state.responses = 0; state.status429 = 0;
           document.querySelectorAll('script[type="application/json"]').forEach((s) => { s.__iiDone = 0; });
           reply({ ok: true }); break;
+        case "confirm": {
+          // Öne çıkan sayfaları içeriği ancak "Hikayeyi Gör" onayından sonra yükler
+          const re = /^(Hikayeyi Gör|Hikayeyi Görüntüle|View story|View Story)$/i;
+          let clicked = false;
+          for (const el of document.querySelectorAll('button,[role="button"]')) {
+            const t = (el.innerText || el.textContent || "").trim();
+            if (re.test(t)) { el.click(); clicked = true; break; }
+          }
+          reply({ clicked }); break;
+        }
         case "scan": scanEmbedded(); linkHighlights(); reply({ ...pageState() }); break;
         case "scroll":
           window.scrollBy(0, Math.max(800, window.innerHeight * 1.5));

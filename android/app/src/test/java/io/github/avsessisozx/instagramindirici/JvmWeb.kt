@@ -143,6 +143,8 @@ class JvmWeb(override val baseUrl: String) : IgWeb {
     override fun setCapture(handler: ((String, Any) -> Unit)?) { capture = handler }
 
     /** Sahte profil sayfasındaki betiğin yaptığı gibi: aşağı kayınca bir sonraki gönderi sayfasını yükler. */
+    override suspend fun confirmStory(): Boolean = false
+
     override suspend fun scrollDown() {
         val path = Insta.pathOf(lastUrl).trim('/')
         if (path.isEmpty() || '/' in path) return

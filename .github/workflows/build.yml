@@ -290,7 +290,7 @@ jobs:
             dist/InstagramIndirici-apk/*.apk
             dist/InstagramIndirici-Chrome/InstagramIndirici-Chrome.zip
           body: |
-            **Bu sürümde:** Yeni: Chrome eklentisi. Instagram'ı kendi Chrome'unda açıp oradan indirir (gönderi, hikaye, öne çıkan, reels, video+ses birleştirme, geçmiş, bilgi.csv). Windows ve Android uygulamaları değişmedi.
+            **Bu sürümde:** Öne çıkanlar artık iniyor: Instagram öne çıkan sayfasında "Hikayeyi Gör" onayı istiyor, program bu düğmeye basıyor (karşı taraf izleyenlerde hesabını görebilir). Windows, Android ve Chrome eklentisinde.
 
             **Windows:** `InstagramIndirici.exe` dosyasını indir, çift tıklayıp aç. Kurulum gerekmez.
             İlk açılışta Windows "Bilgisayarınız korundu" uyarısı verebilir: **Ek bilgi → Yine de çalıştır**.

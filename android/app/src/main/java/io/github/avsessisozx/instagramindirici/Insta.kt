@@ -50,6 +50,8 @@ interface IgWeb {
     /** Sayfanın kendi yaptığı JSON isteklerinin yanıtlarını yakalar (null: kapat). */
     fun setCapture(handler: ((String, Any) -> Unit)?)
     suspend fun scrollDown()
+    /** Instagram'ın "Hikayeyi Gör" onay düğmesine basar; basıldıysa true. */
+    suspend fun confirmStory(): Boolean
     /** Doğrulama ekranını kullanıcıya göster / gizle. */
     suspend fun showVerify(show: Boolean)
     /** Giriş ekranını açar; giriş tamamlanınca ya da kullanıcı bitirince döner. Giriş yapıldıysa true. */
@@ -736,7 +738,8 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
 
     /** Sayfayı açar; sayfaya gömülü ve sayfanın kendi yüklediği yanıtlardaki gönderileri toplar. */
     private suspend fun captureMediaFromPage(url: String, waitMs: Long = 8000, scroll: Boolean = false,
-                                             keep: ((JSONObject) -> Boolean)? = null, settleMs: Long = 0): List<JSONObject> {
+                                             keep: ((JSONObject) -> Boolean)? = null, settleMs: Long = 0,
+                                             confirm: Boolean = false): List<JSONObject> {
         val found = LinkedHashMap<String, JSONObject>()
         val lock = Any()
         var lastNew = System.currentTimeMillis()
@@ -749,9 +752,14 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
         web.setCapture { u, data -> if ("/graphql" in u || "/api/v1/" in u) take(data) }
         try {
             goto(url)
-            val end = System.currentTimeMillis() + waitMs
+            var end = System.currentTimeMillis() + waitMs
+            var clicked = false
             while (System.currentTimeMillis() < end) {
                 for (d in web.embeddedJson()) take(d)
+                if (confirm && !clicked) {
+                    clicked = try { web.confirmStory() } catch (e: Exception) { false }
+                    if (clicked) end = maxOf(end, System.currentTimeMillis() + 8000)
+                }
                 if (scroll) web.scrollDown()
                 sleep(1000)
                 if (settleMs > 0 && synchronized(lock) { found.isNotEmpty() && System.currentTimeMillis() - lastNew >= settleMs }) break
@@ -888,7 +896,7 @@ class Insta(private val web: IgWeb, private val pacing: Pacing = Pacing.forSpeed
     private suspend fun highlightFromPage(rid: String, title: String): Reel? {
         val number = rid.substringAfterLast(':')
         log("info", msg("browser.highlight_from_page", "name" to title.ifEmpty { number }))
-        val items = captureMediaFromPage("$base/stories/highlights/$number/", 10_000, settleMs = 3000)
+        val items = captureMediaFromPage("$base/stories/highlights/$number/", 10_000, settleMs = 3000, confirm = true)
         if (items.isEmpty()) return null
         return Reel(rid, title, JSONObject(), items, items.size)
     }

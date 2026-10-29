@@ -216,6 +216,8 @@ class WebInstagram(private val webView: WebView, private val overlay: OverlayHos
 
     override suspend fun scrollDown() { eval(SCROLL_JS) }
 
+    override suspend fun confirmStory(): Boolean = eval(CONFIRM_STORY_JS)?.trim() == "true"
+
     override suspend fun showVerify(show: Boolean) = withContext(Dispatchers.Main) {
         if (show) overlay.showOverlay("verify", null) else overlay.hideOverlay()
     }
@@ -355,6 +357,18 @@ class WebInstagram(private val webView: WebView, private val overlay: OverlayHos
     if (t.length > 50 && (t.indexOf('username') >= 0 || t.indexOf('image_versions2') >= 0 || t.indexOf('display_url') >= 0)) out.push(t);
   }
   return JSON.stringify(out);
+})()
+"""
+
+        private const val CONFIRM_STORY_JS = """
+(function(){
+  var re = /^(Hikayeyi Gör|Hikayeyi Görüntüle|View story|View Story)$/i;
+  var els = document.querySelectorAll('button,[role="button"]');
+  for (var i = 0; i < els.length; i++) {
+    var t = (els[i].innerText || els[i].textContent || '').trim();
+    if (re.test(t)) { els[i].click(); return true; }
+  }
+  return false;
 })()
 """
 
