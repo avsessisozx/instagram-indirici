@@ -1,0 +1,3 @@
+10-29 13:28:45.033  4502  4529 I TestRunner: started: classify(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-29 13:28:45.041  1440  3273 D CompatibilityChangeReporter: Compat change id reported: 247079863; UID 10131; state: DISABLED
+10-29 13:28:45.044  4502  4529 I TestRunner: finished: classify(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

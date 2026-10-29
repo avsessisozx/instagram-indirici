@@ -1,0 +1,68 @@
+10-29 13:28:44.515  4502  4529 I TestRunner: started: naming(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-29 13:28:44.516  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.516   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.517  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.518  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.518   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.519  1015  1053 D BtGatt.GattService: stopScan() - queue size =2
+10-29 13:28:44.520  1403  3436 W ChimeraUtils: Module com.google.android.gms.backup_base missing resource null(0)
+10-29 13:28:44.520  1015  1053 D ActivityAttributionService: notifyActivityAttributionInfo UID=1002 packageName=com.google.android.bluetooth deviceAddress=no_active_device_address
+10-29 13:28:44.520  1015  1053 I bt_btif : packages/modules/Bluetooth/system/btif/src/bluetooth.cc:829 get_profile_interface: get_profile_interface: id = activity_attribution
+10-29 13:28:44.520  1015  1300 D BtGatt.ScanManager: handling stopping scan  [ScanClient scanModeApp 2 scanModeUsed 2 [appScanStats com.google.uid.shared:10131]]
+10-29 13:28:44.521  1015  1300 D BtGatt.ScanManager: stop gattClientScanNative
+10-29 13:28:44.521  1015  1300 I bt_stack: [INFO:le_scanning_manager.cc(168)] Scan in shim layer stopped
+10-29 13:28:44.521  1015  1226 I bluetooth: packages/modules/Bluetooth/system/gd/hci/le_address_manager.cc:193 unregister_client: Client unregistered
+10-29 13:28:44.521  1015  1226 I bluetooth: packages/modules/Bluetooth/system/gd/hci/le_address_manager.cc:197 unregister_client: Cancelled address rotation alarm
+10-29 13:28:44.521  1403  3436 V Backup  : [BackupAccountNotifier] Handling new intent. Show notification: true
+10-29 13:28:44.521  1015  1300 I bt_stack: [INFO:le_scanning_manager.cc(204)] ScanFilterParamSetup in shim layer
+10-29 13:28:44.521  1015  1270 D BtGatt.GattService: onScanFilterParamsConfigured() - clientIf=2, status=0, action=0, availableSpace=0
+10-29 13:28:44.521  1015  1270 D BtGatt.ScanManager: callback done for scannerId - 2 status - 0
+10-29 13:28:44.522  1015  1300 I bt_stack: [INFO:le_scanning_manager.cc(204)] ScanFilterParamSetup in shim layer
+10-29 13:28:44.522  1015  1270 D BtGatt.GattService: onScanFilterParamsConfigured() - clientIf=2, status=0, action=0, availableSpace=0
+10-29 13:28:44.522  1015  1270 D BtGatt.ScanManager: callback done for scannerId - 2 status - 0
+10-29 13:28:44.522  1015  1300 I bt_stack: [INFO:le_scanning_manager.cc(204)] ScanFilterParamSetup in shim layer
+10-29 13:28:44.522  1015  1270 D BtGatt.GattService: onScanFilterParamsConfigured() - clientIf=2, status=0, action=0, availableSpace=0
+10-29 13:28:44.522  1015  1270 D BtGatt.ScanManager: callback done for scannerId - 2 status - 0
+10-29 13:28:44.522  1015  1300 I bt_stack: [INFO:le_scanning_manager.cc(204)] ScanFilterParamSetup in shim layer
+10-29 13:28:44.523  1015  1270 D BtGatt.GattService: onScanFilterParamsConfigured() - clientIf=2, status=0, action=0, availableSpace=0
+10-29 13:28:44.523  1015  1270 D BtGatt.ScanManager: callback done for scannerId - 2 status - 0
+10-29 13:28:44.523  1015  1300 I bt_stack: [INFO:le_scanning_manager.cc(204)] ScanFilterParamSetup in shim layer
+10-29 13:28:44.523  1015  1053 D BtGatt.GattService: unregisterScanner() - scannerId=2
+10-29 13:28:44.523  1015  1270 D BtGatt.GattService: onScanFilterParamsConfigured() - clientIf=2, status=0, action=0, availableSpace=0
+10-29 13:28:44.523  1015  1270 D BtGatt.ScanManager: callback done for scannerId - 2 status - 0
+10-29 13:28:44.523  1015  1053 I bt_stack: [INFO:le_scanning_manager.cc(162)] Unregister in shim layer, scanner_id:2
+10-29 13:28:44.523  1015  1300 D BtGatt.ScanManager: configureRegularScanParams() - queue=1
+10-29 13:28:44.523  1015  1300 D BtGatt.ScanManager: configureRegularScanParams() - queue empty, scan stopped
+10-29 13:28:44.523  1403  3970 I Nearby  : [MBleClient] M hardware scan: 1 clients, scanMode= OPPORTUNISTIC, filters size = 5 [CONTEXT service_id=49 ]
+10-29 13:28:44.523  1403  3970 D BluetoothAdapter: isLeEnabled(): ON
+10-29 13:28:44.524  1015  1053 D BtGatt.GattService: registerScanner() - UUID=5077ed84-8aff-4217-a7e0-90f69d0416a2
+10-29 13:28:44.524  1015  1053 I bt_stack: [INFO:le_scanning_manager.cc(155)] RegisterScanner in shim layer
+10-29 13:28:44.525  1015  1270 D BtGatt.GattService: onScannerRegistered() - UUID=5077ed84-8aff-4217-a7e0-90f69d0416a2, scannerId=2, status=0
+10-29 13:28:44.526  1403  3392 D BluetoothLeScanner: onScannerRegistered() - status=0 scannerId=2 mScannerId=0
+10-29 13:28:44.526  1015  1053 D BtGatt.GattService: start scan with filters
+10-29 13:28:44.527  1015  1053 D BtGatt.GattService: enforcePrivilegedPermissionIfNeeded([BluetoothLeScanFilter [mDeviceName=null, mDeviceAddress=null, mUuid=null, mUuidMask=null, mServiceSolicitationUuid=null, mServiceSolicitationUuidMask=null, mServiceDataUuid=null, mServiceData=null, mServiceDataMask=null, mManufacturerId=224, mManufacturerData=[0, 0, 0], mManufacturerDataMask=[0, 0, -1], mAdvertisingDataType=-1, mAdvertisingData=null, mAdvertisingDataMask=null, mTransportBlockFilter=null], BluetoothLeScanFilter [mDeviceName=null, mDeviceAddress=null, mUuid=0000fef3-0000-1000-8000-00805f9b34fb, mUuidMask=null, mServiceSolicitationUuid=null, mServiceSolicitationUuidMask=null, mServiceDataUuid=null, mServiceData=null, mServiceDataMask=null, mManufacturerId=-1, mManufacturerData=null, mManufacturerDataMask=null, mAdvertisingDataType=-1, mAdvertisingData=null, mAdvertisingDataMask=null, mTransportBlockFilter=null], BluetoothLeScanFilter [mDeviceName=null, mDeviceAddress=null, mUuid=0000feaa-0000-1000-8000-00805f9b34fb, mUuidMask=null, mServiceSolicitationUuid=null, mServiceSolicitationUuidMask=null, mServiceDataUuid=null, mServiceData=null, mServiceDataMask=null, mManufacturerId=-1, mManufacturerData=null, mManufacturerDataMask=null, mAdvertisingDataType=-1, mAdvertisingData=null, mAdvertisingDataMask=null, mTransportBlockFilter=null], BluetoothLeScanFilter [mDeviceName=null, mDeviceAddress=null, mUuid=0000fea0-0000-1000-8000-00805f9b34fb, mUuidMask=null, mServiceSolicitationUuid=null, mServiceSolicitationUuidMask=null, mServiceDataUuid=null, mServiceData=null, mServiceDataMask=null, mManufacturerId=-1, mManufacturerData=null, mManufacturerDataMask=null, mAdvertisingDataType=-1, mAdvertisingData=null, mAdvertisingDataMask=null, mTransportBlockFilter=null], BluetoothLeScanFilter [mDeviceName=null, mDeviceAddress=null, mUuid=null, mUuidMask=null, mServiceSolicitationUuid=null, mServiceSolicitationUuidMask=null, mServiceDataUuid=null, mServiceData=null, mServiceDataMask=null, mManufacturerId=76, mManufacturerData=[2, 21], mManufacturerDataMask=[-1, -1], mAdvertisingDataType=-1, mAdvertisingData=null, mAdvertisingDataMask=null, mTransportBlockFilter=null]])
+10-29 13:28:44.529  4502  4529 D CompatibilityChangeReporter: Compat change id reported: 247079863; UID 10192; state: ENABLED
+10-29 13:28:44.531  1015  1053 D BtGatt.ScanManager: startScan()  [ScanClient scanModeApp -1 scanModeUsed -1 [appScanStats com.google.uid.shared:10131]]
+10-29 13:28:44.531  1015  1053 D ActivityAttributionService: notifyActivityAttributionInfo UID=1002 packageName=com.google.android.bluetooth deviceAddress=no_active_device_address
+10-29 13:28:44.531  1015  1053 I bt_btif : packages/modules/Bluetooth/system/btif/src/bluetooth.cc:829 get_profile_interface: get_profile_interface: id = activity_attribution
+10-29 13:28:44.537  1670  2130 W ogle.android.as: Long monitor contention with owner aiai-vc-0 (2764) at java.lang.Object erb.b()(PG:2) waiters=0 in java.lang.Object erb.b() for 573ms
+10-29 13:28:44.537  1015  1300 D BtGatt.ScanManager: handling starting scan
+10-29 13:28:44.540  1670  2130 W AiAiAutofill: Failed to set whitelist for augmented autofill service.
+10-29 13:28:44.540  1670  2130 W AiAiAutofill: java.lang.SecurityException: caller is not user's Augmented Autofill Service
+10-29 13:28:44.540  1670  2130 W AiAiAutofill: 	at android.view.autofill.AutofillManager.setAugmentedAutofillWhitelist(AutofillManager.java:2676)
+10-29 13:28:44.540  1670  2130 W AiAiAutofill: 	at cjj.c(PG:7)
+10-29 13:28:44.540  1670  2130 W AiAiAutofill: 	at cju.g(PG:8)
+10-29 13:28:44.540  1670  2130 W AiAiAutofill: 	at cju.i(Unknown Source:3)
+10-29 13:28:44.540  1670  2130 W AiAiAutofill: 	at cju.h(PG:2)
+10-29 13:28:44.540  1670  2130 W AiAiAutofill: 	at cjv.a(PG:3)
+10-29 13:28:44.540  1670  2130 W AiAiAutofill: 	at dgq.run(PG:41)
+10-29 13:28:44.540  1670  2130 W AiAiAutofill: 	at dgq.run(PG:69)
+10-29 13:28:44.540  1670  2130 W AiAiAutofill: 	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:487)
+10-29 13:28:44.540  1670  2130 W AiAiAutofill: 	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
+10-29 13:28:44.540  1670  2130 W AiAiAutofill: 	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:307)
+10-29 13:28:44.540  1670  2130 W AiAiAutofill: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+10-29 13:28:44.540  1670  2130 W AiAiAutofill: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+10-29 13:28:44.540  1670  2130 W AiAiAutofill: 	at dgq.run(PG:67)
+10-29 13:28:44.540  1670  2130 W AiAiAutofill: 	at java.lang.Thread.run(Thread.java:1012)
+10-29 13:28:44.550  1440  3085 I SystemUpdate: [Execution,InstallationIntentOperation] Received intent: Intent { act=com.google.android.gms.update.INSTALL_UPDATE cat=[targeted_intent_op_prefix:.update.execution.InstallationIntentOperation] cmp=com.google.android.gms/.chimera.GmsIntentOperationService }.
+10-29 13:28:44.556  4502  4529 I TestRunner: finished: naming(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

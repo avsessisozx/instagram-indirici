@@ -1,0 +1,281 @@
+10-29 13:28:44.736  4502  4529 I TestRunner: started: posts(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-29 13:28:44.737  1440  1453 I gle.android.gms: Background concurrent copying GC freed 121460(6034KB) AllocSpace objects, 99(4624KB) LOS objects, 49% free, 13MB/27MB, paused 20us,21us total 354.648ms
+10-29 13:28:44.742  1670  1846 I AiAiEcho: Settings changed for uri: content://settings/secure/autofill_user_data_max_category_count
+10-29 13:28:44.743  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.743  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.743  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.743  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.744  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.744  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.744  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.745  1670  1846 I AiAiEcho: Settings changed for uri: content://settings/secure/config_update_certificate
+10-29 13:28:44.745  1670  1846 I AiAiEcho: Settings changed for uri: content://settings/secure/print_service_search_uri
+10-29 13:28:44.746  1670  1846 I AiAiEcho: Settings changed for uri: content://settings/secure/autofill_service_search_uri
+10-29 13:28:44.747  1670  1846 I AiAiEcho: Settings changed for uri: content://settings/secure/facelock_detection_threshold
+10-29 13:28:44.748  1670  1846 I AiAiEcho: Settings changed for uri: content://settings/secure/pubkey_blacklist
+10-29 13:28:44.748  1670  1846 I AiAiEcho: Settings changed for uri: content://settings/secure/serial_blacklist
+10-29 13:28:44.748  1670  1846 I AiAiEcho: Settings changed for uri: content://settings/secure/facelock_liveliness_recognition_threshold
+10-29 13:28:44.749  1670  1846 I AiAiEcho: Settings changed for uri: content://settings/secure/autofill_field_classification
+10-29 13:28:44.750  1670  1846 I AiAiEcho: Settings changed for uri: content://settings/secure/dropbox:data_app_crash
+10-29 13:28:44.750  1670  1846 I AiAiEcho: Settings changed for uri: content://settings/secure/lockscreen.options
+10-29 13:28:44.750  1670  1846 I AiAiEcho: Settings changed for uri: content://settings/secure/ssl_session_cache
+10-29 13:28:44.751  1670  1846 I AiAiEcho: Settings changed for uri: content://settings/secure/dropbox:data_app_wtf
+10-29 13:28:44.751  1670  1846 I AiAiEcho: Settings changed for uri: content://settings/secure/send_action_app_error
+10-29 13:28:44.751  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.751  1670  1846 I AiAiEcho: Settings changed for uri: content://settings/secure/dropbox:data_app_anr
+10-29 13:28:44.751  1670  1846 I AiAiEcho: Settings changed for uri: content://settings/secure/facelock_max_center_movement
+10-29 13:28:44.754  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.754  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.754  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.754  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.755  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.755   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.755  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.755  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.755  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.755  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.756  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.756  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.756  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.756  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.756  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.756  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.756  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.756  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.756  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.757  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.758  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.759  1684  1787 D CompatibilityChangeReporter: Compat change id reported: 150939131; UID 10132; state: ENABLED
+10-29 13:28:44.759  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.759  1706  1792 D CompatibilityChangeReporter: Compat change id reported: 150939131; UID 10139; state: ENABLED
+10-29 13:28:44.759  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.759  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.760  1524  1564 D CompatibilityChangeReporter: Compat change id reported: 150939131; UID 10119; state: ENABLED
+10-29 13:28:44.760  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.760  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.761  1670  2061 I AiAiEcho: Predicting[0]:
+10-29 13:28:44.761  1670  2061 I AiAiEcho: EchoTargets:
+10-29 13:28:44.761  1670  2061 I AiAiEcho: Filtered by AiAi flag check:
+10-29 13:28:44.761  1670  2061 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+10-29 13:28:44.761  4234  4353 D CompatibilityChangeReporter: Compat change id reported: 150939131; UID 10131; state: ENABLED
+10-29 13:28:44.761  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.761  2470  3555 D CompatibilityChangeReporter: Compat change id reported: 150939131; UID 10128; state: ENABLED
+10-29 13:28:44.761  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.761  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.761  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.761  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.762  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.762  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.762  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.762  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.762  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.762  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.762  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.762   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.763  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.763  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.763  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.763  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.763  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.763   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.763  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.763  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.763  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.764  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.764  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.764  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.764  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.764   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.764   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.764  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.764  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.764  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.764  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.764   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.765  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.765  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.765   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.765   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.765   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.765   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.765   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.765   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.765   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.765   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.765   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.765   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.766  1698  1845 D CompatibilityChangeReporter: Compat change id reported: 150939131; UID 10156; state: ENABLED
+10-29 13:28:44.766  1699  4306 D CompatibilityChangeReporter: Compat change id reported: 150939131; UID 10132; state: ENABLED
+10-29 13:28:44.766  4024  4044 D CompatibilityChangeReporter: Compat change id reported: 150939131; UID 10118; state: ENABLED
+10-29 13:28:44.766  1440  3786 D CompatibilityChangeReporter: Compat change id reported: 150939131; UID 10131; state: ENABLED
+10-29 13:28:44.767  2986  3488 D CompatibilityChangeReporter: Compat change id reported: 150939131; UID 10131; state: ENABLED
+10-29 13:28:44.768  2235  4313 D CompatibilityChangeReporter: Compat change id reported: 150939131; UID 10155; state: ENABLED
+10-29 13:28:44.768  4228  4301 D CompatibilityChangeReporter: Compat change id reported: 150939131; UID 10129; state: ENABLED
+10-29 13:28:44.768  2000  2056 D CompatibilityChangeReporter: Compat change id reported: 150939131; UID 10124; state: ENABLED
+10-29 13:28:44.769  1615  1895 I GservicesProvider: main difference update completed
+10-29 13:28:44.777  1699  1699 I BgTaskExecutorImpl: Starting NONEXCLUSIVE background task UPDATE_GSERVICES_CONFIG.
+10-29 13:28:44.779  1699  2608 I A       : Updating Gservices keys
+10-29 13:28:44.806  1403  3758 I Auth    : [AuthManaged, PasswordComplexityHelperImpl] Updating password complexity components state.
+10-29 13:28:44.806  1403  3758 I Auth    : [AuthManaged, PasswordComplexityHelperImpl] Disabling com.google.android.gms.auth.managed.admin.DeviceAdminReceiver
+10-29 13:28:44.807  1403  3758 I Auth    : [AuthManaged, PasswordComplexityHelperImpl] Disabling com.google.android.gms.auth.managed.ui.SetNewPasswordActivity
+10-29 13:28:44.812  1403  3436 I Herrevad: [139] aqwl.a: updateListenState
+10-29 13:28:44.814  1440  3054 I GmsModuleFndr: Beginning GMS chimera module scan
+10-29 13:28:44.815  1403  3426 I SnapshotHandler: Unable to retrieve flag snapshot for com.google.android.gms.trustlet_onbody, using defaults.
+10-29 13:28:44.817  1440  3054 I ModuleSetMgr: Computing pending module set with APKs: [[AdsFdrDynamite.integ:231004600100000], [Cronetdynamite:231818190800], [Dynamiteloader:231818190000], [Dynamitemodulesa:231818190000], [Dynamitemodulesc:231818190000], [Googlecertificates:231818190000], [Mapsdynamite:231818190000], [Measurementdynamite:231818190000]]
+10-29 13:28:44.823   828   886 D EGL_emulation: app_time_stats: avg=5681.88ms min=5681.88ms max=5681.88ms count=1
+10-29 13:28:44.824  1440  3054 I ModuleSetMgr: Download of container feature antifingerprinting is disabled.
+10-29 13:28:44.827  1440  3054 I ModuleSetMgr: Download of container feature appsearch_dynamite_impl is disabled.
+10-29 13:28:44.827  1440  3054 I ModuleSetMgr: Download of container feature brella_dynamite is disabled.
+10-29 13:28:44.827  1440  3054 I ModuleSetMgr: Download of container feature cameraconnectivity_impl is disabled.
+10-29 13:28:44.827  1440  1440 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.common.BIND_SHARED_PREFS pkg=com.google.android.gms }
+10-29 13:28:44.827  1440  1440 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.common.BIND_SHARED_PREFS pkg=com.google.android.gms }
+10-29 13:28:44.830  1440  3054 I ModuleSetMgr: Download of container feature dck_management is disabled.
+10-29 13:28:44.831  1440  3054 I ModuleSetMgr: Download of container feature easyunlock is disabled.
+10-29 13:28:44.831  1440  3054 I ModuleSetMgr: Download of container feature enterprise is disabled.
+10-29 13:28:44.831  1440  3054 I ModuleSetMgr: Download of container feature enterprise_zt_mp_complete is disabled.
+10-29 13:28:44.832  1440  3054 I ModuleSetMgr: Download of container feature fast_pair is disabled.
+10-29 13:28:44.832  1440  4470 I constellation: [intent_handler] on init with intent Intent { act=android.intent.action.BOOT_COMPLETED flg=0x89000010 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) }
+10-29 13:28:44.832  1440  1440 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.common.BIND_SHARED_PREFS pkg=com.google.android.gms }
+10-29 13:28:44.835  1440  4470 I SnapshotHandler: Unable to retrieve flag snapshot for com.google.android.gms.dtdi#com.google.android.gms, using defaults.
+10-29 13:28:44.835  1440  4470 I Dtdi    : [DtdiModuleInitIntentOperation] Cannot initialize Device Discovery. Flag is disabled. [CONTEXT service_id=312 ]
+10-29 13:28:44.836  1440  4470 I Dtdi    : [DtdiModuleInitIntentOperation] Cannot initialize Spatial Orchestration. Flag is disabled. [CONTEXT service_id=312 ]
+10-29 13:28:44.836  1440  4470 I Dtdi    : [DtdiModuleInitIntentOperation] Cannot initialize Media Transfer. Flag is disabled. [CONTEXT service_id=312 ]
+10-29 13:28:44.838  1440  4470 I EnterpriseLoader: [ConditionsChecker] ZT config not present. [CONTEXT service_id=225 ]
+10-29 13:28:44.839  1440  4470 I EsimModuleInit: onHandleIntent action: android.intent.action.BOOT_COMPLETED [CONTEXT service_id=333 ]
+10-29 13:28:44.840  1440  4470 I Fido    : [FidoInitIntentOperation] Initializing Fido module, InitRuntimeState=2
+10-29 13:28:44.840  1440  3054 I ModuleSetMgr: Download of container feature game_platform is disabled.
+10-29 13:28:44.840  1440  3054 I ModuleSetMgr: Download of container feature games is disabled.
+10-29 13:28:44.841  1440  3054 I ModuleSetMgr: Download of container feature growth_upgradeparty is disabled.
+10-29 13:28:44.841  1440  3054 I ModuleSetMgr: Download of container feature tflite_dynamite is disabled.
+10-29 13:28:44.841  1440  3054 I ModuleSetMgr: Download of container feature homegraph is disabled.
+10-29 13:28:44.842  1440  3054 I ModuleSetMgr: Download of container feature magictether is disabled.
+10-29 13:28:44.842  1440  3054 I ModuleSetMgr: Download of container feature maps_core is disabled.
+10-29 13:28:44.843  1440  3054 I ModuleSetMgr: Download of container feature mlkit.docscan.crop is disabled.
+10-29 13:28:44.843  1440  3054 I ModuleSetMgr: Download of container feature mlkit.docscan.enhance is disabled.
+10-29 13:28:44.843  1440  3054 I ModuleSetMgr: Download of container feature multipackage_debug is disabled.
+10-29 13:28:44.843  1440  3054 I ModuleSetMgr: Download of container feature payse is disabled.
+10-29 13:28:44.843  1440  3054 I ModuleSetMgr: Download of container feature permissions_debug is disabled.
+10-29 13:28:44.843  1440  3054 I ModuleSetMgr: Download of container feature play_cloud_search is disabled.
+10-29 13:28:44.844  1440  3054 I ModuleSetMgr: Download of container feature semanticlocation_debug is disabled.
+10-29 13:28:44.844  1440  3054 I ModuleSetMgr: Download of container feature tflite_delegate_edgetpu is disabled.
+10-29 13:28:44.845  1440  3054 I ModuleSetMgr: Download of container feature tflite_delegate_test is disabled.
+10-29 13:28:44.845  1440  3054 I ModuleSetMgr: Download of container feature tflite_gpu_dynamite is disabled.
+10-29 13:28:44.845  1440  3054 I ModuleSetMgr: Download of container feature userstatus_impl is disabled.
+10-29 13:28:44.845  1440  3054 I ModuleSetMgr: Download of container feature usonia_iam is disabled.
+10-29 13:28:44.845  1440  3054 I ModuleSetMgr: Download of container feature vision.face is disabled.
+10-29 13:28:44.845  1440  3054 I ModuleSetMgr: Download of container feature vision.ica is disabled.
+10-29 13:28:44.845  1440  3054 I ModuleSetMgr: Download of container feature vision.ocr is disabled.
+10-29 13:28:44.857  1615  1688 I GservicesProvider: main update completed
+10-29 13:28:44.863  1699  1699 I BgTaskExecutorImpl: Starting NONEXCLUSIVE background task UPDATE_GSERVICES_CONFIG.
+10-29 13:28:44.864  1699  2824 I A       : Updating Gservices keys
+10-29 13:28:44.879  1440  3054 I ModuleSetMgr: Pending container module APKs: []
+10-29 13:28:44.879  1440  3054 I ModuleSetMgr: Pending non-container module APKs: []
+10-29 13:28:44.931  1403  4445 I Auth    : [AuthManaged, PasswordComplexityHelperImpl] Updating password complexity components state.
+10-29 13:28:44.931  1403  4445 I Auth    : [AuthManaged, PasswordComplexityHelperImpl] Disabling com.google.android.gms.auth.managed.admin.DeviceAdminReceiver
+10-29 13:28:44.932  1403  4445 I Auth    : [AuthManaged, PasswordComplexityHelperImpl] Disabling com.google.android.gms.auth.managed.ui.SetNewPasswordActivity
+10-29 13:28:44.935  1403  3426 I Herrevad: [138] aqwl.a: updateListenState
+10-29 13:28:44.954  1440  3721 I Checkin : [CheckinRequestProcessor] Default Task : Checkin Succeeded: https://android.googleapis.com/checkin (fragment #1).
+10-29 13:28:44.989  1440  3721 I Checkin : [CheckinOperation] Checkin Operation finished with result: SUCCESS finish time: 51247.
+10-29 13:28:45.002  1440  3085 I SystemUpdate: [Execution,ExecutionManager] Action pending executed for 0.44 seconds.
+10-29 13:28:45.005  1440  3085 I SystemUpdate: [Execution,ExecutionManager] Action finished-execution executed for 0.00 seconds.
+10-29 13:28:45.009  1440  4470 I GCM-GMS : Scheduling task to register GMS
+10-29 13:28:45.011  1440  4470 W ChimeraUtils: Module com.google.android.gms.growth missing resource growth_module_display_name(0)
+10-29 13:28:45.012  1440  4470 W ChimeraUtils: Module com.google.android.gms.growth missing resource growth_module_display_name(0)
+10-29 13:28:45.021  1440  2898 I MobileDataHub: Scheduling periodic tasks
+10-29 13:28:45.028  1440  3273 I Checkin : [EventLogChimeraService] Opted in for usage reporting: false
+10-29 13:28:45.030  1440  3273 W GmsTaskScheduler: ScheduledCheckinGmsTaskService is not available. This may cause the task to be lost.
+10-29 13:28:45.031  1440  3273 I Checkin : [EventLogChimeraService] Accumulating logs since 1793280516902
+10-29 13:28:45.032  4502  4529 I TestRunner: finished: posts(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

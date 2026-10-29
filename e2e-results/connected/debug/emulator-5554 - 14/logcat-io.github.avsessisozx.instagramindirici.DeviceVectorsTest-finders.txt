@@ -1,0 +1,9 @@
+10-29 13:28:44.563  4502  4529 I TestRunner: started: finders(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-29 13:28:44.563  1403  1403 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.chimera.container.BIND_FIND_BUFFER_SIZE dat=chimera-action:/... cmp=com.google.android.gms/.chimera.PersistentInternalBoundBrokerService }
+10-29 13:28:44.565  1670  1778 I ogle.android.as: Background young concurrent copying GC freed 117961(5597KB) AllocSpace objects, 4(208KB) LOS objects, 35% free, 8754KB/13MB, paused 28us,19us total 406.258ms
+10-29 13:28:44.584  1440  3273 I AppDoctorManager: Updating appdoctor Uri Permissions. [CONTEXT service_id=256 ]
+10-29 13:28:44.598  1440  4470 I constellation: [intent_handler] Received onBootCompleted intent
+10-29 13:28:44.598  1440  4470 I constellation: [reboot_checker] Reboot checker check status.
+10-29 13:28:44.609  1440  1492 I Icing   : Indexing done com.google.android.gms-internal.3p:MobileApplication
+10-29 13:28:44.610  1440  1492 I Icing   : Indexing com.google.android.gms-apps from com.google.android.gms
+10-29 13:28:44.631  4502  4529 I TestRunner: finished: finders(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

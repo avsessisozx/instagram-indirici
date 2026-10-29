@@ -1,0 +1,40 @@
+10-29 13:28:44.634  4502  4529 I TestRunner: started: links(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+10-29 13:28:44.641  1440  1440 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.common.BIND_SHARED_PREFS pkg=com.google.android.gms }
+10-29 13:28:44.642  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.644  1615  1646 I ocess.gservices: Background concurrent copying GC freed 58284(1927KB) AllocSpace objects, 0(0B) LOS objects, 49% free, 3020KB/6041KB, paused 11us,11us total 242.428ms
+10-29 13:28:44.647  1440  3085 I SystemUpdate: [Control,InstallationControl] Installation progress updated to (0x000, -1.000).
+10-29 13:28:44.648  1440  1440 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.common.BIND_SHARED_PREFS pkg=com.google.android.gms }
+10-29 13:28:44.654  1440  3054 I Backup  : [GmsBackupAccountManager] Backup account not found in gmscore.
+10-29 13:28:44.662  1440  3054 V Backup  : [AccountChangedIO] currentDestinationString: null
+10-29 13:28:44.662  1403  3436 W ChimeraUtils: Module com.google.android.gms.backup_base missing resource null(0)
+10-29 13:28:44.662  1403  3758 V Backup  : [BackupAccountNotifier] Handling new intent. Show notification: true
+10-29 13:28:44.664  1440  3054 W ChimeraUtils: Module com.google.android.gms.dck_stub missing resource null(0)
+10-29 13:28:44.665  1440  3054 I DckStubModuleInit: Loading stub module components [CONTEXT service_id=289 ]
+10-29 13:28:44.665  1440  1492 I Icing   : Indexing done com.google.android.gms-apps
+10-29 13:28:44.665  1440  3054 I Dck     : doesDeviceHaveSupportedWirelessCapabilities: wccSysProp:0, wccMendel:1, deviceWccOverride:false [CONTEXT service_id=289 ]
+10-29 13:28:44.665  1440  3054 I Dck     : isDckModuleEligible: isAtLeastR:true, hasWccSupport:false, downloadAllowed:false [CONTEXT service_id=289 ]
+10-29 13:28:44.665  1440  3054 W Dck     : Dck module not eligible for asynchronous downloading [CONTEXT service_id=289 ]
+10-29 13:28:44.671  1440  3054 I AlarmManager: set [name: ApiService type: 2 triggerAtMillis: 120000 windowMillis: -1 intervalMillis: 0]
+10-29 13:28:44.684  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.685   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.688  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.688  1440  4470 I constellation: [reboot_checker] Reboot Sync didn't run.
+10-29 13:28:44.690  1440  1440 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.common.BIND_SHARED_PREFS pkg=com.google.android.gms }
+10-29 13:28:44.692  1440  1440 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.common.BIND_SHARED_PREFS pkg=com.google.android.gms }
+10-29 13:28:44.692  1440  1440 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.common.BIND_SHARED_PREFS pkg=com.google.android.gms }
+10-29 13:28:44.695  1440  1440 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.common.BIND_SHARED_PREFS pkg=com.google.android.gms }
+10-29 13:28:44.697  1440  3003 I GoogleSettingsUtils: Updating Android ID in Gservices [CONTEXT service_id=130 ]
+10-29 13:28:44.699  1615  1895 D GservicesProvider: Update with URI content://com.google.android.gsf.gservices/main_diff
+10-29 13:28:44.699  1615  1895 E GservicesProvider: main difference update is no longer supported.
+10-29 13:28:44.701  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.702   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.706  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.712  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+10-29 13:28:44.714   828   828 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+10-29 13:28:44.719  1670  2061 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+10-29 13:28:44.724  1440  3085 I SystemUpdate: [Control,ReminderDialogControl] Screen-on dialog not enabled.
+10-29 13:28:44.725  1440  3085 I SystemUpdate: [Control,DeviceControl] Requesting stop screen-on listening
+10-29 13:28:44.728  1403  1403 I SystemUpdate: [Control,ChimeraSystemUpdatePersistentListenerService] Start (command: stop_listener, action: android.intent.action.SCREEN_ON, request ID: reminder
+10-29 13:28:44.729  1403  1403 I SystemUpdate: [Control,ChimeraSystemUpdatePersistentListenerService] Got request (reminder) to unregister for action: android.intent.action.SCREEN_ON
+10-29 13:28:44.729  1403  1403 I SystemUpdate: [Control,ChimeraSystemUpdatePersistentListenerService] Stopping ChimeraSystemUpdatePersistentListenerService
+10-29 13:28:44.735  4502  4529 I TestRunner: finished: links(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
