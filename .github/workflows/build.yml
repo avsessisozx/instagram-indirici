@@ -153,9 +153,14 @@ jobs:
         run: |
           nohup python -m tests.fake_instagram --port 8766 > fake-jvm.log 2>&1 &
           nohup python -m tests.fake_instagram --port 8765 --public http://10.0.2.2:8765 > fake.log 2>&1 &
-          sleep 2
-          curl -sf "http://127.0.0.1:8766/__durum" > /dev/null
-          curl -sf "http://127.0.0.1:8765/__durum" > /dev/null
+          for port in 8766 8765; do
+            ok=0
+            for i in $(seq 1 30); do
+              if curl -sf "http://127.0.0.1:$port/__durum" > /dev/null; then ok=1; break; fi
+              sleep 1
+            done
+            if [ "$ok" != 1 ]; then echo "Sahte sunucu $port açılmadı"; cat fake.log fake-jvm.log; exit 1; fi
+          done
 
       - name: Birim testleri ve APK
         shell: bash
