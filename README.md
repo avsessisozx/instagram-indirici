@@ -1,5 +1,7 @@
 # Instagram İndirici
 
+> ⬇️ **İndir:** [Windows (EXE)](https://github.com/avsessisozx/instagram-indirici/releases/latest/download/InstagramIndirici.exe) · [Chrome eklentisi (ZIP)](https://github.com/avsessisozx/instagram-indirici/releases/latest/download/InstagramIndirici-Chrome.zip) · [Android (APK)](https://github.com/avsessisozx/instagram-indirici/releases/latest)
+
 Herkese açık Instagram profillerindeki fotoğraf ve videoları toplu indiren, Türkçe ve İngilizce arayüzlü **Windows programı** ve **Android uygulaması**. Sunucu gerekmez; her şey senin cihazında çalışır.
 
 - **Profilin tamamı:** bir kişinin bütün gönderilerini (fotoğraf, video, reels, kaydırmalı albümler) toplu indirir.
@@ -8,6 +10,7 @@ Herkese açık Instagram profillerindeki fotoğraf ve videoları toplu indiren, 
 - **İçerik seçimi:** fotoğraf ve video, sadece video ya da sadece fotoğraf. İstersen sadece en yeni 12, 30, 50… gönderi.
 - En yüksek kaliteyi indirir. Daha önce inenleri tekrar indirmez; yarıda kalan işe kaldığı yerden devam edersin.
 - **Sadece yenileri:** bir profili bir kez tamamen indirdikten sonra tekrar başlattığında sadece yeni gönderilere bakar.
+- **Koleksiyonlar (Windows):** Instagram'da kaydettiğin koleksiyonları listeler. Bir koleksiyondaki tüm gönderileri tek klasöre (`Koleksiyonlar\<koleksiyon adı>\`) indirir ya da koleksiyonda gönderisi olan hesapları listeler; işaretlediklerinin tüm profilini indirirsin. Giriş gerekir.
 
 ## İndirme ve kurulum
 

@@ -5,11 +5,12 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import random
 import sys
 import threading
 import time
 import traceback
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -19,15 +20,22 @@ from .browser import (ApiError, BrowserError, FeedResult, InstagramBrowser, Logi
 from .fetcher import Cancelled, existing_file, ext_from_content_type, fetch, fetch_dash, write_bytes
 from .history import History
 from .i18n import Msg, msg
-from .media import (KIND_AVATAR, KIND_HIGHLIGHT, KIND_POST, KIND_REEL, KIND_REPOST, KIND_STORY, KIND_TAGGED,
-                    STORIES_DIR, MediaFile, Post, author_folder, build_avatar, build_post, highlight_folder,
-                    is_pinned, owner_of, taken_at_of)
+from .media import (ALL_COLLECTION_TYPES, KIND_AVATAR, KIND_HIGHLIGHT, KIND_POST, KIND_REEL, KIND_REPOST, KIND_STORY,
+                    KIND_TAGGED, STORIES_DIR, MediaFile, Post, author_folder, build_avatar, build_post,
+                    collection_folder, flatten_for_collection, highlight_folder, is_pinned, owner_of, owner_summary,
+                    taken_at_of)
 from .pacing import for_settings as pacing_for
 from .paths import CONTENT_ALL, app_data_dir, clean_settings, date_end_ts, date_start_ts
 
 MODE_SINGLE = "single"
 MODE_PROFILE = "profile"
 MODE_COOKIE = "cookie"
+MODE_COLLECTIONS = "collections"          # kaydedilenler koleksiyonlarının listesini getir
+MODE_COLL_SCAN = "collection_scan"        # bir koleksiyonu tara, içindeki hesapları listele
+MODE_COLL_POSTS = "collection_posts"      # koleksiyondaki gönderileri indir
+MODE_COLL_ACCOUNTS = "collection_accounts"  # koleksiyondan seçilen hesapların profillerini indir
+COLL_SCAN_MODES = (MODE_COLLECTIONS, MODE_COLL_SCAN)
+COLL_DOWNLOAD_MODES = (MODE_COLL_POSTS, MODE_COLL_ACCOUNTS)
 WORKERS = 3
 UNMATCHED_REASONS = {"skip.video_only", "skip.image_only", "skip.image_only_avatar"}
 MARKER_NAME = ".instagram-indirici.json"
@@ -42,6 +50,7 @@ class Job:
     link: str
     mode: str
     settings: Dict[str, Any]
+    extra: Dict[str, Any] = field(default_factory=dict)   # koleksiyon kipleri: id, name, accounts
 
 
 def session_file() -> Path:
@@ -144,6 +153,12 @@ class Engine:
         self.log_offset = 0
         self.logs: List[Dict[str, Any]] = []
         self.browser_name = ""          # son kullanılan tarayıcı (rapor için); durum sıfırlanınca silinmez
+        # Koleksiyon ekranı için: yeni iş başlayınca silinmez (liste ekranda kalsın).
+        self.collections: List[Dict[str, Any]] = []
+        self.coll_accounts: List[Dict[str, Any]] = []
+        self.coll_id = ""
+        self.coll_name = ""
+        self._coll_items: Dict[str, List[Dict[str, Any]]] = {}
         self._reset()
 
     # ------------------------------------------------------------ durum
@@ -172,6 +187,7 @@ class Engine:
         self.summary: Optional[Msg] = None
         self.notes: List[Msg] = []
         self._pending_complete: Optional[tuple] = None
+        self._pending_extra: List[tuple] = []     # birden çok hesap indirilirken biten hesapların "tam tarandı" kayıtları
         self.posts_known = 0
         self.wait_until = 0.0
         self.wait_kind = ""
@@ -246,6 +262,10 @@ class Engine:
                 "current_total": self.current_total,
                 "summary": self.summary.to_json() if self.summary else None,
                 "notes": [n.to_json() for n in self.notes],
+                "collections": [dict(c) for c in self.collections],
+                "coll_accounts": [dict(a) for a in self.coll_accounts],
+                "coll_id": self.coll_id,
+                "coll_name": self.coll_name,
                 "logs": self.logs[start:],
                 "log_next": self.log_offset + len(self.logs),
             }
@@ -258,6 +278,11 @@ class Engine:
         if job.mode == MODE_COOKIE:
             if not parse_session_input(job.link):
                 return msg("engine.cookie_invalid")
+        elif job.mode in COLL_SCAN_MODES + COLL_DOWNLOAD_MODES:
+            if job.mode != MODE_COLLECTIONS and not str(job.extra.get("id") or ""):
+                return msg("engine.coll_pick_one")
+            if job.mode == MODE_COLL_ACCOUNTS and not [a for a in (job.extra.get("accounts") or []) if str(a).strip()]:
+                return msg("engine.coll_pick_accounts")
         else:
             parsed = links.parse_link(job.link)
             if not parsed.ok:
@@ -362,6 +387,9 @@ class Engine:
                         self.summary = msg("engine.cookie_error")
                     self.log("ok" if ok else "error", self.summary)
                     return
+                if job.mode in COLL_SCAN_MODES:
+                    await self._collection_scan_job(browser, job, settings)
+                    return
                 await self._download_job(browser, job, settings)
         except BrowserError as exc:
             if self._cancel.is_set():
@@ -390,7 +418,8 @@ class Engine:
         self.wait_kind = "pause" if until else ""
 
     async def _download_job(self, browser: InstagramBrowser, job: Job, settings: Dict[str, Any]) -> None:
-        parsed = links.parse_link(job.link)
+        coll_mode = job.mode in COLL_DOWNLOAD_MODES
+        parsed = links.parse_link(job.link) if not coll_mode else None
         out_root = Path(settings["out_dir"]).expanduser()
         try:
             out_root.mkdir(parents=True, exist_ok=True)
@@ -415,12 +444,16 @@ class Engine:
         collect_error: Optional[BrowserError] = None
         try:
             self.phase = "collecting"
-            if parsed.kind == links.SHARE:
+            if parsed is not None and parsed.kind == links.SHARE:
                 parsed = await browser.resolve_share(parsed.url)
                 if job.mode == MODE_SINGLE and parsed.kind == links.PROFILE:
                     raise BrowserError(msg("engine.share_to_profile"))
             try:
-                if job.mode == MODE_SINGLE:
+                if coll_mode:
+                    if not logged_in:
+                        raise LoginRequired(msg("engine.coll_need_login"))
+                    await self._collection_download(browser, job, settings, queue, logged_in, out_root)
+                elif job.mode == MODE_SINGLE:
                     await self._single(browser, parsed, settings, queue, logged_in)
                 else:
                     username = await self._owner_of(browser, parsed, logged_in)
@@ -454,8 +487,9 @@ class Engine:
         if self._cancel.is_set():
             self._finish_stopped()
             return
-        if self._pending_complete and self.files_failed == 0 and collect_error is None and self.history:
-            self.history.set_complete(*self._pending_complete)
+        if self.files_failed == 0 and collect_error is None and self.history:
+            for entry in ([*self._pending_extra, self._pending_complete] if self._pending_complete else self._pending_extra):
+                self.history.set_complete(*entry)
         if collect_error is not None and self.files_done == 0 and self.files_skipped == 0 and self.posts_known == 0:
             self.phase = "error"
             self.summary = collect_error.message
@@ -469,6 +503,171 @@ class Engine:
             if self.found_posts == 0 and self.notes:
                 self.summary = self.notes[0]
         self.log("ok" if self.phase == "done" else "error", self.summary)
+
+    # ------------------------------------------------------------ kaydedilenler: koleksiyonlar
+    async def _collection_scan_job(self, browser: InstagramBrowser, job: Job, settings: Dict[str, Any]) -> None:
+        """Koleksiyon listesini ya da bir koleksiyonun hesap listesini çıkarır (indirme yapmaz)."""
+        logged_in = await browser.logged_in()
+        self.logged_in = logged_in
+        save_session_state(logged_in)
+        if not logged_in:
+            self.login_wall = True
+            self.phase = "error"
+            self.summary = msg("engine.coll_need_login")
+            self.log("error", self.summary)
+            return
+        browser.pause_gate = self.pause_gate
+        self.phase = "collecting"
+        self.collecting = True
+        try:
+            if job.mode == MODE_COLLECTIONS:
+                found, via = await self._with_rate_wait(browser.collections_list)
+                if not any(c.get("type") in ALL_COLLECTION_TYPES for c in found):
+                    found.insert(0, {"id": "all", "name": "", "count": 0, "type": ALL_COLLECTION_TYPES[0], "cover": ""})
+                self.log("debug", f"collections via={via} n={len(found)}")
+                self.collections = found
+                self.summary = msg("engine.coll_listed", n=len(found))
+            else:
+                coll = self._coll_from(job)
+                items, result = await self._collection_items(browser, coll, settings, count_found=True)
+                self.coll_id, self.coll_name = coll["id"], coll["name"]
+                self.coll_accounts = self._accounts_of(items)
+                self.log("debug", f"collection {coll['id']} via={result.via} reason={result.reason} n={len(items)}")
+                if result.reason == "rate_limited":
+                    self.rate_limited = True
+                    self.notes.append(msg("engine.coll_partial", n=len(items)))
+                self.summary = msg("engine.coll_scanned", n=len(items), a=len(self.coll_accounts))
+        finally:
+            self.collecting = False
+        self.phase = "done"
+        self.log("ok", self.summary)
+
+    @staticmethod
+    def _coll_from(job: Job) -> Dict[str, Any]:
+        extra = job.extra
+        return {"id": str(extra.get("id") or ""), "name": str(extra.get("name") or ""),
+                "type": str(extra.get("type") or "")}
+
+    async def _collection_items(self, browser: InstagramBrowser, coll: Dict[str, Any], settings: Dict[str, Any],
+                                *, count_found: bool):
+        """Koleksiyonun gönderilerini toplar; tam taranmışsa bellekte tutar (hesap listesi ve indirme tekrar taramasın)."""
+        limit = int(settings.get("limit") or 0)
+        cached = self._coll_items.get(coll["id"])
+        if cached is not None:
+            items = cached[:limit] if limit else list(cached)
+            if count_found:
+                self.found_posts = len(items)
+            return items, FeedResult(collected=len(items), reason="end", via="cache")
+        items: List[Dict[str, Any]] = []
+
+        def on_page(new: List[Dict[str, Any]], cursor_kind: str = "", next_cursor: str = "") -> str:
+            items.extend(new)
+            if count_found:
+                self.found_posts = len(items)
+            return ""
+
+        rounds = 0
+        while True:
+            self.collecting = True
+            try:
+                result: FeedResult = await browser.collect_collection(coll, limit=limit, on_page=on_page)
+            except RateLimited:
+                result = FeedResult(collected=0, reason="rate_limited")
+            if (result.reason == "rate_limited" and settings.get("auto_continue", True)
+                    and rounds < other_rounds() and result.collected == 0):
+                rounds += 1
+                await self._wait_and_continue(rounds, total=other_rounds())
+                continue
+            break
+        if result.reason == "rate_limited" and not items:
+            raise RateLimited("collection")
+        if result.reason in ("end", "up_to_date") and not limit:
+            self._coll_items[coll["id"]] = list(items)
+        return items, result
+
+    @staticmethod
+    def _accounts_of(items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Koleksiyondaki gönderilerin sahipleri: kaç gönderi kaydedildiğiyle birlikte (çoktan aza)."""
+        by_name: Dict[str, Dict[str, Any]] = {}
+        for item in items:
+            owner = owner_summary(item)
+            if not owner:
+                continue
+            key = owner["username"].lower()
+            entry = by_name.setdefault(key, dict(owner, count=0))
+            entry["count"] += 1
+            for field_name in ("pic", "full_name", "user_id"):
+                if not entry.get(field_name) and owner.get(field_name):
+                    entry[field_name] = owner[field_name]
+        return sorted(by_name.values(), key=lambda a: (-a["count"], a["username"].lower()))
+
+    async def _collection_download(self, browser: InstagramBrowser, job: Job, settings: Dict[str, Any],
+                                   queue: asyncio.Queue, logged_in: bool, out_root: Path) -> None:
+        coll = self._coll_from(job)
+        self.coll_id, self.coll_name = coll["id"], coll["name"]
+        if job.mode == MODE_COLL_ACCOUNTS:
+            await self._coll_accounts_download(browser, job, settings, queue, logged_in, out_root)
+            return
+        items, result = await self._collection_items(browser, coll, settings, count_found=False)
+        self.found_posts = 0          # sayacı _enqueue yeniden sayar
+        folder_rel = collection_folder(coll["name"], coll["id"])
+        self.author = coll["name"]
+        self.folder = str(out_root / folder_rel)
+        if result.reason == "rate_limited":
+            self.rate_limited = True
+            note = msg("engine.coll_partial", n=len(items))
+            self.notes.append(note)
+            self.log("warn", note)
+        elif result.reason == "login_wall":
+            self.login_wall = True
+        if not items:
+            note = msg("engine.coll_empty")
+            self.notes.append(note)
+            self.log("info", note)
+            return
+        self.log("ok", msg("engine.coll_scanned", n=len(items), a=len(self._accounts_of(items))))
+        content = settings["content"]
+        for item in items:
+            if not self._in_range(taken_at_of(item)):
+                continue
+            post = build_post(item, content=content, caption_min=0)
+            flatten_for_collection(post)
+            post.dest_dir = folder_rel
+            self._enqueue(queue, post, content=content)
+
+    async def _coll_accounts_download(self, browser: InstagramBrowser, job: Job, settings: Dict[str, Any],
+                                      queue: asyncio.Queue, logged_in: bool, out_root: Path) -> None:
+        """Koleksiyondan seçilen hesapların profillerini sırayla, her biri normal profil indirmesi gibi indirir."""
+        names: List[str] = []
+        for raw in job.extra.get("accounts") or []:
+            name = str(raw).strip().lstrip("@").lower()
+            if name and name not in names:
+                names.append(name)
+        wait = float(os.environ.get("INSTAGRAM_INDIRICI_ACCOUNT_WAIT", "20"))
+        self.log("info", msg("engine.coll_accounts_start", n=len(names)))
+        for index, username in enumerate(names, 1):
+            if self._cancel.is_set():
+                return
+            self.log("info", msg("engine.coll_account_n", i=index, n=len(names), name=username))
+            self._known = set()
+            self._jumped = False
+            self._progress_ctx = None
+            try:
+                await self._profile(browser, username, settings, queue, logged_in, out_root)
+            except RateLimited as exc:
+                self.rate_limited = True
+                note = msg("engine.coll_accounts_rate", i=index, n=len(names), name=username)
+                self.notes.append(note)
+                self.log("error", exc.message)
+                self.log("warn", note)
+                return
+            except (ApiError, NotFound) as exc:
+                self.log("warn", msg("engine.coll_account_failed", name=username, error=exc.message))
+            if self._pending_complete:
+                self._pending_extra.append(self._pending_complete)
+                self._pending_complete = None
+            if index < len(names) and wait > 0:
+                await browser._sleep(random.uniform(wait, wait * 2))
 
     # ------------------------------------------------------------ yeniden deneme ve bilgi dosyası
     async def _retry_failed(self, downloads: "DownloadPool") -> None:
@@ -1087,7 +1286,8 @@ class DownloadPool:
 
     async def _download_post(self, post: Post) -> None:
         eng = self.engine
-        folder = self.out_root / author_folder(post.dest_user or post.username or eng.author)
+        folder = (self.out_root / post.dest_dir) if post.dest_dir else (
+            self.out_root / author_folder(post.dest_user or post.username or eng.author))
         if not eng.folder:
             eng.folder = str(folder)
         post.attempts += 1

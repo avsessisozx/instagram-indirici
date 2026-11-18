@@ -20,7 +20,8 @@ from typing import Any, Dict, Optional
 
 from . import APP_NAME, __version__, i18n, links, report
 from .i18n import msg
-from .engine import MODE_COOKIE, MODE_PROFILE, MODE_SINGLE, Engine, Job, load_session_state
+from .engine import (COLL_DOWNLOAD_MODES, COLL_SCAN_MODES, MODE_COOKIE, MODE_PROFILE, MODE_SINGLE, Engine, Job,
+                     load_session_state)
 from .media import author_folder
 from .paths import app_data_dir, clean_settings, load_settings, save_settings
 
@@ -365,11 +366,16 @@ def make_handler(state: AppState):
 
             if path == "/api/start":
                 mode = data.get("mode")
-                if mode not in (MODE_SINGLE, MODE_PROFILE):
+                if mode not in (MODE_SINGLE, MODE_PROFILE, *COLL_SCAN_MODES, *COLL_DOWNLOAD_MODES):
                     return self._json({"error": msg("server.choose_mode").to_json()}, 400)
                 state.settings = clean_settings({**state.settings, **(data.get("settings") or {})})
                 save_settings(state.settings)
-                error = state.engine.start(Job(str(data.get("link") or ""), mode, state.settings))
+                extra = data.get("extra") if isinstance(data.get("extra"), dict) else {}
+                extra = {"id": str(extra.get("id") or "")[:80], "name": str(extra.get("name") or "")[:200],
+                         "type": str(extra.get("type") or "")[:60],
+                         "accounts": [str(a)[:60] for a in (extra.get("accounts") or [])[:2000]
+                                      if isinstance(a, str)]}
+                error = state.engine.start(Job(str(data.get("link") or ""), mode, state.settings, extra))
                 if error:
                     return self._json({"error": error.to_json()}, 400)
                 return self._json({"ok": True})

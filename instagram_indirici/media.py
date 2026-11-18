@@ -91,6 +91,7 @@ class Post:
     stem: str = ""
     section: str = ""               # arayüz sekmesi: posts / reels / reposts / tagged / stories / highlights / avatar
     dest_user: str = ""             # dosyaların hangi profil klasörüne gideceği (boşsa username)
+    dest_dir: str = ""              # doluysa dosyalar indirme klasörü altındaki bu yola gider (koleksiyonlar)
     caption: str = ""
     caption_stem: str = ""          # uzun açıklamanın .txt dosyası (uzantısız yol); boşsa açıklama ayrıca kaydedilmez
     likes: int = 0
@@ -143,6 +144,83 @@ def find_media(obj: Any, limit: int = 100000) -> List[Dict[str, Any]]:
         elif isinstance(cur, list):
             stack.extend(reversed(cur))
     return out
+
+
+# ------------------------------------------------------------ koleksiyonlar (Kaydedilenler)
+COLLECTIONS_DIR = "Koleksiyonlar"
+ALL_COLLECTION_TYPES = ("ALL_MEDIA_AUTO_COLLECTION",)
+SKIP_COLLECTION_TYPES = ("AUDIO_AUTO_COLLECTION", "PRODUCT_AUTO_COLLECTION")
+
+
+def find_collections(obj: Any, limit: int = 5000) -> List[Dict[str, Any]]:
+    """Herhangi bir JSON'un içindeki kaydedilenler koleksiyonlarını sırayla bulur.
+
+    Her biri: {"id", "name", "count", "type", "cover"}. Ses ve ürün koleksiyonları atlanır.
+    """
+    out: List[Dict[str, Any]] = []
+    seen = set()
+    stack = [obj]
+    while stack and len(out) < limit:
+        cur = stack.pop()
+        if isinstance(cur, dict):
+            cid = cur.get("collection_id")
+            name = cur.get("collection_name")
+            if cid and name is not None and isinstance(cid, (str, int)):
+                kind = str(cur.get("collection_type") or "")
+                key = str(cid)
+                if key not in seen and kind not in SKIP_COLLECTION_TYPES:
+                    seen.add(key)
+                    out.append({"id": key, "name": str(name), "count": _int(cur.get("collection_media_count")),
+                                "type": kind or "MEDIA", "cover": _collection_cover(cur)})
+                continue
+            stack.extend(reversed(list(cur.values())))
+        elif isinstance(cur, list):
+            stack.extend(reversed(cur))
+    return out
+
+
+def _collection_cover(entry: Dict[str, Any]) -> str:
+    covers = entry.get("cover_media_list")
+    candidates = list(covers) if isinstance(covers, list) else []
+    if isinstance(entry.get("cover_media"), dict):
+        candidates.append(entry["cover_media"])
+    for cover in candidates:
+        if not isinstance(cover, dict):
+            continue
+        inner = cover.get("media") if isinstance(cover.get("media"), dict) else cover
+        cropped = inner.get("cropped_image_version")
+        if isinstance(cropped, dict) and cropped.get("url"):
+            return str(cropped["url"])
+        urls = image_urls(inner)
+        if urls:
+            return urls[-1]
+    return ""
+
+
+def collection_folder(name: str, cid: str = "") -> str:
+    """Koleksiyonun indirileceği klasör: Koleksiyonlar/<ad>."""
+    return f"{COLLECTIONS_DIR}/{sanitize(name, max_len=60, fallback=cid or 'koleksiyon')}"
+
+
+def flatten_for_collection(post: "Post") -> None:
+    """Koleksiyon gönderilerini tek klasöre koyar: <sahip>_<gönderi adı>. Geçmişe yazılmaz."""
+    prefix = sanitize(post.username, max_len=40, fallback="hesap") + "_"
+    for media_file in post.files:
+        media_file.rel_stem = prefix + media_file.rel_stem.rsplit("/", 1)[-1]
+        media_file.legacy_stems = []
+    post.caption_stem = ""
+    post.section = "collection"
+    post.owner_id = ""
+
+
+def owner_summary(item: Dict[str, Any]) -> Dict[str, Any]:
+    """Gönderinin sahibi: {"user_id", "username", "full_name", "pic", "private"}; bilinmiyorsa boş sözlük."""
+    owner = owner_of(item)
+    username = str(owner.get("username") or "")
+    if not username:
+        return {}
+    return {"user_id": user_id_of(owner), "username": username, "full_name": str(owner.get("full_name") or ""),
+            "pic": str(owner.get("profile_pic_url") or ""), "private": bool(owner.get("is_private"))}
 
 
 def find_page_info(obj: Any) -> Optional[Dict[str, Any]]:

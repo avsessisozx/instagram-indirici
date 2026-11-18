@@ -24,9 +24,9 @@ import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Awaitable, Callable, Dict, List, Optional, Tuple
-from urllib.parse import urlencode, urlsplit
+from urllib.parse import quote, urlencode, urlsplit
 
-from . import links, media, winbrowsers
+from . import links, media, naming, winbrowsers
 from .pacing import Pacing
 from .i18n import Msg, msg
 
@@ -68,7 +68,7 @@ PAGE_DATA_JS = r"""() => {
   const out = [];
   for (const s of document.querySelectorAll('script[type="application/json"]')) {
     const t = s.textContent || '';
-    if (t.length > 50 && (t.indexOf('username') >= 0 || t.indexOf('image_versions2') >= 0 || t.indexOf('display_url') >= 0)) out.push(t);
+    if (t.length > 50 && (t.indexOf('username') >= 0 || t.indexOf('image_versions2') >= 0 || t.indexOf('display_url') >= 0 || t.indexOf('collection_id') >= 0)) out.push(t);
   }
   return out;
 }"""
@@ -1326,6 +1326,235 @@ class InstagramBrowser:
             page.remove_listener("response", on_response)
             if tasks:
                 await asyncio.gather(*tasks, return_exceptions=True)
+
+    # ------------------------------------------------------------ kaydedilenler: koleksiyonlar
+    async def my_username(self) -> str:
+        """Giriş yapmış hesabın kullanıcı adı (kaydedilenler sayfasının adresi için)."""
+        for path, params in (("/api/v1/accounts/current_user/", [("edit", "true")]),):
+            try:
+                data = await self.call(path, params=params, what="other", quick=True)
+            except (ApiError, NotFound, RateLimited):
+                continue
+            user = data.get("user") if isinstance(data, dict) else None
+            if isinstance(user, dict) and user.get("username"):
+                return str(user["username"])
+        uid = ""
+        try:
+            for c in await self.context.cookies([base_url() + "/"]):
+                if c.get("name") == "ds_user_id":
+                    uid = str(c.get("value") or "")
+        except Exception:
+            uid = ""
+        if uid.isdigit():
+            try:
+                data = await self.call(f"/api/v1/users/{uid}/info/", what="other", quick=True)
+            except (ApiError, NotFound, RateLimited):
+                data = None
+            user = data.get("user") if isinstance(data, dict) else None
+            if isinstance(user, dict) and user.get("username"):
+                return str(user["username"])
+        raise ApiError("collections: username unknown")
+
+    async def _capture_scroll(self, url: str, take: Callable[[Any], None], progress: Callable[[], int],
+                              stop: Callable[[], bool]) -> str:
+        """Sayfayı açıp kaydırır; sayfanın kendi yüklediği JSON yanıtlarını take() ile işler.
+
+        progress(): şimdiye kadar bulunan öğe sayısı (yeni öğe gelmeyince idle süresi sonunda biter).
+        stop(): True olunca (ör. sayı sınırı) hemen biter. Dönüş: end | stalled | limit.
+        """
+        idle_limit = float(os.environ.get("INSTAGRAM_INDIRICI_IDLE", "25"))
+        page = self.page
+        tasks: List[asyncio.Task] = []
+        base = base_url()
+
+        async def handle(response) -> None:
+            u = response.url
+            if not u.startswith(base) or ("/graphql" not in u and "/api/v1/" not in u):
+                return
+            try:
+                data = parse_json_text(await response.text())
+            except Exception:
+                return
+            if data is not None:
+                take(data)
+
+        def on_response(response) -> None:
+            tasks.append(asyncio.ensure_future(handle(response)))
+
+        self.log("info", msg("browser.scrolling"))
+        page.on("response", on_response)
+        try:
+            await self.goto(url)
+            await self._sleep(2)
+            for data in await self._embedded_data():
+                take(data)
+            last_n = progress()
+            last = time.monotonic()
+            while True:
+                self._check_cancel()
+                self._check_alive()
+                await self.pause_gate()
+                if stop():
+                    return "limit"
+                if await self._page_redirect_state() == "challenge":
+                    await self.wait_for_verification()
+                    last = time.monotonic()
+                    continue
+                if await self._page_redirect_state() == "login":
+                    raise LoginRequired()
+                try:
+                    await page.mouse.wheel(0, 2400)
+                    await page.evaluate("window.scrollBy(0, 2400)")
+                except Exception:
+                    pass
+                await self._sleep(1.5)
+                now_n = progress()
+                if now_n > last_n:
+                    last_n = now_n
+                    last = time.monotonic()
+                if time.monotonic() - last > idle_limit:
+                    return "end" if now_n else "stalled"
+        finally:
+            page.remove_listener("response", on_response)
+            if tasks:
+                await asyncio.gather(*tasks, return_exceptions=True)
+
+    async def collections_list(self) -> Tuple[List[Dict[str, Any]], str]:
+        """Kaydedilenler koleksiyonlarını getirir: (liste, kullanılan yol). Bulunamazsa ApiError/RateLimited."""
+        last: Optional[BrowserError] = None
+        for name, run in (("rest", self._collections_rest), ("scroll", self._collections_scroll)):
+            self._check_cancel()
+            try:
+                found = await run()
+            except (ApiError, NotFound, RateLimited) as exc:
+                self.log("info", msg("browser.strategy_failed", detail=getattr(exc, "detail", "") or exc.message.key))
+                last = exc
+                continue
+            if found:
+                return found, name
+        if isinstance(last, RateLimited):
+            raise last
+        raise ApiError("collections: not found")
+
+    async def _collections_rest(self) -> List[Dict[str, Any]]:
+        found: Dict[str, Dict[str, Any]] = {}
+        max_id = ""
+        for page_no in range(40):
+            params = [("collection_types", '["ALL_MEDIA_AUTO_COLLECTION","MEDIA"]')]
+            if max_id:
+                params.append(("max_id", max_id))
+            data = await self.call("/api/v1/collections/list/", params=params, what="collections",
+                                   essential=page_no > 0, quick=page_no == 0)
+            if not isinstance(data, dict) or not isinstance(data.get("items"), list):
+                raise ApiError("collections: no items")
+            for entry in media.find_collections(data["items"]):
+                found.setdefault(entry["id"], entry)
+            next_id = str(data.get("next_max_id") or "")
+            if not data.get("more_available") or not next_id or next_id == max_id:
+                break
+            max_id = next_id
+        return list(found.values())
+
+    async def _collections_scroll(self) -> List[Dict[str, Any]]:
+        me = await self.my_username()
+        found: Dict[str, Dict[str, Any]] = {}
+
+        def take(data: Any) -> None:
+            for entry in media.find_collections(data):
+                found.setdefault(entry["id"], entry)
+
+        await self._capture_scroll(f"{base_url()}/{me}/saved/", take, lambda: len(found), lambda: False)
+        return list(found.values())
+
+    async def collect_collection(self, coll: Dict[str, Any], *, limit: int,
+                                 on_page: Callable[..., str]) -> FeedResult:
+        """Bir koleksiyonun gönderilerini toplar (önce doğrudan istek, olmazsa sayfayı kaydırma)."""
+        state = _FeedState(limit=limit, on_page=on_page)
+        result = FeedResult()
+        cid = str(coll.get("id") or "")
+        is_all = str(coll.get("type") or "") in media.ALL_COLLECTION_TYPES
+
+        def finish(reason: str, via: str) -> FeedResult:
+            result.reason = "limit" if state.limit_hit else reason
+            result.collected = len(state.seen)
+            result.via = via
+            return result
+
+        strategies: List[Tuple[str, Callable[[], Any]]] = []
+        paths = ["/api/v1/feed/saved/posts/"] if is_all else [f"/api/v1/feed/collection/{cid}/posts/",
+                                                             f"/api/v1/feed/collection/{cid}/"]
+        for path in paths:
+            strategies.append((f"rest:{path}", lambda path=path: self._collection_rest(path, state)))
+        strategies.append(("scroll", lambda: self._collection_scroll(coll, state)))
+
+        last_reason = "stalled"
+        rate_hits = 0
+        for name, run in strategies:
+            self._check_cancel()
+            try:
+                reason = await run()
+            except ApiError as exc:
+                self.log("info", msg("browser.strategy_failed", detail=exc.detail))
+                continue
+            except NotFound:
+                continue
+            except RateLimited:
+                last_reason = "rate_limited"
+                rate_hits += 1
+                continue
+            except LoginRequired:
+                if state.seen:
+                    return finish("session_expired", name)
+                last_reason = "login_wall"
+                continue
+            if reason in ("end", "up_to_date", "limit"):
+                return finish(reason, name)
+            last_reason = reason
+        if rate_hits and not state.seen:
+            raise RateLimited("collection")
+        if rate_hits:
+            return finish("rate_limited", "")
+        return finish(last_reason if state.seen else "stalled", "")
+
+    async def _collection_rest(self, path: str, state: "_FeedState") -> str:
+        max_id = ""
+        pages = 0
+        while True:
+            self._check_cancel()
+            params = [("max_id", max_id)] if max_id else None
+            data = await self.call(path, params=params, what="collection", essential=pages > 0, quick=pages == 0)
+            if not isinstance(data, dict) or not isinstance(data.get("items"), list):
+                raise ApiError("collection: no items")
+            raw = []
+            for entry in data["items"]:
+                inner = entry.get("media") if isinstance(entry, dict) and isinstance(entry.get("media"), dict) else entry
+                if isinstance(inner, dict) and media.is_media(inner):
+                    raw.append(inner)
+            pages += 1
+            next_id = str(data.get("next_max_id") or "")
+            more = bool(data.get("more_available")) and bool(next_id) and next_id != max_id
+            if not raw and pages == 1 and not more:
+                raise ApiError("collection: empty")
+            state.accept(raw, "collection", next_id if more else "")
+            if state.done:
+                return "limit"
+            if not more:
+                return "end"
+            max_id = next_id
+
+    async def _collection_scroll(self, coll: Dict[str, Any], state: "_FeedState") -> str:
+        me = await self.my_username()
+        is_all = str(coll.get("type") or "") in media.ALL_COLLECTION_TYPES
+        if is_all:
+            url = f"{base_url()}/{me}/saved/all-posts/"
+        else:
+            slug = quote(naming.sanitize(coll.get("name"), max_len=40, fallback="koleksiyon").replace(" ", "-"))
+            url = f"{base_url()}/{me}/saved/{slug}/{coll.get('id')}/"
+
+        def take(data: Any) -> None:
+            state.accept(media.find_media(data), "scroll_collection")
+
+        return await self._capture_scroll(url, take, lambda: len(state.seen), lambda: state.done)
 
     # ------------------------------------------------------------ hikayeler ve öne çıkanlar
     @staticmethod
