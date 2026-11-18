@@ -50,7 +50,7 @@ class IntegrationTests(unittest.TestCase):
         h.close()
 
     # ------------------------------------------------------------ yardımcılar
-    def run_job(self, link, mode, timeout=180, out=None, **settings):
+    def run_job(self, link, mode, timeout=180, out=None, extra=None, **settings):
         from instagram_indirici.engine import Engine, Job
 
         out = out or Path(self.tmp.name) / f"out_{time.monotonic_ns()}"
@@ -63,7 +63,7 @@ class IntegrationTests(unittest.TestCase):
                 "reels": False, "reposts": False, "tagged": False, "verify_files": False, "info_csv": False,
                 "caption_min": 0}
         base.update(settings)
-        error = engine.start(Job(link, mode, base))
+        error = engine.start(Job(link, mode, base, extra or {}))
         self.assertIsNone(error, error and error.key)
         deadline = time.monotonic() + timeout
         verify_seen = False
@@ -729,6 +729,109 @@ class IntegrationTests(unittest.TestCase):
         files = self.files(out)
         self.assertEqual(len([f for f in files if "/Etiketlenenler/" in f]), 5, files)
         self.assertEqual(len([f for f in files if "/Yeniden Paylaşımlar/" in f]), 2, files)
+
+
+    # ------------------------------------------------------------ kaydedilenler: koleksiyonlar
+    def coll_files(self, out, folder):
+        return [f for f in self.files(out) if f.startswith(f"Koleksiyonlar/{folder}/")]
+
+    def test_f1_collections_are_listed(self):
+        self.ensure_login()
+        snap, _ = self.run_job("", "collections")
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        names = sorted(c["name"] for c in snap["collections"])
+        self.assertEqual(names, ["All posts", "Gezi", "Tarifler"])      # ses koleksiyonu atlanır
+        by_name = {c["name"]: c for c in snap["collections"]}
+        self.assertEqual(by_name["Tarifler"]["count"], 10)
+        self.assertEqual(by_name["All posts"]["type"], "ALL_MEDIA_AUTO_COLLECTION")
+        self.assertTrue(by_name["Tarifler"]["cover"].startswith(self.fake.base), by_name["Tarifler"])
+
+    def test_f2_collection_list_falls_back_to_page_scroll(self):
+        self.ensure_login()
+        self.fake.coll_rest_refused = True
+        snap, _ = self.run_job("", "collections")
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        real = sorted(c["name"] for c in snap["collections"] if c["name"])
+        self.assertEqual(real, ["All posts", "Gezi", "Tarifler"])
+
+    def test_f3_collection_posts_go_to_one_folder(self):
+        self.ensure_login()
+        snap, out = self.run_job("", "collection_posts", extra={"id": fi.COLL_RECIPES, "name": "Tarifler"})
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        files = self.coll_files(out, "Tarifler")
+        self.assertEqual(len(files), 14, self.files(out))
+        self.assertEqual(len(self.files(out)), 14)
+        self.assertTrue(all(f.count("/") == 2 for f in files), files)                 # alt klasör yok
+        owners = {f.split("/")[2].split("_")[0] for f in files}
+        self.assertEqual(owners, {fi.PROFILE_OK, fi.PROFILE_PRIVATE, fi.PROFILE_EMPTY}, files)
+        self.assertEqual(snap["found_posts"], 10)
+        self.assertEqual(snap["files_done"], 14)
+        self.assertEqual(snap["tabs"]["collection"]["done"], 10)
+        self.assert_clean(out)
+
+    def test_f3b_collection_posts_second_run_downloads_nothing_new(self):
+        self.ensure_login()
+        snap, out = self.run_job("", "collection_posts", extra={"id": fi.COLL_TRAVEL, "name": "Gezi"})
+        self.assertEqual(snap["files_done"], 8, snap["summary"])
+        snap2, _ = self.run_job("", "collection_posts", out=out, extra={"id": fi.COLL_TRAVEL, "name": "Gezi"})
+        self.assertEqual(snap2["files_done"], 0)
+        self.assertEqual(snap2["files_skipped"], 8)
+        self.assertEqual(len(self.coll_files(out, "Gezi")), 8)
+
+    def test_f4_all_saved_scrolls_when_requests_are_refused(self):
+        self.ensure_login()
+        self.fake.coll_rest_refused = True
+        snap, out = self.run_job("", "collection_posts", extra={
+            "id": fi.COLL_ALL, "name": "Tüm kaydedilenler", "type": "ALL_MEDIA_AUTO_COLLECTION"})
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertEqual(len(self.coll_files(out, "Tüm kaydedilenler")), 22, self.files(out))   # 14 gönderi + 8 gezi
+
+    def test_f4b_rate_limited_requests_fall_back_to_scroll(self):
+        self.ensure_login()
+        self.fake.coll_rate_always = True
+        snap, out = self.run_job("", "collection_posts", extra={"id": fi.COLL_RECIPES, "name": "Tarifler"})
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertEqual(len(self.coll_files(out, "Tarifler")), 14)
+
+    def test_f5_collection_scan_lists_accounts(self):
+        self.ensure_login()
+        snap, out = self.run_job("", "collection_scan", extra={"id": fi.COLL_RECIPES, "name": "Tarifler"})
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        self.assertEqual(snap["coll_id"], fi.COLL_RECIPES)
+        accounts = snap["coll_accounts"]
+        self.assertEqual([a["username"] for a in accounts], [fi.PROFILE_OK, fi.PROFILE_EMPTY, fi.PROFILE_PRIVATE])   # eşit sayıda: ada göre
+        self.assertEqual([a["count"] for a in accounts], [6, 2, 2])
+        self.assertEqual([a["private"] for a in accounts], [False, False, True])
+        self.assertTrue(accounts[0]["pic"].startswith(self.fake.base), accounts[0])
+        self.assertEqual(self.files(out), [])           # tarama hiçbir şey indirmez
+
+    def test_f6_selected_accounts_are_downloaded_as_profiles(self):
+        self.ensure_login()
+        os.environ["INSTAGRAM_INDIRICI_ACCOUNT_WAIT"] = "0"
+        try:
+            snap, out = self.run_job("", "collection_accounts", extra={
+                "id": fi.COLL_RECIPES, "name": "Tarifler", "accounts": [fi.PROFILE_OK, fi.PROFILE_EMPTY]},
+                limit=5, stories=False, highlights=False, avatar=False)
+        finally:
+            os.environ.pop("INSTAGRAM_INDIRICI_ACCOUNT_WAIT", None)
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        files = self.files(out)
+        self.assertTrue(any(f.startswith(f"{fi.PROFILE_OK}/Gönderiler/") for f in files), files)
+        self.assertFalse(any(f.startswith(f"{fi.PROFILE_PRIVATE}/") for f in files), files)     # seçilmedi
+        self.assertFalse(any(f.startswith("Koleksiyonlar/") for f in files), files)
+        keys = self.keys(snap)
+        self.assertEqual(keys.count("engine.coll_account_n"), 2, keys)
+        self.assertIn("engine.empty", [(n or {}).get("key") for n in snap["notes"]])
+
+    def test_f7_collection_without_selection_is_refused(self):
+        from instagram_indirici.engine import Engine, Job
+
+        engine = Engine()
+        self.assertEqual(engine.start(Job("", "collection_posts", {}, {})).key, "engine.coll_pick_one")
+        self.assertEqual(engine.start(Job("", "collection_scan", {}, {})).key, "engine.coll_pick_one")
+        self.assertEqual(engine.start(Job("", "collection_accounts", {}, {"id": "1", "accounts": []})).key,
+                         "engine.coll_pick_accounts")
+        self.assertFalse(engine.running)
 
 
 if __name__ == "__main__":

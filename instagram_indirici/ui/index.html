@@ -237,7 +237,8 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
   background: var(--surface); border-top: 1px solid var(--line);
   padding-bottom: env(safe-area-inset-bottom);
 }
-.tabs-in { max-width: 640px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); }
+.tabs-in { max-width: 640px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
+.is-mobile .tabs-in { grid-template-columns: repeat(3, 1fr); }
 .tab {
   background: none; border: 0; cursor: pointer; color: var(--muted); padding: 10px 4px 9px;
   display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 13px; font-weight: 500; min-height: 62px;
@@ -268,6 +269,33 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
 .wz-actions { display: grid; gap: 6px; }
 .wz-actions .start { margin: 0; }
 .wz-actions .skip { background: none; border: 0; cursor: pointer; color: var(--muted); font-size: 16px; min-height: 48px; }
+
+.coll-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.coll { display: grid; grid-template-columns: 56px 1fr auto; gap: 14px; align-items: center; background: var(--surface); border-radius: 18px; padding: 12px 16px; margin-bottom: 8px; }
+.coll .cv { width: 56px; height: 56px; border-radius: 14px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 700; font-size: 20px; overflow: hidden; }
+.coll .cv img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.coll .nm { font-weight: 600; overflow-wrap: anywhere; }
+.coll .meta { color: var(--muted); font-size: 14px; }
+.coll .btn { min-height: 40px; padding: 0 14px; font-size: 14.5px; }
+.coll-opt { display: block; background: var(--surface); border-radius: 18px; padding: 16px 18px; margin-bottom: 10px; }
+.coll-opt .btn { display: block; width: 100%; min-height: 48px; }
+.coll-opt .btn:not(.primary) { background: var(--accent-soft); color: var(--accent); }
+.coll-opt p { color: var(--muted); font-size: 14px; margin: 8px 2px 0; line-height: 1.45; }
+#coll-error:empty, #coll-status:empty { display: none; }
+#coll-status { margin-top: 10px; }
+.acc-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; margin: 18px 4px 10px; }
+.acc-head b { font-size: 17px; }
+.acc-tools { display: flex; gap: 8px; flex-wrap: wrap; }
+.acc-tools .btn { min-height: 38px; padding: 0 12px; font-size: 14px; }
+.acc { display: grid; grid-template-columns: 26px 46px 1fr; gap: 12px; align-items: center; background: var(--surface); border-radius: 16px; padding: 10px 14px; margin-bottom: 6px; cursor: pointer; }
+.acc input { width: 22px; height: 22px; accent-color: var(--btn); }
+.acc .av { width: 46px; height: 46px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 700; font-size: 19px; text-transform: uppercase; overflow: hidden; }
+.acc .av img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.acc .nm { font-weight: 600; overflow-wrap: anywhere; }
+.acc .meta { color: var(--muted); font-size: 14px; }
+.acc .lock { color: var(--err); font-size: 13px; margin-left: 6px; }
+.acc-go { position: sticky; bottom: 76px; padding-top: 10px; }
+.acc-go .btn { width: 100%; min-height: 52px; box-shadow: 0 6px 20px rgba(0,0,0,.35); }
 
 .is-mobile .desktop-only { display: none !important; }
 .is-desktop .mobile-only { display: none !important; }
@@ -393,6 +421,51 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
 
     <button class="start" id="start" type="button" data-i18n="ui.start"></button>
     <div class="form-error" id="form-error" role="alert"></div>
+  </section>
+
+  <!-- ===================== KOLEKSİYONLAR ===================== -->
+  <section id="view-collections" data-view="collections" role="tabpanel" aria-labelledby="tab-collections" hidden>
+    <header class="view-head">
+      <h1 data-i18n="ui.coll_title"></h1>
+      <p class="lead" data-i18n="ui.coll_lead"></p>
+    </header>
+    <section class="card" id="coll-top">
+      <div class="coll-actions">
+        <button class="btn primary" id="coll-load" type="button"></button>
+        <button class="btn" id="coll-stop" type="button" hidden data-i18n="ui.stop"></button>
+      </div>
+      <p class="sub" id="coll-status" aria-live="polite"></p>
+      <div class="form-error" id="coll-error" role="alert"></div>
+    </section>
+    <div id="coll-list"></div>
+    <div class="empty" id="coll-empty">
+      <b data-i18n="ui.coll_empty_title"></b>
+      <span data-i18n="ui.coll_empty_text"></span>
+    </div>
+    <div id="coll-detail" hidden>
+      <button class="btn" id="coll-back" type="button" data-i18n="ui.coll_back"></button>
+      <h2 id="coll-name" style="margin:16px 4px 12px"></h2>
+      <div class="coll-opt">
+        <button class="btn primary" id="coll-posts" type="button" data-i18n="ui.coll_posts_btn"></button>
+        <p data-i18n="ui.coll_posts_hint"></p>
+      </div>
+      <div class="coll-opt">
+        <button class="btn" id="coll-accounts" type="button" data-i18n="ui.coll_accounts_btn"></button>
+        <p data-i18n="ui.coll_accounts_hint"></p>
+      </div>
+      <div id="acc-box" hidden>
+        <div class="acc-head">
+          <b id="acc-title"></b>
+          <div class="acc-tools">
+            <button class="btn" id="acc-all" type="button" data-i18n="ui.coll_select_all"></button>
+            <button class="btn" id="acc-none" type="button" data-i18n="ui.coll_select_none"></button>
+          </div>
+        </div>
+        <p class="note-foot" data-i18n="ui.coll_note_locked" style="margin:0 6px 10px"></p>
+        <div id="acc-list"></div>
+        <div class="acc-go"><button class="btn primary" id="acc-download" type="button"></button></div>
+      </div>
+    </div>
   </section>
 
   <!-- ===================== GEÇMİŞ ===================== -->
@@ -558,6 +631,10 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
     <button class="tab" id="tab-download" role="tab" type="button" data-tab="download" aria-selected="true" aria-controls="view-download">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v10m0 0l-4-4m4 4l4-4M5 19h14"/></svg>
       <span data-i18n="ui.tab_download"></span>
+    </button>
+    <button class="tab desktop-only" id="tab-collections" role="tab" type="button" data-tab="collections" aria-selected="false" aria-controls="view-collections">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"/></svg>
+      <span data-i18n="ui.tab_collections"></span>
     </button>
     <button class="tab" id="tab-history" role="tab" type="button" data-tab="history" aria-selected="false" aria-controls="view-history">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg>
@@ -1023,6 +1100,120 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
     } catch (e) { $('form-error').textContent = errText(e); }
   });
 
+  // ---------------- koleksiyonlar (Kaydedilenler)
+  let collPick = null, accFor = '', collSig = '', accSig = '';
+  const accChecked = new Set();
+  const isScanMode = (m) => m === 'collections' || m === 'collection_scan';
+  const collName = (c) => c.type === 'ALL_MEDIA_AUTO_COLLECTION' ? t('ui.coll_all') : (c.name || c.id);
+  function imgOrLetter(box, url, letter) {
+    box.textContent = '';
+    if (url) {
+      const img = document.createElement('img');
+      img.referrerPolicy = 'no-referrer'; img.alt = ''; img.loading = 'lazy'; img.src = url;
+      img.onerror = () => { box.textContent = letter; };
+      box.appendChild(img);
+    } else { box.textContent = letter; }
+  }
+  function collExtra() { return collPick ? { id: collPick.id, name: collName(collPick), type: collPick.type } : {}; }
+  async function collStart(mode, extra, toDownloadView) {
+    $('coll-error').textContent = '';
+    try {
+      await api('/api/start', { link: '', mode, extra, settings: readSettings() });
+      if (toDownloadView) { clearLog(); showView('download'); $('progress').hidden = false; }
+      poll(true);
+    } catch (e) { $('coll-error').textContent = errText(e); }
+  }
+  function renderColl(s) {
+    const busy = !!s.running;
+    const scanning = busy && isScanMode(s.mode);
+    $('coll-load').textContent = t((s.collections || []).length ? 'ui.coll_reload' : 'ui.coll_load');
+    $('coll-load').disabled = busy;
+    $('coll-stop').hidden = !scanning;
+    $('coll-posts').disabled = busy; $('coll-accounts').disabled = busy; $('acc-download').disabled = busy || !accChecked.size;
+    let status = '';
+    if (scanning) status = t(s.mode === 'collections' ? 'ui.coll_loading' : 'ui.coll_scanning', { n: s.found_posts || 0 });
+    else if (s.mode && isScanMode(s.mode) && s.phase === 'done') status = renderMsg(s.summary);
+    $('coll-status').textContent = status;
+    const err = (!busy && isScanMode(s.mode) && s.phase === 'error' && s.summary) ? renderMsg(s.summary) : '';
+    if (err) $('coll-error').textContent = err;
+    else if (busy) $('coll-error').textContent = '';
+
+    // koleksiyon listesi
+    const cols = s.collections || [];
+    const sig = JSON.stringify(cols) + '|' + langCode + '|' + (collPick ? collPick.id : '');
+    if (sig !== collSig) {
+      collSig = sig;
+      const list = $('coll-list');
+      list.textContent = '';
+      $('coll-empty').hidden = cols.length > 0 || !!collPick;
+      list.hidden = !!collPick;
+      for (const c of cols) {
+        const row = el('div'); row.className = 'coll'; row.dataset.collId = c.id;
+        const cv = el('div'); cv.className = 'cv'; cv.setAttribute('aria-hidden', 'true');
+        imgOrLetter(cv, c.cover, collName(c).charAt(0));
+        const info = el('div');
+        const nm = el('div', collName(c)); nm.className = 'nm';
+        info.appendChild(nm);
+        if (c.count) { const meta = el('div', t('ui.coll_n', { n: c.count })); meta.className = 'meta'; info.appendChild(meta); }
+        const open = el('button', t('ui.coll_open')); open.type = 'button'; open.className = 'btn primary';
+        open.onclick = () => { collPick = c; accFor = ''; accSig = ''; collSig = ''; accChecked.clear(); renderColl(lastState || s); };
+        row.appendChild(cv); row.appendChild(info); row.appendChild(open);
+        list.appendChild(row);
+      }
+    }
+    $('coll-detail').hidden = !collPick;
+    if (collPick) $('coll-name').textContent = collName(collPick);
+
+    // hesap listesi (taramadan sonra)
+    const showAcc = !!collPick && s.coll_id === collPick.id && !scanning && (s.coll_accounts || []).length > 0;
+    $('acc-box').hidden = !showAcc;
+    if (showAcc) {
+      const accs = s.coll_accounts;
+      const asig = collPick.id + '|' + JSON.stringify(accs.map(a => a.username + a.count));
+      if (asig !== accSig) {
+        accSig = asig;
+        if (accFor !== collPick.id) { accFor = collPick.id; accChecked.clear(); for (const a of accs) if (!a.private) accChecked.add(a.username); }
+        const list = $('acc-list');
+        list.textContent = '';
+        for (const a of accs) {
+          const row = el('label'); row.className = 'acc';
+          const cb = document.createElement('input'); cb.type = 'checkbox'; cb.dataset.user = a.username;
+          cb.checked = accChecked.has(a.username);
+          cb.onchange = () => { if (cb.checked) accChecked.add(a.username); else accChecked.delete(a.username); renderAccCount(); };
+          const av = el('div'); av.className = 'av'; av.setAttribute('aria-hidden', 'true');
+          imgOrLetter(av, a.pic, (a.username || '?').charAt(0));
+          const info = el('div');
+          const nm = el('div', '@' + a.username); nm.className = 'nm';
+          if (a.private) nm.appendChild(el('span', t('ui.coll_locked'))).className = 'lock';
+          const meta = el('div', (a.full_name ? a.full_name + ' · ' : '') + t('ui.coll_saved_n', { n: a.count })); meta.className = 'meta';
+          info.appendChild(nm); info.appendChild(meta);
+          row.appendChild(cb); row.appendChild(av); row.appendChild(info);
+          list.appendChild(row);
+        }
+      }
+      renderAccCount();
+    }
+  }
+  function renderAccCount() {
+    const total = ((lastState && lastState.coll_accounts) || []).length;
+    $('acc-title').textContent = t('ui.coll_accounts_title', { n: total });
+    $('acc-download').textContent = t('ui.coll_download_selected', { n: accChecked.size });
+    $('acc-download').disabled = running || !accChecked.size;
+  }
+  function setAllAcc(on) {
+    accChecked.clear();
+    document.querySelectorAll('#acc-list input').forEach(cb => { cb.checked = on; if (on) accChecked.add(cb.dataset.user); });
+    renderAccCount();
+  }
+  $('coll-load').addEventListener('click', () => collStart('collections', {}, false));
+  $('coll-stop').addEventListener('click', () => api('/api/stop', {}).catch(() => {}));
+  $('coll-back').addEventListener('click', () => { collPick = null; collSig = ''; renderColl(lastState || {}); });
+  $('coll-posts').addEventListener('click', () => collStart('collection_posts', collExtra(), true));
+  $('coll-accounts').addEventListener('click', () => { accFor = ''; accSig = ''; collStart('collection_scan', collExtra(), false); });
+  $('acc-all').addEventListener('click', () => setAllAcc(true));
+  $('acc-none').addEventListener('click', () => setAllAcc(false));
+  $('acc-download').addEventListener('click', () => collStart('collection_accounts', { ...collExtra(), accounts: [...accChecked] }, true));
+
   // ---------------- durum
   const fmtMB = (b) => (b / 1048576).toFixed(b > 104857600 ? 0 : 1) + ' MB';
   function note(kind, nodes) { const d = document.createElement('div'); d.className = 'note ' + kind; for (const n of nodes) d.appendChild(n); return d; }
@@ -1032,6 +1223,7 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
     lastState = s;
     running = s.running;
     renderChromeLogin(s);
+    renderColl(s);
     $('start').textContent = t(running ? 'ui.stop' : 'ui.start');
     $('start').classList.toggle('stop', running);
     ['link', 'paste', 'choose', 'outdir', 'login', 'login-chrome', 'cookie-input', 'cookie-use', 'lang', 'clear-history', 'identity', 'speed', 'clear-cache', 'clear-cookies', 'reset-all', 'verify', 'infocsv', 'capmin', 'datefrom', 'dateto'].forEach(id => { $(id).disabled = running; });
@@ -1047,6 +1239,12 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
     if (s.settings && !settingsLoaded) { applySettings(s.settings); settingsLoaded = true; afterFirstSettings(s); }
 
     if (s.phase === 'idle') return;
+    if (isScanMode(s.mode)) {      // koleksiyon listesi/hesap taraması: ilerleme Koleksiyonlar sekmesinde gösterilir
+      $('progress').hidden = true;
+      pumpLog(s, relabelOnly);
+      lastPhase = s.phase;
+      return;
+    }
     $('progress').hidden = false;
     if (s.folder) lastFolder = s.folder;
 
@@ -1122,7 +1320,7 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
       for (const k of tabKeys) {
         const v = s.tabs[k];
         const tile = el('div'); tile.className = 'tile';
-        tile.appendChild(el('small', k === 'posts' ? t('ui.tab_posts') : k === 'reels' ? t('ui.tab_reels') : k === 'reposts' ? t('ui.tab_reposts') : k === 'tagged' ? t('ui.tab_tagged') : k === 'stories' ? t('ui.tab_stories') : k === 'highlights' ? t('ui.tab_highlights') : t('ui.tab_avatar')));
+        tile.appendChild(el('small', k === 'posts' ? t('ui.tab_posts') : k === 'reels' ? t('ui.tab_reels') : k === 'reposts' ? t('ui.tab_reposts') : k === 'tagged' ? t('ui.tab_tagged') : k === 'collection' ? t('ui.tab_collection') : k === 'stories' ? t('ui.tab_stories') : k === 'highlights' ? t('ui.tab_highlights') : t('ui.tab_avatar')));
         const b = el('b', `${v.done + v.skipped}/${v.found}`);
         if (v.failed) b.appendChild(el('em', t('ui.tab_failed', { n: v.failed })));
         tile.appendChild(b);
@@ -1178,6 +1376,13 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
 
     $('done-actions').hidden = running || (s.mode === 'login' || s.mode === 'cookie') || !(s.files_done || s.files_skipped);
 
+    pumpLog(s, relabelOnly);
+    if (lastPhase !== s.phase && s.phase === 'error') $('details').open = true;
+    if (lastPhase && lastPhase !== s.phase && !running && view === 'history') loadHistory();
+    lastPhase = s.phase;
+  }
+
+  function pumpLog(s, relabelOnly) {
     if (!relabelOnly && s.logs && s.logs.length) {
       const log = $('log');
       const atBottom = log.scrollTop + log.clientHeight >= log.scrollHeight - 10;
@@ -1189,9 +1394,6 @@ summary { cursor: pointer; color: var(--muted); font-size: 14px; }
       if (atBottom) log.scrollTop = log.scrollHeight;
     }
     if (!relabelOnly) logNext = s.log_next;
-    if (lastPhase !== s.phase && s.phase === 'error') $('details').open = true;
-    if (lastPhase && lastPhase !== s.phase && !running && view === 'history') loadHistory();
-    lastPhase = s.phase;
   }
 
   const logEntries = [];

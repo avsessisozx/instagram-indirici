@@ -292,7 +292,7 @@ jobs:
             dist/InstagramIndirici-apk/*.apk
             dist/InstagramIndirici-Chrome/InstagramIndirici-Chrome.zip
           body: |
-            **Bu sürümde:** Öne çıkanlar artık iniyor: Instagram öne çıkan sayfasında "Hikayeyi Gör" onayı istiyor, program bu düğmeye basıyor (karşı taraf izleyenlerde hesabını görebilir). Windows, Android ve Chrome eklentisinde.
+            **Bu sürümde (yalnız Windows):** Yeni **Koleksiyonlar** sekmesi. Instagram'da kaydettiğin koleksiyonlar listelenir. Bir koleksiyonun tüm gönderilerini tek klasöre indirebilir ya da koleksiyondaki hesapları listeleyip seçtiklerinin tüm profilini indirebilirsin. Sahte Instagram'la test edildi, gerçek hesapta henüz denenmedi. Instagram doğrudan isteği reddederse program sayfayı kaydırarak okur. Android ve Chrome eklentisinde henüz yok.
 
             **Windows:** `InstagramIndirici.exe` dosyasını indir, çift tıklayıp aç. Kurulum gerekmez.
             İlk açılışta Windows "Bilgisayarınız korundu" uyarısı verebilir: **Ek bilgi → Yine de çalıştır**.

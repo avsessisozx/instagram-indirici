@@ -39,6 +39,12 @@ PAGE = 12
 LOGGED_OUT_PAGES = 2          # giriş yapmadan en fazla bu kadar sayfa görünür (24 gönderi)
 BASE_TS = 1760000000          # 2025-10-09 civarı
 
+ME = "nowoserhi"                   # giriş yapmış sahte hesap (current_user yanıtındaki kullanıcı)
+COLL_ALL = "17900000000"
+COLL_RECIPES = "17900000001"
+COLL_TRAVEL = "17900000002"
+COLL_AUDIO = "17900000009"
+
 JPEG = b"\xff\xd8\xff\xe0" + b"\x00\x10JFIF\x00" + b"x" * 2000 + b"\xff\xd9"
 MP4 = b"\x00\x00\x00\x18ftypmp42" + b"\x00" * 3000
 WEBP = b"RIFF\x00\x00\x00\x00WEBPVP8 " + b"w" * 1500
@@ -261,6 +267,40 @@ class Data:
             return []
         return [self._post(PROFILE_EMPTY, 300 + n) for n in range(2)]
 
+    COLLECTIONS = {COLL_RECIPES: "Tarifler", COLL_TRAVEL: "Gezi"}
+
+    def _saved(self, username: str, i: int) -> Dict[str, Any]:
+        item = self._post(username, i)
+        item["user"] = dict(self.user(username))      # kaydedilen gönderide sahibin fotoğrafı ve gizlilik durumu da gelir
+        return item
+
+    def coll_items(self, cid: str) -> List[Dict[str, Any]]:
+        """Kaydedilenler koleksiyonlarının içeriği (sahipleri farklı hesaplar)."""
+        recipes = ([self._saved(PROFILE_OK, i) for i in (1, 2, 3, 4, 5, 6)]
+                   + [self._saved(PROFILE_PRIVATE, 1), self._saved(PROFILE_PRIVATE, 2)]
+                   + [self._saved(PROFILE_EMPTY, 500), self._saved(PROFILE_EMPTY, 501)])
+        travel = [self._saved(PROFILE_OK, i) for i in (10, 11, 12)] + [self._saved(PROFILE_EMPTY, 502)]
+        if cid == COLL_RECIPES:
+            return recipes
+        if cid == COLL_TRAVEL:
+            return travel
+        if cid == COLL_ALL:
+            return recipes + travel
+        return []
+
+    def coll_entries(self) -> List[Dict[str, Any]]:
+        out = []
+        for cid, name in self.COLLECTIONS.items():
+            items = self.coll_items(cid)
+            out.append({"collection_id": cid, "collection_name": name, "collection_type": "MEDIA",
+                        "collection_media_count": len(items),
+                        "cover_media_list": [{"image_versions2": self._image(int(items[0]["pk"]))}]})
+        out.append({"collection_id": COLL_ALL, "collection_name": "All posts", "collection_type": "ALL_MEDIA_AUTO_COLLECTION",
+                    "collection_media_count": len(self.coll_items(COLL_ALL))})
+        out.append({"collection_id": COLL_AUDIO, "collection_name": "Audio", "collection_type": "AUDIO_AUTO_COLLECTION",
+                    "collection_media_count": 0})
+        return out
+
     def find_post(self, code: str) -> Optional[Dict[str, Any]]:
         for items in self.posts.values():
             for item in items:
@@ -315,6 +355,8 @@ class FakeInstagram:
         self.reels_media_fail_n = 0    # reels_media ilk bu kadar istekte HTTP 500 döner, sonra düzelir
         self.clips_refused = False     # Reels liste isteği reddedilir (sayfa kaydırma yedeği denenir)
         self.usertags_refused = False  # Etiketlenenler liste isteği reddedilir
+        self.coll_rest_refused = False # koleksiyon liste ve içerik istekleri HTTP 404 (kaydırma yedeği denenir)
+        self.coll_rate_always = False  # koleksiyon içerik istekleri hep 429
         self.requests: List[str] = []
         self.api_calls: List[Tuple[str, bool]] = []   # (yol, giriş var mı)
 
@@ -514,6 +556,20 @@ def make_handler(fake: FakeInstagram):
                     return self.html("<html><body>Sorry, this page isn't available.</body></html>", 404)
                 return self.html("<html><body>" + _relay({"xdt_api__v1__feed__reels_media": {"reels_media": [{
                     "id": USER_IDS[name], "items": d.stories(name)}]}}) + "</body></html>")
+            m = re.match(r"^/([A-Za-z0-9._]+)/saved/(.*)$", path)
+            if m and m.group(1).lower() == ME:
+                if not self.logged_in():
+                    return self.html("<html><body>Giriş yap</body></html>")
+                rest = m.group(2).strip("/")
+                if not rest:
+                    return self.html("<html><body>Kaydedilenler" + _relay({"xdt_api__v1__collections__list": {
+                        "items": d.coll_entries()}}) + "</body></html>")
+                parts = rest.split("/")
+                cid = COLL_ALL if parts[0] == "all-posts" else parts[-1]
+                first = d.coll_items(cid)[:PAGE]
+                return self.html("<html><body style='margin:0'>" + _relay({"xdt_api__v1__feed__collection": {
+                    "items": [{"media": i} for i in first]}}) + COLL_SCRIPT.replace("__CID__", cid)
+                    + "<div id='grid'></div></body></html>")
             m = re.match(r"^/([A-Za-z0-9._]+)/(reels|tagged|reposts)/?$", path)
             if m and m.group(1).lower() in USER_IDS:
                 name, tab = m.group(1).lower(), m.group(2)
@@ -555,6 +611,17 @@ def make_handler(fake: FakeInstagram):
         def scroll_page(self, query) -> None:
             """Profil sayfasının kaydırınca kendi yüklediği gönderiler (son çare yolunu denemek için)."""
             d = fake.data
+            if query.get("coll"):
+                if not self.logged_in():
+                    return self.json({"status": "fail"}, 401)
+                cid = (query.get("coll") or [""])[0]
+                try:
+                    page = int((query.get("scroll") or ["1"])[0])
+                except ValueError:
+                    page = 1
+                chunk = d.coll_items(cid)[page * PAGE:(page + 1) * PAGE]
+                return self.json({"data": {"xdt_api__v1__feed__collection": {"items": [{"media": i} for i in chunk]}},
+                                  "status": "ok"})
             if query.get("hlpage"):
                 hid = (query.get("hlpage") or [""])[0]
                 if not self.logged_in() or hid not in d.HIGHLIGHTS:
@@ -759,6 +826,27 @@ def make_handler(fake: FakeInstagram):
                 if not item:
                     return self.json({"message": "Media not found or unavailable", "status": "fail"}, 404)
                 return self.json({"items": [item], "num_results": 1, "more_available": False, "status": "ok"})
+            if path == "/api/v1/collections/list/":
+                if not self.logged_in():
+                    return self.login_required()
+                if fake.coll_rest_refused:
+                    return self.json({"message": "not found", "status": "fail"}, 404)
+                return self.json({"items": d.coll_entries(), "more_available": False, "status": "ok"})
+            m = re.match(r"^/api/v1/feed/collection/(\d+)/(?:posts/)?$", path)
+            if m or path == "/api/v1/feed/saved/posts/":
+                if not self.logged_in():
+                    return self.login_required()
+                if fake.coll_rest_refused:
+                    return self.json({"message": "not found", "status": "fail"}, 404)
+                if fake.coll_rate_always:
+                    return self.json({"message": "rate limited", "status": "fail"}, 429)
+                items = d.coll_items(m.group(1) if m else COLL_ALL)
+                start = int((query.get("max_id") or ["0"])[0] or 0)
+                chunk = items[start:start + PAGE]
+                more = start + PAGE < len(items)
+                return self.json({"items": [{"media": i} for i in chunk], "num_results": len(chunk),
+                                  "more_available": more, "next_max_id": str(start + PAGE) if more else None,
+                                  "status": "ok"})
             self.json({"message": "not found", "status": "fail"}, 404)
 
         def graphql(self, form) -> None:
@@ -798,6 +886,27 @@ def make_handler(fake: FakeInstagram):
             self.json({"errors": [{"message": "execution error"}], "status": "fail"})
 
     return Handler
+
+
+COLL_SCRIPT = """<script>
+(() => {
+  let page = 1, busy = false, done = false;
+  const grid = () => document.getElementById('grid');
+  function grow() { const d = document.createElement('div'); d.style.height = '1600px'; d.textContent = 'kaydedilenler'; grid().appendChild(d); }
+  addEventListener('DOMContentLoaded', () => { grow(); grow(); });
+  setInterval(async () => {
+    if (busy || done || !grid()) return;
+    if (innerHeight + scrollY < document.body.scrollHeight - 400) return;
+    busy = true;
+    try {
+      const r = await fetch('/graphql/query/?coll=__CID__&scroll=' + page);
+      const j = await r.json();
+      if (!j.data.xdt_api__v1__feed__collection.items.length) done = true;
+      page += 1; grow();
+    } catch (e) {} finally { busy = false; }
+  }, 300);
+})();
+</script>"""
 
 
 SCROLL_SCRIPT = """<script>

@@ -10,6 +10,7 @@ Herkese açık Instagram profillerindeki fotoğraf ve videoları toplu indiren, 
 - **İçerik seçimi:** fotoğraf ve video, sadece video ya da sadece fotoğraf. İstersen sadece en yeni 12, 30, 50… gönderi.
 - En yüksek kaliteyi indirir. Daha önce inenleri tekrar indirmez; yarıda kalan işe kaldığı yerden devam edersin.
 - **Sadece yenileri:** bir profili bir kez tamamen indirdikten sonra tekrar başlattığında sadece yeni gönderilere bakar.
+- **Koleksiyonlar (Windows):** Instagram'da kaydettiğin koleksiyonları listeler. Bir koleksiyondaki tüm gönderileri tek klasöre (`Koleksiyonlar\<koleksiyon adı>\`) indirir ya da koleksiyonda gönderisi olan hesapları listeler; işaretlediklerinin tüm profilini indirirsin. Giriş gerekir.
 
 ## İndirme ve kurulum
 

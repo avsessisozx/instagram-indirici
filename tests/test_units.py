@@ -800,3 +800,48 @@ class ResetEndpointTests(ServerFeatureTests):
                 self.assertFalse((base / "tarayici-chrome").exists())
                 self.assertFalse((base / "oturum.json").exists())
                 self.assertIs(self.state.engine.logged_in, False)
+
+
+class CollectionHelperTests(unittest.TestCase):
+    def setUp(self):
+        self.data = fi.Data("http://x")
+
+    def test_find_collections_skips_audio_and_dedupes(self):
+        found = media.find_collections({"items": self.data.coll_entries() + self.data.coll_entries()})
+        self.assertEqual([c["name"] for c in found], ["Tarifler", "Gezi", "All posts"])
+        self.assertEqual(found[0]["count"], 10)
+        self.assertEqual(found[2]["type"], "ALL_MEDIA_AUTO_COLLECTION")
+        self.assertTrue(found[0]["cover"].endswith("_n.jpg") or "_" in found[0]["cover"], found[0])
+
+    def test_find_collections_ignores_posts_and_other_json(self):
+        self.assertEqual(media.find_collections({"items": [self.data._post(fi.PROFILE_OK, 3)]}), [])
+        self.assertEqual(media.find_collections(None), [])
+
+    def test_collection_folder_is_safe(self):
+        self.assertEqual(media.collection_folder("Tarifler"), "Koleksiyonlar/Tarifler")
+        self.assertEqual(media.collection_folder('a/b:c*"?', "9"), "Koleksiyonlar/a b c")
+        self.assertEqual(media.collection_folder("", "9"), "Koleksiyonlar/9")
+        self.assertEqual(media.collection_folder("CON", "9"), "Koleksiyonlar/CON_")
+
+    def test_flatten_puts_every_file_in_one_folder_with_owner_prefix(self):
+        album = self.data._saved(fi.PROFILE_OK, 2)
+        post = media.build_post(album, content="all", caption_min=100)
+        media.flatten_for_collection(post)
+        self.assertEqual(len(post.files), 3)
+        for f in post.files:
+            self.assertNotIn("/", f.rel_stem)
+            self.assertTrue(f.rel_stem.startswith(fi.PROFILE_OK + "_"), f.rel_stem)
+        self.assertEqual(post.owner_id, "")          # geçmişe yazılmaz
+        self.assertEqual(post.caption_stem, "")
+        self.assertEqual(post.section, "collection")
+
+    def test_accounts_of_counts_and_sorts(self):
+        from instagram_indirici.engine import Engine
+        accounts = Engine._accounts_of(self.data.coll_items(fi.COLL_ALL))
+        self.assertEqual([(a["username"], a["count"]) for a in accounts],
+                         [(fi.PROFILE_OK, 9), (fi.PROFILE_EMPTY, 3), (fi.PROFILE_PRIVATE, 2)])
+        self.assertTrue(accounts[2]["private"])
+        self.assertTrue(accounts[0]["pic"].startswith("http://x"))
+
+    def test_owner_summary_empty_without_username(self):
+        self.assertEqual(media.owner_summary({"pk": "1"}), {})
