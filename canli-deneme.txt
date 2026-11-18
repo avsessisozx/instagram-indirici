@@ -1,0 +1,7 @@
+  [info] Microsoft Edge opened. Don't close this window until the job is done.
+Tarayıcı: Microsoft Edge
+  [info] Opening the profile of @instagram…
+  [debug] page https://www.instagram.com/instagram/ -> HTTP 429 (boş hata sayfası)
+  [warn] Instagram refused to open the page (HTTP 429); retrying in 15 seconds…
+  [debug] page https://www.instagram.com/instagram/ -> HTTP 429 (boş hata sayfası)
+PROFİL AÇILAMADI: browser.rate_limited {}
