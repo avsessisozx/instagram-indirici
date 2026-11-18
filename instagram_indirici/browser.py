@@ -1076,8 +1076,6 @@ class InstagramBrowser:
     async def _feed_scroll(self, info: ProfileInfo, state: "_FeedState") -> str:
         """Son çare: profil sayfasını kaydırıp sayfanın kendi yüklediği gönderileri yakalar."""
         idle_limit = float(os.environ.get("INSTAGRAM_INDIRICI_IDLE", "25"))
-        if idle is not None:
-            idle_limit = min(idle_limit, idle)
         page = self.page
         tasks: List[asyncio.Task] = []
         box: Dict[str, Any] = {"up_to_date": False, "last": time.monotonic(), "responses": 0}
@@ -1416,13 +1414,15 @@ class InstagramBrowser:
         return name
 
     async def _capture_scroll(self, url: str, take: Callable[[Any], None], progress: Callable[[], int],
-                              stop: Callable[[], bool], idle: Optional[float] = None) -> str:
+                              stop: Callable[[], bool], idle: Optional[float] = None, strict: bool = False) -> str:
         """Sayfayı açıp kaydırır; sayfanın kendi yüklediği JSON yanıtlarını take() ile işler.
 
         progress(): şimdiye kadar bulunan öğe sayısı (yeni öğe gelmeyince idle süresi sonunda biter).
         stop(): True olunca (ör. sayı sınırı) hemen biter. Dönüş: end | stalled | limit.
         """
         idle_limit = float(os.environ.get("INSTAGRAM_INDIRICI_IDLE", "25"))
+        if idle is not None:
+            idle_limit = min(idle_limit, idle)
         page = self.page
         tasks: List[asyncio.Task] = []
         base = base_url()
@@ -1461,12 +1461,12 @@ class InstagramBrowser:
         try:
             status = await self.goto(url)
             self.log("info", f"sayfa açıldı: HTTP {status} {page.url.split('?', 1)[0]}")
-            if status == 404:
+            if strict and status == 404:
                 raise NotFound()
             await self._sleep(2)
             for data in await self._embedded_data():
                 take(data)
-            if progress() == 0:
+            if strict and progress() == 0:
                 try:
                     if await page.query_selector("input[name=username],input[name=password]"):
                         raise LoginRequired()
@@ -1564,7 +1564,7 @@ class InstagramBrowser:
             for entry in media.find_collections(data):
                 found.setdefault(entry["id"], entry)
 
-        await self._capture_scroll(f"{base_url()}/{me}/saved/", take, lambda: len(found), lambda: False, idle=8)
+        await self._capture_scroll(f"{base_url()}/{me}/saved/", take, lambda: len(found), lambda: False, idle=8, strict=True)
         return list(found.values())
 
     async def collect_collection(self, coll: Dict[str, Any], *, limit: int,
@@ -1660,7 +1660,7 @@ class InstagramBrowser:
         def take(data: Any) -> None:
             state.accept(media.find_media(data), "scroll_collection")
 
-        return await self._capture_scroll(url, take, lambda: len(state.seen), lambda: state.done)
+        return await self._capture_scroll(url, take, lambda: len(state.seen), lambda: state.done, strict=True)
 
     # ------------------------------------------------------------ hikayeler ve öne çıkanlar
     @staticmethod
