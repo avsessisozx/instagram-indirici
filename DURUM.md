@@ -3,7 +3,7 @@
 > Claude'un çalışma notu. Yalnızca `durum` dalında durur; `main`'e, README'ye ve sürüm notlarına girmez.
 > Yeni sohbette önce bunu oku, repoyu baştan tarama. Her sürümden sonra güncelle.
 
-Son güncelleme: 2026-10-29 · Son sürüm: **v1.10.0** (2026-10-29)
+Son güncelleme: 2026-11-19 · Son sürüm: **v1.11.0** (2026-11-18, yalnız Windows özelliği)
 
 ## Ne yapıyor
 Herkese açık Instagram profillerini toplu indirir: gönderiler/reels/albümler, hikayeler, öne çıkanlar,
@@ -154,6 +154,14 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   Android JVM + emülatör yeşil. Sahte sunucuda yeni bayraklar: stories_500, highlights_500, reels_media_fail_n, clips_refused.
 
 ## Yarım / sıradaki
+- v1.11.0 (2026-11-18) YENİ, yalnız Windows: **Koleksiyonlar** sekmesi (masaüstüne özel; Android ve Chrome eklentisinde YOK, kullanıcı "altyapı çalışırsa diğerlerine de ekle" dedi → sıradaki adım).
+  İki mod: (a) koleksiyonun tüm gönderilerini `Koleksiyonlar/<koleksiyon adı>/<sahip>_<dosya>` altına indir (geçmişe yazılmaz); (b) koleksiyondaki hesapları profil fotoğrafı + ad + bilgiyle onay kutulu listele, hepsini/hiçbirini seç, seçilenlerin tüm profilini indir (mevcut `_profile`; hesaplar arası ~20 sn bekler, 429'da durur).
+  Yöntem: önce REST (`/api/v1/collections/list/`, `/api/v1/feed/collection/{id}/posts/`, ardından `/api/v1/feed/collection/{id}/`, "tüm kaydedilenler" için `/api/v1/feed/saved/posts/`); olmazsa `/<ben>/saved/`, `/saved/<slug>/<id>/`, `/saved/all-posts/` sayfalarını kaydırıp sayfanın kendi JSON'unu yakalar (`media.find_collections`, `browser.collections_list/collect_collection/_capture_scroll`).
+  Engine modları: `collections`, `collection_scan`, `collection_posts`, `collection_accounts`; taranan öğeler bellekte (`Engine._coll_items`). Dosyalar: media.py, browser.py, engine.py, server.py, ui/index.html, ceviriler (tr/en ~40 anahtar).
+  DOĞRULANDI (sahte Instagram): birim 88, uçtan uca 53 (f1–f7), Playwright ile arayüz baştan sona, CI yeşil (Windows gerçek Edge, Android, eklenti). Sürüm yayında.
+  DOĞRULANMADI (gerçek Instagram): yukarıdaki koleksiyon uç adları TAHMİN (tek kanıt: özel API'de `collection_feed` var); kaydırma yedeğinin gerçek sitede çalışıp çalışmadığı; koleksiyon sayfasının JSON biçimi; hız sınırı (429) davranışı. Kullanıcının ilk gerçek denemesi bekleniyor; hata olursa uygulamadaki kopyalanabilir raporu isteyip uç adlarını/yakalamayı ona göre düzelt.
+  CI notları: Android işinde sahte sunucu 2 sn'de açılmıyordu → 30 sn'ye kadar bekleyen döngü; `eklenti` işi `ubuntu-24.04`'e sabitlendi (Playwright Ubuntu 26'yı desteklemiyor, `ubuntu-latest` artık 26). Yerel `gelistirme` geçmişi main ile ilişkisizdi; main'in üstüne aynı ağaçla tek commit atılarak yayınlandı.
+  Devam noktası: kullanıcı gerçek hesapta denesin → sonuca göre düzelt → sonra Android + Chrome eklentisine aynı özellik.
 - v1.10.0 (2026-10-29) YENİ: **Chrome eklentisi** (`chrome_indirici/`, release'e `InstagramIndirici-Chrome.zip` olarak eklenir; EXE'ye gömülü DEĞİL, eski küçük `instagram_indirici/chrome_eklenti` köprüsünden ayrı).
   Mimari: `hook.js` (MAIN dünyası, sayfanın fetch/XHR yanıtlarını dinler) → `bridge.js` (içerik betiği; `core.js` ile gönderi/öne çıkan/kullanıcıyı ayıklar, panele "take/scroll/ping" komutlarıyla verir) → `panel.html/js` + `engine.js` (ayrı Instagram penceresi açar, sırayla profil→hikaye→gönderi→reels/yeniden paylaşım/etiketlenen→öne çıkan; sayfayı kaydırır; `chrome.downloads` ile `İndirilenler/<klasör>/<profil>/…` altına iner). Elle API isteği YOK: yalnız sayfanın kendi yanıtları (1.9.x'te elle isteklerin 404/500/HTML dönmesinin çaresi).
   `core.js` = media.py/naming.py/links.py'nin JS karşılığı; `mp4mux.js` = tools/mp4mux_ref.py (Android test vektörleriyle BAYT BAYT aynı çıktı doğrulandı: vp9+aac, h264). DASH (yüksek kalite) → birleştirip blob olarak indirir, olmazsa normal sürüm. Geçmiş IndexedDB'de (profil kimliği + anahtar); `only_new` için ilk 3 art arda bilinen gönderide durur (önceki tarama tamamlandıysa); tarih aralığı, sayı sınırı, bilgi.csv, uzun açıklama .txt, kopyalanabilir rapor var.
