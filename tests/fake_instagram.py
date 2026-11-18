@@ -356,6 +356,7 @@ class FakeInstagram:
         self.clips_refused = False     # Reels liste isteği reddedilir (sayfa kaydırma yedeği denenir)
         self.usertags_refused = False  # Etiketlenenler liste isteği reddedilir
         self.coll_rest_refused = False # koleksiyon liste ve içerik istekleri HTTP 404 (kaydırma yedeği denenir)
+        self.me_api_429 = False        # current_user ve users/{id}/info hep 429 (kullanıcı adı sayfadan okunmalı)
         self.coll_rate_always = False  # koleksiyon içerik istekleri hep 429
         self.requests: List[str] = []
         self.api_calls: List[Tuple[str, bool]] = []   # (yol, giriş var mı)
@@ -538,7 +539,10 @@ def make_handler(fake: FakeInstagram):
                 # Kullanıcı doğrulamayı tamamlamış gibi birkaç saniye sonra ana sayfaya döner.
                 return self.html("<html><body>Doğrulama<script>setTimeout(()=>location.href='/', 2500)</script></body></html>")
             if path == "/":
-                return self.html("<html><head><title>Instagram</title></head><body>Ana sayfa</body></html>")
+                nav = ("<nav><a href='/'>Ana sayfa</a><a href='/explore/'>Keşfet</a><a href='/reels/'>Reels</a>"
+                       "<a href='/direct/inbox/'>Mesajlar</a>"
+                       f"<a href='/{ME}/'><img alt='{ME} adlı kişinin profil resmi'>Profil</a></nav>") if self.logged_in() else ""
+                return self.html("<html><head><title>Instagram</title></head><body>" + nav + "Ana sayfa</body></html>")
             m = re.match(r"^/stories/highlights/(\d+)/?$", path)
             if m:
                 hid = m.group(1)
@@ -694,6 +698,8 @@ def make_handler(fake: FakeInstagram):
 
         def api_get(self, path: str, query) -> None:
             d = fake.data
+            if fake.me_api_429 and (path == "/api/v1/accounts/current_user/" or re.match(r"^/api/v1/users/\d+/info/$", path)):
+                return self.json({"message": "rate limited", "status": "fail"}, 429)
             if path == "/api/v1/accounts/current_user/":
                 if not self.logged_in():
                     return self.login_required()

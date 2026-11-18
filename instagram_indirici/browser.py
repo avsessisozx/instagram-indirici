@@ -68,7 +68,7 @@ PAGE_DATA_JS = r"""() => {
   const out = [];
   for (const s of document.querySelectorAll('script[type="application/json"]')) {
     const t = s.textContent || '';
-    if (t.length > 50 && (t.indexOf('username') >= 0 || t.indexOf('image_versions2') >= 0 || t.indexOf('display_url') >= 0 || t.indexOf('collection_id') >= 0)) out.push(t);
+    if (t.length > 50 && (t.indexOf('username') >= 0 || t.indexOf('image_versions2') >= 0 || t.indexOf('display_url') >= 0 || t.indexOf('collection_id') >= 0 || t.indexOf('collection_name') >= 0 || t.indexOf('saved_collection') >= 0)) out.push(t);
   }
   return out;
 }"""
@@ -1329,7 +1329,18 @@ class InstagramBrowser:
 
     # ------------------------------------------------------------ kaydedilenler: koleksiyonlar
     async def my_username(self) -> str:
-        """Giriş yapmış hesabın kullanıcı adı (kaydedilenler sayfasının adresi için)."""
+        """Giriş yapmış hesabın kullanıcı adı (kaydedilenler sayfasının adresi için).
+
+        Önce ana sayfadaki "Profil" bağlantısından okunur (hız sınırına takılan elle istek yok);
+        olmazsa API denenir.
+        """
+        cached = getattr(self, "_me_name", "")
+        if cached:
+            return cached
+        name = await self._my_username_from_page()
+        if name:
+            self._me_name = name
+            return name
         for path, params in (("/api/v1/accounts/current_user/", [("edit", "true")]),):
             try:
                 data = await self.call(path, params=params, what="other", quick=True)
@@ -1337,7 +1348,8 @@ class InstagramBrowser:
                 continue
             user = data.get("user") if isinstance(data, dict) else None
             if isinstance(user, dict) and user.get("username"):
-                return str(user["username"])
+                self._me_name = str(user["username"])
+                return self._me_name
         uid = ""
         try:
             for c in await self.context.cookies([base_url() + "/"]):
@@ -1352,20 +1364,70 @@ class InstagramBrowser:
                 data = None
             user = data.get("user") if isinstance(data, dict) else None
             if isinstance(user, dict) and user.get("username"):
-                return str(user["username"])
+                self._me_name = str(user["username"])
+                return self._me_name
         raise ApiError("collections: username unknown")
 
+    _ME_JS = r"""() => {
+      const skip = new Set(['explore','reels','reel','direct','accounts','stories','p','tv','about','legal','privacy',
+        'web','oauth','challenge','emails','session','developer','directory','lite','notifications','create','settings']);
+      const re = /^\/([A-Za-z0-9._]{1,30})\/?$/;
+      let best = null, bestScore = 0;
+      const cand = [];
+      for (const a of document.querySelectorAll('a[href]')) {
+        let href = a.getAttribute('href') || '';
+        try { href = new URL(href, location.href).pathname; } catch (e) {}
+        const m = re.exec(href);
+        if (!m || skip.has(m[1].toLowerCase())) continue;
+        const label = ((a.getAttribute('aria-label') || '') + ' ' + (a.textContent || '')).trim();
+        const img = a.querySelector('img');
+        const alt = img ? (img.getAttribute('alt') || '') : '';
+        let score = 0;
+        if (/profil|profile/i.test(label)) score = 3;
+        else if (/profil|profile/i.test(alt) && a.closest('nav,[role=navigation]')) score = 2;
+        else if (a.closest('nav,[role=navigation]') && img) score = 1;
+        cand.push(m[1] + ':' + score);
+        if (score > bestScore) { best = m[1]; bestScore = score; }
+      }
+      if (best) return {name: best, cand: cand.slice(0, 12)};
+      const html = document.documentElement.innerHTML;
+      const v = /"viewer"\s*:\s*\{[^{}]{0,400}?"username"\s*:\s*"([A-Za-z0-9._]+)"/.exec(html)
+             || /"username"\s*:\s*"([A-Za-z0-9._]+)"[^{}]{0,400}?"is_viewer"\s*:\s*true/.exec(html);
+      return {name: v ? v[1] : '', cand: cand.slice(0, 12)};
+    }"""
+
+    async def _my_username_from_page(self) -> str:
+        try:
+            await self.goto(base_url() + "/")
+            await asyncio.sleep(2.5)
+            res = await self.page.evaluate(self._ME_JS)
+        except (ApiError, NotFound, RateLimited):
+            return ""
+        except Exception as exc:
+            if self.cancel.is_set():
+                raise
+            self.log("info", f"kullanıcı adı sayfadan okunamadı: {exc}")
+            return ""
+        name = str((res or {}).get("name") or "")
+        if not name:
+            self.log("info", f"kullanıcı adı sayfada bulunamadı (adaylar: {(res or {}).get('cand')}; adres: {self.page.url})")
+        return name
+
     async def _capture_scroll(self, url: str, take: Callable[[Any], None], progress: Callable[[], int],
-                              stop: Callable[[], bool]) -> str:
+                              stop: Callable[[], bool], idle: Optional[float] = None, strict: bool = False) -> str:
         """Sayfayı açıp kaydırır; sayfanın kendi yüklediği JSON yanıtlarını take() ile işler.
 
         progress(): şimdiye kadar bulunan öğe sayısı (yeni öğe gelmeyince idle süresi sonunda biter).
         stop(): True olunca (ör. sayı sınırı) hemen biter. Dönüş: end | stalled | limit.
         """
         idle_limit = float(os.environ.get("INSTAGRAM_INDIRICI_IDLE", "25"))
+        if idle is not None:
+            idle_limit = min(idle_limit, idle)
         page = self.page
         tasks: List[asyncio.Task] = []
         base = base_url()
+
+        diag: Dict[str, Any] = {"json": 0, "matched": 0, "paths": []}
 
         async def handle(response) -> None:
             u = response.url
@@ -1376,7 +1438,20 @@ class InstagramBrowser:
             except Exception:
                 return
             if data is not None:
+                try:
+                    diag["json"] += 1
+                    path = u.split("?", 1)[0][len(base):] or "/"
+                    if path not in diag["paths"] and len(diag["paths"]) < 5:
+                        diag["paths"].append(path)
+                    before = progress()
+                except Exception:
+                    before = 0
                 take(data)
+                try:
+                    if progress() > before:
+                        diag["matched"] += 1
+                except Exception:
+                    pass
 
         def on_response(response) -> None:
             tasks.append(asyncio.ensure_future(handle(response)))
@@ -1384,10 +1459,21 @@ class InstagramBrowser:
         self.log("info", msg("browser.scrolling"))
         page.on("response", on_response)
         try:
-            await self.goto(url)
+            status = await self.goto(url)
+            self.log("info", f"sayfa açıldı: HTTP {status} {page.url.split('?', 1)[0]}")
+            if strict and status == 404:
+                raise NotFound()
             await self._sleep(2)
             for data in await self._embedded_data():
                 take(data)
+            if strict and progress() == 0:
+                try:
+                    if await page.query_selector("input[name=username],input[name=password]"):
+                        raise LoginRequired()
+                except LoginRequired:
+                    raise
+                except Exception:
+                    pass
             last_n = progress()
             last = time.monotonic()
             while True:
@@ -1418,6 +1504,21 @@ class InstagramBrowser:
             page.remove_listener("response", on_response)
             if tasks:
                 await asyncio.gather(*tasks, return_exceptions=True)
+            try:
+                if progress() == 0:
+                    title = ""
+                    try:
+                        title = (await page.title())[:60]
+                    except Exception:
+                        pass
+                    cur = page.url
+                    login = "/accounts/login" in cur or "giriş" in title.lower() or "log in" in title.lower()
+                    self.log("info", f"kaydırma sonuç vermedi: adres={cur.split('?', 1)[0]} başlık='{title}' "
+                                     f"giriş sayfası={'evet' if login else 'hayır'} "
+                                     f"JSON yanıtı={diag['json']} eşleşen={diag['matched']} "
+                                     f"istek yolları={diag['paths']}")
+            except Exception:
+                pass
 
     async def collections_list(self) -> Tuple[List[Dict[str, Any]], str]:
         """Kaydedilenler koleksiyonlarını getirir: (liste, kullanılan yol). Bulunamazsa ApiError/RateLimited."""
@@ -1463,7 +1564,7 @@ class InstagramBrowser:
             for entry in media.find_collections(data):
                 found.setdefault(entry["id"], entry)
 
-        await self._capture_scroll(f"{base_url()}/{me}/saved/", take, lambda: len(found), lambda: False)
+        await self._capture_scroll(f"{base_url()}/{me}/saved/", take, lambda: len(found), lambda: False, idle=8, strict=True)
         return list(found.values())
 
     async def collect_collection(self, coll: Dict[str, Any], *, limit: int,
@@ -1489,8 +1590,11 @@ class InstagramBrowser:
 
         last_reason = "stalled"
         rate_hits = 0
+        skip_rest = False
         for name, run in strategies:
             self._check_cancel()
+            if skip_rest and name.startswith("rest:"):
+                continue
             try:
                 reason = await run()
             except ApiError as exc:
@@ -1501,6 +1605,8 @@ class InstagramBrowser:
             except RateLimited:
                 last_reason = "rate_limited"
                 rate_hits += 1
+                if name.startswith("rest:"):
+                    skip_rest = True
                 continue
             except LoginRequired:
                 if state.seen:
@@ -1554,7 +1660,7 @@ class InstagramBrowser:
         def take(data: Any) -> None:
             state.accept(media.find_media(data), "scroll_collection")
 
-        return await self._capture_scroll(url, take, lambda: len(state.seen), lambda: state.done)
+        return await self._capture_scroll(url, take, lambda: len(state.seen), lambda: state.done, strict=True)
 
     # ------------------------------------------------------------ hikayeler ve öne çıkanlar
     @staticmethod
