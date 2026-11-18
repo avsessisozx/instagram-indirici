@@ -3,7 +3,7 @@
 > Claude'un çalışma notu. Yalnızca `durum` dalında durur; `main`'e, README'ye ve sürüm notlarına girmez.
 > Yeni sohbette önce bunu oku, repoyu baştan tarama. Her sürümden sonra güncelle.
 
-Son güncelleme: 2026-11-19 · Son sürüm: **v1.11.0** (2026-11-18, yalnız Windows özelliği)
+Son güncelleme: 2026-11-19 · Son sürüm: **v1.11.1** (2026-11-19, Koleksiyonlar düzeltmesi, yalnız Windows)
 
 ## Ne yapıyor
 Herkese açık Instagram profillerini toplu indirir: gönderiler/reels/albümler, hikayeler, öne çıkanlar,
@@ -154,6 +154,11 @@ Kullanıcı şimdilik kendisi kullanacak; sunucu gerektirmediği için ileride a
   Android JVM + emülatör yeşil. Sahte sunucuda yeni bayraklar: stories_500, highlights_500, reels_media_fail_n, clips_refused.
 
 ## Yarım / sıradaki
+- v1.11.1 (2026-11-19): kullanıcının İLK GERÇEK denemesi (v1.11.0) başarısız: rapor "collections: not found" — doğrudan koleksiyon isteği "bulunamadı", `current_user`/`users/{id}/info` 429 → `my_username` kullanıcı adı bulamadı → kaydırma yedeği hiç açılmadı.
+  Düzeltme: kullanıcı adı artık Instagram ANA SAYFASINDAKİ "Profil" bağlantısından okunur (`_my_username_from_page`, `_ME_JS`; yalnız nav içindeki avatar kabul edilir), API yalnız yedek; önbellekli (`_me_name`). `_capture_scroll(strict=True)` (yalnız koleksiyonlar): sayfa 404 → NotFound, girişsiz form → LoginRequired; liste için boşta bekleme 8 sn; sonuç yoksa günlüğe "kaydırma sonuç vermedi: adres/başlık/JSON sayısı/istek yolları" yazar (gerçek sayfanın ne yaptığını raporda görmek için). 429 gelince kalan REST yolları atlanır. PAGE_DATA_JS `collection_name`/`saved_collection` da yakalar.
+  DERS: ilk denemede `strict` kontrolleri paylaşılan `_capture_scroll`'a koyunca 7 eski profil testi düştü; kontroller yalnız koleksiyon çağrılarında. Ayrıca str.replace ile yama yaparken ilk eşleşme yanlış fonksiyona düştü (iki kez) — benzer bloklar için indeksle yamala. `test_d3_rate_limited_waits_and_continues` Windows CI'da zaman duyarlı/dalgalı (aynı ağaçla 2 kez düştü, 3.'de geçti); sorun olursa testi sağlamlaştır.
+  Yeni test: f2b (API 429 iken kullanıcı adı sayfadan). Birim 88, tüm uçtan uca yeşil, CI yeşil, yayında.
+  HÂLÂ DOĞRULANMADI (gerçek Instagram): kaydedilenler sayfasından koleksiyon listesi gerçekten yakalanıyor mu; sayfadaki JSON biçimi `find_collections` ile eşleşiyor mu. Kullanıcının v1.11.1 raporu bekleniyor — "kaydırma sonuç vermedi" satırı gerçek istek yollarını verecek; ona göre `find_collections` ve adresleri düzelt.
 - v1.11.0 (2026-11-18) YENİ, yalnız Windows: **Koleksiyonlar** sekmesi (masaüstüne özel; Android ve Chrome eklentisinde YOK, kullanıcı "altyapı çalışırsa diğerlerine de ekle" dedi → sıradaki adım).
   İki mod: (a) koleksiyonun tüm gönderilerini `Koleksiyonlar/<koleksiyon adı>/<sahip>_<dosya>` altına indir (geçmişe yazılmaz); (b) koleksiyondaki hesapları profil fotoğrafı + ad + bilgiyle onay kutulu listele, hepsini/hiçbirini seç, seçilenlerin tüm profilini indir (mevcut `_profile`; hesaplar arası ~20 sn bekler, 429'da durur).
   Yöntem: önce REST (`/api/v1/collections/list/`, `/api/v1/feed/collection/{id}/posts/`, ardından `/api/v1/feed/collection/{id}/`, "tüm kaydedilenler" için `/api/v1/feed/saved/posts/`); olmazsa `/<ben>/saved/`, `/saved/<slug>/<id>/`, `/saved/all-posts/` sayfalarını kaydırıp sayfanın kendi JSON'unu yakalar (`media.find_collections`, `browser.collections_list/collect_collection/_capture_scroll`).
