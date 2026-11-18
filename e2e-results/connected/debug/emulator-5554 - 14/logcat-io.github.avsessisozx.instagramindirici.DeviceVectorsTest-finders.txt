@@ -1,0 +1,9 @@
+11-18 22:24:16.312  4523  4548 I TestRunner: started: finders(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+11-18 22:24:16.329   841  1017 I Role    : com.google.android.gms not qualified for android.app.role.SYSTEM_CALL_STREAMING due to missing RequiredComponent{mIntentFilterData=IntentFilterData{mAction='android.telecom.CallStreamingService', mCategories='[]', mDataScheme='null', mDataType='null'}, mMinTargetSdkVersion=1, mFlags='0', mPermission='android.permission.BIND_CALL_STREAMING_SERVICE', mQueryFlags=0, mMetaData=[]}
+11-18 22:24:16.335   841  1017 E RoleControllerServiceImpl: Default/fallback role holder package doesn't qualify for the role, package: com.google.android.gms, role: android.app.role.SYSTEM_CALL_STREAMING
+11-18 22:24:16.336  1454  3468 I Icing   : Indexing com.google.android.gms-apps from com.google.android.gms
+11-18 22:24:16.342   841  1017 W Role    : Default holder doesn't have required signing certificate: com.google.android.apps.work.clouddpc:23962F4B43B9857638EA66F4D419518EAE282491ACDA4B94707BD59003C45E58
+11-18 22:24:16.404  1404  3119 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.clearcut.uploader.QosUploaderService started execution. cause:5 exec_start_elapsed_seconds: 89 [CONTEXT service_id=218 ]
+11-18 22:24:16.423  1404  3119 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.clearcut.uploader.QosUploaderService finished executing. cause:5 result: 1 elapsed_millis: 450 uptime_millis: 450 exec_start_elapsed_seconds: 89 [CONTEXT service_id=218 ]
+11-18 22:24:16.446  1454  3468 I Icing   : Indexing done com.google.android.gms-apps
+11-18 22:24:16.471  4523  4548 I TestRunner: finished: finders(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

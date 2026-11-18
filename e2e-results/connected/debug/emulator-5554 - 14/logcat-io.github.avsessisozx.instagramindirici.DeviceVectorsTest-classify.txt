@@ -1,0 +1,16 @@
+11-18 22:24:17.136  4523  4548 I TestRunner: started: classify(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+11-18 22:24:17.149  1454  3468 I Icing   : Indexing com.google.android.gms-apps from com.google.android.gms
+11-18 22:24:17.160  1454  3468 I Icing   : Indexing done com.google.android.gms-apps
+11-18 22:24:17.167  1613  1745 I AiAiEcho: Settings changed for uri: content://settings/secure/serial_blacklist
+11-18 22:24:17.169  1613  1935 I AiAiEcho: Predicting[0]:
+11-18 22:24:17.169  1613  1935 I AiAiEcho: EchoTargets:
+11-18 22:24:17.169  1613  1935 I AiAiEcho: Filtered by AiAi flag check:
+11-18 22:24:17.169  1613  1935 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+11-18 22:24:17.171  1613  1935 I AiAiEcho: Predicting[0]:
+11-18 22:24:17.171  1613  1935 I AiAiEcho: EchoTargets:
+11-18 22:24:17.171  1613  1935 I AiAiEcho: Filtered by AiAi flag check:
+11-18 22:24:17.173  1613  1935 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+11-18 22:24:17.174  1613  1935 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+11-18 22:24:17.174   840   840 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+11-18 22:24:17.175  1613  1935 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+11-18 22:24:17.179  4523  4548 I TestRunner: finished: classify(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

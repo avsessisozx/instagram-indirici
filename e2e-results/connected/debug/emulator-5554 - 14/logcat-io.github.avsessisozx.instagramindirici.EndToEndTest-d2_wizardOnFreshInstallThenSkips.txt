@@ -1,0 +1,377 @@
+11-18 22:26:01.791  4523  4548 I TestRunner: started: d2_wizardOnFreshInstallThenSkips(io.github.avsessisozx.instagramindirici.EndToEndTest)
+11-18 22:26:01.829  4523  4548 W Settings: Setting always_finish_activities has moved from android.provider.Settings.System to android.provider.Settings.Global, returning read-only value.
+11-18 22:26:01.851  1714  2919 D t       : Starting download: https://dl.google.com/mdi-serving/agsa-apa-smart-action-models/1129/262d6f61914ff6e28557d9adfcb3632975ddf9d2
+11-18 22:26:01.851  1714  2919 V t       : Is http uri, downloading (uri: https://dl.google.com/mdi-serving/agsa-apa-smart-action-models/1129/262d6f61914ff6e28557d9adfcb3632975ddf9d2)
+11-18 22:26:01.854   840   840 D ControlsListingControllerImpl: ServiceConfig reloaded, count: 0
+11-18 22:26:01.855   840   903 D StylusManager: Stylus InputDevice changed: 5 virtio_input_multi_touch_2
+11-18 22:26:01.857   840   903 D StylusManager: Stylus InputDevice changed: 4 virtio_input_multi_touch_1
+11-18 22:26:01.858   840   903 D StylusManager: Stylus InputDevice changed: 14 virtio_input_multi_touch_11
+11-18 22:26:01.859   840   903 D StylusManager: Stylus InputDevice changed: 10 virtio_input_multi_touch_7
+11-18 22:26:01.876  5306  6094 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.ipa.base.IpaGcmTaskService finished executing. cause:5 result: 1 elapsed_millis: 133 uptime_millis: 133 exec_start_elapsed_seconds: 193 [CONTEXT service_id=218 ]
+11-18 22:26:01.876   840   840 D ControlsListingControllerImpl: ServiceConfig reloaded, count: 0
+11-18 22:26:01.879   518   547 E system_server: No package ID 7f found for resource ID 0x7f080107.
+11-18 22:26:01.879   518   547 E system_server: No package ID 7f found for resource ID 0x7f150560.
+11-18 22:26:01.900   518   527 I system_server: Background concurrent copying GC freed 581821(24MB) AllocSpace objects, 27(600KB) LOS objects, 43% free, 31MB/55MB, paused 345us,85us total 1.307s
+11-18 22:26:01.904   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:26:01.904   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:01.906   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:26:01.906   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:01.907   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:26:01.907   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:01.908  1714  2919 E MDD     : DownloadProgressMonitor: Can't find file group for uri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1795040640622
+11-18 22:26:01.913   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:26:01.913   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:01.915   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:26:01.915   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:01.915   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:26:01.915   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:01.918   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:26:01.922   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:01.932   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:26:01.934   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:01.935   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:26:01.935   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:01.970   840   896 D SplashScreenView: Build android.window.SplashScreenView{8c89f81 V.E...... ......ID 0,0-0,0}
+11-18 22:26:01.970   840   896 D SplashScreenView: Icon: view: null drawable: null size: 0
+11-18 22:26:01.970   840   896 D SplashScreenView: Branding: view: android.view.View{ccb6826 G.ED..... ......I. 0,0-0,0 #10204ef android:id/splashscreen_branding_view} drawable: null size w: 0 h: 0
+11-18 22:26:01.988   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:26:01.988   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:01.994   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:26:01.994   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:01.997   398   398 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:02.015   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:26:02.015   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:02.016   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:26:02.016   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:02.016   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:26:02.016   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:02.016   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:26:02.016   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:02.016   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:26:02.016   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:02.027   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.wm.ActivityRecord$$ExternalSyntheticLambda0
+11-18 22:26:02.027   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:02.120  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@3082241 in: PRE_ON_CREATE
+11-18 22:26:02.120  4523  4523 V ActivityScenario: Activity lifecycle changed event received but ignored because the reported transition was not ON_CREATE while the last known transition was PRE_ON_CREATE
+11-18 22:26:02.150  1613  1613 I AiAiEcho: AppFetcherImpl onPackageChanged com.google.android.contacts.
+11-18 22:26:02.184  1613  3347 I AiAiEcho: AppIndexer Package:[com.google.android.contacts] UserProfile:[0] Enabled:[true].
+11-18 22:26:02.184  1613  3347 I AiAiEcho: AppFetcherImplV2 updateApps package:[com.google.android.contacts], userId:[0], reason:[package is updated.].
+11-18 22:26:02.231  4523  4523 D AutofillManager: Fill dialog is enabled:false, hints=[password, passwordAuto, creditCardNumber, creditCardSecurityCode, creditCardExpirationDate]
+11-18 22:26:02.270  5306  5306 D StrictMode: StrictMode policy violation: android.os.strictmode.UnsafeIntentLaunchViolation: Launch of unsafe intent: Intent { act=android.intent.action.PACKAGE_CHANGED dat=package: flg=0x45000010 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) }
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at android.os.StrictMode.onUnsafeIntentLaunch(StrictMode.java:2366)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at android.content.Intent.prepareToLeaveProcess(Intent.java:12155)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at android.content.Intent.prepareToLeaveProcess(Intent.java:12069)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at android.app.ContextImpl.startServiceCommon(ContextImpl.java:1930)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at android.app.ContextImpl.startService(ContextImpl.java:1900)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at android.content.ContextWrapper.startService(ContextWrapper.java:825)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at android.content.ContextWrapper.startService(ContextWrapper.java:825)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at android.content.ContextWrapper.startService(ContextWrapper.java:825)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at aoea.apply(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at aoeb.a(:com.google.android.gms@231818047@23.18.18 (190800-535401451):1)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at aoeb.startService(:com.google.android.gms@231818047@23.18.18 (190800-535401451):5)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at hjv.b(:com.google.android.gms@231818047@23.18.18 (190800-535401451):3)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at hjv.a(:com.google.android.gms@231818047@23.18.18 (190800-535401451):16)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at hjv.onReceive(:com.google.android.gms@231818047@23.18.18 (190800-535401451):1)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at zdc.a(:com.google.android.gms@231818047@23.18.18 (190800-535401451):4)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at hex.onReceive(:com.google.android.gms@231818047@23.18.18 (190800-535401451):1)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at abdt.a(:com.google.android.gms@231818047@23.18.18 (190800-535401451):8)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at abdr.call(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at android.os.Handler.handleCallback(Handler.java:958)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at android.os.Looper.loopOnce(Looper.java:205)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at android.os.Looper.loop(Looper.java:294)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at android.app.ActivityThread.main(ActivityThread.java:8177)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at java.lang.reflect.Method.invoke(Native Method)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:552)
+11-18 22:26:02.270  5306  5306 D StrictMode: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:971)
+11-18 22:26:02.277  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@3082241 in: CREATED
+11-18 22:26:02.277  4523  4523 V ActivityScenario: Update currentActivityStage to CREATED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@3082241
+11-18 22:26:02.279  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@3082241 in: STARTED
+11-18 22:26:02.280  4523  4523 V ActivityScenario: Update currentActivityStage to STARTED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@3082241
+11-18 22:26:02.282  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@3082241 in: RESUMED
+11-18 22:26:02.282  4523  4523 V ActivityScenario: Update currentActivityStage to RESUMED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@3082241
+11-18 22:26:02.290  5306  5306 D StrictMode: StrictMode policy violation: android.os.strictmode.UnsafeIntentLaunchViolation: Launch of unsafe intent: Intent { act=android.intent.action.PACKAGE_CHANGED dat=package: flg=0x45000010 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) }
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at android.os.StrictMode.onUnsafeIntentLaunch(StrictMode.java:2366)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at android.content.Intent.prepareToLeaveProcess(Intent.java:12155)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at android.content.Intent.prepareToLeaveProcess(Intent.java:12069)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at android.app.ContextImpl.startServiceCommon(ContextImpl.java:1930)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at android.app.ContextImpl.startService(ContextImpl.java:1900)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at android.content.ContextWrapper.startService(ContextWrapper.java:825)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at android.content.ContextWrapper.startService(ContextWrapper.java:825)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at android.content.ContextWrapper.startService(ContextWrapper.java:825)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at aoea.apply(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at aoeb.a(:com.google.android.gms@231818047@23.18.18 (190800-535401451):1)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at aoeb.startService(:com.google.android.gms@231818047@23.18.18 (190800-535401451):5)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at hjv.b(:com.google.android.gms@231818047@23.18.18 (190800-535401451):3)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at hjv.a(:com.google.android.gms@231818047@23.18.18 (190800-535401451):16)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at hjv.onReceive(:com.google.android.gms@231818047@23.18.18 (190800-535401451):1)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at zdc.a(:com.google.android.gms@231818047@23.18.18 (190800-535401451):4)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at hex.onReceive(:com.google.android.gms@231818047@23.18.18 (190800-535401451):1)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at abdt.a(:com.google.android.gms@231818047@23.18.18 (190800-535401451):8)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at abdr.call(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at android.os.Handler.handleCallback(Handler.java:958)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at android.os.Looper.loopOnce(Looper.java:205)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at android.os.Looper.loop(Looper.java:294)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at android.app.ActivityThread.main(ActivityThread.java:8177)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at java.lang.reflect.Method.invoke(Native Method)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:552)
+11-18 22:26:02.290  5306  5306 D StrictMode: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:971)
+11-18 22:26:02.312  5353  5889 I PeopleGalProvider: Gal directories started.
+11-18 22:26:02.328  5353  5889 I PeopleGalProvider: Method 1 completed.
+11-18 22:26:02.328  5353  5889 I PeopleGalProvider: Method 1 finished successfully.
+11-18 22:26:02.341  5306  6094 W .gms.persistent: Long monitor contention with owner netscheduler-queue-handler (5495) at void bytb.o(int)(:com.google.android.gms@231818047@23.18.18 (190800-535401451):4) waiters=0 in void bytb.u(byps, int) for 441ms
+11-18 22:26:02.359  5306  6142 I Fitness : OnPackageChangedOperation got intent: Intent { act=android.intent.action.PACKAGE_CHANGED dat=package: flg=0x45000010 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) } [CONTEXT service_id=17 ]
+11-18 22:26:02.380  1613  1613 I AiAiEcho: AppFetcherImpl onPackageChanged com.google.android.gms.
+11-18 22:26:02.382  1613  3346 I AiAiEcho: AppIndexer Package:[com.google.android.gms] UserProfile:[0] Enabled:[true].
+11-18 22:26:02.382  1613  3346 I AiAiEcho: AppFetcherImplV2 updateApps package:[com.google.android.gms], userId:[0], reason:[package is updated.].
+11-18 22:26:02.438   518   537 W ziparchive: Unable to open '/data/app/~~L9bpiABHkdiFF46a2mOTaA==/io.github.avsessisozx.instagramindirici-P_pNh-QJzCYER8ciG7w39w==/base.dm': No such file or directory
+11-18 22:26:02.439   518   537 I ActivityTaskManager: Displayed io.github.avsessisozx.instagramindirici/.MainActivity for user 0: +541ms
+11-18 22:26:02.452  5003  5003 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@f3bae7b
+11-18 22:26:02.455   518  2236 W InputManager-JNI: Input channel object '5037aad io.github.avsessisozx.instagramindirici.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity (client)' was disposed without first being removed with the input manager!
+11-18 22:26:02.475  5353  5914 I Icing   : updateResources: need to parse arkh{com.google.android.gms}
+11-18 22:26:02.477   840   895 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@ddeb2bd
+11-18 22:26:02.483   518  2236 W InputManager-JNI: Input channel object 'b3a11c8 Splash Screen io.github.avsessisozx.instagramindirici (client)' was disposed without first being removed with the input manager!
+11-18 22:26:02.486   518  1396 I ImeTracker: io.github.avsessisozx.instagramindirici:62cca1b0: onRequestHide at ORIGIN_SERVER_HIDE_INPUT reason HIDE_UNSPECIFIED_WINDOW
+11-18 22:26:02.487   518  1396 I ImeTracker: io.github.avsessisozx.instagramindirici:62cca1b0: onCancelled at PHASE_SERVER_SHOULD_HIDE
+11-18 22:26:02.489  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():3227
+11-18 22:26:02.495  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 0, unlocked = true
+11-18 22:26:02.496  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1877 onStartInput(EditorInfo{inputType=0x0(NULL) imeOptions=0x0 privateImeOptions=null actionName=UNSPECIFIED actionLabel=null actionId=0 initialSelStart=-1 initialSelEnd=-1 initialCapsMode=0x0 hintText=null label=null packageName=io.github.avsessisozx.instagramindirici fieldId=0 fieldName=null extras=null}, false)
+11-18 22:26:02.496  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.shouldHideHeaderOnInitialState():4008 ShouldHideHeaderOnInitialState = false
+11-18 22:26:02.502  5306  5884 W ChimeraUtils: Module com.google.android.gms.nearby_en missing resource null(0)
+11-18 22:26:02.503  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 2, unlocked = true
+11-18 22:26:02.523   518   611 I RoleService: Granting default roles...
+11-18 22:26:02.524  5306  5884 W ChimeraUtils: Module com.google.android.gms.nearby_en missing resource null(0)
+11-18 22:26:02.542  5306  6143 I Fitness : FitCleanupIntentOperation received Intent android.intent.action.PACKAGE_CHANGED [CONTEXT service_id=17 ]
+11-18 22:26:02.545  5306  6142 I Fitness : OnPackageChangedOperation got intent: Intent { act=android.intent.action.PACKAGE_CHANGED dat=package: flg=0x45000010 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) } [CONTEXT service_id=17 ]
+11-18 22:26:02.576  5306  6090 I Fitness : FitCleanupIntentOperation received Intent android.intent.action.PACKAGE_CHANGED [CONTEXT service_id=17 ]
+11-18 22:26:02.615  1098  1128 I s.nexuslauncher: Background concurrent copying GC freed 92315(4381KB) AllocSpace objects, 6(96KB) LOS objects, 49% free, 6432KB/12MB, paused 259us,12us total 113.121ms
+11-18 22:26:02.639  1098  1130 W System  : A resource failed to call release.
+11-18 22:26:02.640  1098  1130 W System  : A resource failed to call release.
+11-18 22:26:02.640  1098  1130 W System  : A resource failed to call release.
+11-18 22:26:02.640  1098  1130 W System  : A resource failed to call release.
+11-18 22:26:02.640  1098  1130 W System  : A resource failed to call release.
+11-18 22:26:02.640  1098  1130 W System  : A resource failed to call release.
+11-18 22:26:02.664   841  6118 E RoleControllerServiceImpl: Default/fallback role holder package doesn't qualify for the role, package: com.google.android.gms.supervision, role: android.app.role.SYSTEM_SUPERVISION
+11-18 22:26:02.666   841  6118 I Role    : com.google.android.gms not qualified for android.app.role.SYSTEM_CALL_STREAMING due to missing RequiredComponent{mIntentFilterData=IntentFilterData{mAction='android.telecom.CallStreamingService', mCategories='[]', mDataScheme='null', mDataType='null'}, mMinTargetSdkVersion=1, mFlags='0', mPermission='android.permission.BIND_CALL_STREAMING_SERVICE', mQueryFlags=0, mMetaData=[]}
+11-18 22:26:02.666   841  6118 E RoleControllerServiceImpl: Default/fallback role holder package doesn't qualify for the role, package: com.google.android.gms, role: android.app.role.SYSTEM_CALL_STREAMING
+11-18 22:26:02.666   841  6118 W Role    : Default holder doesn't have required signing certificate: com.google.android.apps.work.clouddpc:23962F4B43B9857638EA66F4D419518EAE282491ACDA4B94707BD59003C45E58
+11-18 22:26:02.675  5306  5424 W ChimeraUtils: Module com.google.android.gms.nearby_en missing resource null(0)
+11-18 22:26:02.717  5353  5914 I Icing   : Indexing com.google.android.gms-apps from com.google.android.gms
+11-18 22:26:02.730  5306  5424 W ChimeraUtils: Module com.google.android.gms.nearby_en missing resource null(0)
+11-18 22:26:02.803  5353  5914 I Icing   : Indexing com.google.android.gms-internal.3p:MobileApplication from com.google.android.gms
+11-18 22:26:02.810  5353  5914 I Icing   : Indexing done com.google.android.gms-apps
+11-18 22:26:02.813  5353  5914 I Icing   : Indexing done com.google.android.gms-internal.3p:MobileApplication
+11-18 22:26:02.819  5353  5914 I Icing   : Indexing com.google.android.gms-apps from com.google.android.gms
+11-18 22:26:02.820  5353  5914 I Icing   : Indexing done com.google.android.gms-apps
+11-18 22:26:02.921  5306  6094 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.pay.gcmtask.PayGcmTaskService started execution. cause:5 exec_start_elapsed_seconds: 194 [CONTEXT service_id=218 ]
+11-18 22:26:02.928  5306  6094 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.pay.gcmtask.PayGcmTaskService finished executing. cause:5 result: 1 elapsed_millis: 26 uptime_millis: 26 exec_start_elapsed_seconds: 194 [CONTEXT service_id=218 ]
+11-18 22:26:02.949   333  6154 I resolv  : GetAddrInfoHandler::run: {101 101 101 983141 10192 0}
+11-18 22:26:02.955   333  6156 I resolv  : res_nmkquery: (QUERY, IN, A)
+11-18 22:26:02.956   333  6156 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7caeb874e570
+11-18 22:26:02.956   333  6156 I resolv  : doQuery: rcode=3, ancount=0, return value=107
+11-18 22:26:02.958   333  6155 I resolv  : res_nmkquery: (QUERY, IN, AAAA)
+11-18 22:26:02.959   333  6155 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7caeb8751ff0
+11-18 22:26:02.960   333  6155 I resolv  : doQuery: rcode=3, ancount=0, return value=107
+11-18 22:26:02.987   333   358 I netd    : tetherGetStats() -> {[]} <0.28ms>
+11-18 22:26:02.993  5353  5455 I Pay     : Device does not support HCE. [CONTEXT service_id=198 ]
+11-18 22:26:02.993   333   358 I netd    : bandwidthSetGlobalAlert(2097152) <0.07ms>
+11-18 22:26:03.003  5306  6094 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.pay.gcmtask.PayGcmTaskService started execution. cause:5 exec_start_elapsed_seconds: 196 [CONTEXT service_id=218 ]
+11-18 22:26:03.004  5306  6094 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.pay.gcmtask.PayGcmTaskService finished executing. cause:5 result: 1 elapsed_millis: 298 uptime_millis: 298 exec_start_elapsed_seconds: 196 [CONTEXT service_id=218 ]
+11-18 22:26:03.047  5306  6094 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.pay.gcmtask.PayGcmTaskService started execution. cause:5 exec_start_elapsed_seconds: 196 [CONTEXT service_id=218 ]
+11-18 22:26:03.051  5306  6094 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.pay.gcmtask.PayGcmTaskService finished executing. cause:5 result: 2 elapsed_millis: 16 uptime_millis: 16 exec_start_elapsed_seconds: 196 [CONTEXT service_id=218 ]
+11-18 22:26:03.071   841  6118 E RoleControllerServiceImpl: Default/fallback role holder package doesn't qualify for the role, package: com.google.android.gms.supervision, role: android.app.role.SYSTEM_SUPERVISION
+11-18 22:26:03.072   841  6118 I Role    : com.google.android.gms not qualified for android.app.role.SYSTEM_CALL_STREAMING due to missing RequiredComponent{mIntentFilterData=IntentFilterData{mAction='android.telecom.CallStreamingService', mCategories='[]', mDataScheme='null', mDataType='null'}, mMinTargetSdkVersion=1, mFlags='0', mPermission='android.permission.BIND_CALL_STREAMING_SERVICE', mQueryFlags=0, mMetaData=[]}
+11-18 22:26:03.072   841  6118 E RoleControllerServiceImpl: Default/fallback role holder package doesn't qualify for the role, package: com.google.android.gms, role: android.app.role.SYSTEM_CALL_STREAMING
+11-18 22:26:03.074   841  6118 W Role    : Default holder doesn't have required signing certificate: com.google.android.apps.work.clouddpc:23962F4B43B9857638EA66F4D419518EAE282491ACDA4B94707BD59003C45E58
+11-18 22:26:03.108  5306  6094 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.pay.gcmtask.PayGcmTaskService started execution. cause:5 exec_start_elapsed_seconds: 196 [CONTEXT service_id=218 ]
+11-18 22:26:03.118  5306  6094 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.pay.gcmtask.PayGcmTaskService finished executing. cause:5 result: 1 elapsed_millis: 15 uptime_millis: 15 exec_start_elapsed_seconds: 196 [CONTEXT service_id=218 ]
+11-18 22:26:03.143  1714  2342 I A       : NGA Sync: MDD Task: MDD.WIFI.CHARGING.PERIODIC.TASK done.
+11-18 22:26:03.144  1714  2342 I A       : NGA Sync: isNgaSyncEnabled: false; enableFileGroupPopulator: false; requiresMddAssets: false
+11-18 22:26:03.144  1714  2294 I A       : Refresh account policy.
+11-18 22:26:03.159  5353  5455 W Pay     : Active account was null, notification task will be cancelled. [CONTEXT service_id=198 ]
+11-18 22:26:03.159  5353  5455 E Pay     : [Migration operation] Active tapandpay account not found! [CONTEXT service_id=198 ]
+11-18 22:26:03.161  5353  5353 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.pay.service.BIND dat=chimera-action:/... cmp=com.google.android.gms/.chimera.GmsApiService }
+11-18 22:26:03.161  5353  5353 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.pay.service.BIND dat=chimera-action:/... cmp=com.google.android.gms/.chimera.GmsApiService }
+11-18 22:26:03.164  5306  6094 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.pay.gcmtask.PayGcmTaskService started execution. cause:5 exec_start_elapsed_seconds: 196 [CONTEXT service_id=218 ]
+11-18 22:26:03.167  5353  5455 I Pay     : Migration flag not enabled. [CONTEXT service_id=198 ]
+11-18 22:26:03.171  5353  5455 I Pay     : Migration already completed. [CONTEXT service_id=198 ]
+11-18 22:26:03.174  5353  5455 I Pay     : Migration already completed. [CONTEXT service_id=198 ]
+11-18 22:26:03.174  5353  5455 I Pay     : Migration flag not enabled. [CONTEXT service_id=198 ]
+11-18 22:26:03.175  5353  5455 I Pay     : Migration flag not enabled. [CONTEXT service_id=198 ]
+11-18 22:26:03.175  5353  5455 I Pay     : Migration flag not enabled. [CONTEXT service_id=198 ]
+11-18 22:26:03.175  5353  5455 I Pay     : Migration flag not enabled. [CONTEXT service_id=198 ]
+11-18 22:26:03.175  5353  5455 I Pay     : [SeTosMigration] walletJpEligibility is not enabled [CONTEXT service_id=198 ]
+11-18 22:26:03.179  5353  5455 I Pay     : Wallet install state NOT_INSTALLED [CONTEXT service_id=198 ]
+11-18 22:26:03.185  5353  5455 I Pay     : Migration flag not enabled. [CONTEXT service_id=198 ]
+11-18 22:26:03.200  5306  6095 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.pay.gcmtask.PayGcmTaskService started execution. cause:5 exec_start_elapsed_seconds: 196 [CONTEXT service_id=218 ]
+11-18 22:26:03.216  5306  6095 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.pay.gcmtask.PayGcmTaskService finished executing. cause:5 result: 1 elapsed_millis: 68 uptime_millis: 68 exec_start_elapsed_seconds: 196 [CONTEXT service_id=218 ]
+11-18 22:26:03.221  5306  6095 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.pay.gcmtask.PayGcmTaskService finished executing. cause:5 result: 1 elapsed_millis: 30 uptime_millis: 30 exec_start_elapsed_seconds: 196 [CONTEXT service_id=218 ]
+11-18 22:26:03.239  5306  6095 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.clearcut.uploader.QosUploaderService started execution. cause:5 exec_start_elapsed_seconds: 196 [CONTEXT service_id=218 ]
+11-18 22:26:03.251  5306  6094 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.clearcut.uploader.QosUploaderService started execution. cause:5 exec_start_elapsed_seconds: 196 [CONTEXT service_id=218 ]
+11-18 22:26:03.265  5306  5853 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.clearcut.uploader.QosUploaderService finished executing. cause:5 result: 1 elapsed_millis: 40 uptime_millis: 40 exec_start_elapsed_seconds: 196 [CONTEXT service_id=218 ]
+11-18 22:26:03.284  5306  6094 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.udc.service.UdcContextInitService started execution. cause:5 exec_start_elapsed_seconds: 197 [CONTEXT service_id=218 ]
+11-18 22:26:03.296  5306  6052 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.udc.service.UdcContextInitService finished executing. cause:5 result: 1 elapsed_millis: 18 uptime_millis: 18 exec_start_elapsed_seconds: 197 [CONTEXT service_id=218 ]
+11-18 22:26:03.404   333  6163 I resolv  : GetAddrInfoHandler::run: {101 786533 101 983141 10131 0}
+11-18 22:26:03.405   333  6164 I resolv  : res_nmkquery: (QUERY, IN, AAAA)
+11-18 22:26:03.405   333  6165 I resolv  : res_nmkquery: (QUERY, IN, A)
+11-18 22:26:03.411   333  6165 I resolv  : res_nsend: used send_dg 165 terrno: 0
+11-18 22:26:03.411   333  6165 I resolv  : doQuery: rcode=0, ancount=8, return value=165
+11-18 22:26:03.421   333  6164 I resolv  : res_nsend: used send_dg 261 terrno: 0
+11-18 22:26:03.421   333  6164 I resolv  : doQuery: rcode=0, ancount=8, return value=261
+11-18 22:26:03.425  5306  5627 D TrafficStats: tagSocket(158) with statsTag=0x1065fff, statsUid=10132
+11-18 22:26:03.433  5306  5624 D StrictMode: StrictMode policy violation: android.os.strictmode.NonSdkApiUsedViolation: Ljava/security/spec/ECParameterSpec;->setCurveName(Ljava/lang/String;)V
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at android.os.StrictMode.lambda$static$1(StrictMode.java:430)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at android.os.StrictMode$$ExternalSyntheticLambda2.accept(Unknown Source:2)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at java.lang.Class.getDeclaredMethodInternal(Native Method)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at java.lang.Class.getMethod(Class.java:2932)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at java.lang.Class.getDeclaredMethod(Class.java:2914)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at com.google.android.gms.org.conscrypt.Platform.setCurveName(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at com.google.android.gms.org.conscrypt.OpenSSLECGroupContext.getECParameterSpec(:com.google.android.gms@231818047@23.18.18 (190800-535401451):7)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at com.google.android.gms.org.conscrypt.OpenSSLECPublicKey.getParams(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at com.android.org.conscrypt.ChainStrengthAnalyzer.checkKeyLength(ChainStrengthAnalyzer.java:87)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at com.android.org.conscrypt.ChainStrengthAnalyzer.checkCert(ChainStrengthAnalyzer.java:73)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.checkTrustedRecursive(TrustManagerImpl.java:606)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.checkTrusted(TrustManagerImpl.java:505)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.checkServerTrusted(TrustManagerImpl.java:334)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at android.security.net.config.NetworkSecurityTrustManager.checkServerTrusted(NetworkSecurityTrustManager.java:113)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at android.security.net.config.RootTrustManager.checkServerTrusted(RootTrustManager.java:134)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at java.lang.reflect.Method.invoke(Native Method)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at android.net.http.X509TrustManagerExtensions.checkServerTrusted(X509TrustManagerExtensions.java:101)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at hc.h(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):1)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at hc.b(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):19)
+11-18 22:26:03.433  5306  5624 D StrictMode: 	at org.chromium.net.AndroidNetworkLibrary.verifyServerCertificates(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):1)
+11-18 22:26:03.435  5306  5624 D StrictMode: StrictMode policy violation: android.os.strictmode.NonSdkApiUsedViolation: Ljava/security/spec/ECParameterSpec;->setCurveName(Ljava/lang/String;)V
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at android.os.StrictMode.lambda$static$1(StrictMode.java:430)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at android.os.StrictMode$$ExternalSyntheticLambda2.accept(Unknown Source:2)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at java.lang.Class.getDeclaredMethodInternal(Native Method)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at java.lang.Class.getMethod(Class.java:2932)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at java.lang.Class.getDeclaredMethod(Class.java:2914)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at com.google.android.gms.org.conscrypt.Platform.setCurveName(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at com.google.android.gms.org.conscrypt.OpenSSLECGroupContext.getECParameterSpec(:com.google.android.gms@231818047@23.18.18 (190800-535401451):7)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at com.google.android.gms.org.conscrypt.OpenSSLECPublicKey.getParams(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at com.android.org.conscrypt.ChainStrengthAnalyzer.checkKeyLength(ChainStrengthAnalyzer.java:87)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at com.android.org.conscrypt.ChainStrengthAnalyzer.checkCert(ChainStrengthAnalyzer.java:73)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at com.android.org.conscrypt.ChainStrengthAnalyzer.check(ChainStrengthAnalyzer.java:64)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.verifyChain(TrustManagerImpl.java:702)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.checkTrustedRecursive(TrustManagerImpl.java:549)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.checkTrustedRecursive(TrustManagerImpl.java:570)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.checkTrustedRecursive(TrustManagerImpl.java:615)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.checkTrusted(TrustManagerImpl.java:505)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.checkServerTrusted(TrustManagerImpl.java:334)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at android.security.net.config.NetworkSecurityTrustManager.checkServerTrusted(NetworkSecurityTrustManager.java:113)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at android.security.net.config.RootTrustManager.checkServerTrusted(RootTrustManager.java:134)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at java.lang.reflect.Method.invoke(Native Method)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at android.net.http.X509TrustManagerExtensions.checkServerTrusted(X509TrustManagerExtensions.java:101)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at hc.h(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):1)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at hc.b(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):19)
+11-18 22:26:03.435  5306  5624 D StrictMode: 	at org.chromium.net.AndroidNetworkLibrary.verifyServerCertificates(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):1)
+11-18 22:26:03.436  5306  5624 D StrictMode: StrictMode policy violation: android.os.strictmode.NonSdkApiUsedViolation: Ljava/security/spec/ECParameterSpec;->setCurveName(Ljava/lang/String;)V
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at android.os.StrictMode.lambda$static$1(StrictMode.java:430)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at android.os.StrictMode$$ExternalSyntheticLambda2.accept(Unknown Source:2)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at java.lang.Class.getDeclaredMethodInternal(Native Method)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at java.lang.Class.getMethod(Class.java:2932)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at java.lang.Class.getDeclaredMethod(Class.java:2914)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at com.google.android.gms.org.conscrypt.Platform.setCurveName(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at com.google.android.gms.org.conscrypt.OpenSSLECGroupContext.getECParameterSpec(:com.google.android.gms@231818047@23.18.18 (190800-535401451):7)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at com.google.android.gms.org.conscrypt.OpenSSLECPublicKey.getParams(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at sun.security.util.KeyUtil.getKeySize(KeyUtil.java:82)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at sun.security.util.DisabledAlgorithmConstraints$KeySizeConstraint.permitsImpl(DisabledAlgorithmConstraints.java:551)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at sun.security.util.DisabledAlgorithmConstraints$KeySizeConstraint.permits(DisabledAlgorithmConstraints.java:518)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at sun.security.util.DisabledAlgorithmConstraints$Constraints.permits(DisabledAlgorithmConstraints.java:369)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at sun.security.util.DisabledAlgorithmConstraints.checkConstraints(DisabledAlgorithmConstraints.java:215)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at sun.security.util.DisabledAlgorithmConstraints.permits(DisabledAlgorithmConstraints.java:140)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at sun.security.provider.certpath.AlgorithmChecker.check(AlgorithmChecker.java:261)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at sun.security.provider.certpath.PKIXMasterCertPathValidator.validate(PKIXMasterCertPathValidator.java:125)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at sun.security.provider.certpath.PKIXCertPathValidator.validate(PKIXCertPathValidator.java:222)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at sun.security.provider.certpath.PKIXCertPathValidator.validate(PKIXCertPathValidator.java:140)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at sun.security.provider.certpath.PKIXCertPathValidator.engineValidate(PKIXCertPathValidator.java:79)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at java.security.cert.CertPathValidator.validate(CertPathValidator.java:309)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.verifyChain(TrustManagerImpl.java:715)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.checkTrustedRecursive(TrustManagerImpl.java:549)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.checkTrustedRecursive(TrustManagerImpl.java:570)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.checkTrustedRecursive(TrustManagerImpl.java:615)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.checkTrusted(TrustManagerImpl.java:505)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.checkServerTrusted(TrustManagerImpl.java:334)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at android.security.net.config.NetworkSecurityTrustManager.checkServerTrusted(NetworkSecurityTrustManager.java:113)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at android.security.net.config.RootTrustManager.checkServerTrusted(RootTrustManager.java:134)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at java.lang.reflect.Method.invoke(Native Method)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at android.net.http.X509TrustManagerExtensions.checkServerTrusted(X509TrustManagerExtensions.java:101)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at hc.h(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):1)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at hc.b(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):19)
+11-18 22:26:03.436  5306  5624 D StrictMode: 	at org.chromium.net.AndroidNetworkLibrary.verifyServerCertificates(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):1)
+11-18 22:26:03.438  5306  5624 D StrictMode: StrictMode policy violation: android.os.strictmode.NonSdkApiUsedViolation: Ljava/security/spec/ECParameterSpec;->setCurveName(Ljava/lang/String;)V
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at android.os.StrictMode.lambda$static$1(StrictMode.java:430)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at android.os.StrictMode$$ExternalSyntheticLambda2.accept(Unknown Source:2)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at java.lang.Class.getDeclaredMethodInternal(Native Method)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at java.lang.Class.getMethod(Class.java:2932)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at java.lang.Class.getDeclaredMethod(Class.java:2914)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at com.google.android.gms.org.conscrypt.Platform.setCurveName(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at com.google.android.gms.org.conscrypt.OpenSSLECGroupContext.getECParameterSpec(:com.google.android.gms@231818047@23.18.18 (190800-535401451):7)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at com.google.android.gms.org.conscrypt.OpenSSLECPublicKey.getParams(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at sun.security.util.KeyUtil.getKeySize(KeyUtil.java:82)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at sun.security.util.DisabledAlgorithmConstraints$KeySizeConstraint.permitsImpl(DisabledAlgorithmConstraints.java:551)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at sun.security.util.DisabledAlgorithmConstraints$KeySizeConstraint.permits(DisabledAlgorithmConstraints.java:542)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at sun.security.util.DisabledAlgorithmConstraints$Constraints.permits(DisabledAlgorithmConstraints.java:332)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at sun.security.util.DisabledAlgorithmConstraints.checkConstraints(DisabledAlgorithmConstraints.java:185)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at sun.security.util.DisabledAlgorithmConstraints.permits(DisabledAlgorithmConstraints.java:128)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at sun.security.provider.certpath.AlgorithmChecker.check(AlgorithmChecker.java:306)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at sun.security.provider.certpath.PKIXMasterCertPathValidator.validate(PKIXMasterCertPathValidator.java:125)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at sun.security.provider.certpath.PKIXCertPathValidator.validate(PKIXCertPathValidator.java:222)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at sun.security.provider.certpath.PKIXCertPathValidator.validate(PKIXCertPathValidator.java:140)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at sun.security.provider.certpath.PKIXCertPathValidator.engineValidate(PKIXCertPathValidator.java:79)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at java.security.cert.CertPathValidator.validate(CertPathValidator.java:309)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.verifyChain(TrustManagerImpl.java:715)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.checkTrustedRecursive(TrustManagerImpl.java:549)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.checkTrustedRecursive(TrustManagerImpl.java:570)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.checkTrustedRecursive(TrustManagerImpl.java:615)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.checkTrusted(TrustManagerImpl.java:505)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at com.android.org.conscrypt.TrustManagerImpl.checkServerTrusted(TrustManagerImpl.java:334)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at android.security.net.config.NetworkSecurityTrustManager.checkServerTrusted(NetworkSecurityTrustManager.java:113)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at android.security.net.config.RootTrustManager.checkServerTrusted(RootTrustManager.java:134)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at java.lang.reflect.Method.invoke(Native Method)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at android.net.http.X509TrustManagerExtensions.checkServerTrusted(X509TrustManagerExtensions.java:101)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at hc.h(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):1)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at hc.b(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):19)
+11-18 22:26:03.438  5306  5624 D StrictMode: 	at org.chromium.net.AndroidNetworkLibrary.verifyServerCertificates(:com.google.android.gms.dynamite_cronetdynamite@231818047@23.18.18 (190800-0):1)
+11-18 22:26:03.449  5353  5353 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.findmydevice.spot.service.management.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.GmsApiService }
+11-18 22:26:03.572  5306  5627 D TrafficStats: tagSocket(192) with statsTag=0x1065fff, statsUid=-1
+11-18 22:26:03.922  4523  4580 D EGL_emulation: app_time_stats: avg=216.05ms min=14.71ms max=967.06ms count=7
+11-18 22:26:04.106  5306  5627 D TrafficStats: tagSocket(155) with statsTag=0x1065fff, statsUid=10145
+11-18 22:26:04.162   840   840 D StatusBarIconController: ignoring old pipeline callbacks, because the new mobile icons are enabled
+11-18 22:26:04.216  5306  5627 D TrafficStats: tagSocket(93) with statsTag=0x1065fff, statsUid=10130
+11-18 22:26:04.479  1617  1653 W MediaProvider: isAppCloneUserPair for user 0: false
+11-18 22:26:04.484  1617  1653 I MediaProvider: Open with lower FS for /storage/emulated/0/Download/ii-screens/22_sihirbaz.png. Uid: 10192
+11-18 22:26:04.512  5306  5853 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.ipa.base.IpaGcmTaskService started execution. cause:9 exec_start_elapsed_seconds: 198 [CONTEXT service_id=218 ]
+11-18 22:26:04.518  5306  6094 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.ipa.base.IpaGcmTaskService finished executing. cause:9 result: 1 elapsed_millis: 18 uptime_millis: 18 exec_start_elapsed_seconds: 198 [CONTEXT service_id=218 ]
+11-18 22:26:04.522   840   896 D SplashScreenView: Build android.window.SplashScreenView{e9251c8 V.E...... ......ID 0,0-0,0}
+11-18 22:26:04.522   840   896 D SplashScreenView: Icon: view: null drawable: null size: 0
+11-18 22:26:04.522   840   896 D SplashScreenView: Branding: view: android.view.View{1e7f261 G.ED..... ......I. 0,0-0,0 #10204ef android:id/splashscreen_branding_view} drawable: null size w: 0 h: 0
+11-18 22:26:04.526  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@3082241 in: PAUSED
+11-18 22:26:04.526  4523  4523 V ActivityScenario: Update currentActivityStage to PAUSED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@3082241
+11-18 22:26:04.548   398   398 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:04.619  5003  5024 W OpenGLRenderer: Failed to initialize 101010-2 format, error = EGL_SUCCESS
+11-18 22:26:04.705  5306  6052 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.clearcut.uploader.QosUploaderService finished executing. cause:5 result: 1 elapsed_millis: 1425 uptime_millis: 1425 exec_start_elapsed_seconds: 196 [CONTEXT service_id=218 ]
+11-18 22:26:04.828   518   537 W ziparchive: Unable to open '/data/app/~~QB-XQ05nZr8q7-1VAlBY3w==/io.github.avsessisozx.instagramindirici.test-01_FAEZLBBkzgfdQuLdB_Q==/base.dm': No such file or directory
+11-18 22:26:04.829   518   537 I ActivityTaskManager: Displayed io.github.avsessisozx.instagramindirici.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +313ms
+11-18 22:26:04.837   840   895 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@e74d3e3
+11-18 22:26:04.838   518  2387 W InputManager-JNI: Input channel object '7dae779 Splash Screen io.github.avsessisozx.instagramindirici.test (client)' was disposed without first being removed with the input manager!
+11-18 22:26:04.846   398   398 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:26:04.854  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@3082241 in: STOPPED
+11-18 22:26:04.854  4523  4523 V ActivityScenario: Update currentActivityStage to STOPPED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@3082241
+11-18 22:26:04.862  1613  1935 I AiAiEcho: Predicting[0]:
+11-18 22:26:04.862  1613  1935 I AiAiEcho: EchoTargets:
+11-18 22:26:04.862  1613  1935 I AiAiEcho: Filtered by AiAi flag check:
+11-18 22:26:04.862  1613  1935 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+11-18 22:26:04.866  4523  4523 W cr_AwContents: WebView.destroy() called while WebView is still attached to window.
+11-18 22:26:04.866  1613  1935 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+11-18 22:26:04.867  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+11-18 22:26:04.867  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+11-18 22:26:04.867  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode 1
+11-18 22:26:04.869   518  1614 W AppSearchIcing: icing-search-engine.cc:283: Error: 5, Message: Document (com.google.android.googlequicksearchbox$OneSearchZeroStateGoogleSuggestions/default, zp) not found.
+11-18 22:26:04.870  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@3082241 in: DESTROYED
+11-18 22:26:04.870  4523  4523 V ActivityScenario: Update currentActivityStage to DESTROYED, currentActivity=null
+11-18 22:26:04.877  1098  2176 D OneSearchSuggestProvider: Created the binder channel successfully for end point service =com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService , mChannel=z1{delegate=s1{logId=41, target=directaddress:///AndroidComponentAddress%5BIntent%20%7B%20act=grpc.io.action.BIND%20cmp=com.google.android.googlequicksearchbox/com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService%20%7D%5D}} , mOneSearchConnection=X1.T@945b33c
+11-18 22:26:04.883  4523  4548 I TestRunner: finished: d2_wizardOnFreshInstallThenSkips(io.github.avsessisozx.instagramindirici.EndToEndTest)

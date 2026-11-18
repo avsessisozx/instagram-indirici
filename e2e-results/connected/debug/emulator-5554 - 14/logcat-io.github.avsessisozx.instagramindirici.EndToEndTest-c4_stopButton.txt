@@ -1,0 +1,797 @@
+11-18 22:25:39.733  4523  4548 I TestRunner: started: c4_stopButton(io.github.avsessisozx.instagramindirici.EndToEndTest)
+11-18 22:25:39.738  1098  2176 D OneSearchSuggestProvider: Created the binder channel successfully for end point service =com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService , mChannel=z1{delegate=s1{logId=29, target=directaddress:///AndroidComponentAddress%5BIntent%20%7B%20act=grpc.io.action.BIND%20cmp=com.google.android.googlequicksearchbox/com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService%20%7D%5D}} , mOneSearchConnection=X1.T@5c3cff7
+11-18 22:25:39.743  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode 1
+11-18 22:25:39.743  1098  1098 W BcSmartspaceCard: No title view to update
+11-18 22:25:39.743  1098  1098 I BcSmartspaceCard: setFormattedContentDescription: text=null, iconDescription=null, contentDescription=null
+11-18 22:25:39.779  1613  1935 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+11-18 22:25:39.787  1098  1098 D CompatibilityChangeReporter: Compat change id reported: 163400105; UID 10169; state: ENABLED
+11-18 22:25:39.788  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 2, unlocked = true
+11-18 22:25:39.789  1098  1098 W TextView: onProvideContentCaptureStructure(): calling assumeLayout()
+11-18 22:25:39.790  1098  1098 W TextView: onProvideContentCaptureStructure(): calling assumeLayout()
+11-18 22:25:39.791  1098  1098 W TextView: onProvideContentCaptureStructure(): calling assumeLayout()
+11-18 22:25:39.803  4523  4548 W Settings: Setting always_finish_activities has moved from android.provider.Settings.System to android.provider.Settings.Global, returning read-only value.
+11-18 22:25:39.805  1714  1714 I A       : Constructor was called
+11-18 22:25:39.808  1714  1714 I A       : No savedInstanceState.
+11-18 22:25:39.813  1714  1714 I A       : makeRequest: subscribing to new source
+11-18 22:25:39.815  1714  1714 I A       : OnCreate Was Called
+11-18 22:25:39.816  1714  1714 I A       : getMinusOnePromotion
+11-18 22:25:39.826  1098  1098 W TextView: onProvideContentCaptureStructure(): calling assumeLayout()
+11-18 22:25:39.827  1098  1098 W TextView: onProvideContentCaptureStructure(): calling assumeLayout()
+11-18 22:25:39.828  1098  1098 W TextView: onProvideContentCaptureStructure(): calling assumeLayout()
+11-18 22:25:39.830  5306  5840 I NamespaceManager: Package com.android.refreshratecontrol name not found! Using module version.
+11-18 22:25:39.830  1098  1098 W TextView: onProvideContentCaptureStructure(): calling assumeLayout()
+11-18 22:25:39.830  5306  5840 I NamespaceManager: Package com.google.oslo name not found! Using module version.
+11-18 22:25:39.831  5306  5840 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:39.831  5306  5840 I NamespaceManager: Package com.android.media.swcodec name not found! Using module version.
+11-18 22:25:39.831  1098  1098 W TextView: onProvideContentCaptureStructure(): calling assumeLayout()
+11-18 22:25:39.832  5306  5840 I NamespaceManager: Package com.android.neuralnetworks name not found! Using module version.
+11-18 22:25:39.832  5306  5840 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:39.833  5306  5840 I NamespaceManager: Package 1 name not found! Using module version.
+11-18 22:25:39.832  1098  1098 W TextView: onProvideContentCaptureStructure(): calling assumeLayout()
+11-18 22:25:39.833  5306  5840 I NamespaceManager: Package rkpd name not found! Using module version.
+11-18 22:25:39.833  1098  1098 W TextView: onProvideContentCaptureStructure(): calling assumeLayout()
+11-18 22:25:39.834  5306  5840 I NamespaceManager: Package android.companion name not found! Using module version.
+11-18 22:25:39.834  5306  5840 I NamespaceManager: Package com.google.android.aicore name not found! Using module version.
+11-18 22:25:39.835  5306  5840 I NamespaceManager: Package com.google.android.apps.agentunderstander name not found! Using module version.
+11-18 22:25:39.835  5306  5840 I NamespaceManager: Package com.google.android.audioproxy name not found! Using module version.
+11-18 22:25:39.843  5306  5840 I NamespaceManager: Package com.google.android.apps.pixel.psi name not found! Using module version.
+11-18 22:25:39.844  5306  5840 I NamespaceManager: Package com.google.android.apps.safetycore name not found! Using module version.
+11-18 22:25:39.844  5306  5840 I NamespaceManager: Package com.google.android.crashrecovery name not found! Using module version.
+11-18 22:25:39.844  5306  5840 I NamespaceManager: Package com.google.android.profiling name not found! Using module version.
+11-18 22:25:39.844  5306  5840 I NamespaceManager: Package com.google.android.bt name not found! Using module version.
+11-18 22:25:39.844  5306  5840 I NamespaceManager: Package com.google.android.nfcservices name not found! Using module version.
+11-18 22:25:39.844  5306  5840 I NamespaceManager: Package com.google.android.webapp name not found! Using module version.
+11-18 22:25:39.844  5306  5840 I NamespaceManager: Package com.google.android.telephonycore name not found! Using module version.
+11-18 22:25:39.845  5306  5840 I NamespaceManager: Package com.google.android.uprobestats name not found! Using module version.
+11-18 22:25:39.863   840   905 D EGL_emulation: app_time_stats: avg=1371.46ms min=1371.46ms max=1371.46ms count=1
+11-18 22:25:39.883  1714  2336 I A       : #enqueuePeriodicJob: running = false
+11-18 22:25:39.889  5306  5829 I NamespaceManager: Package com.android.refreshratecontrol name not found! Using module version.
+11-18 22:25:39.892  1714  2336 I A       : #scheduledRefresh: enable_prod_refresh is true but we have no valid refresh schedule
+11-18 22:25:39.892  5353  5353 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.feedback.internal.IFeedbackService dat=chimera-action:/... cmp=com.google.android.gms/.chimera.GmsBoundBrokerService }
+11-18 22:25:39.893  5306  5829 I NamespaceManager: Package com.google.oslo name not found! Using module version.
+11-18 22:25:39.894   840   896 D SplashScreenView: Build android.window.SplashScreenView{bd0f0d1 V.E...... ......ID 0,0-0,0}
+11-18 22:25:39.894   840   896 D SplashScreenView: Icon: view: null drawable: null size: 0
+11-18 22:25:39.894   840   896 D SplashScreenView: Branding: view: android.view.View{3fc6736 G.ED..... ......I. 0,0-0,0 #10204ef android:id/splashscreen_branding_view} drawable: null size w: 0 h: 0
+11-18 22:25:39.901  1714  2293 W A       : Couldn't calculate ClientInstanceId, no account name
+11-18 22:25:39.902  5306  5829 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:39.902  5306  5829 I NamespaceManager: Package com.android.media.swcodec name not found! Using module version.
+11-18 22:25:39.905  5306  5829 I NamespaceManager: Package com.android.neuralnetworks name not found! Using module version.
+11-18 22:25:39.906  5306  5829 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:39.909  5306  5829 I NamespaceManager: Package 1 name not found! Using module version.
+11-18 22:25:39.910  5306  5829 I NamespaceManager: Package rkpd name not found! Using module version.
+11-18 22:25:39.910  5306  5829 I NamespaceManager: Package android.companion name not found! Using module version.
+11-18 22:25:39.911  5306  5829 I NamespaceManager: Package com.google.android.aicore name not found! Using module version.
+11-18 22:25:39.911  5306  5829 I NamespaceManager: Package com.google.android.apps.agentunderstander name not found! Using module version.
+11-18 22:25:39.911  5306  5829 I NamespaceManager: Package com.google.android.audioproxy name not found! Using module version.
+11-18 22:25:39.912  5306  5829 I NamespaceManager: Package com.google.android.apps.pixel.psi name not found! Using module version.
+11-18 22:25:39.913  5306  5829 I NamespaceManager: Package com.google.android.apps.safetycore name not found! Using module version.
+11-18 22:25:39.913  5306  5829 I NamespaceManager: Package com.google.android.crashrecovery name not found! Using module version.
+11-18 22:25:39.913  5306  5829 I NamespaceManager: Package com.google.android.profiling name not found! Using module version.
+11-18 22:25:39.913  5306  5829 I NamespaceManager: Package com.google.android.bt name not found! Using module version.
+11-18 22:25:39.915  5306  5829 I NamespaceManager: Package com.google.android.nfcservices name not found! Using module version.
+11-18 22:25:39.915  5306  5829 I NamespaceManager: Package com.google.android.webapp name not found! Using module version.
+11-18 22:25:39.915  5306  5829 I NamespaceManager: Package com.google.android.telephonycore name not found! Using module version.
+11-18 22:25:39.915  5306  5829 I NamespaceManager: Package com.google.android.uprobestats name not found! Using module version.
+11-18 22:25:39.920  1714  2342 I A       : loading data on surface MinusOne.
+11-18 22:25:39.925  1098  1128 I s.nexuslauncher: Background young concurrent copying GC freed 95632(4071KB) AllocSpace objects, 10(160KB) LOS objects, 31% free, 7698KB/10MB, paused 75us,20us total 254.311ms
+11-18 22:25:39.962  1714  1714 I A       : onApplyWindowInsets: systemWindowInsets=Insets{left=0, top=24, right=0, bottom=0}
+11-18 22:25:39.968  5306  5515 I NamespaceManager: Package com.android.refreshratecontrol name not found! Using module version.
+11-18 22:25:39.969  5306  5515 I NamespaceManager: Package com.google.oslo name not found! Using module version.
+11-18 22:25:39.970  5306  5515 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:39.970  5306  5515 I NamespaceManager: Package com.android.media.swcodec name not found! Using module version.
+11-18 22:25:39.971  5306  5515 I NamespaceManager: Package com.android.neuralnetworks name not found! Using module version.
+11-18 22:25:39.972  5306  5515 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:39.973   518   527 I system_server: Background young concurrent copying GC freed 358098(14MB) AllocSpace objects, 15(284KB) LOS objects, 28% free, 37MB/51MB, paused 76us,44us total 219.980ms
+11-18 22:25:39.973  5306  5515 I NamespaceManager: Package 1 name not found! Using module version.
+11-18 22:25:39.975   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:25:39.975   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:25:39.975  1098  1130 W System  : A resource failed to call release.
+11-18 22:25:39.975  1098  1130 W System  : A resource failed to call release.
+11-18 22:25:39.975  1098  1130 W System  : A resource failed to call release.
+11-18 22:25:39.975  1098  1130 W System  : A resource failed to call release.
+11-18 22:25:39.975  1098  1130 W System  : A resource failed to call release.
+11-18 22:25:39.975  1098  1130 W System  : A resource failed to call release.
+11-18 22:25:39.976  1714  1714 I A       : onApplyWindowInsets: systemWindowInsets=Insets{left=0, top=24, right=0, bottom=0}
+11-18 22:25:39.979  5306  5515 I NamespaceManager: Package rkpd name not found! Using module version.
+11-18 22:25:39.979   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:25:39.979   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:25:39.979   518   528 W JavaBinder: BinderProxy is being destroyed but the application did not call unlinkToDeath to unlink all of its death recipients beforehand.  Releasing leaked death recipient: com.android.server.am.ActivityManagerService$14
+11-18 22:25:39.979   518   528 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:25:39.993  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@5734abb in: PRE_ON_CREATE
+11-18 22:25:40.000  5306  5515 I NamespaceManager: Package android.companion name not found! Using module version.
+11-18 22:25:40.000  5306  5515 I NamespaceManager: Package com.google.android.aicore name not found! Using module version.
+11-18 22:25:40.000  5306  5515 I NamespaceManager: Package com.google.android.apps.agentunderstander name not found! Using module version.
+11-18 22:25:40.000  5306  5515 I NamespaceManager: Package com.google.android.audioproxy name not found! Using module version.
+11-18 22:25:40.000  5306  5515 I NamespaceManager: Package com.google.android.apps.pixel.psi name not found! Using module version.
+11-18 22:25:40.001  5306  5515 I NamespaceManager: Package com.google.android.apps.safetycore name not found! Using module version.
+11-18 22:25:40.001  5306  5515 I NamespaceManager: Package com.google.android.crashrecovery name not found! Using module version.
+11-18 22:25:40.001  5306  5515 I NamespaceManager: Package com.google.android.profiling name not found! Using module version.
+11-18 22:25:40.001  5306  5515 I NamespaceManager: Package com.google.android.bt name not found! Using module version.
+11-18 22:25:40.001  5306  5515 I NamespaceManager: Package com.google.android.nfcservices name not found! Using module version.
+11-18 22:25:40.001  5306  5515 I NamespaceManager: Package com.google.android.webapp name not found! Using module version.
+11-18 22:25:40.003  1714  1714 I A       : Created gRPC endpoint to "search" for service class com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService
+11-18 22:25:40.003  5306  5515 I NamespaceManager: Package com.google.android.telephonycore name not found! Using module version.
+11-18 22:25:40.004  5306  5515 I NamespaceManager: Package com.google.android.uprobestats name not found! Using module version.
+11-18 22:25:40.008  4523  4523 V ActivityScenario: Activity lifecycle changed event received but ignored because the reported transition was not ON_CREATE while the last known transition was PRE_ON_CREATE
+11-18 22:25:40.043  5306  5515 I NamespaceManager: Package com.android.refreshratecontrol name not found! Using module version.
+11-18 22:25:40.045  5306  5515 I NamespaceManager: Package com.google.oslo name not found! Using module version.
+11-18 22:25:40.045  5306  5515 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.046  4523  4523 D AutofillManager: Fill dialog is enabled:false, hints=[password, passwordAuto, creditCardNumber, creditCardSecurityCode, creditCardExpirationDate]
+11-18 22:25:40.046  5306  5515 I NamespaceManager: Package com.android.media.swcodec name not found! Using module version.
+11-18 22:25:40.048  5306  5515 I NamespaceManager: Package com.android.neuralnetworks name not found! Using module version.
+11-18 22:25:40.048  5306  5515 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.048  5306  5515 I NamespaceManager: Package 1 name not found! Using module version.
+11-18 22:25:40.049  5306  5515 I NamespaceManager: Package rkpd name not found! Using module version.
+11-18 22:25:40.049  5306  5515 I NamespaceManager: Package android.companion name not found! Using module version.
+11-18 22:25:40.051  5306  5515 I NamespaceManager: Package com.google.android.aicore name not found! Using module version.
+11-18 22:25:40.051  5306  5515 I NamespaceManager: Package com.google.android.apps.agentunderstander name not found! Using module version.
+11-18 22:25:40.052  5306  5515 I NamespaceManager: Package com.google.android.audioproxy name not found! Using module version.
+11-18 22:25:40.055  5306  5515 I NamespaceManager: Package com.google.android.apps.pixel.psi name not found! Using module version.
+11-18 22:25:40.055  5306  5515 I NamespaceManager: Package com.google.android.apps.safetycore name not found! Using module version.
+11-18 22:25:40.056  5306  5515 I NamespaceManager: Package com.google.android.crashrecovery name not found! Using module version.
+11-18 22:25:40.056  5306  5515 I NamespaceManager: Package com.google.android.profiling name not found! Using module version.
+11-18 22:25:40.057  5306  5515 I NamespaceManager: Package com.google.android.bt name not found! Using module version.
+11-18 22:25:40.059  5306  5515 I NamespaceManager: Package com.google.android.nfcservices name not found! Using module version.
+11-18 22:25:40.059  5306  5515 I NamespaceManager: Package com.google.android.webapp name not found! Using module version.
+11-18 22:25:40.060  5306  5515 I NamespaceManager: Package com.google.android.telephonycore name not found! Using module version.
+11-18 22:25:40.061  5306  5515 I NamespaceManager: Package com.google.android.uprobestats name not found! Using module version.
+11-18 22:25:40.064  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@5734abb in: CREATED
+11-18 22:25:40.064  4523  4523 V ActivityScenario: Update currentActivityStage to CREATED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@5734abb
+11-18 22:25:40.066  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@5734abb in: STARTED
+11-18 22:25:40.067  4523  4523 V ActivityScenario: Update currentActivityStage to STARTED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@5734abb
+11-18 22:25:40.071  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@5734abb in: RESUMED
+11-18 22:25:40.071  4523  4523 V ActivityScenario: Update currentActivityStage to RESUMED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@5734abb
+11-18 22:25:40.081  5306  5682 I NamespaceManager: Package com.android.refreshratecontrol name not found! Using module version.
+11-18 22:25:40.082  5306  5682 I NamespaceManager: Package com.google.oslo name not found! Using module version.
+11-18 22:25:40.083  5306  5682 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.083  5306  5682 I NamespaceManager: Package com.android.media.swcodec name not found! Using module version.
+11-18 22:25:40.084  5306  5682 I NamespaceManager: Package com.android.neuralnetworks name not found! Using module version.
+11-18 22:25:40.084  5306  5682 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.085  5306  5682 I NamespaceManager: Package 1 name not found! Using module version.
+11-18 22:25:40.086  5306  5682 I NamespaceManager: Package rkpd name not found! Using module version.
+11-18 22:25:40.086  5306  5682 I NamespaceManager: Package android.companion name not found! Using module version.
+11-18 22:25:40.086  5306  5682 I NamespaceManager: Package com.google.android.aicore name not found! Using module version.
+11-18 22:25:40.086  5306  5682 I NamespaceManager: Package com.google.android.apps.agentunderstander name not found! Using module version.
+11-18 22:25:40.092  5306  5682 I NamespaceManager: Package com.google.android.audioproxy name not found! Using module version.
+11-18 22:25:40.105  5306  5682 I NamespaceManager: Package com.google.android.apps.pixel.psi name not found! Using module version.
+11-18 22:25:40.106  5306  5682 I NamespaceManager: Package com.google.android.apps.safetycore name not found! Using module version.
+11-18 22:25:40.107  5306  5682 I NamespaceManager: Package com.google.android.crashrecovery name not found! Using module version.
+11-18 22:25:40.108  5306  5682 I NamespaceManager: Package com.google.android.profiling name not found! Using module version.
+11-18 22:25:40.109  5306  5682 I NamespaceManager: Package com.google.android.bt name not found! Using module version.
+11-18 22:25:40.111  5306  5682 I NamespaceManager: Package com.google.android.nfcservices name not found! Using module version.
+11-18 22:25:40.111  5306  5682 I NamespaceManager: Package com.google.android.webapp name not found! Using module version.
+11-18 22:25:40.112  5306  5682 I NamespaceManager: Package com.google.android.telephonycore name not found! Using module version.
+11-18 22:25:40.112  5306  5682 I NamespaceManager: Package com.google.android.uprobestats name not found! Using module version.
+11-18 22:25:40.125  1714  2292 W SQLiteLog: (28) double-quoted string literal: "MAIN_FEED"
+11-18 22:25:40.125  1714  2292 W SQLiteLog: (28) double-quoted string literal: "Session::Current"
+11-18 22:25:40.126  1714  2292 W SQLiteLog: (28) double-quoted string literal: "MAIN_FEED"
+11-18 22:25:40.126  1714  2292 W SQLiteLog: (28) double-quoted string literal: "Session::Current"
+11-18 22:25:40.133  1714  2293 W earchbox:search: Long monitor contention with owner BG Thread #0 (2291) at void java.lang.Runtime.loadLibrary0(java.lang.ClassLoader, java.lang.Class, java.lang.String)(Runtime.java:1084) waiters=0 in void java.lang.Runtime.loadLibrary0(java.lang.ClassLoader, java.lang.Class, java.lang.String) for 175ms
+11-18 22:25:40.137  5306  5682 I NamespaceManager: Package com.android.refreshratecontrol name not found! Using module version.
+11-18 22:25:40.140  5306  5682 I NamespaceManager: Package com.google.oslo name not found! Using module version.
+11-18 22:25:40.140  5306  5682 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.143  5306  5682 I NamespaceManager: Package com.android.media.swcodec name not found! Using module version.
+11-18 22:25:40.144  5306  5682 I NamespaceManager: Package com.android.neuralnetworks name not found! Using module version.
+11-18 22:25:40.145  5306  5682 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.151  5306  5682 I NamespaceManager: Package 1 name not found! Using module version.
+11-18 22:25:40.156  5306  5682 I NamespaceManager: Package rkpd name not found! Using module version.
+11-18 22:25:40.157  5306  5682 I NamespaceManager: Package android.companion name not found! Using module version.
+11-18 22:25:40.159  5306  5682 I NamespaceManager: Package com.google.android.aicore name not found! Using module version.
+11-18 22:25:40.159  5306  5682 I NamespaceManager: Package com.google.android.apps.agentunderstander name not found! Using module version.
+11-18 22:25:40.160  5306  5682 I NamespaceManager: Package com.google.android.audioproxy name not found! Using module version.
+11-18 22:25:40.160  5306  5682 I NamespaceManager: Package com.google.android.apps.pixel.psi name not found! Using module version.
+11-18 22:25:40.161  5306  5682 I NamespaceManager: Package com.google.android.apps.safetycore name not found! Using module version.
+11-18 22:25:40.161  5306  5682 I NamespaceManager: Package com.google.android.crashrecovery name not found! Using module version.
+11-18 22:25:40.162  5306  5682 I NamespaceManager: Package com.google.android.profiling name not found! Using module version.
+11-18 22:25:40.170  5306  5682 I NamespaceManager: Package com.google.android.bt name not found! Using module version.
+11-18 22:25:40.171  1714  2292 W A       : Didn't find the session (MAIN_FEED, true)
+11-18 22:25:40.171  5306  5682 I NamespaceManager: Package com.google.android.nfcservices name not found! Using module version.
+11-18 22:25:40.173  1714  2292 W A       : Didn't find the session (MAIN_FEED, false)
+11-18 22:25:40.173  5306  5682 I NamespaceManager: Package com.google.android.webapp name not found! Using module version.
+11-18 22:25:40.174  5306  5682 I NamespaceManager: Package com.google.android.telephonycore name not found! Using module version.
+11-18 22:25:40.175  5306  5682 I NamespaceManager: Package com.google.android.uprobestats name not found! Using module version.
+11-18 22:25:40.186  1714  2336 W A       : RenderableStreamDataSource#loadData - failed precheck
+11-18 22:25:40.186  1714  2336 W A       : DiscoverPrecheckException(precheckFailureReason=com.google.android.apps.search.googleapp.discover.w.a.c@2b268cb)
+11-18 22:25:40.186  1714  2336 W A       : 	at com.google.android.apps.search.googleapp.discover.w.bb.d(PG:16)
+11-18 22:25:40.186  1714  2336 W A       : 	at com.google.android.apps.search.googleapp.discover.w.ap.invokeSuspend(PG:5)
+11-18 22:25:40.186  1714  2336 W A       : 	at com.google.android.apps.search.googleapp.discover.w.ap.invoke(PG:1)
+11-18 22:25:40.186  1714  2336 W A       : 	at kotlinx.coroutines.f.b.a(PG:1)
+11-18 22:25:40.186  1714  2336 W A       : 	at kotlinx.coroutines.m.a(PG:11)
+11-18 22:25:40.186  1714  2336 W A       : 	at com.google.android.apps.search.googleapp.discover.v.bb.f(PG:2)
+11-18 22:25:40.186  1714  2336 W A       : 	at com.google.android.apps.search.googleapp.discover.v.bb.d(PG:15)
+11-18 22:25:40.186  1714  2336 W A       : 	at com.google.android.apps.search.googleapp.discover.v.an.invokeSuspend(PG:1)
+11-18 22:25:40.186  1714  2336 W A       : 	at i.c.b.a.a.resumeWith(PG:4)
+11-18 22:25:40.186  1714  2336 W A       : 	at kotlinx.coroutines.bk.run(PG:14)
+11-18 22:25:40.186  1714  2336 W A       : 	at com.google.apps.tiktok.coroutines.f.run(PG:1)
+11-18 22:25:40.186  1714  2336 W A       : 	at com.google.android.libraries.i.ae.run(PG:1)
+11-18 22:25:40.186  1714  2336 W A       : 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+11-18 22:25:40.186  1714  2336 W A       : 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+11-18 22:25:40.186  1714  2336 W A       : 	at com.google.android.libraries.i.k.run(PG:2)
+11-18 22:25:40.186  1714  2336 W A       : 	at com.google.android.libraries.i.p.run(PG:4)
+11-18 22:25:40.186  1714  2336 W A       : 	at java.lang.Thread.run(Thread.java:1012)
+11-18 22:25:40.195  5306  5682 I NamespaceManager: Package com.android.refreshratecontrol name not found! Using module version.
+11-18 22:25:40.195  5306  5682 I NamespaceManager: Package com.google.oslo name not found! Using module version.
+11-18 22:25:40.196  5306  5682 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.197  5306  5682 I NamespaceManager: Package com.android.media.swcodec name not found! Using module version.
+11-18 22:25:40.197  5306  5682 I NamespaceManager: Package com.android.neuralnetworks name not found! Using module version.
+11-18 22:25:40.198  1714  2397 I A       : Using proto config with mendel
+11-18 22:25:40.199  1714  2397 W A       : Queue length for executor EventBus is now 11. Perhaps some tasks are too long, or the pool is too small.
+11-18 22:25:40.199  5306  5682 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.204  1714  2336 W A       : Batch timed out; batchId=1 taskId=-1000006
+11-18 22:25:40.207  5306  5682 I NamespaceManager: Package 1 name not found! Using module version.
+11-18 22:25:40.207  5306  5682 I NamespaceManager: Package rkpd name not found! Using module version.
+11-18 22:25:40.207  5306  5682 I NamespaceManager: Package android.companion name not found! Using module version.
+11-18 22:25:40.208  5306  5682 I NamespaceManager: Package com.google.android.aicore name not found! Using module version.
+11-18 22:25:40.208  5306  5682 I NamespaceManager: Package com.google.android.apps.agentunderstander name not found! Using module version.
+11-18 22:25:40.209  5306  5682 I NamespaceManager: Package com.google.android.audioproxy name not found! Using module version.
+11-18 22:25:40.210  5306  5682 I NamespaceManager: Package com.google.android.apps.pixel.psi name not found! Using module version.
+11-18 22:25:40.210  5306  5682 I NamespaceManager: Package com.google.android.apps.safetycore name not found! Using module version.
+11-18 22:25:40.211  5306  5682 I NamespaceManager: Package com.google.android.crashrecovery name not found! Using module version.
+11-18 22:25:40.216  5306  5682 I NamespaceManager: Package com.google.android.profiling name not found! Using module version.
+11-18 22:25:40.217  5306  5682 I NamespaceManager: Package com.google.android.bt name not found! Using module version.
+11-18 22:25:40.218  5306  5682 I NamespaceManager: Package com.google.android.nfcservices name not found! Using module version.
+11-18 22:25:40.219  5306  5682 I NamespaceManager: Package com.google.android.webapp name not found! Using module version.
+11-18 22:25:40.219  5306  5682 I NamespaceManager: Package com.google.android.telephonycore name not found! Using module version.
+11-18 22:25:40.219  5306  5682 I NamespaceManager: Package com.google.android.uprobestats name not found! Using module version.
+11-18 22:25:40.222  5306  5317 I FontLog : Updating from directory version 0 to 25 from disk [CONTEXT service_id=132 ]
+11-18 22:25:40.227  5306  5884 I FontLog : Using directory in FlatBuffer format [CONTEXT service_id=132 ]
+11-18 22:25:40.227  5306  5317 I FontLog : Received query Google Sans, URI content://com.google.android.gms.fonts [CONTEXT service_id=132 ]
+11-18 22:25:40.227  5306  5317 I FontLog : Query [Google Sans] resolved to {Google Sans, wdth 100.0, wght 400, ital 0.0, bestEffort false} [CONTEXT service_id=132 ]
+11-18 22:25:40.228  5306  5316 I FontLog : Received query Google Sans:500, URI content://com.google.android.gms.fonts [CONTEXT service_id=132 ]
+11-18 22:25:40.228  5306  5316 I FontLog : Query [Google Sans:500] resolved to {Google Sans, wdth 100.0, wght 500, ital 0.0, bestEffort false} [CONTEXT service_id=132 ]
+11-18 22:25:40.237   518   537 W ziparchive: Unable to open '/data/app/~~L9bpiABHkdiFF46a2mOTaA==/io.github.avsessisozx.instagramindirici-P_pNh-QJzCYER8ciG7w39w==/base.dm': No such file or directory
+11-18 22:25:40.239   518   537 I ActivityTaskManager: Displayed io.github.avsessisozx.instagramindirici/.MainActivity for user 0: +364ms
+11-18 22:25:40.241  5306  5316 I FontLog : Font PFD returned from cache for {Google Sans, wdth 100.0, wght 500, ital 0.0, bestEffort false} [CONTEXT service_id=132 ]
+11-18 22:25:40.241  5306  5316 I FontLog : Fetch {Google Sans, wdth 100.0, wght 500, ital 0.0, bestEffort false} end status Status{statusCode=SUCCESS, resolution=null} [CONTEXT service_id=132 ]
+11-18 22:25:40.245  5306  5317 I FontLog : Font PFD returned from cache for {Google Sans, wdth 100.0, wght 400, ital 0.0, bestEffort false} [CONTEXT service_id=132 ]
+11-18 22:25:40.245  5306  5317 I FontLog : Fetch {Google Sans, wdth 100.0, wght 400, ital 0.0, bestEffort false} end status Status{statusCode=SUCCESS, resolution=null} [CONTEXT service_id=132 ]
+11-18 22:25:40.245  5003  5003 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@aae2cb5
+11-18 22:25:40.251  5306  5316 I FontLog : Pulling font file for id = 1, cache size = 2 [CONTEXT service_id=132 ]
+11-18 22:25:40.251  5306  5317 I FontLog : Pulling font file for id = 2, cache size = 2 [CONTEXT service_id=132 ]
+11-18 22:25:40.253  4523  4548 W SurfaceComposerClient: Sync transaction timed out waiting for commit callback.
+11-18 22:25:40.272  1714  1714 W A       : Could not collect restore state: The DisplayCoordinator's controller has not taken over yet.
+11-18 22:25:40.273   840   895 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@9a2c90d
+11-18 22:25:40.274   518   937 W InputManager-JNI: Input channel object '960fa09 io.github.avsessisozx.instagramindirici.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity (client)' was disposed without first being removed with the input manager!
+11-18 22:25:40.284  5306  5682 I NamespaceManager: Package com.android.refreshratecontrol name not found! Using module version.
+11-18 22:25:40.284  5306  5682 I NamespaceManager: Package com.google.oslo name not found! Using module version.
+11-18 22:25:40.284  5306  5682 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.285  5306  5682 I NamespaceManager: Package com.android.media.swcodec name not found! Using module version.
+11-18 22:25:40.285  5306  5682 I NamespaceManager: Package com.android.neuralnetworks name not found! Using module version.
+11-18 22:25:40.285  5306  5682 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.286  5306  5682 I NamespaceManager: Package 1 name not found! Using module version.
+11-18 22:25:40.286  5306  5682 I NamespaceManager: Package rkpd name not found! Using module version.
+11-18 22:25:40.287  5306  5682 I NamespaceManager: Package android.companion name not found! Using module version.
+11-18 22:25:40.287  5306  5682 I NamespaceManager: Package com.google.android.aicore name not found! Using module version.
+11-18 22:25:40.287  5306  5682 I NamespaceManager: Package com.google.android.apps.agentunderstander name not found! Using module version.
+11-18 22:25:40.288  5306  5682 I NamespaceManager: Package com.google.android.audioproxy name not found! Using module version.
+11-18 22:25:40.288  5306  5682 I NamespaceManager: Package com.google.android.apps.pixel.psi name not found! Using module version.
+11-18 22:25:40.289  5306  5682 I NamespaceManager: Package com.google.android.apps.safetycore name not found! Using module version.
+11-18 22:25:40.289  5306  5682 I NamespaceManager: Package com.google.android.crashrecovery name not found! Using module version.
+11-18 22:25:40.289  1098  2176 D OneSearchSuggestProvider: Shut down the binder channel
+11-18 22:25:40.290  5306  5682 I NamespaceManager: Package com.google.android.profiling name not found! Using module version.
+11-18 22:25:40.290  5306  5682 I NamespaceManager: Package com.google.android.bt name not found! Using module version.
+11-18 22:25:40.291  5306  5682 I NamespaceManager: Package com.google.android.nfcservices name not found! Using module version.
+11-18 22:25:40.292  5306  5682 I NamespaceManager: Package com.google.android.webapp name not found! Using module version.
+11-18 22:25:40.295  5306  5682 I NamespaceManager: Package com.google.android.telephonycore name not found! Using module version.
+11-18 22:25:40.297  1098  1157 I ImeTracker: com.google.android.apps.nexuslauncher:6b762ebe: onRequestHide at ORIGIN_CLIENT_HIDE_SOFT_INPUT reason HIDE_SOFT_INPUT
+11-18 22:25:40.297  1098  1157 I ImeTracker: com.google.android.apps.nexuslauncher:6b762ebe: onFailed at PHASE_CLIENT_VIEW_SERVED
+11-18 22:25:40.300  5306  5682 I NamespaceManager: Package com.google.android.uprobestats name not found! Using module version.
+11-18 22:25:40.300  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+11-18 22:25:40.301  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+11-18 22:25:40.301  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode 1
+11-18 22:25:40.306  1098  1633 I IPCThreadState: oneway function results for code 2 on binder at 0x7ea3ea8b6d80 will be dropped but finished with status UNKNOWN_TRANSACTION
+11-18 22:25:40.311   518   980 W InputManager-JNI: Input channel object 'a4cbd0 Splash Screen io.github.avsessisozx.instagramindirici (client)' was disposed without first being removed with the input manager!
+11-18 22:25:40.325  1714  2397 I A       : Using proto config with mendel
+11-18 22:25:40.327  1098  1098 D SearchTargetUtil:  query= size=15
+11-18 22:25:40.327  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=usda health alert breakfast,group_id=web169832,response_id=ca992639-d709-4a41-89d6-72555dab894c,support_query_builder=false,} searchAction=usda health alert breakfast searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 54f4180c-7e06-4e3c-b3e9-0f21471f51ff
+11-18 22:25:40.328  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=spartanburg water boil water advisory,group_id=web169832,response_id=ca992639-d709-4a41-89d6-72555dab894c,support_query_builder=false,} searchAction=spartanburg water boil water advisory searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: e309817d-8839-4006-95e7-5db135e1fe75
+11-18 22:25:40.335  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=warframe eris,group_id=web169832,response_id=ca992639-d709-4a41-89d6-72555dab894c,support_query_builder=false,} searchAction=warframe eris searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 3c167f30-c16a-4f24-ba54-3a36620e23f6
+11-18 22:25:40.335   518  2283 I ImeTracker: io.github.avsessisozx.instagramindirici:ef44c28: onRequestHide at ORIGIN_SERVER_HIDE_INPUT reason HIDE_UNSPECIFIED_WINDOW
+11-18 22:25:40.335   518  2283 I ImeTracker: io.github.avsessisozx.instagramindirici:ef44c28: onCancelled at PHASE_SERVER_SHOULD_HIDE
+11-18 22:25:40.336  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():3227
+11-18 22:25:40.336  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 0, unlocked = true
+11-18 22:25:40.336  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1877 onStartInput(EditorInfo{inputType=0x0(NULL) imeOptions=0x0 privateImeOptions=null actionName=UNSPECIFIED actionLabel=null actionId=0 initialSelStart=-1 initialSelEnd=-1 initialCapsMode=0x0 hintText=null label=null packageName=io.github.avsessisozx.instagramindirici fieldId=0 fieldName=null extras=null}, false)
+11-18 22:25:40.336  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.shouldHideHeaderOnInitialState():4008 ShouldHideHeaderOnInitialState = false
+11-18 22:25:40.337  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 2, unlocked = true
+11-18 22:25:40.339  1098  1098 D SearchTargetUtil: layoutType=extra_tall_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{bitmap_url=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAVCAMAAAA3vZ0wAAAAkFBMVEX///+iqa0KIkD9/v8ADTWUmqOts7f2+Pmco6cABDKvs7rJzNEAACwAACQAADA+Sl4AAChocH7n6eyEipVja3oAHT0AAADw8fN6gY0AFznd3+Nwd4S/wsiLkJsdL0lIUmUAABYAACAwPVTT1tpTXW5UiS9ZkC0AADpGeCxush5Dci8AABtcYndESWhDS2RkaX3sRUV5AAABYUlEQVQ4jZ2R2ZKDIBBFW4WoCChGgiIuUTP78v9/N5DEGuPkIc4pi0K5h4YW4H/k+UahZALfIyLj/QLMr9ASyhjLuJ1wmpXhX6Go/AWSo5IYg6cMSfuKqF7nR7bMI2lA47rGiSIttVvJDE2NWdZJ5WJ7VoMejn3X2OOUeqxR5beYUco6MudNH89wigzgY1woGPnp6ZkOmOxTCOzAOK2Sq0B+sZ8KKgd3L/ry+nZiYn+4tFzhTL6fjXDJucV+1SlQzcfn17cBUUDgANBUtk6IbtiFQKzBCuzZgl55bIOLYJUGMWVbFHk3RDnksR+32CQO19JZMNwJ3hpsF2gDYSS6QtSNlyi4SEC4tDeI1kIS8rgEcohUPmqtR7OfavcXAhAUW9VbHwlwNoA55EnMMkdbYIJFkYBi1DUlNLtbQt113ZDa58qA+r6tu3RiBB5FaZJKKh7On6nSbXlIg235fGN+jv8AiYca4zBaRtcAAAAASUVORK5CYII=,suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=true,is_personal=false,suggest_raw_text=seattle seahawks,group_id=web169832,response_id=ca992639-d709-4a41-89d6-72555dab894c,support_query_builder=false,} searchAction=Seattle Seahawks searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 16ef4a1c-390b-4911-8a74-5163d85a8f0d
+11-18 22:25:40.340  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=ps5 pro black friday deals,group_id=web169832,response_id=ca992639-d709-4a41-89d6-72555dab894c,support_query_builder=false,} searchAction=ps5 pro black friday deals searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 258f44fe-de61-4e2e-81eb-df999f05e219
+11-18 22:25:40.340  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=chatgpt 6.2 astra,group_id=web169832,response_id=ca992639-d709-4a41-89d6-72555dab894c,support_query_builder=false,} searchAction=chatgpt 6.2 astra searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 9b37301e-c326-4c5e-bf74-37143fa45881
+11-18 22:25:40.340  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=cia headquarters fire,group_id=web169832,response_id=ca992639-d709-4a41-89d6-72555dab894c,support_query_builder=false,} searchAction=cia headquarters fire searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: b3909ab6-acc4-4b43-90a8-d95436151f29
+11-18 22:25:40.340  1098  1098 D SearchTargetUtil: layoutType=extra_tall_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{bitmap_url=data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIADAAMAMBIgACEQEDEQH/xAAbAAADAAMBAQAAAAAAAAAAAAAEBQYBAwcCAP/EADYQAAIBAgQEAggDCQAAAAAAAAECAwQRAAUhMQYSQVETcQciMmGRobHBFNHwFSNCUnKBgqLh/8QAFwEBAQEBAAAAAAAAAAAAAAAABQYEAv/EACkRAAEDAgQEBwEAAAAAAAAAAAECAwQAERIhMUEFE2HxFFFxkaHh8CL/2gAMAwEAAhEDEQA/AGHpJpeWpoa1R7atC58vWX6thBw9OIM8y+Qmw8dVJ8zb74ueNqUVmQTW9uBlmU9rGx/1JxzHM6OZ6LkilA8Q2Y8uw+OEOGSEr4cpCtrj370ZPZKeIJKd7H27VT8b8Z5fV0k+XUKNUkOt51ayAqQdP5trfniLgzhGUGWJkuLizX0wdlPClRXFFmLQxmMEPbcfrpg6f0fRqVtXuwGoBQEg+7GOLIVETgbOVKyIIlHEsZ0NG4kUNGeYEXFtcbBFK20bf30+uM5TDJQrJQySF/Bb1GI3U/8Ab4YE4pmXuagL86kJKSw6ps7UbJnOeVcDQAQNCyeGeSnYki1jc3P0wGcpqZacRsDEdCviqRzkdNvIa98GZZmlNQU0i1MjLeTmAVGY7DoAe2G0dbDVUyVsMbyotypsVK68tzfbXv3xOSHzGWphtrCkm1886pIUcScD7ruJQ2yyr1QtN+z0NIsbSFP4zYX+eAqt85iy+WZ5IROWAVOU2Ck/Xbpj6hrlpwq22GwwDnlZM8RkDVkSmxKCM2a3TbzxjtTdxWciyybNa2YVIEPh28VlG/a3nriqj4dytQA0cj+9pD9rYTcG1/4r8cxUqeZDY72IP5HCzjCWo/bShaqoRVhVkWOVlANzrYHfTfHaHZUh8R214QB90VIZiR0KkuIxEn16b0skkSNC8rKqDUsxsBgngL0gU+U5jLT5pTeJST+pG6AXjBJuCD7V7j4dcQGY101dLzSn1R7KDZf13wDqNDthOW/z/wCRoKxcOiiMcS8ydfSu9Z1w7DWRpnfCkiVVMzcz06GxXvy32/pNiPliCzfM4J6lo2o6gTRauroykbDY6dR8caOA+L6vJarmRjICAJoWOkyDr7mHf7Xwx9I/EMlTmVJXZXDGuVSQtHcqOeVgQzq3VbeqR5HvbByACqytaoXmuUkOIN21aHcdD1HzW/gmrda6qgkVI+eMOoBudDrc/wCWC+LaGsqnjqqEglI+R1C3a17gj4nErSVYm8Osy6fkmjNweqnswxTZZxJFOwhr1/C1B0BJ/dufceh9x+eOJKHmX/EtZ/rV14ZlTXLtdOvn1r//2Q==,suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=true,is_personal=false,suggest_raw_text=taylor sheridan,group_id=web169832,response_id=ca992639-d709-4a41-89d6-72555dab894c,support_query_builder=false,} searchAction=Taylor Sheridan searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 8c7a7916-a2ba-49ec-92fd-f652697ed18a
+11-18 22:25:40.341  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=measles elimination status,group_id=web169832,response_id=ca992639-d709-4a41-89d6-72555dab894c,support_query_builder=false,} searchAction=measles elimination status searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 5f4cf9fc-7143-4840-9438-d1e4c82e1dda
+11-18 22:25:40.341  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=save plan student loans,group_id=web169832,response_id=ca992639-d709-4a41-89d6-72555dab894c,support_query_builder=false,} searchAction=save plan student loans searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: a9b5823b-e42d-414b-bd23-32fce0b68cf0
+11-18 22:25:40.341  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=timex x bespoke post field watch,group_id=web169832,response_id=ca992639-d709-4a41-89d6-72555dab894c,support_query_builder=false,} searchAction=timex x bespoke post field watch searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: c554c2ee-50ca-449e-999e-ae2a27dcaa57
+11-18 22:25:40.341  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=nasa voyager 1 light day,group_id=web169832,response_id=ca992639-d709-4a41-89d6-72555dab894c,support_query_builder=false,} searchAction=nasa voyager 1 light day searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: df34bf96-10eb-4996-a9c2-8fb930e25d77
+11-18 22:25:40.341  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=costco whipped cream recall,group_id=web169832,response_id=ca992639-d709-4a41-89d6-72555dab894c,support_query_builder=false,} searchAction=costco whipped cream recall searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 3160f4b5-2e4e-4fac-87d0-55f862b04ef1
+11-18 22:25:40.341  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=world ending,group_id=web169832,response_id=ca992639-d709-4a41-89d6-72555dab894c,support_query_builder=false,} searchAction=world ending searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 6e2c940f-4134-406b-adf9-2ab879b2f562
+11-18 22:25:40.341  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=marvel avengers doomsday,group_id=web169832,response_id=ca992639-d709-4a41-89d6-72555dab894c,support_query_builder=false,} searchAction=marvel avengers doomsday searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: b1c576fc-d62c-4c42-b557-95c7c6b90e24
+11-18 22:25:40.356  5306  5840 I NamespaceManager: Package com.android.refreshratecontrol name not found! Using module version.
+11-18 22:25:40.356  5306  5840 I NamespaceManager: Package com.google.oslo name not found! Using module version.
+11-18 22:25:40.357  5306  5840 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.357  5306  5840 I NamespaceManager: Package com.android.media.swcodec name not found! Using module version.
+11-18 22:25:40.369  1714  2622 I PBSessionCacheImpl: Deleted sessionId[7540046760645422] from persistence.
+11-18 22:25:40.378  1714  2342 I A       : group apa_head_suggest not present without account in *
+11-18 22:25:40.380  1714  2342 I A       : incrementApaDataDownloadStoreStatus(latency = PT0.077S, appVersion = 13.17.16.23, status = NOT_FOUND, locale = *, fileGroupnames = apa_head_suggest, accountScoped = false, localGroupsAvailable = false, timeSinceSearchBoot = Optional[PT2M10.662S] (ONE_TO_FIVE_MINUTES), timeSinceDataDownloadInit = PT1M38.904S (ONE_TO_FIVE_MINUTES))
+11-18 22:25:40.384  5306  5840 I NamespaceManager: Package com.android.neuralnetworks name not found! Using module version.
+11-18 22:25:40.384  5306  5840 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.384  5306  5840 I NamespaceManager: Package 1 name not found! Using module version.
+11-18 22:25:40.384  5306  5840 I NamespaceManager: Package rkpd name not found! Using module version.
+11-18 22:25:40.391  1714  2397 W SearchServiceCore: Abort, client detached.
+11-18 22:25:40.391  1714  2397 W SearchServiceCore: Abort, client detached.
+11-18 22:25:40.391  1714  2397 W SearchServiceCore: Abort, client detached.
+11-18 22:25:40.391  1714  2397 W SearchServiceCore: Abort, client detached.
+11-18 22:25:40.392  1714  2397 W SearchServiceCore: Abort, client detached.
+11-18 22:25:40.392  1714  2397 W SearchServiceCore: Abort, client detached.
+11-18 22:25:40.392  1714  2397 W SearchServiceCore: Abort, client detached.
+11-18 22:25:40.395  5306  5840 I NamespaceManager: Package android.companion name not found! Using module version.
+11-18 22:25:40.395  5306  5840 I NamespaceManager: Package com.google.android.aicore name not found! Using module version.
+11-18 22:25:40.395  5306  5840 I NamespaceManager: Package com.google.android.apps.agentunderstander name not found! Using module version.
+11-18 22:25:40.395  5306  5840 I NamespaceManager: Package com.google.android.audioproxy name not found! Using module version.
+11-18 22:25:40.395  5306  5840 I NamespaceManager: Package com.google.android.apps.pixel.psi name not found! Using module version.
+11-18 22:25:40.395  5306  5840 I NamespaceManager: Package com.google.android.apps.safetycore name not found! Using module version.
+11-18 22:25:40.395  5306  5840 I NamespaceManager: Package com.google.android.crashrecovery name not found! Using module version.
+11-18 22:25:40.399  5306  5840 I NamespaceManager: Package com.google.android.profiling name not found! Using module version.
+11-18 22:25:40.399  5306  5840 I NamespaceManager: Package com.google.android.bt name not found! Using module version.
+11-18 22:25:40.399  5306  5840 I NamespaceManager: Package com.google.android.nfcservices name not found! Using module version.
+11-18 22:25:40.399  5306  5840 I NamespaceManager: Package com.google.android.webapp name not found! Using module version.
+11-18 22:25:40.399  5306  5840 I NamespaceManager: Package com.google.android.telephonycore name not found! Using module version.
+11-18 22:25:40.407  5306  5840 I NamespaceManager: Package com.google.android.uprobestats name not found! Using module version.
+11-18 22:25:40.418  5306  5829 I NamespaceManager: Package com.android.refreshratecontrol name not found! Using module version.
+11-18 22:25:40.418  5306  5829 I NamespaceManager: Package com.google.oslo name not found! Using module version.
+11-18 22:25:40.419  5306  5829 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.420  5306  5829 I NamespaceManager: Package com.android.media.swcodec name not found! Using module version.
+11-18 22:25:40.422  5306  5829 I NamespaceManager: Package com.android.neuralnetworks name not found! Using module version.
+11-18 22:25:40.423  5306  5829 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.425  5306  5829 I NamespaceManager: Package 1 name not found! Using module version.
+11-18 22:25:40.426  5306  5829 I NamespaceManager: Package rkpd name not found! Using module version.
+11-18 22:25:40.427  5306  5829 I NamespaceManager: Package android.companion name not found! Using module version.
+11-18 22:25:40.427  5306  5829 I NamespaceManager: Package com.google.android.aicore name not found! Using module version.
+11-18 22:25:40.431  5306  5829 I NamespaceManager: Package com.google.android.apps.agentunderstander name not found! Using module version.
+11-18 22:25:40.431  5306  5829 I NamespaceManager: Package com.google.android.audioproxy name not found! Using module version.
+11-18 22:25:40.432  5306  5829 I NamespaceManager: Package com.google.android.apps.pixel.psi name not found! Using module version.
+11-18 22:25:40.433  5306  5829 I NamespaceManager: Package com.google.android.apps.safetycore name not found! Using module version.
+11-18 22:25:40.434  5306  5829 I NamespaceManager: Package com.google.android.crashrecovery name not found! Using module version.
+11-18 22:25:40.434  5306  5829 I NamespaceManager: Package com.google.android.profiling name not found! Using module version.
+11-18 22:25:40.434  5306  5829 I NamespaceManager: Package com.google.android.bt name not found! Using module version.
+11-18 22:25:40.434  5306  5829 I NamespaceManager: Package com.google.android.nfcservices name not found! Using module version.
+11-18 22:25:40.434  5306  5829 I NamespaceManager: Package com.google.android.webapp name not found! Using module version.
+11-18 22:25:40.434  5306  5829 I NamespaceManager: Package com.google.android.telephonycore name not found! Using module version.
+11-18 22:25:40.435  5306  5829 I NamespaceManager: Package com.google.android.uprobestats name not found! Using module version.
+11-18 22:25:40.443  5306  5845 I NamespaceManager: Package com.android.refreshratecontrol name not found! Using module version.
+11-18 22:25:40.443  5306  5845 I NamespaceManager: Package com.google.oslo name not found! Using module version.
+11-18 22:25:40.443  5306  5845 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.444  5306  5845 I NamespaceManager: Package com.android.media.swcodec name not found! Using module version.
+11-18 22:25:40.444  5306  5845 I NamespaceManager: Package com.android.neuralnetworks name not found! Using module version.
+11-18 22:25:40.445  5306  5845 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.446  1714  2920 D t       : Starting download: https://www.gstatic.com/assistant/appintegration/models/1/662c5aa4617258c027708e2bb9323ead.binarypb
+11-18 22:25:40.447  1714  2920 V t       : Is http uri, downloading (uri: https://www.gstatic.com/assistant/appintegration/models/1/662c5aa4617258c027708e2bb9323ead.binarypb)
+11-18 22:25:40.447  5306  5845 I NamespaceManager: Package 1 name not found! Using module version.
+11-18 22:25:40.447  5306  5845 I NamespaceManager: Package rkpd name not found! Using module version.
+11-18 22:25:40.448  1714  2662 D t       : Starting download: https://www.gstatic.com/federated_assistant/policy_config_federated_hotword-v610555528.binarypb
+11-18 22:25:40.449  1714  2662 V t       : Is http uri, downloading (uri: https://www.gstatic.com/federated_assistant/policy_config_federated_hotword-v610555528.binarypb)
+11-18 22:25:40.449  5306  5845 I NamespaceManager: Package android.companion name not found! Using module version.
+11-18 22:25:40.451   333  6016 I resolv  : GetAddrInfoHandler::run: {101 101 101 983141 10192 0}
+11-18 22:25:40.452  1714  2336 I A       : NGA Sync: MDD Task: MDD.CHARGING.PERIODIC.TASK done.
+11-18 22:25:40.453  1714  2336 I A       : NGA Sync: isNgaSyncEnabled: false; enableFileGroupPopulator: false; requiresMddAssets: false
+11-18 22:25:40.453   333  6018 I resolv  : res_nmkquery: (QUERY, IN, A)
+11-18 22:25:40.453   333  6018 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7caeb874e570
+11-18 22:25:40.453   333  6018 I resolv  : doQuery: rcode=3, ancount=0, return value=107
+11-18 22:25:40.454  5306  5845 I NamespaceManager: Package com.google.android.aicore name not found! Using module version.
+11-18 22:25:40.454  1714  2293 I A       : Refresh account policy.
+11-18 22:25:40.454  5306  5845 I NamespaceManager: Package com.google.android.apps.agentunderstander name not found! Using module version.
+11-18 22:25:40.457  1714  2342 I A       : incrementApaDataDownloadStoreStatusNotFound(appVersion = 13.17.16.23, locale = *, groupName = apa_head_suggest, accountScoped = false, foundGroups = 0, status = 0, localGroupsAvailable = false)
+11-18 22:25:40.457  1714  2397 W SearchServiceCore: Abort, client detached.
+11-18 22:25:40.457  1714  2397 W SearchServiceCore: Abort, client detached.
+11-18 22:25:40.459  5306  5845 I NamespaceManager: Package com.google.android.audioproxy name not found! Using module version.
+11-18 22:25:40.459  5306  5845 I NamespaceManager: Package com.google.android.apps.pixel.psi name not found! Using module version.
+11-18 22:25:40.465  1714  2662 E MDD     : DownloadProgressMonitor: Can't find file group for uri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1795040640611
+11-18 22:25:40.466  5306  5845 I NamespaceManager: Package com.google.android.apps.safetycore name not found! Using module version.
+11-18 22:25:40.466  5306  5845 I NamespaceManager: Package com.google.android.crashrecovery name not found! Using module version.
+11-18 22:25:40.466  5306  5845 I NamespaceManager: Package com.google.android.profiling name not found! Using module version.
+11-18 22:25:40.467  5306  5845 I NamespaceManager: Package com.google.android.bt name not found! Using module version.
+11-18 22:25:40.467  5306  5845 I NamespaceManager: Package com.google.android.nfcservices name not found! Using module version.
+11-18 22:25:40.467  5306  5845 I NamespaceManager: Package com.google.android.webapp name not found! Using module version.
+11-18 22:25:40.467  5306  5845 I NamespaceManager: Package com.google.android.telephonycore name not found! Using module version.
+11-18 22:25:40.468  5306  5845 I NamespaceManager: Package com.google.android.uprobestats name not found! Using module version.
+11-18 22:25:40.470  1714  2920 E MDD     : DownloadProgressMonitor: Can't find file group for uri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1795040640609
+11-18 22:25:40.470   333  6017 I resolv  : res_nmkquery: (QUERY, IN, AAAA)
+11-18 22:25:40.470   333  6017 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7caeb8751ff0
+11-18 22:25:40.470   333  6017 I resolv  : doQuery: rcode=3, ancount=0, return value=107
+11-18 22:25:40.490  5306  5845 I NamespaceManager: Package com.android.refreshratecontrol name not found! Using module version.
+11-18 22:25:40.490  5306  5845 I NamespaceManager: Package com.google.oslo name not found! Using module version.
+11-18 22:25:40.490  5306  5845 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.491  5306  5845 I NamespaceManager: Package com.android.media.swcodec name not found! Using module version.
+11-18 22:25:40.492  5306  5845 I NamespaceManager: Package com.android.neuralnetworks name not found! Using module version.
+11-18 22:25:40.492  5306  5845 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.492  5306  5845 I NamespaceManager: Package 1 name not found! Using module version.
+11-18 22:25:40.492  5306  5845 I NamespaceManager: Package rkpd name not found! Using module version.
+11-18 22:25:40.495  5306  5845 I NamespaceManager: Package android.companion name not found! Using module version.
+11-18 22:25:40.495  5306  5845 I NamespaceManager: Package com.google.android.aicore name not found! Using module version.
+11-18 22:25:40.495  5306  5845 I NamespaceManager: Package com.google.android.apps.agentunderstander name not found! Using module version.
+11-18 22:25:40.495  5306  5845 I NamespaceManager: Package com.google.android.audioproxy name not found! Using module version.
+11-18 22:25:40.498  5306  5845 I NamespaceManager: Package com.google.android.apps.pixel.psi name not found! Using module version.
+11-18 22:25:40.499  5306  5845 I NamespaceManager: Package com.google.android.apps.safetycore name not found! Using module version.
+11-18 22:25:40.499  5306  5845 I NamespaceManager: Package com.google.android.crashrecovery name not found! Using module version.
+11-18 22:25:40.499  5306  5845 I NamespaceManager: Package com.google.android.profiling name not found! Using module version.
+11-18 22:25:40.499  5306  5845 I NamespaceManager: Package com.google.android.bt name not found! Using module version.
+11-18 22:25:40.499  5306  5845 I NamespaceManager: Package com.google.android.nfcservices name not found! Using module version.
+11-18 22:25:40.499  5306  5845 I NamespaceManager: Package com.google.android.webapp name not found! Using module version.
+11-18 22:25:40.499  5306  5845 I NamespaceManager: Package com.google.android.telephonycore name not found! Using module version.
+11-18 22:25:40.500  5306  5845 I NamespaceManager: Package com.google.android.uprobestats name not found! Using module version.
+11-18 22:25:40.500  5306  5845 W PhenotypeConfigurationU: Update for unknown DeviceConfig package com.google.android.libraries.consentverifier#com.google.android.gms [CONTEXT service_id=204 ]
+11-18 22:25:40.500  5306  5845 W PhenotypeConfigurationU: bwix: No package exists for config package: com.google.android.libraries.consentverifier#com.google.android.gms
+11-18 22:25:40.500  5306  5845 W PhenotypeConfigurationU: 	at com.google.android.gms.platformconfigurator.PhenotypeConfigurationUpdateListener.b(:com.google.android.gms@231818047@23.18.18 (190800-535401451):6)
+11-18 22:25:40.500  5306  5845 W PhenotypeConfigurationU: 	at com.google.android.gms.platformconfigurator.PhenotypeConfigurationUpdateListener.a(:com.google.android.gms@231818047@23.18.18 (190800-535401451):4)
+11-18 22:25:40.500  5306  5845 W PhenotypeConfigurationU: 	at com.google.android.gms.platformconfigurator.PhenotypeConfigurationUpdateListener.onHandleIntent(:com.google.android.gms@231818047@23.18.18 (190800-535401451):21)
+11-18 22:25:40.500  5306  5845 W PhenotypeConfigurationU: 	at com.google.android.chimera.IntentOperation.onHandleIntent(:com.google.android.gms@231818047@23.18.18 (190800-535401451):2)
+11-18 22:25:40.500  5306  5845 W PhenotypeConfigurationU: 	at zhv.onHandleIntent(:com.google.android.gms@231818047@23.18.18 (190800-535401451):4)
+11-18 22:25:40.500  5306  5845 W PhenotypeConfigurationU: 	at hjm.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):3)
+11-18 22:25:40.500  5306  5845 W PhenotypeConfigurationU: 	at hjl.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):11)
+11-18 22:25:40.500  5306  5845 W PhenotypeConfigurationU: 	at dfhf.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):2)
+11-18 22:25:40.500  5306  5845 W PhenotypeConfigurationU: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+11-18 22:25:40.500  5306  5845 W PhenotypeConfigurationU: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+11-18 22:25:40.500  5306  5845 W PhenotypeConfigurationU: 	at java.lang.Thread.run(Thread.java:1012)
+11-18 22:25:40.501  1714  2919 D t       : Starting download: https://www.gstatic.com/assistant/appintegration/models/1/05a8f7c516a3ad6c26cc4161a3dd6ac6.binarypb
+11-18 22:25:40.501  1714  2919 V t       : Is http uri, downloading (uri: https://www.gstatic.com/assistant/appintegration/models/1/05a8f7c516a3ad6c26cc4161a3dd6ac6.binarypb)
+11-18 22:25:40.508  5306  5848 I NamespaceManager: Package com.android.refreshratecontrol name not found! Using module version.
+11-18 22:25:40.509  5306  5848 I NamespaceManager: Package com.google.oslo name not found! Using module version.
+11-18 22:25:40.509  5306  5848 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.509  5306  5848 I NamespaceManager: Package com.android.media.swcodec name not found! Using module version.
+11-18 22:25:40.509  5306  5848 I NamespaceManager: Package com.android.neuralnetworks name not found! Using module version.
+11-18 22:25:40.509  5306  5848 I NamespaceManager: Package com.android.media name not found! Using module version.
+11-18 22:25:40.509  5306  5848 I NamespaceManager: Package 1 name not found! Using module version.
+11-18 22:25:40.509  5306  5848 I NamespaceManager: Package rkpd name not found! Using module version.
+11-18 22:25:40.509  5306  5848 I NamespaceManager: Package android.companion name not found! Using module version.
+11-18 22:25:40.510  5306  5848 I NamespaceManager: Package com.google.android.aicore name not found! Using module version.
+11-18 22:25:40.510  5306  5848 I NamespaceManager: Package com.google.android.apps.agentunderstander name not found! Using module version.
+11-18 22:25:40.510  5306  5848 I NamespaceManager: Package com.google.android.audioproxy name not found! Using module version.
+11-18 22:25:40.510  5306  5848 I NamespaceManager: Package com.google.android.apps.pixel.psi name not found! Using module version.
+11-18 22:25:40.510  5306  5848 I NamespaceManager: Package com.google.android.apps.safetycore name not found! Using module version.
+11-18 22:25:40.510  5306  5848 I NamespaceManager: Package com.google.android.crashrecovery name not found! Using module version.
+11-18 22:25:40.510  5306  5848 I NamespaceManager: Package com.google.android.profiling name not found! Using module version.
+11-18 22:25:40.510  5306  5848 I NamespaceManager: Package com.google.android.bt name not found! Using module version.
+11-18 22:25:40.510  5306  5848 I NamespaceManager: Package com.google.android.nfcservices name not found! Using module version.
+11-18 22:25:40.511  5306  5848 I NamespaceManager: Package com.google.android.webapp name not found! Using module version.
+11-18 22:25:40.512  1714  2662 D t       : Starting download: https://dl.google.com/assistant/nga/1/4bce3720332aff95260f75ee29bbe97bd379e868.mddz
+11-18 22:25:40.512  1714  2662 V t       : Is http uri, downloading (uri: https://dl.google.com/assistant/nga/1/4bce3720332aff95260f75ee29bbe97bd379e868.mddz)
+11-18 22:25:40.516  5306  5848 I NamespaceManager: Package com.google.android.telephonycore name not found! Using module version.
+11-18 22:25:40.516  5306  5848 I NamespaceManager: Package com.google.android.uprobestats name not found! Using module version.
+11-18 22:25:40.517  5306  5848 W PhenotypeConfigurationU: Update for unknown DeviceConfig package com.google.android.gms.dtdi_logging#com.google.android.gms [CONTEXT service_id=204 ]
+11-18 22:25:40.517  5306  5848 W PhenotypeConfigurationU: bwix: No package exists for config package: com.google.android.gms.dtdi_logging#com.google.android.gms
+11-18 22:25:40.517  5306  5848 W PhenotypeConfigurationU: 	at com.google.android.gms.platformconfigurator.PhenotypeConfigurationUpdateListener.b(:com.google.android.gms@231818047@23.18.18 (190800-535401451):6)
+11-18 22:25:40.517  5306  5848 W PhenotypeConfigurationU: 	at com.google.android.gms.platformconfigurator.PhenotypeConfigurationUpdateListener.a(:com.google.android.gms@231818047@23.18.18 (190800-535401451):4)
+11-18 22:25:40.517  5306  5848 W PhenotypeConfigurationU: 	at com.google.android.gms.platformconfigurator.PhenotypeConfigurationUpdateListener.onHandleIntent(:com.google.android.gms@231818047@23.18.18 (190800-535401451):21)
+11-18 22:25:40.517  5306  5848 W PhenotypeConfigurationU: 	at com.google.android.chimera.IntentOperation.onHandleIntent(:com.google.android.gms@231818047@23.18.18 (190800-535401451):2)
+11-18 22:25:40.517  5306  5848 W PhenotypeConfigurationU: 	at zhv.onHandleIntent(:com.google.android.gms@231818047@23.18.18 (190800-535401451):4)
+11-18 22:25:40.517  5306  5848 W PhenotypeConfigurationU: 	at hjm.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):3)
+11-18 22:25:40.517  5306  5848 W PhenotypeConfigurationU: 	at hjl.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):11)
+11-18 22:25:40.517  5306  5848 W PhenotypeConfigurationU: 	at dfhf.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):2)
+11-18 22:25:40.517  5306  5848 W PhenotypeConfigurationU: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+11-18 22:25:40.517  5306  5848 W PhenotypeConfigurationU: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+11-18 22:25:40.517  5306  5848 W PhenotypeConfigurationU: 	at java.lang.Thread.run(Thread.java:1012)
+11-18 22:25:40.521  1714  2919 E MDD     : DownloadProgressMonitor: Can't find file group for uri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1795040640610
+11-18 22:25:40.538  1714  2920 D t       : Starting download: https://dl.google.com/assistant/nga/1/17d453d07f334b7d810f8e6e05dbd6001dc45eea.mddz
+11-18 22:25:40.538  1714  2920 V t       : Is http uri, downloading (uri: https://dl.google.com/assistant/nga/1/17d453d07f334b7d810f8e6e05dbd6001dc45eea.mddz)
+11-18 22:25:40.582  1714  2483 E SingleDataFileGroupPop: Failed to add file group
+11-18 22:25:40.583  1714  2483 E PhFileGroupPop: Failed to add file group
+11-18 22:25:40.583  1714  2483 E PhFileGroupPop: Failed to add file group
+11-18 22:25:40.585  1714  2483 E PhFileGroupPop: Failed to add file group
+11-18 22:25:40.585  1714  2483 E PhFileGroupPop: Failed to add file group
+11-18 22:25:40.585  1714  2483 E PhFileGroupPop: Failed to add file group
+11-18 22:25:40.585  1714  2483 E d       : RuntimeException while executing runnable cb{com.google.apps.tiktok.tracing.ej@d372134} with executor MoreExecutors.directExecutor()
+11-18 22:25:40.585  1714  2483 E d       : java.lang.NullPointerException: Attempt to read from field 'java.lang.String com.google.android.libraries.mdi.download.ae.b' on a null object reference in method 'void com.google.android.libraries.mdi.download.h.bq.gH(java.lang.Object)'
+11-18 22:25:40.585  1714  2483 E d       : 	at com.google.android.libraries.mdi.download.h.bq.gH(PG:2)
+11-18 22:25:40.585  1714  2483 E d       : 	at com.google.apps.tiktok.tracing.ej.gH(PG:2)
+11-18 22:25:40.585  1714  2483 E d       : 	at com.google.common.util.concurrent.cb.run(PG:7)
+11-18 22:25:40.585  1714  2483 E d       : 	at com.google.common.util.concurrent.bf.execute(PG:1)
+11-18 22:25:40.585  1714  2483 E d       : 	at com.google.common.util.concurrent.d.i(PG:1)
+11-18 22:25:40.585  1714  2483 E d       : 	at com.google.common.util.concurrent.d.iq(PG:5)
+11-18 22:25:40.585  1714  2483 E d       : 	at com.google.common.util.concurrent.ci.t(PG:1)
+11-18 22:25:40.585  1714  2483 E d       : 	at com.google.android.libraries.mdi.download.h.bu.b(PG:26)
+11-18 22:25:40.585  1714  2483 E d       : 	at com.google.android.libraries.mdi.download.gs.p(PG:3)
+11-18 22:25:40.585  1714  2483 E d       : 	at com.google.android.libraries.mdi.download.gf.apply(Unknown Source:4)
+11-18 22:25:40.585  1714  2483 E d       : 	at com.google.apps.tiktok.tracing.eo.apply(PG:2)
+11-18 22:25:40.585  1714  2483 E d       : 	at com.google.common.util.concurrent.h.e(PG:2)
+11-18 22:25:40.585  1714  2483 E d       : 	at com.google.common.util.concurrent.j.run(PG:9)
+11-18 22:25:40.585  1714  2483 E d       : 	at com.google.common.util.concurrent.do.run(PG:4)
+11-18 22:25:40.585  1714  2483 E d       : 	at com.google.android.libraries.i.ae.run(PG:1)
+11-18 22:25:40.585  1714  2483 E d       : 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+11-18 22:25:40.585  1714  2483 E d       : 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+11-18 22:25:40.585  1714  2483 E d       : 	at com.google.android.libraries.i.i.run(PG:2)
+11-18 22:25:40.585  1714  2483 E d       : 	at com.google.android.libraries.i.p.run(PG:4)
+11-18 22:25:40.585  1714  2483 E d       : 	at java.lang.Thread.run(Thread.java:1012)
+11-18 22:25:40.585  1714  2483 E PhFileGroupPop: Failed to add file group
+11-18 22:25:40.585  1714  2483 E PhFileGroupPop: Failed to add file group
+11-18 22:25:40.585  1714  2483 E PhFileGroupPop: Failed to add file group
+11-18 22:25:40.586  1714  2483 I A       : Download file group for language pack: en-US
+11-18 22:25:40.586  1714  2483 W A       : Locale en-US is not compatible, please check manifest exists
+11-18 22:25:40.586  1714  2483 I A       : Using proto config with mendel
+11-18 22:25:40.588  1714  5540 I A       : Starting new batch; batchId=2 corpus=1014
+11-18 22:25:40.589  1714  2919 I A       : Joining existing batch; batchId=2 corpus=1004
+11-18 22:25:40.592  1714  2483 I A       : Using proto config with mendel
+11-18 22:25:40.593  1714  5507 I A       : Joining existing batch; batchId=2 corpus=1008
+11-18 22:25:40.595  1714  2659 I A       : Joining existing batch; batchId=2 corpus=1015
+11-18 22:25:40.601  1714  1720 I earchbox:search: JIT allocated 66KB for compiled code of com.google.android.apps.gsa.s.h com.google.android.apps.gsa.s.h.a(int)
+11-18 22:25:40.602  1714  2483 I A       : Using proto config with mendel
+11-18 22:25:40.602  1714  2483 I A       : Merging legacy hotword config map with new proto.
+11-18 22:25:40.602  1714  2483 I A       : Adding from config to map. Locale: cmn-Hant-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+11-18 22:25:40.602  1714  2483 I A       : Adding from config to map. Locale: id-ID modelPrefix: x_google Location:cfffcc1a4c1c084c003c8eb27f73d770 isSpeakerIdSupported: true
+11-18 22:25:40.602  1714  2483 I A       : Adding from config to map. Locale: ko-KR modelPrefix: x_google Location:0b132163a2eb2c1194b202067475724b isSpeakerIdSupported: true
+11-18 22:25:40.602  1714  2483 I A       : Skipping. Expected model: 2 Found: 1
+11-18 22:25:40.606  1714  2662 E MDD     : DownloadProgressMonitor: Can't find file group for uri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1795040640612_1d48ae4b292cd15bc945ae5ddedb9565d268f7e2
+11-18 22:25:40.609  1714  2483 I A       : Adding from config to map. Locale: zh-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+11-18 22:25:40.609  1714  2483 I HotwordModelPopulator: #updateHotwordFileGroup group name: hotword_model_en-US_okhey, raw locale: en-US, locale: en-US
+11-18 22:25:40.610  1714  2483 I A       : Using proto config with mendel
+11-18 22:25:40.610  1714  2483 I A       : Using proto config with mendel
+11-18 22:25:40.610  1714  2483 I A       : Merging legacy hotword config map with new proto.
+11-18 22:25:40.610  1714  2483 I A       : Adding from config to map. Locale: cmn-Hant-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+11-18 22:25:40.610  1714  2483 I A       : Adding from config to map. Locale: id-ID modelPrefix: x_google Location:cfffcc1a4c1c084c003c8eb27f73d770 isSpeakerIdSupported: true
+11-18 22:25:40.610  1714  2483 I A       : Adding from config to map. Locale: ko-KR modelPrefix: x_google Location:0b132163a2eb2c1194b202067475724b isSpeakerIdSupported: true
+11-18 22:25:40.610  1714  2483 I A       : Skipping. Expected model: 2 Found: 1
+11-18 22:25:40.612  1714  2483 I A       : Adding from config to map. Locale: zh-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+11-18 22:25:40.612  1714  2483 I HotwordModelPopulator: #updateHotwordFileGroup group name: hotword_model_en-US_okhey, raw locale: en-US, locale: en-US
+11-18 22:25:40.616  1714  2483 I A       : Using proto config with mendel
+11-18 22:25:40.616  1714  2483 I A       : Merging legacy hotword config map with new proto.
+11-18 22:25:40.616  1714  2483 I A       : Adding from config to map. Locale: cmn-Hant-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+11-18 22:25:40.616  1714  2483 I A       : Adding from config to map. Locale: id-ID modelPrefix: x_google Location:cfffcc1a4c1c084c003c8eb27f73d770 isSpeakerIdSupported: true
+11-18 22:25:40.616  1714  2483 I A       : Adding from config to map. Locale: ko-KR modelPrefix: x_google Location:0b132163a2eb2c1194b202067475724b isSpeakerIdSupported: true
+11-18 22:25:40.616  1714  2483 I A       : Skipping. Expected model: 2 Found: 1
+11-18 22:25:40.616  1714  2483 I A       : Adding from config to map. Locale: zh-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+11-18 22:25:40.616  1714  2483 I HotwordModelPopulator: #updateHotwordFileGroup group name: hotword_model_en-US_okhey, raw locale: en-US, locale: en-US
+11-18 22:25:40.623  1714  2483 D PhFileGroupPop: Added file groups assistant_appintegration_appactions_config
+11-18 22:25:40.634  1714  2483 D PhFileGroupPop: Added file groups fedass_policy_config_group
+11-18 22:25:40.646  1714  2483 D PhFileGroupPop: Added file groups tapas_cortex
+11-18 22:25:40.689  1714  2292 I MicroModelsUtil: #getHotwordModelFromMobstore [mobstoreUri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1795040640608]
+11-18 22:25:40.691  1714  2294 I MicroModelsUtil: #getHotwordModelFromMobstore [mobstoreUri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1795040640608]
+11-18 22:25:40.692  1714  2291 I MicroModelsUtil: #getHotwordModelFromMobstore [mobstoreUri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1795040640608]
+11-18 22:25:40.705  1714  2294 I HotwordModelPopulator: Updated file group for locale 'hotword_model_en-US_okhey' from location: https://www.gstatic.com/android-search/hotword/x_google/975058821313279e27b2c3f04de0beef/hotword.data. Download already finished.
+11-18 22:25:40.705  1714  2292 I HotwordModelPopulator: Updated file group for locale 'hotword_model_en-US_okhey' from location: https://www.gstatic.com/android-search/hotword/x_google/975058821313279e27b2c3f04de0beef/hotword.data. Download already finished.
+11-18 22:25:40.712  1714  2291 I HotwordModelPopulator: Updated file group for locale 'hotword_model_en-US_okhey' from location: https://www.gstatic.com/android-search/hotword/x_google/975058821313279e27b2c3f04de0beef/hotword.data. Download already finished.
+11-18 22:25:40.715  1714  2920 E MDD     : DownloadProgressMonitor: Can't find file group for uri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1795040640613_a64a3f98d26fa7e7180cd6d29bf44fced216fc32
+11-18 22:25:40.718  1714  2659 D t       : Starting download: https://dl.google.com/assistant/nga/1/c11ffd9ddd4f0c6433a5cb07a437812b735fa547.mddz
+11-18 22:25:40.718  1714  2659 V t       : Is http uri, downloading (uri: https://dl.google.com/assistant/nga/1/c11ffd9ddd4f0c6433a5cb07a437812b735fa547.mddz)
+11-18 22:25:40.733  1714  1725 I earchbox:search: Background young concurrent copying GC freed 299968(11MB) AllocSpace objects, 58(3180KB) LOS objects, 32% free, 23MB/34MB, paused 153us,39us total 189.030ms
+11-18 22:25:40.739  1714  2920 D t       : Starting download: https://dl.google.com/assistant/nga/1/1658155c551c182a9c9cbdff0bc6cd4293920bc3.mddz
+11-18 22:25:40.739  1714  2920 V t       : Is http uri, downloading (uri: https://dl.google.com/assistant/nga/1/1658155c551c182a9c9cbdff0bc6cd4293920bc3.mddz)
+11-18 22:25:40.787  1714  2920 E MDD     : DownloadProgressMonitor: Can't find file group for uri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1795040640615_b56351a773b9354cf1ebcacf86f309b6489173ac
+11-18 22:25:40.833   518   937 I WifiService: acquireWifiLock uid=10192 lockMode=3
+11-18 22:25:40.925  1714  2659 E MDD     : DownloadProgressMonitor: Can't find file group for uri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1795040640614_5e9da2701f510020f2592c1e5b468922569445d7
+11-18 22:25:40.954  1714  2483 E SingleDataFileGroupPop: Failed to add file group
+11-18 22:25:40.954  1714  2483 E PhFileGroupPop: Failed to add file group
+11-18 22:25:40.954  1714  2483 E PhFileGroupPop: Failed to add file group
+11-18 22:25:40.955  1714  2483 E PhFileGroupPop: Failed to add file group
+11-18 22:25:40.955  1714  2483 E PhFileGroupPop: Failed to add file group
+11-18 22:25:40.955  1714  2483 E PhFileGroupPop: Failed to add file group
+11-18 22:25:40.956  1714  2483 E d       : RuntimeException while executing runnable cb{com.google.apps.tiktok.tracing.ej@cfd2dcf} with executor MoreExecutors.directExecutor()
+11-18 22:25:40.956  1714  2483 E d       : java.lang.NullPointerException: Attempt to read from field 'java.lang.String com.google.android.libraries.mdi.download.ae.b' on a null object reference in method 'void com.google.android.libraries.mdi.download.h.bq.gH(java.lang.Object)'
+11-18 22:25:40.956  1714  2483 E d       : 	at com.google.android.libraries.mdi.download.h.bq.gH(PG:2)
+11-18 22:25:40.956  1714  2483 E d       : 	at com.google.apps.tiktok.tracing.ej.gH(PG:2)
+11-18 22:25:40.956  1714  2483 E d       : 	at com.google.common.util.concurrent.cb.run(PG:7)
+11-18 22:25:40.956  1714  2483 E d       : 	at com.google.common.util.concurrent.bf.execute(PG:1)
+11-18 22:25:40.956  1714  2483 E d       : 	at com.google.common.util.concurrent.d.i(PG:1)
+11-18 22:25:40.956  1714  2483 E d       : 	at com.google.common.util.concurrent.d.iq(PG:5)
+11-18 22:25:40.956  1714  2483 E d       : 	at com.google.common.util.concurrent.ci.t(PG:1)
+11-18 22:25:40.956  1714  2483 E d       : 	at com.google.android.libraries.mdi.download.h.bu.b(PG:26)
+11-18 22:25:40.956  1714  2483 E d       : 	at com.google.android.libraries.mdi.download.gs.p(PG:3)
+11-18 22:25:40.956  1714  2483 E d       : 	at com.google.android.libraries.mdi.download.gf.apply(Unknown Source:4)
+11-18 22:25:40.956  1714  2483 E d       : 	at com.google.apps.tiktok.tracing.eo.apply(PG:2)
+11-18 22:25:40.956  1714  2483 E d       : 	at com.google.common.util.concurrent.h.e(PG:2)
+11-18 22:25:40.956  1714  2483 E d       : 	at com.google.common.util.concurrent.j.run(PG:9)
+11-18 22:25:40.956  1714  2483 E d       : 	at com.google.common.util.concurrent.do.run(PG:4)
+11-18 22:25:40.956  1714  2483 E d       : 	at com.google.android.libraries.i.ae.run(PG:1)
+11-18 22:25:40.956  1714  2483 E d       : 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+11-18 22:25:40.956  1714  2483 E d       : 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+11-18 22:25:40.956  1714  2483 E d       : 	at com.google.android.libraries.i.i.run(PG:2)
+11-18 22:25:40.956  1714  2483 E d       : 	at com.google.android.libraries.i.p.run(PG:4)
+11-18 22:25:40.956  1714  2483 E d       : 	at java.lang.Thread.run(Thread.java:1012)
+11-18 22:25:40.956  1714  2483 E PhFileGroupPop: Failed to add file group
+11-18 22:25:40.956  1714  2483 E PhFileGroupPop: Failed to add file group
+11-18 22:25:40.956  1714  2483 E PhFileGroupPop: Failed to add file group
+11-18 22:25:40.958  1714  2483 I A       : Download file group for language pack: en-US
+11-18 22:25:40.959  1714  2483 W A       : Locale en-US is not compatible, please check manifest exists
+11-18 22:25:40.959  1714  2483 I A       : Using proto config with mendel
+11-18 22:25:40.959  1714  2483 I A       : Using proto config with mendel
+11-18 22:25:40.959  1714  2483 I A       : Using proto config with mendel
+11-18 22:25:40.959  1714  2483 I A       : Merging legacy hotword config map with new proto.
+11-18 22:25:40.959  1714  2483 I A       : Adding from config to map. Locale: cmn-Hant-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+11-18 22:25:40.960  1714  2483 I A       : Adding from config to map. Locale: id-ID modelPrefix: x_google Location:cfffcc1a4c1c084c003c8eb27f73d770 isSpeakerIdSupported: true
+11-18 22:25:40.960  1714  2483 I A       : Adding from config to map. Locale: ko-KR modelPrefix: x_google Location:0b132163a2eb2c1194b202067475724b isSpeakerIdSupported: true
+11-18 22:25:40.960  1714  2483 I A       : Skipping. Expected model: 2 Found: 1
+11-18 22:25:40.960  1714  2483 I A       : Adding from config to map. Locale: zh-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+11-18 22:25:40.960  1714  2483 I HotwordModelPopulator: #updateHotwordFileGroup group name: hotword_model_en-US_okhey, raw locale: en-US, locale: en-US
+11-18 22:25:40.960  1714  2483 I A       : Using proto config with mendel
+11-18 22:25:40.960  1714  2920 I A       : Joining existing batch; batchId=2 corpus=1008
+11-18 22:25:40.960  1714  2483 I A       : Using proto config with mendel
+11-18 22:25:40.960  1714  2483 I A       : Merging legacy hotword config map with new proto.
+11-18 22:25:40.961  1714  2483 I A       : Adding from config to map. Locale: cmn-Hant-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+11-18 22:25:40.961  1714  2483 I A       : Adding from config to map. Locale: id-ID modelPrefix: x_google Location:cfffcc1a4c1c084c003c8eb27f73d770 isSpeakerIdSupported: true
+11-18 22:25:40.961  1714  2483 I A       : Adding from config to map. Locale: ko-KR modelPrefix: x_google Location:0b132163a2eb2c1194b202067475724b isSpeakerIdSupported: true
+11-18 22:25:40.961  1714  2483 I A       : Skipping. Expected model: 2 Found: 1
+11-18 22:25:40.961  1714  2483 I A       : Adding from config to map. Locale: zh-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+11-18 22:25:40.961  1714  2483 I HotwordModelPopulator: #updateHotwordFileGroup group name: hotword_model_en-US_okhey, raw locale: en-US, locale: en-US
+11-18 22:25:40.961  1714  2483 I A       : Using proto config with mendel
+11-18 22:25:40.961  1714  2483 I A       : Merging legacy hotword config map with new proto.
+11-18 22:25:40.962  1714  2483 I A       : Adding from config to map. Locale: cmn-Hant-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+11-18 22:25:40.962  1714  2483 I A       : Adding from config to map. Locale: id-ID modelPrefix: x_google Location:cfffcc1a4c1c084c003c8eb27f73d770 isSpeakerIdSupported: true
+11-18 22:25:40.962  1714  2483 I A       : Adding from config to map. Locale: ko-KR modelPrefix: x_google Location:0b132163a2eb2c1194b202067475724b isSpeakerIdSupported: true
+11-18 22:25:40.962  1714  2483 I A       : Skipping. Expected model: 2 Found: 1
+11-18 22:25:40.962  1714  2483 I A       : Adding from config to map. Locale: zh-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+11-18 22:25:40.962  1714  2483 I HotwordModelPopulator: #updateHotwordFileGroup group name: hotword_model_en-US_okhey, raw locale: en-US, locale: en-US
+11-18 22:25:40.962  1714  2659 I A       : Joining existing batch; batchId=2 corpus=1004
+11-18 22:25:40.962  1714  5507 I A       : Joining existing batch; batchId=2 corpus=1015
+11-18 22:25:40.963  1714  2483 D PhFileGroupPop: Added file groups assistant_appintegration_appactions_config
+11-18 22:25:40.963  1714  2483 D PhFileGroupPop: Added file groups fedass_policy_config_group
+11-18 22:25:40.964  1714  2483 D PhFileGroupPop: Added file groups tapas_cortex
+11-18 22:25:40.965  1714  2662 I A       : Joining existing batch; batchId=2 corpus=1014
+11-18 22:25:40.968  1714  2293 I MicroModelsUtil: #getHotwordModelFromMobstore [mobstoreUri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1795040640608]
+11-18 22:25:40.969  1714  2293 I HotwordModelPopulator: Updated file group for locale 'hotword_model_en-US_okhey' from location: https://www.gstatic.com/android-search/hotword/x_google/975058821313279e27b2c3f04de0beef/hotword.data. Download already finished.
+11-18 22:25:40.969  1714  2293 I MicroModelsUtil: #getHotwordModelFromMobstore [mobstoreUri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1795040640608]
+11-18 22:25:40.970  1714  2293 I HotwordModelPopulator: Updated file group for locale 'hotword_model_en-US_okhey' from location: https://www.gstatic.com/android-search/hotword/x_google/975058821313279e27b2c3f04de0beef/hotword.data. Download already finished.
+11-18 22:25:40.972  1714  2292 I MicroModelsUtil: #getHotwordModelFromMobstore [mobstoreUri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1795040640608]
+11-18 22:25:40.973  1714  2292 I HotwordModelPopulator: Updated file group for locale 'hotword_model_en-US_okhey' from location: https://www.gstatic.com/android-search/hotword/x_google/975058821313279e27b2c3f04de0beef/hotword.data. Download already finished.
+11-18 22:25:41.036  1613  2046 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+11-18 22:25:41.036  1613  2046 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+11-18 22:25:41.042  1613  2046 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+11-18 22:25:41.042  1613  2046 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+11-18 22:25:41.052   840   905 D EGL_emulation: app_time_stats: avg=297.24ms min=9.00ms max=1024.95ms count=4
+11-18 22:25:41.055   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:41.059   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:41.263   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:41.265   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:41.286  4523  4580 D EGL_emulation: app_time_stats: avg=106.39ms min=17.12ms max=377.89ms count=10
+11-18 22:25:41.590  1714  2483 I A       : Scheduled one-off task for batch; batchId=2 taskId=-1000008 corpora=[1004,1008,1014,1015]
+11-18 22:25:41.590  1714  2483 I A       : Pending callbacks: 1
+11-18 22:25:41.676   333   358 I netd    : tetherGetStats() -> {[]} <0.52ms>
+11-18 22:25:41.680   333   358 I netd    : bandwidthSetGlobalAlert(2097152) <0.12ms>
+11-18 22:25:42.055  1613  2046 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+11-18 22:25:42.055  1613  2046 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+11-18 22:25:42.067   840   905 D EGL_emulation: app_time_stats: avg=202.83ms min=12.28ms max=758.41ms count=5
+11-18 22:25:42.280   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:42.284   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:42.704  4523  4580 D EGL_emulation: app_time_stats: avg=42.93ms min=12.26ms max=600.14ms count=33
+11-18 22:25:42.867  4523  4806 D TrafficStats: tagSocket(209) with statsTag=0xffffffff, statsUid=-1
+11-18 22:25:42.869  4523  4805 D TrafficStats: tagSocket(210) with statsTag=0xffffffff, statsUid=-1
+11-18 22:25:43.059  1613  2046 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+11-18 22:25:43.059  1613  2046 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+11-18 22:25:43.202  5306  5552 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.checkin.CheckinService started execution. cause:4 exec_start_elapsed_seconds: 176 [CONTEXT service_id=218 ]
+11-18 22:25:43.218  5306  5853 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.checkin.CheckinService finished executing. cause:4 result: 1 elapsed_millis: 18 uptime_millis: 18 exec_start_elapsed_seconds: 176 [CONTEXT service_id=218 ]
+11-18 22:25:43.227  5306  5548 V NFC     : this device does not have NFC support
+11-18 22:25:43.228  5306  5548 W TapAndPay: NfcAdapter is null while obtaining CardEmulation instance. [CONTEXT service_id=79 ]
+11-18 22:25:43.228  5306  5548 W TapAndPay: java.lang.NullPointerException: NfcAdapter is null
+11-18 22:25:43.228  5306  5548 W TapAndPay: 	at android.nfc.cardemulation.CardEmulation.getInstance(CardEmulation.java:152)
+11-18 22:25:43.228  5306  5548 W TapAndPay: 	at cdoy.<init>(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+11-18 22:25:43.228  5306  5548 W TapAndPay: 	at com.google.android.gms.tapandpay.hce.task.TapAndPayAidRegistrationTaskOperation.a(:com.google.android.gms@231818047@23.18.18 (190800-535401451):5)
+11-18 22:25:43.228  5306  5548 W TapAndPay: 	at com.google.android.gms.tapandpay.gcmtask.TapAndPayGcmTaskChimeraService.a(:com.google.android.gms@231818047@23.18.18 (190800-535401451):4)
+11-18 22:25:43.228  5306  5548 W TapAndPay: 	at avzs.call(:com.google.android.gms@231818047@23.18.18 (190800-535401451):4)
+11-18 22:25:43.228  5306  5548 W TapAndPay: 	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
+11-18 22:25:43.228  5306  5548 W TapAndPay: 	at aced.c(:com.google.android.gms@231818047@23.18.18 (190800-535401451):6)
+11-18 22:25:43.228  5306  5548 W TapAndPay: 	at aced.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):7)
+11-18 22:25:43.228  5306  5548 W TapAndPay: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+11-18 22:25:43.228  5306  5548 W TapAndPay: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+11-18 22:25:43.228  5306  5548 W TapAndPay: 	at acjn.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+11-18 22:25:43.228  5306  5548 W TapAndPay: 	at java.lang.Thread.run(Thread.java:1012)
+11-18 22:25:43.232  5306  5853 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.tapandpay.gcmtask.TapAndPayGcmTaskService started execution. cause:4 exec_start_elapsed_seconds: 176 [CONTEXT service_id=218 ]
+11-18 22:25:43.233  5306  5853 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.tapandpay.gcmtask.TapAndPayGcmTaskService finished executing. cause:4 result: 3 elapsed_millis: 20 uptime_millis: 20 exec_start_elapsed_seconds: 176 [CONTEXT service_id=218 ]
+11-18 22:25:43.238  5306  5314 D StrictMode: StrictMode policy violation: android.os.strictmode.LeakedClosableViolation: A resource was acquired at attached stack trace but never released. See java.io.Closeable for information on avoiding resource leaks.
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at android.os.StrictMode$AndroidCloseGuardReporter.report(StrictMode.java:1994)
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at dalvik.system.CloseGuard.warnIfOpen(CloseGuard.java:336)
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at sun.nio.ch.FileChannelImpl.finalize(FileChannelImpl.java:175)
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at java.lang.Daemons$FinalizerDaemon.doFinalize(Daemons.java:339)
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at java.lang.Daemons$FinalizerDaemon.processReference(Daemons.java:324)
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at java.lang.Daemons$FinalizerDaemon.runInternal(Daemons.java:300)
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at java.lang.Daemons$Daemon.run(Daemons.java:145)
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at java.lang.Thread.run(Thread.java:1012)
+11-18 22:25:43.238  5306  5314 D StrictMode: Caused by: java.lang.Throwable: Explicit termination method 'close' not called
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at dalvik.system.CloseGuard.openWithCallSite(CloseGuard.java:288)
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at dalvik.system.CloseGuard.open(CloseGuard.java:257)
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at sun.nio.ch.FileChannelImpl.<init>(FileChannelImpl.java:110)
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at sun.nio.ch.FileChannelImpl.open(FileChannelImpl.java:120)
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at java.io.RandomAccessFile.getChannel(RandomAccessFile.java:350)
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at aoan.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):70)
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at aced.c(:com.google.android.gms@231818047@23.18.18 (190800-535401451):6)
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at aced.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):7)
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+11-18 22:25:43.238  5306  5314 D StrictMode: 	at acjn.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+11-18 22:25:43.238  5306  5314 D StrictMode: 	... 1 more
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: LEAKED_CLOSABLE [CONTEXT service_id=256 ]
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: android.os.strictmode.LeakedClosableViolation: A resource was acquired at attached stack trace but never released. See java.io.Closeable for information on avoiding resource leaks.
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at android.os.StrictMode$AndroidCloseGuardReporter.report(StrictMode.java:1994)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at dalvik.system.CloseGuard.warnIfOpen(CloseGuard.java:336)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at sun.nio.ch.FileChannelImpl.finalize(FileChannelImpl.java:175)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at java.lang.Daemons$FinalizerDaemon.doFinalize(Daemons.java:339)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at java.lang.Daemons$FinalizerDaemon.processReference(Daemons.java:324)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at java.lang.Daemons$FinalizerDaemon.runInternal(Daemons.java:300)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at java.lang.Daemons$Daemon.run(Daemons.java:145)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at java.lang.Thread.run(Thread.java:1012)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: Caused by: java.lang.Throwable: Explicit termination method 'close' not called
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at dalvik.system.CloseGuard.openWithCallSite(CloseGuard.java:288)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at dalvik.system.CloseGuard.open(CloseGuard.java:257)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at sun.nio.ch.FileChannelImpl.<init>(FileChannelImpl.java:110)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at sun.nio.ch.FileChannelImpl.open(FileChannelImpl.java:120)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at java.io.RandomAccessFile.getChannel(RandomAccessFile.java:350)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at aoan.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):70)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at aced.c(:com.google.android.gms@231818047@23.18.18 (190800-535401451):6)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at aced.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):7)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	at acjn.run(:com.google.android.gms@231818047@23.18.18 (190800-535401451):0)
+11-18 22:25:43.239  5306  5424 W GmsStrictMode: 	... 1 more
+11-18 22:25:43.253  5306  5548 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.auth.account.be.legacy.AuthCronService started execution. cause:5 exec_start_elapsed_seconds: 176 [CONTEXT service_id=218 ]
+11-18 22:25:43.260  5306  5853 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.auth.account.be.legacy.AuthCronService finished executing. cause:5 result: 3 elapsed_millis: 12 uptime_millis: 12 exec_start_elapsed_seconds: 176 [CONTEXT service_id=218 ]
+11-18 22:25:43.286   840   905 D EGL_emulation: app_time_stats: avg=304.77ms min=48.69ms max=746.54ms count=4
+11-18 22:25:43.299   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:43.301   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:43.938  4523  4580 D EGL_emulation: app_time_stats: avg=616.83ms min=603.68ms max=629.98ms count=2
+11-18 22:25:43.956  5353  5353 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.ocr.service.internal.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.GmsInternalApiService }
+11-18 22:25:44.063  1613  2046 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+11-18 22:25:44.064  1613  2046 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+11-18 22:25:44.159   840   840 D StatusBarIconController: ignoring old pipeline callbacks, because the new mobile icons are enabled
+11-18 22:25:44.296   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:44.298   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:44.336   840   905 D EGL_emulation: app_time_stats: avg=262.39ms min=50.44ms max=738.38ms count=4
+11-18 22:25:44.689  1504  1504 V ContactsProvider: Scheduled notifyChange started.
+11-18 22:25:44.691  1024  1024 D BluetoothPbapService:  onChange on contact uri
+11-18 22:25:44.696  1024  6019 D BluetoothPbapUtils: primaryVersionCounter = 0, secondaryVersionCounter=0
+11-18 22:25:44.712  5306  5548 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.icing.proxy.IcingInternalCorporaUpdateService started execution. cause:9 exec_start_elapsed_seconds: 178 [CONTEXT service_id=218 ]
+11-18 22:25:44.714  5306  5853 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.icing.proxy.IcingInternalCorporaUpdateService finished executing. cause:9 result: 1 elapsed_millis: 7 uptime_millis: 7 exec_start_elapsed_seconds: 178 [CONTEXT service_id=218 ]
+11-18 22:25:44.866   518  2387 I WifiService: releaseWifiLock uid=10192
+11-18 22:25:45.070  1613  2046 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+11-18 22:25:45.070  1613  2046 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+11-18 22:25:45.284  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@5734abb in: PAUSED
+11-18 22:25:45.284  4523  4523 V ActivityScenario: Update currentActivityStage to PAUSED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@5734abb
+11-18 22:25:45.284   840   896 D SplashScreenView: Build android.window.SplashScreenView{9934461 V.E...... ......ID 0,0-0,0}
+11-18 22:25:45.284   840   896 D SplashScreenView: Icon: view: null drawable: null size: 0
+11-18 22:25:45.284   840   896 D SplashScreenView: Branding: view: android.view.View{68fdb86 G.ED..... ......I. 0,0-0,0 #10204ef android:id/splashscreen_branding_view} drawable: null size w: 0 h: 0
+11-18 22:25:45.296   398   398 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:25:45.307   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:45.309   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:45.337   840   905 D EGL_emulation: app_time_stats: avg=200.27ms min=16.20ms max=550.00ms count=5
+11-18 22:25:45.343  4523  4580 D EGL_emulation: app_time_stats: avg=702.60ms min=600.05ms max=805.16ms count=2
+11-18 22:25:45.357  5003  5024 W OpenGLRenderer: Failed to initialize 101010-2 format, error = EGL_SUCCESS
+11-18 22:25:45.567   518   537 W ziparchive: Unable to open '/data/app/~~QB-XQ05nZr8q7-1VAlBY3w==/io.github.avsessisozx.instagramindirici.test-01_FAEZLBBkzgfdQuLdB_Q==/base.dm': No such file or directory
+11-18 22:25:45.574   518   537 I ActivityTaskManager: Displayed io.github.avsessisozx.instagramindirici.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +290ms
+11-18 22:25:45.579   398   398 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:25:45.592  1714  1714 I A       : StreamFragmentPeer#onPending
+11-18 22:25:45.592  1714  1714 I A       : #fetchAndStoreData() on surface MinusOne.
+11-18 22:25:45.598  1613  1935 I AiAiEcho: Predicting[0]:
+11-18 22:25:45.598  1613  1935 I AiAiEcho: EchoTargets:
+11-18 22:25:45.598  1613  1935 I AiAiEcho: Filtered by AiAi flag check:
+11-18 22:25:45.599  1613  1935 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+11-18 22:25:45.599  1613  1935 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+11-18 22:25:45.603  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+11-18 22:25:45.603  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+11-18 22:25:45.603  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode 1
+11-18 22:25:45.605  1714  2336 W A       : Fetch failed. Renderable stream failure reason: USER_SIGNED_OUT
+11-18 22:25:45.605  1714  2336 W A       : DiscoverPrecheckException(precheckFailureReason=com.google.android.apps.search.googleapp.discover.w.a.c@2b268cb)
+11-18 22:25:45.605  1714  2336 W A       : 	at com.google.android.apps.search.googleapp.discover.w.bb.d(PG:16)
+11-18 22:25:45.605  1714  2336 W A       : 	at com.google.android.apps.search.googleapp.discover.w.ax.invokeSuspend(PG:5)
+11-18 22:25:45.605  1714  2336 W A       : 	at com.google.android.apps.search.googleapp.discover.w.ax.invoke(PG:1)
+11-18 22:25:45.605  1714  2336 W A       : 	at kotlinx.coroutines.f.b.a(PG:1)
+11-18 22:25:45.605  1714  2336 W A       : 	at kotlinx.coroutines.m.a(PG:11)
+11-18 22:25:45.605  1714  2336 W A       : 	at com.google.android.apps.search.googleapp.discover.w.bb.c(PG:2)
+11-18 22:25:45.605  1714  2336 W A       : 	at com.google.android.apps.search.googleapp.discover.v.am.invokeSuspend(PG:5)
+11-18 22:25:45.605  1714  2336 W A       : 	at com.google.android.apps.search.googleapp.discover.v.am.invoke(PG:1)
+11-18 22:25:45.605  1714  2336 W A       : 	at kotlinx.coroutines.f.b.a(PG:1)
+11-18 22:25:45.605  1714  2336 W A       : 	at kotlinx.coroutines.m.a(PG:11)
+11-18 22:25:45.605  1714  2336 W A       : 	at com.google.android.apps.search.googleapp.discover.v.al.invokeSuspend(PG:4)
+11-18 22:25:45.605  1714  2336 W A       : 	at i.c.b.a.a.resumeWith(PG:4)
+11-18 22:25:45.605  1714  2336 W A       : 	at kotlinx.coroutines.bk.run(PG:14)
+11-18 22:25:45.605  1714  2336 W A       : 	at com.google.apps.tiktok.coroutines.f.run(PG:1)
+11-18 22:25:45.605  1714  2336 W A       : 	at com.google.android.libraries.i.ae.run(PG:1)
+11-18 22:25:45.605  1714  2336 W A       : 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+11-18 22:25:45.605  1714  2336 W A       : 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+11-18 22:25:45.605  1714  2336 W A       : 	at com.google.android.libraries.i.k.run(PG:2)
+11-18 22:25:45.605  1714  2336 W A       : 	at com.google.android.libraries.i.p.run(PG:4)
+11-18 22:25:45.605  1714  2336 W A       : 	at java.lang.Thread.run(Thread.java:1012)
+11-18 22:25:45.606   518  1614 W AppSearchIcing: icing-search-engine.cc:283: Error: 5, Message: Document (com.google.android.googlequicksearchbox$OneSearchZeroStateGoogleSuggestions/default, zp) not found.
+11-18 22:25:45.607  1098  2176 D OneSearchSuggestProvider: Created the binder channel successfully for end point service =com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService , mChannel=z1{delegate=s1{logId=33, target=directaddress:///AndroidComponentAddress%5BIntent%20%7B%20act=grpc.io.action.BIND%20cmp=com.google.android.googlequicksearchbox/com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService%20%7D%5D}} , mOneSearchConnection=X1.T@422cb53
+11-18 22:25:45.610   840   895 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@4f595e3
+11-18 22:25:45.612   518  2387 W InputManager-JNI: Input channel object '884c870 Splash Screen io.github.avsessisozx.instagramindirici.test (client)' was disposed without first being removed with the input manager!
+11-18 22:25:45.618  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@5734abb in: STOPPED
+11-18 22:25:45.619  4523  4523 V ActivityScenario: Update currentActivityStage to STOPPED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@5734abb
+11-18 22:25:45.625  4523  4523 W cr_AwContents: WebView.destroy() called while WebView is still attached to window.
+11-18 22:25:45.639  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@5734abb in: DESTROYED
+11-18 22:25:45.639  4523  4523 V ActivityScenario: Update currentActivityStage to DESTROYED, currentActivity=null
+11-18 22:25:45.640  4523  4523 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@1ff8649
+11-18 22:25:45.641  4523  4548 I TestRunner: finished: c4_stopButton(io.github.avsessisozx.instagramindirici.EndToEndTest)

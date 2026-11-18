@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="io.github.avsessisozx.instagramindirici.DeviceVectorsTest" tests="18" failures="0" errors="0" skipped="0" time="110.729" timestamp="2026-11-18T22:26:07" hostname="localhost">
+  <properties>
+    <property name="device" value="emulator-5554 - 14" />
+    <property name="flavor" value="" />
+    <property name="project" value=":app" />
+  </properties>
+  <testcase name="naming" classname="io.github.avsessisozx.instagramindirici.DeviceVectorsTest" time="0.025" />
+  <testcase name="finders" classname="io.github.avsessisozx.instagramindirici.DeviceVectorsTest" time="0.128" />
+  <testcase name="links" classname="io.github.avsessisozx.instagramindirici.DeviceVectorsTest" time="0.071" />
+  <testcase name="posts" classname="io.github.avsessisozx.instagramindirici.DeviceVectorsTest" time="0.566" />
+  <testcase name="classify" classname="io.github.avsessisozx.instagramindirici.DeviceVectorsTest" time="0.046" />
+  <testcase name="a1_profileLoggedOutThroughUi" classname="io.github.avsessisozx.instagramindirici.EndToEndTest" time="25.52" />
+  <testcase name="a2_shareMenuFillsLink" classname="io.github.avsessisozx.instagramindirici.EndToEndTest" time="3.908" />
+  <testcase name="a3_englishInterface" classname="io.github.avsessisozx.instagramindirici.EndToEndTest" time="3.575" />
+  <testcase name="b1_loginWindowCanBeHiddenReopenedAndClosed" classname="io.github.avsessisozx.instagramindirici.EndToEndTest" time="6.023" />
+  <testcase name="b2_loginCompletesByItself" classname="io.github.avsessisozx.instagramindirici.EndToEndTest" time="8.635" />
+  <testcase name="c1_fullProfileWithVerification" classname="io.github.avsessisozx.instagramindirici.EndToEndTest" time="14.082" />
+  <testcase name="c2_singleVideoToGallery" classname="io.github.avsessisozx.instagramindirici.EndToEndTest" time="3.833" />
+  <testcase name="c3_sessionEndsThenContinuesFromHistory" classname="io.github.avsessisozx.instagramindirici.EndToEndTest" time="16.845" />
+  <testcase name="c4_stopButton" classname="io.github.avsessisozx.instagramindirici.EndToEndTest" time="5.932" />
+  <testcase name="c5_screenRebuiltDuringCollection" classname="io.github.avsessisozx.instagramindirici.EndToEndTest" time="11.121" />
+  <testcase name="d1_tabsAndHistoryList" classname="io.github.avsessisozx.instagramindirici.EndToEndTest" time="5.016" />
+  <testcase name="d2_wizardOnFreshInstallThenSkips" classname="io.github.avsessisozx.instagramindirici.EndToEndTest" time="3.077" />
+  <testcase name="d3_wizardSkippedForExistingUser" classname="io.github.avsessisozx.instagramindirici.EndToEndTest" time="0.992" />
+</testsuite>

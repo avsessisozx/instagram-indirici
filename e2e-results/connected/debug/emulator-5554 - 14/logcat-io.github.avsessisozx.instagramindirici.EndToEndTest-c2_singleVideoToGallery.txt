@@ -1,0 +1,216 @@
+11-18 22:25:19.003  4523  4548 I TestRunner: started: c2_singleVideoToGallery(io.github.avsessisozx.instagramindirici.EndToEndTest)
+11-18 22:25:19.188  1617  1653 I MediaProvider: Deleted 0 0 0 0 0 0 0 items on external due to io.github.avsessisozx.instagramindirici
+11-18 22:25:19.200   518   537 W ziparchive: Unable to open '/data/app/~~QB-XQ05nZr8q7-1VAlBY3w==/io.github.avsessisozx.instagramindirici.test-01_FAEZLBBkzgfdQuLdB_Q==/base.dm': No such file or directory
+11-18 22:25:19.210  4523  4548 W Settings: Setting always_finish_activities has moved from android.provider.Settings.System to android.provider.Settings.Global, returning read-only value.
+11-18 22:25:19.229   398   398 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:25:19.239   518   537 I ActivityTaskManager: Displayed io.github.avsessisozx.instagramindirici.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +394ms
+11-18 22:25:19.248   518  1614 W AppSearchIcing: icing-search-engine.cc:283: Error: 5, Message: Document (com.google.android.googlequicksearchbox$OneSearchZeroStateGoogleSuggestions/default, zp) not found.
+11-18 22:25:19.250  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+11-18 22:25:19.250  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+11-18 22:25:19.250  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode 1
+11-18 22:25:19.253  1098  2176 D OneSearchSuggestProvider: Created the binder channel successfully for end point service =com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService , mChannel=z1{delegate=s1{logId=21, target=directaddress:///AndroidComponentAddress%5BIntent%20%7B%20act=grpc.io.action.BIND%20cmp=com.google.android.googlequicksearchbox/com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService%20%7D%5D}} , mOneSearchConnection=X1.T@4f5bee5
+11-18 22:25:19.275  1613  1935 I AiAiEcho: Predicting[0]:
+11-18 22:25:19.275  1613  1935 I AiAiEcho: EchoTargets:
+11-18 22:25:19.275  1613  1935 I AiAiEcho: Filtered by AiAi flag check:
+11-18 22:25:19.276  1613  1935 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+11-18 22:25:19.278  1613  1935 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+11-18 22:25:19.280   840   905 D EGL_emulation: app_time_stats: avg=3128.52ms min=3128.52ms max=3128.52ms count=1
+11-18 22:25:19.287   518  2613 I ImeTracker: com.google.android.apps.nexuslauncher:25399209: onRequestHide at ORIGIN_SERVER_HIDE_INPUT reason HIDE_UNSPECIFIED_WINDOW
+11-18 22:25:19.287   518  2613 I ImeTracker: com.google.android.apps.nexuslauncher:25399209: onCancelled at PHASE_SERVER_SHOULD_HIDE
+11-18 22:25:19.303  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():3227
+11-18 22:25:19.307  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 0, unlocked = true
+11-18 22:25:19.307  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1877 onStartInput(EditorInfo{inputType=0x0(NULL) imeOptions=0x0 privateImeOptions=null actionName=UNSPECIFIED actionLabel=null actionId=0 initialSelStart=-1 initialSelEnd=-1 initialCapsMode=0x0 hintText=null label=null packageName=com.google.android.apps.nexuslauncher fieldId=0 fieldName=null extras=null}, false)
+11-18 22:25:19.307  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.shouldHideHeaderOnInitialState():4008 ShouldHideHeaderOnInitialState = false
+11-18 22:25:19.307  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 2, unlocked = true
+11-18 22:25:19.324   840   895 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@c1fc01
+11-18 22:25:19.338  1714  1714 I A       : Created gRPC endpoint to "search" for service class com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService
+11-18 22:25:19.339  1714  2336 I A       : group apa_head_suggest not present without account in *
+11-18 22:25:19.339  1714  2336 I A       : incrementApaDataDownloadStoreStatus(latency = PT0.004S, appVersion = 13.17.16.23, status = NOT_FOUND, locale = *, fileGroupnames = apa_head_suggest, accountScoped = false, localGroupsAvailable = false, timeSinceSearchBoot = Optional[PT1M49.694S] (ONE_TO_FIVE_MINUTES), timeSinceDataDownloadInit = PT1M17.936S (ONE_TO_FIVE_MINUTES))
+11-18 22:25:19.340  1714  2336 I A       : incrementApaDataDownloadStoreStatusNotFound(appVersion = 13.17.16.23, locale = *, groupName = apa_head_suggest, accountScoped = false, foundGroups = 0, status = 0, localGroupsAvailable = false)
+11-18 22:25:19.362   518  2387 W InputManager-JNI: Input channel object '7f6bd77 Splash Screen io.github.avsessisozx.instagramindirici.test (client)' was disposed without first being removed with the input manager!
+11-18 22:25:19.363   398   398 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:25:19.371   840   896 D SplashScreenView: Build android.window.SplashScreenView{eca8bbf V.E...... ......ID 0,0-0,0}
+11-18 22:25:19.371   840   896 D SplashScreenView: Icon: view: null drawable: null size: 0
+11-18 22:25:19.371   840   896 D SplashScreenView: Branding: view: android.view.View{78be28c G.ED..... ......I. 0,0-0,0 #10204ef android:id/splashscreen_branding_view} drawable: null size w: 0 h: 0
+11-18 22:25:19.378  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@7b67e77 in: PRE_ON_CREATE
+11-18 22:25:19.378  4523  4523 V ActivityScenario: Activity lifecycle changed event received but ignored because the reported transition was not ON_CREATE while the last known transition was PRE_ON_CREATE
+11-18 22:25:19.379  1714  2397 I A       : Using proto config with mendel
+11-18 22:25:19.380  1714  2397 W A       : Queue length for executor EventBus is now 11. Perhaps some tasks are too long, or the pool is too small.
+11-18 22:25:19.386  5003  5003 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@560ca1d
+11-18 22:25:19.392  1714  2397 I A       : Using proto config with mendel
+11-18 22:25:19.403   518  2323 W InputManager-JNI: Input channel object '631d626 io.github.avsessisozx.instagramindirici.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity (client)' was disposed without first being removed with the input manager!
+11-18 22:25:19.410  4523  4523 D AutofillManager: Fill dialog is enabled:false, hints=[]
+11-18 22:25:19.487  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@7b67e77 in: CREATED
+11-18 22:25:19.489  4523  4523 V ActivityScenario: Update currentActivityStage to CREATED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@7b67e77
+11-18 22:25:19.492  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@7b67e77 in: STARTED
+11-18 22:25:19.493  4523  4523 V ActivityScenario: Update currentActivityStage to STARTED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@7b67e77
+11-18 22:25:19.494  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@7b67e77 in: RESUMED
+11-18 22:25:19.495  4523  4523 V ActivityScenario: Update currentActivityStage to RESUMED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@7b67e77
+11-18 22:25:19.506  1098  1098 D SearchTargetUtil:  query= size=15
+11-18 22:25:19.512  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=usda health alert breakfast,group_id=web45698,response_id=e42cb0ad-fe36-420d-be43-7ac296b26e89,support_query_builder=false,} searchAction=usda health alert breakfast searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: d8a55ce0-e95c-482c-a273-0500da4d2a0e
+11-18 22:25:19.513  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=spartanburg water boil water advisory,group_id=web45698,response_id=e42cb0ad-fe36-420d-be43-7ac296b26e89,support_query_builder=false,} searchAction=spartanburg water boil water advisory searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 44ac1163-a199-477f-b686-bb370ed28d8c
+11-18 22:25:19.515  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=warframe eris,group_id=web45698,response_id=e42cb0ad-fe36-420d-be43-7ac296b26e89,support_query_builder=false,} searchAction=warframe eris searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 9270cca7-f6fb-4831-a1b5-0ef5326a8a08
+11-18 22:25:19.517  1098  1098 D SearchTargetUtil: layoutType=extra_tall_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{bitmap_url=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAVCAMAAAA3vZ0wAAAAkFBMVEX///+iqa0KIkD9/v8ADTWUmqOts7f2+Pmco6cABDKvs7rJzNEAACwAACQAADA+Sl4AAChocH7n6eyEipVja3oAHT0AAADw8fN6gY0AFznd3+Nwd4S/wsiLkJsdL0lIUmUAABYAACAwPVTT1tpTXW5UiS9ZkC0AADpGeCxush5Dci8AABtcYndESWhDS2RkaX3sRUV5AAABYUlEQVQ4jZ2R2ZKDIBBFW4WoCChGgiIuUTP78v9/N5DEGuPkIc4pi0K5h4YW4H/k+UahZALfIyLj/QLMr9ASyhjLuJ1wmpXhX6Go/AWSo5IYg6cMSfuKqF7nR7bMI2lA47rGiSIttVvJDE2NWdZJ5WJ7VoMejn3X2OOUeqxR5beYUco6MudNH89wigzgY1woGPnp6ZkOmOxTCOzAOK2Sq0B+sZ8KKgd3L/ry+nZiYn+4tFzhTL6fjXDJucV+1SlQzcfn17cBUUDgANBUtk6IbtiFQKzBCuzZgl55bIOLYJUGMWVbFHk3RDnksR+32CQO19JZMNwJ3hpsF2gDYSS6QtSNlyi4SEC4tDeI1kIS8rgEcohUPmqtR7OfavcXAhAUW9VbHwlwNoA55EnMMkdbYIJFkYBi1DUlNLtbQt113ZDa58qA+r6tu3RiBB5FaZJKKh7On6nSbXlIg235fGN+jv8AiYca4zBaRtcAAAAASUVORK5CYII=,suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=true,is_personal=false,suggest_raw_text=seattle seahawks,group_id=web45698,response_id=e42cb0ad-fe36-420d-be43-7ac296b26e89,support_query_builder=false,} searchAction=Seattle Seahawks searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 9833ecc3-30f7-409c-bb2a-1bb26e562d22
+11-18 22:25:19.517  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=ps5 pro black friday deals,group_id=web45698,response_id=e42cb0ad-fe36-420d-be43-7ac296b26e89,support_query_builder=false,} searchAction=ps5 pro black friday deals searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: e6f8bbbf-a92e-4542-98ef-a3216cdb4a9a
+11-18 22:25:19.518  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=chatgpt 6.2 astra,group_id=web45698,response_id=e42cb0ad-fe36-420d-be43-7ac296b26e89,support_query_builder=false,} searchAction=chatgpt 6.2 astra searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 350e93e6-20e9-47d0-ab12-0e7fd6a9b1d7
+11-18 22:25:19.519  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=cia headquarters fire,group_id=web45698,response_id=e42cb0ad-fe36-420d-be43-7ac296b26e89,support_query_builder=false,} searchAction=cia headquarters fire searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 6c0b0d6a-e649-483f-951c-3d75d0e06e54
+11-18 22:25:19.520  1098  1098 D SearchTargetUtil: layoutType=extra_tall_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{bitmap_url=data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIADAAMAMBIgACEQEDEQH/xAAbAAADAAMBAQAAAAAAAAAAAAAEBQYBAwcCAP/EADYQAAIBAgQEAggDCQAAAAAAAAECAwQRAAUhMQYSQVETcQciMmGRobHBFNHwFSNCUnKBgqLh/8QAFwEBAQEBAAAAAAAAAAAAAAAABQYEAv/EACkRAAEDAgQEBwEAAAAAAAAAAAECAwQAERIhMUEFE2HxFFFxkaHh8CL/2gAMAwEAAhEDEQA/AGHpJpeWpoa1R7atC58vWX6thBw9OIM8y+Qmw8dVJ8zb74ueNqUVmQTW9uBlmU9rGx/1JxzHM6OZ6LkilA8Q2Y8uw+OEOGSEr4cpCtrj370ZPZKeIJKd7H27VT8b8Z5fV0k+XUKNUkOt51ayAqQdP5trfniLgzhGUGWJkuLizX0wdlPClRXFFmLQxmMEPbcfrpg6f0fRqVtXuwGoBQEg+7GOLIVETgbOVKyIIlHEsZ0NG4kUNGeYEXFtcbBFK20bf30+uM5TDJQrJQySF/Bb1GI3U/8Ab4YE4pmXuagL86kJKSw6ps7UbJnOeVcDQAQNCyeGeSnYki1jc3P0wGcpqZacRsDEdCviqRzkdNvIa98GZZmlNQU0i1MjLeTmAVGY7DoAe2G0dbDVUyVsMbyotypsVK68tzfbXv3xOSHzGWphtrCkm1886pIUcScD7ruJQ2yyr1QtN+z0NIsbSFP4zYX+eAqt85iy+WZ5IROWAVOU2Ck/Xbpj6hrlpwq22GwwDnlZM8RkDVkSmxKCM2a3TbzxjtTdxWciyybNa2YVIEPh28VlG/a3nriqj4dytQA0cj+9pD9rYTcG1/4r8cxUqeZDY72IP5HCzjCWo/bShaqoRVhVkWOVlANzrYHfTfHaHZUh8R214QB90VIZiR0KkuIxEn16b0skkSNC8rKqDUsxsBgngL0gU+U5jLT5pTeJST+pG6AXjBJuCD7V7j4dcQGY101dLzSn1R7KDZf13wDqNDthOW/z/wCRoKxcOiiMcS8ydfSu9Z1w7DWRpnfCkiVVMzcz06GxXvy32/pNiPliCzfM4J6lo2o6gTRauroykbDY6dR8caOA+L6vJarmRjICAJoWOkyDr7mHf7Xwx9I/EMlTmVJXZXDGuVSQtHcqOeVgQzq3VbeqR5HvbByACqytaoXmuUkOIN21aHcdD1HzW/gmrda6qgkVI+eMOoBudDrc/wCWC+LaGsqnjqqEglI+R1C3a17gj4nErSVYm8Osy6fkmjNweqnswxTZZxJFOwhr1/C1B0BJ/dufceh9x+eOJKHmX/EtZ/rV14ZlTXLtdOvn1r//2Q==,suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=true,is_personal=false,suggest_raw_text=taylor sheridan,group_id=web45698,response_id=e42cb0ad-fe36-420d-be43-7ac296b26e89,support_query_builder=false,} searchAction=Taylor Sheridan searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: b88a1f29-73e4-478e-9c25-322810729aae
+11-18 22:25:19.520  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=measles elimination status,group_id=web45698,response_id=e42cb0ad-fe36-420d-be43-7ac296b26e89,support_query_builder=false,} searchAction=measles elimination status searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: a37be6f0-5d4e-44b8-8a50-702e88eb7748
+11-18 22:25:19.523  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=save plan student loans,group_id=web45698,response_id=e42cb0ad-fe36-420d-be43-7ac296b26e89,support_query_builder=false,} searchAction=save plan student loans searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 820d50a9-9134-472e-b65c-af184efef308
+11-18 22:25:19.524  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=timex x bespoke post field watch,group_id=web45698,response_id=e42cb0ad-fe36-420d-be43-7ac296b26e89,support_query_builder=false,} searchAction=timex x bespoke post field watch searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 8a343a09-69c1-438a-ab30-9a32155c9399
+11-18 22:25:19.524  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=nasa voyager 1 light day,group_id=web45698,response_id=e42cb0ad-fe36-420d-be43-7ac296b26e89,support_query_builder=false,} searchAction=nasa voyager 1 light day searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 3815f192-15e9-4f2c-b320-00c5438a66f1
+11-18 22:25:19.525  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=costco whipped cream recall,group_id=web45698,response_id=e42cb0ad-fe36-420d-be43-7ac296b26e89,support_query_builder=false,} searchAction=costco whipped cream recall searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: 3c0f14ff-c67c-460a-98ed-44e0cd222173
+11-18 22:25:19.526  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=world ending,group_id=web45698,response_id=e42cb0ad-fe36-420d-be43-7ac296b26e89,support_query_builder=false,} searchAction=world ending searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: b42006f5-bcb8-4546-a0ae-26a5c198ad8c
+11-18 22:25:19.526  1098  1098 D SearchTargetUtil: layoutType=short_icon_row resultType=131072 packageName=com.google.android.googlequicksearchbox extras=Bundle{suggestion_type=33,suggest_truncate_start=false,is_answer=false,is_entity=false,is_personal=false,suggest_raw_text=marvel avengers doomsday,group_id=web45698,response_id=e42cb0ad-fe36-420d-be43-7ac296b26e89,support_query_builder=false,} searchAction=marvel avengers doomsday searchActionExtras=Bundle{learn_more_url=https://support.google.com/websearch/answer/106230?hl=106230,suggestion_action_text=Report this,should_start_for_result=true,allow_pinning=true,skip_logging_in_target_handler=false,suggestion_action_rpc=2,}ParentID: null targetID: dc874c11-da54-402c-928a-a5d738c45b40
+11-18 22:25:19.557  1098  1098 W FrameTracker: Missed SF frame:UNKNOWN: 80, 16395, 0, CUJ=J<LAUNCHER_APP_CLOSE_TO_HOME>
+11-18 22:25:19.557  1098  1098 W FrameTracker: Missing HWUI jank callback for vsyncId: 16395, CUJ=J<LAUNCHER_APP_CLOSE_TO_HOME>
+11-18 22:25:19.557  1098  1098 W FrameTracker: Missed App frame:UNKNOWN: 88, 16403, 50197105, CUJ=J<LAUNCHER_APP_CLOSE_TO_HOME>
+11-18 22:25:19.557  1098  1098 W FrameTracker: Missed SF frame:UNKNOWN: 88, 16403, 50197105, CUJ=J<LAUNCHER_APP_CLOSE_TO_HOME>
+11-18 22:25:19.557  1098  1098 W FrameTracker: Missing SF jank callback for vsyncId: 16528, CUJ=J<LAUNCHER_APP_CLOSE_TO_HOME>
+11-18 22:25:19.601   518   537 W ziparchive: Unable to open '/data/app/~~L9bpiABHkdiFF46a2mOTaA==/io.github.avsessisozx.instagramindirici-P_pNh-QJzCYER8ciG7w39w==/base.dm': No such file or directory
+11-18 22:25:19.604   518   537 I ActivityTaskManager: Displayed io.github.avsessisozx.instagramindirici/.MainActivity for user 0: +313ms
+11-18 22:25:19.641   840   895 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@5a624db
+11-18 22:25:19.644   518  2323 I ImeTracker: io.github.avsessisozx.instagramindirici:9fc1cec1: onRequestHide at ORIGIN_SERVER_HIDE_INPUT reason HIDE_UNSPECIFIED_WINDOW
+11-18 22:25:19.644   518  2323 I ImeTracker: io.github.avsessisozx.instagramindirici:9fc1cec1: onCancelled at PHASE_SERVER_SHOULD_HIDE
+11-18 22:25:19.651  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():3227
+11-18 22:25:19.652  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 0, unlocked = true
+11-18 22:25:19.652  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1877 onStartInput(EditorInfo{inputType=0x0(NULL) imeOptions=0x0 privateImeOptions=null actionName=UNSPECIFIED actionLabel=null actionId=0 initialSelStart=-1 initialSelEnd=-1 initialCapsMode=0x0 hintText=null label=null packageName=io.github.avsessisozx.instagramindirici fieldId=0 fieldName=null extras=null}, false)
+11-18 22:25:19.653  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.shouldHideHeaderOnInitialState():4008 ShouldHideHeaderOnInitialState = false
+11-18 22:25:19.653  1546  1546 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 2, unlocked = true
+11-18 22:25:19.654   518  2377 W InputManager-JNI: Input channel object '8f7c51a Splash Screen io.github.avsessisozx.instagramindirici (client)' was disposed without first being removed with the input manager!
+11-18 22:25:19.735  1098  2176 D OneSearchSuggestProvider: Shut down the binder channel
+11-18 22:25:19.736  1098  1157 I ImeTracker: com.google.android.apps.nexuslauncher:b0794e46: onRequestHide at ORIGIN_CLIENT_HIDE_SOFT_INPUT reason HIDE_SOFT_INPUT
+11-18 22:25:19.736  1098  1138 I IPCThreadState: oneway function results for code 2 on binder at 0x7ea3ea8bc2d0 will be dropped but finished with status UNKNOWN_TRANSACTION
+11-18 22:25:19.736  1098  1157 I ImeTracker: com.google.android.apps.nexuslauncher:b0794e46: onFailed at PHASE_CLIENT_VIEW_SERVED
+11-18 22:25:19.743  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+11-18 22:25:19.745  1714  2622 I PBSessionCacheImpl: Deleted sessionId[7540046760645376] from persistence.
+11-18 22:25:19.747  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+11-18 22:25:19.747  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode 1
+11-18 22:25:19.757  1714  2397 W SearchServiceCore: Abort, client detached.
+11-18 22:25:19.757  1714  2397 W SearchServiceCore: Abort, client detached.
+11-18 22:25:19.757  1714  2397 W SearchServiceCore: Abort, client detached.
+11-18 22:25:19.757  1714  2397 W SearchServiceCore: Abort, client detached.
+11-18 22:25:19.758  1714  2397 W SearchServiceCore: Abort, client detached.
+11-18 22:25:19.758  1714  2397 W SearchServiceCore: Abort, client detached.
+11-18 22:25:19.758  1714  2397 W SearchServiceCore: Abort, client detached.
+11-18 22:25:19.961   333  5807 I resolv  : GetAddrInfoHandler::run: {101 101 101 983141 10192 0}
+11-18 22:25:19.966   333  5809 I resolv  : res_nmkquery: (QUERY, IN, A)
+11-18 22:25:19.966   333  5809 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7caeb87526b0
+11-18 22:25:19.967   333  5809 I resolv  : doQuery: rcode=3, ancount=0, return value=107
+11-18 22:25:19.967   333  5808 I resolv  : res_nmkquery: (QUERY, IN, AAAA)
+11-18 22:25:19.967   333  5808 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7caeb8751ff0
+11-18 22:25:19.967   333  5808 I resolv  : doQuery: rcode=3, ancount=0, return value=107
+11-18 22:25:20.288   518   531 I WifiService: acquireWifiLock uid=10192 lockMode=3
+11-18 22:25:20.369  1617  1653 W MediaProvider: isAppCloneUserPair for user 0: false
+11-18 22:25:20.370  1617  1653 W MediaProvider: isAppCloneUserPair for user 0: false
+11-18 22:25:20.371  1617  1653 W MediaProvider: isAppCloneUserPair for user 0: false
+11-18 22:25:20.371  1617  1653 W MediaProvider: isAppCloneUserPair for user 0: false
+11-18 22:25:20.379  1617  1653 I MediaProvider: Open with lower FS for /storage/emulated/0/DCIM/Instagram/sahte.kisi/Reels/.pending-1795645520-2025-10-08_Gönderi 1_C8vOfxsY0Yp.mp4. Uid: 10192
+11-18 22:25:20.393  1617  1653 D MediaProvider: Moving /storage/emulated/0/DCIM/Instagram/sahte.kisi/Reels/.pending-1795645520-2025-10-08_Gönderi 1_C8vOfxsY0Yp.mp4 to /storage/emulated/0/DCIM/Instagram/sahte.kisi/Reels/2025-10-08_Gönderi 1_C8vOfxsY0Yp.mp4
+11-18 22:25:20.398  5306  5764 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.ipa.base.IpaGcmTaskService started execution. cause:9 exec_start_elapsed_seconds: 154 [CONTEXT service_id=218 ]
+11-18 22:25:20.402  5306  5753 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.ipa.base.IpaGcmTaskService finished executing. cause:9 result: 1 elapsed_millis: 15 uptime_millis: 15 exec_start_elapsed_seconds: 154 [CONTEXT service_id=218 ]
+11-18 22:25:20.405   470   470 W MPEG4Extractor: Identified supported mpeg4 through LegacySniffMPEG4.
+11-18 22:25:20.409   470   470 W MPEG4Extractor: Identified supported mpeg4 through LegacySniffMPEG4.
+11-18 22:25:20.489  1613  2046 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+11-18 22:25:20.490  1613  2046 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+11-18 22:25:20.497  1613  2046 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+11-18 22:25:20.497  1613  2046 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+11-18 22:25:20.500   840   905 D EGL_emulation: app_time_stats: avg=303.44ms min=14.16ms max=976.00ms count=4
+11-18 22:25:20.524   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:20.533   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:20.721  4523  4580 D EGL_emulation: app_time_stats: avg=139.23ms min=2.23ms max=371.72ms count=8
+11-18 22:25:20.739   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:20.741   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:21.210  1504  1504 V ContactsProvider: Scheduled notifyChange started.
+11-18 22:25:21.215  1024  1024 D BluetoothPbapService:  onChange on contact uri
+11-18 22:25:21.228  1024  5810 D BluetoothPbapUtils: primaryVersionCounter = 0, secondaryVersionCounter=0
+11-18 22:25:21.234  5353  5434 W PeopleGmsPhenoRgstrIntentOp: Google Api connection failed
+11-18 22:25:21.261  5306  5764 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.icing.proxy.IcingInternalCorporaUpdateService started execution. cause:9 exec_start_elapsed_seconds: 154 [CONTEXT service_id=218 ]
+11-18 22:25:21.265  5306  5401 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.icing.proxy.IcingInternalCorporaUpdateService finished executing. cause:9 result: 1 elapsed_millis: 20 uptime_millis: 20 exec_start_elapsed_seconds: 154 [CONTEXT service_id=218 ]
+11-18 22:25:21.319   518  2323 I WifiService: releaseWifiLock uid=10192
+11-18 22:25:21.507  1613  2046 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+11-18 22:25:21.507  1613  2046 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+11-18 22:25:21.516   840   905 D EGL_emulation: app_time_stats: avg=126.95ms min=11.00ms max=549.84ms count=8
+11-18 22:25:21.730   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:21.733   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:21.967  5353  5813 I ChimeraConfigurator: Starting update, reason: 4 urgentFeatures: vision.ocr:-1
+11-18 22:25:21.983  5353  5813 I ChimeraConfigurator: Detected pending changes for urgent request: [vision.ocr]. Pending module sets: container:2318189190800+mlkit.ocr.common,tflite_dynamite:2640104055100800+tflite_dynamite,vision_ocr:2316024025100000+vision.ocr
+11-18 22:25:21.992  5353  5813 I GmsDebugLogger: [73] 1801
+11-18 22:25:21.996  5353  5813 W ZappDownloader: No successful module downloads for requested features [vision.ocr].
+11-18 22:25:21.997  5353  5813 I GmsDebugLogger: [30] [VisionOcrDynamite.integ:231602402100000],[TfliteDynamiteDynamite.integ:264010405100800],[MlkitOcrCommon.optional:231818100800]
+11-18 22:25:22.001  5353  5813 W ChimeraConfigService: Retry attempt was throttled. [CONTEXT service_id=264 ]
+11-18 22:25:22.003  5353  5813 I GmsDebugLogger: [83] 1 [vision.ocr]
+11-18 22:25:22.006  5353  5434 W Vision  : Request for optional module download of ocr failed. Request again.
+11-18 22:25:22.006  5353  5434 W Vision  : Would have logged:
+11-18 22:25:22.006  5353  5434 W Vision  : # dsae@37884fe7
+11-18 22:25:22.006  5353  5434 I Vision  : Schedule retrying download ocr at 155745 with backoff 20 seconds
+11-18 22:25:22.134   518  1193 I WifiService: acquireWifiLock uid=10192 lockMode=3
+11-18 22:25:22.172  4523  4580 D EGL_emulation: app_time_stats: avg=40.59ms min=5.88ms max=756.19ms count=33
+11-18 22:25:22.335  1613  2046 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+11-18 22:25:22.335  1613  2046 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+11-18 22:25:22.338  1613  2046 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+11-18 22:25:22.338  1613  2046 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+11-18 22:25:22.344  1617  4153 I MediaProvider: Deleted 0 0 0 1 0 0 0 items on external due to io.github.avsessisozx.instagramindirici
+11-18 22:25:22.355   840   896 D SplashScreenView: Build android.window.SplashScreenView{52857f5 V.E...... ......ID 0,0-0,0}
+11-18 22:25:22.355   840   896 D SplashScreenView: Icon: view: null drawable: null size: 0
+11-18 22:25:22.355   840   896 D SplashScreenView: Branding: view: android.view.View{978498a G.ED..... ......I. 0,0-0,0 #10204ef android:id/splashscreen_branding_view} drawable: null size w: 0 h: 0
+11-18 22:25:22.356  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@7b67e77 in: PAUSED
+11-18 22:25:22.357  4523  4523 V ActivityScenario: Update currentActivityStage to PAUSED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@7b67e77
+11-18 22:25:22.363   398   398 I BpBinder: onLastStrongRef automatically unlinking death recipients:
+11-18 22:25:22.411   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:22.419   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:22.428  5003  5024 W OpenGLRenderer: Failed to initialize 101010-2 format, error = EGL_SUCCESS
+11-18 22:25:22.441  2496  2496 I DialerConstellationSyncWorker: com.android.dialer.businessvoice.control.worker.ConstellationSyncWorker.startWork:66 starting work
+11-18 22:25:22.442  2496  2655 I DialerCountryCodeProvider: com.android.dialer.businessvoice.verifiedcall.impl.i18n.CountryCodeProvider.getSimCountryCodeInternal:85 returning Redacted-2-chars
+11-18 22:25:22.443  2496  2655 I DialerCachedVerifiedNumberProvider: com.android.dialer.businessvoice.verifiedcall.impl.constellation.CachedVerifiedNumberProvider.refreshConstellationInfo:190 Retrieving constellation info and refreshing the cache.
+11-18 22:25:22.449  5353  5353 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.constellation.service.START pkg=com.google.android.gms }
+11-18 22:25:22.449  5353  5353 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.constellation.service.START pkg=com.google.android.gms }
+11-18 22:25:22.474  5306  5401 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.ipa.base.IpaGcmTaskService started execution. cause:9 exec_start_elapsed_seconds: 156 [CONTEXT service_id=218 ]
+11-18 22:25:22.476  2496  2703 W DialerVerifiedNumberProvider: com.android.dialer.businessvoice.verifiedcall.impl.constellation.VerifiedNumberProvider.lambda$getConstellationResponse$1:155 Failed to get constellation token.
+11-18 22:25:22.476  2496  2703 W DialerVerifiedNumberProvider: nkq: 5005:
+11-18 22:25:22.476  2496  2703 W DialerVerifiedNumberProvider: 	at nov.au(PG:1)
+11-18 22:25:22.476  2496  2703 W DialerVerifiedNumberProvider: 	at nnf.g(PG:2)
+11-18 22:25:22.476  2496  2703 W DialerVerifiedNumberProvider: 	at npo.a(Unknown Source:2)
+11-18 22:25:22.476  2496  2703 W DialerVerifiedNumberProvider: 	at npy.dm(PG:9)
+11-18 22:25:22.476  2496  2703 W DialerVerifiedNumberProvider: 	at ncz.onTransact(PG:4)
+11-18 22:25:22.476  2496  2703 W DialerVerifiedNumberProvider: 	at android.os.Binder.execTransactInternal(Binder.java:1344)
+11-18 22:25:22.476  2496  2703 W DialerVerifiedNumberProvider: 	at android.os.Binder.execTransact(Binder.java:1275)
+11-18 22:25:22.478  2496  2703 W DialerConstellationSyncWorker: com.android.dialer.businessvoice.control.worker.ConstellationSyncWorker.lambda$syncConstellation$2:110 Constellation api request failed, status code: 5005
+11-18 22:25:22.478   518  1193 D ConnectivityService: requestNetwork for uid/pid:10128/2496 activeRequest: null callbackRequest: 141 [NetworkRequest [ REQUEST id=142, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10128 RequestorUid: 10128 RequestorPkg: com.google.android.dialer UnderlyingNetworks: Null] ]] callback flags: 0 order: 2147483647
+11-18 22:25:22.479  2496  2649 I WM-WorkerWrapper: Worker result RETRY for Work [ id=b88d7cc6-1930-4653-ac88-b7514e8271d0, tags={ com.google.apps.tiktok.contrib.work.TikTokListenableWorker, TikTokWorker#com.android.dialer.businessvoice.control.worker.ConstellationSyncWorker } ]
+11-18 22:25:22.551  2496  3394 W ConnectivityManager.CallbackHandler: callback not found for CALLBACK_AVAILABLE message
+11-18 22:25:22.559   518   761 D ConnectivityService: NetReassign [142 : null → 101] [c 73] [a 8] [i 0]
+11-18 22:25:22.575   518   754 D WifiNetworkFactory: got request NetworkRequest [ REQUEST id=142, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10128 RequestorUid: 10128 RequestorPkg: com.google.android.dialer UnderlyingNetworks: Null] ]
+11-18 22:25:22.575   518   754 D UntrustedWifiNetworkFactory: got request NetworkRequest [ REQUEST id=142, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10128 RequestorUid: 10128 RequestorPkg: com.google.android.dialer UnderlyingNetworks: Null] ]
+11-18 22:25:22.575   518   754 D OemPaidWifiNetworkFactory: got request NetworkRequest [ REQUEST id=142, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10128 RequestorUid: 10128 RequestorPkg: com.google.android.dialer UnderlyingNetworks: Null] ]
+11-18 22:25:22.575   518   754 D MultiInternetWifiNetworkFactory: got request NetworkRequest [ REQUEST id=142, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10128 RequestorUid: 10128 RequestorPkg: com.google.android.dialer UnderlyingNetworks: Null] ]
+11-18 22:25:22.637   840   905 D EGL_emulation: app_time_stats: avg=186.74ms min=9.27ms max=616.29ms count=6
+11-18 22:25:22.640   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:22.645  5306  5764 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.ipa.base.IpaGcmTaskService finished executing. cause:9 result: 1 elapsed_millis: 267 uptime_millis: 267 exec_start_elapsed_seconds: 156 [CONTEXT service_id=218 ]
+11-18 22:25:22.649   840   903 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-18 22:25:22.674   518   537 W ziparchive: Unable to open '/data/app/~~QB-XQ05nZr8q7-1VAlBY3w==/io.github.avsessisozx.instagramindirici.test-01_FAEZLBBkzgfdQuLdB_Q==/base.dm': No such file or directory
+11-18 22:25:22.676   518   537 I ActivityTaskManager: Displayed io.github.avsessisozx.instagramindirici.test/androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity for user 0: +323ms
+11-18 22:25:22.693   518  1614 W AppSearchIcing: icing-search-engine.cc:283: Error: 5, Message: Document (com.google.android.googlequicksearchbox$OneSearchZeroStateGoogleSuggestions/default, zp) not found.
+11-18 22:25:22.704  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+11-18 22:25:22.704  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+11-18 22:25:22.704  1024  1271 D BtGatt.ScanManager: uid 10131 isForeground true scanMode 1
+11-18 22:25:22.711  1098  2176 D OneSearchSuggestProvider: Created the binder channel successfully for end point service =com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService , mChannel=z1{delegate=s1{logId=25, target=directaddress:///AndroidComponentAddress%5BIntent%20%7B%20act=grpc.io.action.BIND%20cmp=com.google.android.googlequicksearchbox/com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService%20%7D%5D}} , mOneSearchConnection=X1.T@5a1c63b
+11-18 22:25:22.760  1613  1935 I AiAiEcho: Predicting[0]:
+11-18 22:25:22.760  1613  1935 I AiAiEcho: EchoTargets:
+11-18 22:25:22.760  1613  1935 I AiAiEcho: Filtered by AiAi flag check:
+11-18 22:25:22.761  1613  1935 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+11-18 22:25:22.769  1613  1935 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+11-18 22:25:22.775  1714  1714 I A       : Created gRPC endpoint to "search" for service class com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService
+11-18 22:25:22.790  1714  2397 I A       : Using proto config with mendel
+11-18 22:25:22.795  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@7b67e77 in: STOPPED
+11-18 22:25:22.797  4523  4523 V ActivityScenario: Update currentActivityStage to STOPPED, currentActivity=io.github.avsessisozx.instagramindirici.MainActivity@7b67e77
+11-18 22:25:22.814  4523  4523 W cr_AwContents: WebView.destroy() called while WebView is still attached to window.
+11-18 22:25:22.815  1714  2336 I A       : group apa_head_suggest not present without account in *
+11-18 22:25:22.816  1714  2336 I A       : incrementApaDataDownloadStoreStatus(latency = PT0.027S, appVersion = 13.17.16.23, status = NOT_FOUND, locale = *, fileGroupnames = apa_head_suggest, accountScoped = false, localGroupsAvailable = false, timeSinceSearchBoot = Optional[PT1M53.148S] (ONE_TO_FIVE_MINUTES), timeSinceDataDownloadInit = PT1M21.39S (ONE_TO_FIVE_MINUTES))
+11-18 22:25:22.817  1714  2336 I A       : incrementApaDataDownloadStoreStatusNotFound(appVersion = 13.17.16.23, locale = *, groupName = apa_head_suggest, accountScoped = false, foundGroups = 0, status = 0, localGroupsAvailable = false)
+11-18 22:25:22.825   518  2323 I ImeTracker: com.google.android.apps.nexuslauncher:c6b72f51: onRequestHide at ORIGIN_SERVER_HIDE_INPUT reason HIDE_UNSPECIFIED_WINDOW
+11-18 22:25:22.826   518  2323 I ImeTracker: com.google.android.apps.nexuslauncher:c6b72f51: onCancelled at PHASE_SERVER_SHOULD_HIDE
+11-18 22:25:22.827  4523  4523 D LifecycleMonitor: Lifecycle status change: io.github.avsessisozx.instagramindirici.MainActivity@7b67e77 in: DESTROYED
+11-18 22:25:22.828  4523  4523 V ActivityScenario: Update currentActivityStage to DESTROYED, currentActivity=null
+11-18 22:25:22.836  1714  2397 I A       : Using proto config with mendel
+11-18 22:25:22.837  4523  4548 I TestRunner: finished: c2_singleVideoToGallery(io.github.avsessisozx.instagramindirici.EndToEndTest)

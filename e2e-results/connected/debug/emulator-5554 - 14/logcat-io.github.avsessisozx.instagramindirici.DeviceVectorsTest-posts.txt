@@ -1,0 +1,91 @@
+11-18 22:24:16.570  4523  4548 I TestRunner: started: posts(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+11-18 22:24:16.789  1454  3454 I GoogleSettingsUtils: Updated ID in checkin_id_token file [CONTEXT service_id=130 ]
+11-18 22:24:16.818  1404  1470 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.icing.proxy.IcingInternalCorporaUpdateService started execution. cause:7 exec_start_elapsed_seconds: 90 [CONTEXT service_id=218 ]
+11-18 22:24:16.830  1454  3454 I CheckinResponseProcess: From server: 1501 gservices [full] [CONTEXT service_id=130 ]
+11-18 22:24:16.860  1734  4121 D GservicesProvider: Update with URI content://com.google.android.gsf.gservices/main
+11-18 22:24:16.912  1454  1454 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.mdh.service.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.GmsBoundBrokerService }
+11-18 22:24:16.927  1454  3468 I Icing   : Indexing com.google.android.gms-internal.3p:MobileApplication from com.google.android.gms
+11-18 22:24:16.931  1454  3468 I Icing   : Indexing done com.google.android.gms-internal.3p:MobileApplication
+11-18 22:24:16.935  1454  3468 I Icing   : Indexing com.google.android.gms-apps from com.google.android.gms
+11-18 22:24:16.936  1454  3468 I Icing   : Indexing done com.google.android.gms-apps
+11-18 22:24:16.937  1454  3468 I Icing   : Indexing com.google.android.gms-apps from com.google.android.gms
+11-18 22:24:16.938  1454  3468 I Icing   : Indexing done com.google.android.gms-apps
+11-18 22:24:16.968  1404  3258 I NetworkScheduler: ignoring stale queue check message
+11-18 22:24:16.972  1404  3316 I NetworkScheduler.Stats: Task com.google.android.gms/com.google.android.gms.icing.proxy.IcingInternalCorporaUpdateService finished executing. cause:7 result: 1 elapsed_millis: 289 uptime_millis: 289 exec_start_elapsed_seconds: 90 [CONTEXT service_id=218 ]
+11-18 22:24:16.988  1613  1745 I AiAiEcho: Settings changed for uri: content://settings/secure/autofill_user_data_max_category_count
+11-18 22:24:16.991  1613  1935 I AiAiEcho: Predicting[0]:
+11-18 22:24:16.993  1613  1935 I AiAiEcho: EchoTargets:
+11-18 22:24:16.993  1613  1935 I AiAiEcho: Filtered by AiAi flag check:
+11-18 22:24:16.995  1613  1935 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+11-18 22:24:16.996  1613  1935 I AiAiEcho: Predicting[0]:
+11-18 22:24:16.996  1613  1935 I AiAiEcho: EchoTargets:
+11-18 22:24:16.996  1613  1935 I AiAiEcho: Filtered by AiAi flag check:
+11-18 22:24:16.997  1613  1935 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+11-18 22:24:16.998  1613  1935 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+11-18 22:24:16.999  1613  1935 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+11-18 22:24:17.000   840   840 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+11-18 22:24:17.012   841  1017 E RoleControllerServiceImpl: Default/fallback role holder package doesn't qualify for the role, package: com.google.android.gms.supervision, role: android.app.role.SYSTEM_SUPERVISION
+11-18 22:24:17.018   841  1017 I Role    : com.google.android.gms not qualified for android.app.role.SYSTEM_CALL_STREAMING due to missing RequiredComponent{mIntentFilterData=IntentFilterData{mAction='android.telecom.CallStreamingService', mCategories='[]', mDataScheme='null', mDataType='null'}, mMinTargetSdkVersion=1, mFlags='0', mPermission='android.permission.BIND_CALL_STREAMING_SERVICE', mQueryFlags=0, mMetaData=[]}
+11-18 22:24:17.024   841  1017 E RoleControllerServiceImpl: Default/fallback role holder package doesn't qualify for the role, package: com.google.android.gms, role: android.app.role.SYSTEM_CALL_STREAMING
+11-18 22:24:17.025   841  1017 W Role    : Default holder doesn't have required signing certificate: com.google.android.apps.work.clouddpc:23962F4B43B9857638EA66F4D419518EAE282491ACDA4B94707BD59003C45E58
+11-18 22:24:17.026  1613  1745 I AiAiEcho: Settings changed for uri: content://settings/secure/config_update_certificate
+11-18 22:24:17.027  1613  1935 I AiAiEcho: Predicting[0]:
+11-18 22:24:17.027  1613  1935 I AiAiEcho: EchoTargets:
+11-18 22:24:17.027  1613  1935 I AiAiEcho: Filtered by AiAi flag check:
+11-18 22:24:17.028  1613  1935 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+11-18 22:24:17.029  1613  1935 I AiAiEcho: Predicting[0]:
+11-18 22:24:17.029  1613  1935 I AiAiEcho: EchoTargets:
+11-18 22:24:17.029  1613  1935 I AiAiEcho: Filtered by AiAi flag check:
+11-18 22:24:17.030  1613  1935 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+11-18 22:24:17.031  1613  1935 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+11-18 22:24:17.031   840   840 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+11-18 22:24:17.031  1613  1935 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+11-18 22:24:17.032  1454  1454 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.mdh.service.listener.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.GmsBoundBrokerService }
+11-18 22:24:17.077  1613  1745 I AiAiEcho: Settings changed for uri: content://settings/secure/print_service_search_uri
+11-18 22:24:17.078  1613  1935 I AiAiEcho: Predicting[0]:
+11-18 22:24:17.078  1613  1935 I AiAiEcho: EchoTargets:
+11-18 22:24:17.078  1613  1935 I AiAiEcho: Filtered by AiAi flag check:
+11-18 22:24:17.079  1613  1935 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+11-18 22:24:17.080  1613  1935 I AiAiEcho: Predicting[0]:
+11-18 22:24:17.080  1613  1935 I AiAiEcho: EchoTargets:
+11-18 22:24:17.080  1613  1935 I AiAiEcho: Filtered by AiAi flag check:
+11-18 22:24:17.081  1613  1935 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+11-18 22:24:17.082  1613  1935 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+11-18 22:24:17.084   840   840 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+11-18 22:24:17.084  1613  1935 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+11-18 22:24:17.101  1613  1745 I AiAiEcho: Settings changed for uri: content://settings/secure/autofill_service_search_uri
+11-18 22:24:17.102  1613  1935 I AiAiEcho: Predicting[0]:
+11-18 22:24:17.102  1613  1935 I AiAiEcho: EchoTargets:
+11-18 22:24:17.102  1613  1935 I AiAiEcho: Filtered by AiAi flag check:
+11-18 22:24:17.103  1613  1935 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+11-18 22:24:17.103  1613  1935 I AiAiEcho: Predicting[0]:
+11-18 22:24:17.104  1613  1935 I AiAiEcho: EchoTargets:
+11-18 22:24:17.104  1613  1935 I AiAiEcho: Filtered by AiAi flag check:
+11-18 22:24:17.104  1613  1935 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+11-18 22:24:17.104  1613  1935 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+11-18 22:24:17.105   840   840 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+11-18 22:24:17.105  1613  1935 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+11-18 22:24:17.109  1613  1745 I AiAiEcho: Settings changed for uri: content://settings/secure/facelock_detection_threshold
+11-18 22:24:17.110  1613  1935 I AiAiEcho: Predicting[0]:
+11-18 22:24:17.110  1613  1935 I AiAiEcho: EchoTargets:
+11-18 22:24:17.110  1613  1935 I AiAiEcho: Filtered by AiAi flag check:
+11-18 22:24:17.111  1613  1935 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+11-18 22:24:17.112  1613  1935 I AiAiEcho: Predicting[0]:
+11-18 22:24:17.112  1613  1935 I AiAiEcho: EchoTargets:
+11-18 22:24:17.112  1613  1935 I AiAiEcho: Filtered by AiAi flag check:
+11-18 22:24:17.112  1613  1935 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+11-18 22:24:17.113  1613  1935 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+11-18 22:24:17.113   840   840 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+11-18 22:24:17.113  1613  1935 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+11-18 22:24:17.124  1613  1745 I AiAiEcho: Settings changed for uri: content://settings/secure/pubkey_blacklist
+11-18 22:24:17.125  1613  1935 I AiAiEcho: Predicting[0]:
+11-18 22:24:17.126  1613  1935 I AiAiEcho: EchoTargets:
+11-18 22:24:17.126  1613  1935 I AiAiEcho: Filtered by AiAi flag check:
+11-18 22:24:17.127  1613  1935 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+11-18 22:24:17.127  1613  1935 I AiAiEcho: Predicting[0]:
+11-18 22:24:17.128  1613  1935 I AiAiEcho: EchoTargets:
+11-18 22:24:17.128  1613  1935 I AiAiEcho: Filtered by AiAi flag check:
+11-18 22:24:17.128  1613  1935 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata:
+11-18 22:24:17.129  1613  1935 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+11-18 22:24:17.129   840   840 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+11-18 22:24:17.130  4523  4548 I TestRunner: finished: posts(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

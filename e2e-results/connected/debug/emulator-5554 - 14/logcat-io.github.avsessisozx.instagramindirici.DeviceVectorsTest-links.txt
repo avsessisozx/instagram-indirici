@@ -1,0 +1,2 @@
+11-18 22:24:16.476  4523  4548 I TestRunner: started: links(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+11-18 22:24:16.566  4523  4548 I TestRunner: finished: links(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

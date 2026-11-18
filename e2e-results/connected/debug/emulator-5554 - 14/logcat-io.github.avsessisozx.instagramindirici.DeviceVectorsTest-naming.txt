@@ -1,0 +1,5 @@
+11-18 22:24:16.232  4523  4548 I TestRunner: started: naming(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+11-18 22:24:16.241  4523  4548 D CompatibilityChangeReporter: Compat change id reported: 247079863; UID 10192; state: ENABLED
+11-18 22:24:16.264  1404  3258 W .gms.persistent: Long monitor contention with owner lowpool[8] (3119) at void bytb.n(byps, byps, int)(:com.google.android.gms@231818047@23.18.18 (190800-535401451):6) waiters=0 in int bytb.l(bysm, aphn) for 152ms
+11-18 22:24:16.282   841  1017 E RoleControllerServiceImpl: Default/fallback role holder package doesn't qualify for the role, package: com.google.android.gms.supervision, role: android.app.role.SYSTEM_SUPERVISION
+11-18 22:24:16.309  4523  4548 I TestRunner: finished: naming(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
