@@ -1,0 +1,146 @@
+11-18 22:05:28.734  4783  4825 I TestRunner: started: posts(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+11-18 22:05:28.738  3795  4360 I PBSessionCacheImpl: Deleted sessionId[16692381549156007] from persistence.
+11-18 22:05:28.748  3795  3809 I earchbox:search: JIT allocated 67KB for compiled code of java.lang.Object com.google.android.apps.gsa.binaries.velvet.app.amm.a()
+11-18 22:05:28.760  3647  3802 I GCoreUlr: WorldUpdater received intent Intent { act=com.google.android.location.reporting.ACTION_UPDATE_WORLD cmp=com.google.android.gms/com.google.android.location.reporting.service.DispatchingService (has extras) } with receiverAction android.location.PROVIDERS_CHANGED
+11-18 22:05:28.774  3795  4205 D t       : Starting download: https://www.gstatic.com/android-search/hotword/x_google/975058821313279e27b2c3f04de0beef/hotword.data
+11-18 22:05:28.774  3795  4205 V t       : Is http uri, downloading (uri: https://www.gstatic.com/android-search/hotword/x_google/975058821313279e27b2c3f04de0beef/hotword.data)
+11-18 22:05:28.785  3647  3647 W Nearby  : Bind call too late - someone already tried to get: interface dtvj [CONTEXT service_id=49 ]
+11-18 22:05:28.786   521   521 D FlashNotifController: requestStartFlashNotification
+11-18 22:05:28.786   521   521 I FlashNotifController: startFlashNotification: type=1, tag=android
+11-18 22:05:28.786   521   521 D FlashNotifController: Flash notification is disabled
+11-18 22:05:28.790  1634  1899 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+11-18 22:05:28.790  1634  1899 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+11-18 22:05:28.806  1658  2359 I A       : Subscribed to apa or classic variant change.
+11-18 22:05:28.821  3844  3995 I Icing   : IndexChimeraService.getServiceInterface callingPackage=com.google.android.googlequicksearchbox componentName=null serviceId=36
+11-18 22:05:28.821  3844  4310 I LocationHistory: [IntentOperation] Module is disabled [CONTEXT service_id=314 ]
+11-18 22:05:28.822  3844  4292 W gle.android.gms: Long monitor contention with owner [com.google.android.gms.chimera.container.intentoperation.GmsIntentOperationChimeraService-Executor] processing com.google.android.gms.icing.proxy.UpdateIcingCorporaIntentOperation for action com.google.android.gms.icing.proxy.ACTION_UPDATE (4291) at void hjm.run()(:com.google.android.gms@231818047@23.18.18 (190800-535401451):3) waiters=1 in void hjm.run() for 5.561s
+11-18 22:05:28.846  3795  4155 W A       : UiCallbackStub-onGenericEvent[ServiceEvent = 60] task was not run. Callback from Service received after client was disposed.
+11-18 22:05:28.846  3795  4155 W A       : UiCallbackStub-onGenericEvent[ServiceEvent = 60] task was not run. Callback from Service received after client was disposed.
+11-18 22:05:28.846  3795  4155 W A       : UiCallbackStub-onGenericEvent[ServiceEvent = 42] task was not run. Callback from Service received after client was disposed.
+11-18 22:05:28.858  3795  4155 W A       : UiCallbackStub-onGenericEvent[ServiceEvent = 67] task was not run. Callback from Service received after client was disposed.
+11-18 22:05:28.861  3795  4155 W A       : UiCallbackStub-onGenericEvent[ServiceEvent = 60] task was not run. Callback from Service received after client was disposed.
+11-18 22:05:28.864  3795  4155 W SearchServiceCore: Abort, client detached.
+11-18 22:05:28.874  3795  4155 W SearchServiceCore: Abort, client detached.
+11-18 22:05:28.874  3795  4155 W SearchServiceCore: Abort, client detached.
+11-18 22:05:28.874  3795  4155 W SearchServiceCore: Abort, client detached.
+11-18 22:05:28.874  3795  4155 W SearchServiceCore: Abort, client detached.
+11-18 22:05:28.875  3795  4155 W SearchServiceCore: Abort, client detached.
+11-18 22:05:28.877  3795  4155 W SearchServiceCore: Abort, client detached.
+11-18 22:05:28.878  3647  3802 I GCoreUlr: WorldUpdater:android.location.PROVIDERS_CHANGED: Ensuring that reporting is stopped because of reasons: (no Google accounts)
+11-18 22:05:28.878  3795  4155 W SearchServiceCore: Abort, client detached.
+11-18 22:05:28.879  3795  4155 W SearchServiceCore: Abort, client detached.
+11-18 22:05:28.880  3647  3734 I Nearby  : is blocked device type false, isAuto=false, isIot=false, isLatchsky=false, isChinaWearable=false, isTv=false, isWearable=false (supportWearOs=false), isChromeOsDevice=false (supportChromeOs=false) [CONTEXT service_id=49 ]
+11-18 22:05:28.880  3795  4155 I MicroDetectionWorker: Removing hotword detection due to no account being used.
+11-18 22:05:28.881  3647  3802 I GCoreUlr: Unbound from all signal providers.
+11-18 22:05:28.882  3795  4155 I A       : isOpaHotwordEnabled: false
+11-18 22:05:28.883  3795  4155 I A       : Disabling the hotword detector.
+11-18 22:05:28.894  3844  4312 W gle.android.gms: Long monitor contention with owner [com.google.android.gms.chimera.container.intentoperation.GmsIntentOperationChimeraService-Executor] idle (4291) at void hjm.run()(:com.google.android.gms@231818047@23.18.18 (190800-535401451):3) waiters=0 in void hjm.run() for 6.742s
+11-18 22:05:28.899  3795  4155 I MicroDetectionState: Should stop hotword detection immediately - true
+11-18 22:05:28.900  3795  4155 I A       : Using proto config with mendel
+11-18 22:05:28.900  3795  4155 I A       : Using proto config with mendel
+11-18 22:05:28.901  3795  4155 I A       : Using proto config with mendel
+11-18 22:05:28.905  3795  4155 I MicroDetectionState: Should stop hotword detection immediately - true
+11-18 22:05:28.907  3795  4155 I A       : Using proto config with mendel
+11-18 22:05:28.908  1658  2296 I NgaEntryPointEventSendr: State changed: Ready => Disconnected (onOpaDisconnected)
+11-18 22:05:28.909  1658  2296 I A       : onVarianceChanged newVariance = CLASSIC
+11-18 22:05:28.909  3795  4155 I A       : Using proto config with mendel
+11-18 22:05:28.921   521  1737 E ActivityManager: Cannot find package for uid: 1013
+11-18 22:05:28.923   468   468 E MediaPlayerService: Couldn't open fd for content://settings/system/notification_sound
+11-18 22:05:28.923   835  4893 E MediaPlayerNative: Unable to create media player
+11-18 22:05:28.923   835  4893 V MediaPlayer: resetDrmState:  mDrmInfo=null mDrmProvisioningThread=null mPrepareDrmInProgress=false mActiveDrmScheme=false
+11-18 22:05:28.924   835  4893 V MediaPlayer: cleanDrmObj: mDrmObj=null mDrmSessionId=null
+11-18 22:05:28.926   835  4893 W RingtonePlayer: error loading sound for content://settings/system/notification_sound
+11-18 22:05:28.926   835  4893 W RingtonePlayer: java.io.IOException: setDataSource failed.: status=0x80000000
+11-18 22:05:28.926   835  4893 W RingtonePlayer: 	at android.media.MediaPlayer.nativeSetDataSource(Native Method)
+11-18 22:05:28.926   835  4893 W RingtonePlayer: 	at android.media.MediaPlayer.setDataSource(MediaPlayer.java:1226)
+11-18 22:05:28.926   835  4893 W RingtonePlayer: 	at android.media.MediaPlayer.setDataSource(MediaPlayer.java:1213)
+11-18 22:05:28.926   835  4893 W RingtonePlayer: 	at android.media.MediaPlayer.setDataSource(MediaPlayer.java:1117)
+11-18 22:05:28.926   835  4893 W RingtonePlayer: 	at android.media.MediaPlayer.setDataSource(MediaPlayer.java:1049)
+11-18 22:05:28.926   835  4893 W RingtonePlayer: 	at com.android.systemui.media.NotificationPlayer$CreationAndCompletionThread.run(go/retraceme 19693c2b0a8439b7183751b64d60893829dbf56dc1e08e0669fc0cfc55754948:71)
+11-18 22:05:28.940  3844  4372 I Icing   : IndexChimeraService.getServiceInterface callingPackage=com.google.android.gms componentName=null serviceId=36
+11-18 22:05:28.946  3844  4309 I Checkin : [AndroidCheckinProtoModule] Checkin reason type: 5 attempt count: 1.
+11-18 22:05:28.948  1658  2359 I A       : [Memory] eligibility: StashEligibility{6}
+11-18 22:05:28.948  1658  2359 I A       : StashOnboardingStateImpl.initialize
+11-18 22:05:28.950  1658  2359 I A       : Initialize
+11-18 22:05:28.950  1658  2359 I A       : Subscribing to eligibility updates [IVR]
+11-18 22:05:28.950  1658  2359 I A       : Disconnecting from SysUi, flag disabled [IVR]
+11-18 22:05:28.950  1658  2359 I A       : Disconnecting from SysUi, eligibilityNotifier absent [IVR]
+11-18 22:05:28.950  1658  2359 I A       : Disconnecting from SysUi, VM not enabled [IVR]
+11-18 22:05:28.951  1658  2359 I A       : No binding to unbind [IVR]
+11-18 22:05:28.951  1658  2359 I A       : Disconnected from SysUi [IVR]
+11-18 22:05:28.951  1658  2359 I A       : stopListening(NGA_PAUSED_UNKNOWN_REASON, NGA_CREATE), idleOverride=NOT_LISTENING
+11-18 22:05:28.962  3647  4673 I NearbySharing: Dismissing HUN as there's no device nearby. [CONTEXT service_id=194 ]
+11-18 22:05:28.971  3795  4155 I A       : Trying to enqueue PieTriggeringWorker
+11-18 22:05:28.977  1658  1658 I A       : eventData = # com.google.android.apps.gsa.search.shared.service.b.ur@e6aaae2f
+11-18 22:05:28.977  1658  1658 I A       : [255935327] {
+11-18 22:05:28.977  1658  1658 I A       : }
+11-18 22:05:28.986  1658  2296 I A       : Logging success flow
+11-18 22:05:28.999  3795  4155 I A       : Trying to enqueue PieTriggeringWorker
+11-18 22:05:29.003  1658  1658 I A       : eventData = # com.google.android.apps.gsa.search.shared.service.b.ur@e6aaae2f
+11-18 22:05:29.003  1658  1658 I A       : [255935327] {
+11-18 22:05:29.003  1658  1658 I A       : }
+11-18 22:05:29.010  3844  3844 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.common.BIND_SHARED_PREFS pkg=com.google.android.gms }
+11-18 22:05:29.011  3844  3844 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.common.BIND_SHARED_PREFS pkg=com.google.android.gms }
+11-18 22:05:29.014  3647  4673 I NearbySharing: Cancelling in use notification [CONTEXT service_id=194 ]
+11-18 22:05:29.016  3844  4307 I constellation: [intent_handler] on init with intent Intent { act=com.google.android.chimera.IntentOperation.NEW_MODULE (has extras) }
+11-18 22:05:29.018  3844  3844 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.common.BIND_SHARED_PREFS pkg=com.google.android.gms }
+11-18 22:05:29.034  1658  2359 I A       : Logging success flow
+11-18 22:05:29.042  3647  4539 I Fitness : FitCleanupIntentOperation received Intent android.intent.action.PACKAGE_CHANGED [CONTEXT service_id=17 ]
+11-18 22:05:29.065  3647  4537 I Nearby  : is blocked device type false, isAuto=false, isIot=false, isLatchsky=false, isChinaWearable=false, isTv=false, isWearable=false (supportWearOs=false), isChromeOsDevice=false (supportChromeOs=false) [CONTEXT service_id=49 ]
+11-18 22:05:29.070  3647  3734 I GCoreUlr: WorldUpdater received intent Intent { act=com.google.android.location.reporting.ACTION_UPDATE_WORLD cmp=com.google.android.gms/com.google.android.location.reporting.service.DispatchingService (has extras) } with receiverAction android.location.PROVIDERS_CHANGED
+11-18 22:05:29.071  3844  4307 W ChimeraUtils: Module com.google.android.gms.dck_stub missing resource null(0)
+11-18 22:05:29.077  3844  4307 I DckStubModuleInit: Loading stub module components [CONTEXT service_id=289 ]
+11-18 22:05:29.078  3844  4307 I Dck     : doesDeviceHaveSupportedWirelessCapabilities: wccSysProp:0, wccMendel:1, deviceWccOverride:false [CONTEXT service_id=289 ]
+11-18 22:05:29.079  3844  4307 I Dck     : isDckModuleEligible: isAtLeastR:true, hasWccSupport:false, downloadAllowed:false [CONTEXT service_id=289 ]
+11-18 22:05:29.079  3844  4307 W Dck     : Dck module not eligible for asynchronous downloading [CONTEXT service_id=289 ]
+11-18 22:05:29.088  3647  4673 I NearbySharing: Location is enabled [CONTEXT service_id=194 ]
+11-18 22:05:29.089  3795  3944 I A       : Using proto config with mendel
+11-18 22:05:29.090  3795  3944 I A       : Using proto config with mendel
+11-18 22:05:29.090  3795  3944 I A       : Using proto config with mendel
+11-18 22:05:29.090  3795  3944 I A       : Using proto config with mendel
+11-18 22:05:29.090  3795  3944 I A       : Using proto config with mendel
+11-18 22:05:29.090  3795  3944 I A       : Using proto config with mendel
+11-18 22:05:29.090  3795  3944 I A       : Merging legacy hotword config map with new proto.
+11-18 22:05:29.090  3795  3944 I A       : Skipping. Expected model: 1 Found: 2
+11-18 22:05:29.091  3795  3944 I A       : Skipping. Expected model: 1 Found: 2
+11-18 22:05:29.091  3795  3944 I A       : Skipping. Expected model: 1 Found: 2
+11-18 22:05:29.091  3795  3944 I A       : Adding from config to map. Locale: ro-RO modelPrefix: okgoogle Location:b051c93dce7bb4dcb5d9ddcbbb2ca760Test isSpeakerIdSupported: false
+11-18 22:05:29.091  3795  3944 I A       : Skipping. Expected model: 1 Found: 2
+11-18 22:05:29.092  3795  3944 I A       : Using proto config with mendel
+11-18 22:05:29.094  3795  4155 I MicroDetectionWorker: Initializing MicroDataManager InitializeType-2, isForced-true, isActivePhoneEnrollment-false isActiveGoogleHomeEnrollment-false
+11-18 22:05:29.095  3795  4155 I A       : Using proto config with mendel
+11-18 22:05:29.095  3795  4155 I A       : Using proto config with mendel
+11-18 22:05:29.096  3795  3945 I A       : Using proto config with mendel
+11-18 22:05:29.097  3795  3945 I A       : Merging legacy hotword config map with new proto.
+11-18 22:05:29.097  3795  3945 I A       : Adding from config to map. Locale: cmn-Hant-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+11-18 22:05:29.099  3795  3945 I A       : Adding from config to map. Locale: id-ID modelPrefix: x_google Location:cfffcc1a4c1c084c003c8eb27f73d770 isSpeakerIdSupported: true
+11-18 22:05:29.100  3795  3945 I A       : Adding from config to map. Locale: ko-KR modelPrefix: x_google Location:0b132163a2eb2c1194b202067475724b isSpeakerIdSupported: true
+11-18 22:05:29.110  3795  3945 I A       : Skipping. Expected model: 2 Found: 1
+11-18 22:05:29.110  3795  3945 I A       : Adding from config to map. Locale: zh-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+11-18 22:05:29.110  3795  3944 I ModelDownloadController: Hotword model update tasks finished.
+11-18 22:05:29.110   836  1020 E RoleControllerServiceImpl: Default/fallback role holder package doesn't qualify for the role, package: com.google.android.gms.supervision, role: android.app.role.SYSTEM_SUPERVISION
+11-18 22:05:29.112  3795  3945 I MicroDataManager: Location for model with model type: 2 and locale: en-US, is : https://www.gstatic.com/android-search/hotword/x_google/975058821313279e27b2c3f04de0beef/hotword.data
+11-18 22:05:29.113  3795  4155 W SearchServiceCore: Abort, client detached.
+11-18 22:05:29.113  3795  4155 W SearchServiceCore: Abort, client detached.
+11-18 22:05:29.113  3795  4155 W SearchServiceCore: Abort, client detached.
+11-18 22:05:29.114  3795  3945 I MicroModelsUtil: #getHotwordModel [locale: en-US, modelType: 2]
+11-18 22:05:29.116  3795  3944 I MicroModelsUtil: #getHotwordModelFromMobstore [mobstoreUri: android://com.google.android.googlequicksearchbox/files/datadownload/shared/public/datadownloadfile_1795039528539]
+11-18 22:05:29.129   836  1020 I Role    : com.google.android.gms not qualified for android.app.role.SYSTEM_CALL_STREAMING due to missing RequiredComponent{mIntentFilterData=IntentFilterData{mAction='android.telecom.CallStreamingService', mCategories='[]', mDataScheme='null', mDataType='null'}, mMinTargetSdkVersion=1, mFlags='0', mPermission='android.permission.BIND_CALL_STREAMING_SERVICE', mQueryFlags=0, mMetaData=[]}
+11-18 22:05:29.129   836  1020 E RoleControllerServiceImpl: Default/fallback role holder package doesn't qualify for the role, package: com.google.android.gms, role: android.app.role.SYSTEM_CALL_STREAMING
+11-18 22:05:29.130  3795  4002 I MicroDataManager: MicroDataManager InitializationTask. googleHotwordData is null: true, hotwordModel is null: false , sourceLocationOfCurrentHotwordModel https://www.gstatic.com/android-search/hotword/x_google/975058821313279e27b2c3f04de0beef/hotword.data
+11-18 22:05:29.131  3795  4155 I A       : Using proto config with mendel
+11-18 22:05:29.131  3795  4155 I A       : Using proto config with mendel
+11-18 22:05:29.131  3795  4155 I A       : Using proto config with mendel
+11-18 22:05:29.131  3795  4155 I A       : Merging legacy hotword config map with new proto.
+11-18 22:05:29.132  3795  4155 I A       : Adding from config to map. Locale: cmn-Hant-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+11-18 22:05:29.132  3795  4155 I A       : Adding from config to map. Locale: id-ID modelPrefix: x_google Location:cfffcc1a4c1c084c003c8eb27f73d770 isSpeakerIdSupported: true
+11-18 22:05:29.132  3795  4155 I A       : Adding from config to map. Locale: ko-KR modelPrefix: x_google Location:0b132163a2eb2c1194b202067475724b isSpeakerIdSupported: true
+11-18 22:05:29.132  3795  4155 I A       : Skipping. Expected model: 2 Found: 1
+11-18 22:05:29.132  3795  4155 I A       : Adding from config to map. Locale: zh-TW modelPrefix: x_google Location:4e7cae00daee30ec565c34e3aa67a51f isSpeakerIdSupported: true
+11-18 22:05:29.133  3795  4155 I MicroDetectionState: Should stop hotword detection immediately - true
+11-18 22:05:29.133  3795  4155 I A       : Using proto config with mendel
+11-18 22:05:29.134  3795  4155 I A       : Using proto config with mendel
+11-18 22:05:29.140   836  1020 W Role    : Default holder doesn't have required signing certificate: com.google.android.apps.work.clouddpc:23962F4B43B9857638EA66F4D419518EAE282491ACDA4B94707BD59003C45E58
+11-18 22:05:29.171  3647  4673 I NearbySharing: Stopping scanning because Bluetooth is disabled. [CONTEXT service_id=194 ]
+11-18 22:05:29.172   835  4896 W RingtonePlayer: STOP command without a player
+11-18 22:05:29.213  4783  4825 I TestRunner: finished: posts(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

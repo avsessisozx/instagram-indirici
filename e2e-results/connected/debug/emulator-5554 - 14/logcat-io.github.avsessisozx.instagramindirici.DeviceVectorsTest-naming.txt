@@ -1,0 +1,44 @@
+11-18 22:05:28.549  4783  4825 I TestRunner: started: naming(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+11-18 22:05:28.549  3795  4065 I A       : Adding from config to map. Locale: ro-RO modelPrefix: okgoogle Location:b051c93dce7bb4dcb5d9ddcbbb2ca760Test isSpeakerIdSupported: false
+11-18 22:05:28.549  3795  4065 I A       : Skipping. Expected model: 1 Found: 2
+11-18 22:05:28.553  4823  4823 I PhenotypeBackgroundRecv: Skipping assistant_auto_tng_libraries_device#com.google.android.googlequicksearchbox which doesn't use ProcessStable flags.
+11-18 22:05:28.553  3647  4673 I NearbySharing: Cancelling in use notification [CONTEXT service_id=194 ]
+11-18 22:05:28.556  1658  2359 I NgaEntryPointEventSendr: State changed: Disconnected => Connecting
+11-18 22:05:28.558  3795  3945 E HotwordModelPopulator: Failed to add hotword file group for 'hotword_model_en-US_okg' from location: https://www.gstatic.com/android-search/hotword/x_google/975058821313279e27b2c3f04de0beef/hotword.data
+11-18 22:05:28.563  3647  3802 I GCoreUlr: DispatchingService ignoring Intent { act=android.net.wifi.WIFI_STATE_CHANGED flg=0x44000010 (has extras) } because ULR inactive
+11-18 22:05:28.572  3795  3945 E HotwordModelPopulator: Failed to add hotword file group for 'hotword_model_en-US_okhey' from location: https://www.gstatic.com/android-search/hotword/x_google/975058821313279e27b2c3f04de0beef/hotword.data
+11-18 22:05:28.575  3647  4537 I Nearby  : is blocked device type false, isAuto=false, isIot=false, isLatchsky=false, isChinaWearable=false, isTv=false, isWearable=false (supportWearOs=false), isChromeOsDevice=false (supportChromeOs=false) [CONTEXT service_id=49 ]
+11-18 22:05:28.579  4783  4825 D CompatibilityChangeReporter: Compat change id reported: 247079863; UID 10192; state: ENABLED
+11-18 22:05:28.579  3647  3647 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.auth.proximity.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.PersistentBoundBrokerService }
+11-18 22:05:28.579  3647  3647 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.auth.proximity.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.PersistentBoundBrokerService }
+11-18 22:05:28.583  4823  4823 I PhenotypeBackgroundRecv: Skipping assistant_auto_tng_libraries_user#com.google.android.googlequicksearchbox which doesn't use ProcessStable flags.
+11-18 22:05:28.592  3647  4673 I NearbySharing: Fast Initiation Scanning has stopped [CONTEXT service_id=194 ]
+11-18 22:05:28.601  1658  2296 I A       : setNavBarVisible: GestureNavBarVisible{navbarVisible=true}
+11-18 22:05:28.606  1658  2359 I NgaEntryPointEventSendr: onServiceConnected
+11-18 22:05:28.610  3795  3832 I A       : Calling beginBinderSession().
+11-18 22:05:28.614  3795  3832 I A       : Forwarding trigger sources: 0
+11-18 22:05:28.623  1658  2296 E A       : Calling getConfiguration() before NgaConfigurationManager is initialized.
+11-18 22:05:28.623  1658  2296 E A       : com.google.common.f.s: MEDIUM
+11-18 22:05:28.623  1658  2296 E A       : 	at com.google.android.apps.gsa.nga.engine.h.a.aq.b(PG:2)
+11-18 22:05:28.623  1658  2296 E A       : 	at com.google.android.apps.gsa.nga.engine.v.j.gV(PG:1)
+11-18 22:05:28.623  1658  2296 E A       : 	at com.google.android.apps.gsa.nga.engine.v.f.a(PG:1)
+11-18 22:05:28.623  1658  2296 E A       : 	at com.google.android.apps.gsa.nga.engine.v.f.P(PG:1)
+11-18 22:05:28.623  1658  2296 E A       : 	at com.google.android.apps.gsa.nga.engine.v.o.T(PG:2)
+11-18 22:05:28.623  1658  2296 E A       : 	at com.google.android.apps.gsa.nga.engine.al.b.j.E(PG:2)
+11-18 22:05:28.623  1658  2296 E A       : 	at com.google.android.apps.gsa.nga.engine.at.c.a(Unknown Source:4)
+11-18 22:05:28.623  1658  2296 E A       : 	at com.google.android.apps.gsa.nga.shared.s.g.a(PG:1)
+11-18 22:05:28.623  1658  2296 E A       : 	at com.google.android.apps.gsa.nga.shared.s.k.a(PG:2)
+11-18 22:05:28.623  1658  2296 E A       : 	at com.google.android.libraries.gsa.k.a.j.call(PG:2)
+11-18 22:05:28.623  1658  2296 E A       : 	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
+11-18 22:05:28.623  1658  2296 E A       : 	at com.google.common.util.concurrent.do.run(PG:4)
+11-18 22:05:28.623  1658  2296 E A       : 	at com.google.android.libraries.i.ae.run(PG:1)
+11-18 22:05:28.623  1658  2296 E A       : 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+11-18 22:05:28.623  1658  2296 E A       : 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+11-18 22:05:28.623  1658  2296 E A       : 	at com.google.android.libraries.i.k.run(PG:2)
+11-18 22:05:28.623  1658  2296 E A       : 	at com.google.android.libraries.i.p.run(PG:4)
+11-18 22:05:28.623  1658  2296 E A       : 	at java.lang.Thread.run(Thread.java:1012)
+11-18 22:05:28.629  3795  3832 I A       : beginBinderSession(): calling binder
+11-18 22:05:28.630   835   914 D EGL_emulation: app_time_stats: avg=3615.25ms min=3615.25ms max=3615.25ms count=1
+11-18 22:05:28.639  1658  2359 I NgaEntryPointEventSendr: State changed: Connecting => Ready
+11-18 22:05:28.644  3844  4076 E native  : E0000 00:00:1795039528.644106    4076 score-accumulator.cc:243] No scoring data for corpus [0]
+11-18 22:05:28.646  4783  4825 I TestRunner: finished: naming(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)

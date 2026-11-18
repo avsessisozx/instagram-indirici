@@ -1,0 +1,34 @@
+11-18 22:05:28.704  4783  4825 I TestRunner: started: links(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: Invalid input from icing corpus JSON flag.
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: android.util.MalformedJsonException: Use JsonReader.setLenient(true) to accept malformed JSON at line 123 column 2
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at android.util.JsonReader.syntaxError(JsonReader.java:1162)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at android.util.JsonReader.checkLenient(JsonReader.java:840)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at android.util.JsonReader.nextInArray(JsonReader.java:615)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at android.util.JsonReader.peek(JsonReader.java:345)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at android.util.JsonReader.hasNext(JsonReader.java:321)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at com.google.android.apps.gsa.searchbox.c.b.b.k.c(PG:7)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at com.google.android.apps.gsa.searchbox.c.b.b.k.<init>(PG:5)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at com.google.android.apps.gsa.staticplugins.searchboxroot.features.n.a.c.<init>(PG:16)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at com.google.android.apps.gsa.staticplugins.searchboxroot.b.a(PG:14)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at com.google.android.apps.gsa.staticplugins.searchboxroot.x.<init>(PG:7)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at com.google.android.apps.gsa.binaries.velvet.app.akd.b(PG:15)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at dagger.a.e.b(PG:1)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at com.google.android.apps.gsa.staticplugins.searchboxroot.a.a.a(PG:3)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at com.google.android.apps.gsa.binaries.velvet.app.ok.f(Unknown Source:2541)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at com.google.android.apps.gsa.binaries.velvet.app.ok.b(PG:1)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at com.google.android.apps.gsa.search.core.service.g.a.c.a(PG:2)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at com.google.android.libraries.gsa.k.a.f.a(PG:2)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at com.google.common.util.concurrent.dx.a(PG:1)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at com.google.common.util.concurrent.cv.run(PG:4)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at com.google.common.util.concurrent.dz.run(PG:1)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at com.google.android.libraries.i.ae.run(PG:1)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at com.google.android.libraries.i.k.run(PG:2)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at com.google.android.libraries.i.p.run(PG:4)
+11-18 22:05:28.708  3795  4002 W CorpusConfigHelper: 	at java.lang.Thread.run(Thread.java:1012)
+11-18 22:05:28.730  3795  3795 W A       : Queue length for executor EventBus is now 11. Perhaps some tasks are too long, or the pool is too small.
+11-18 22:05:28.732  3795  3945 E HotwordModelPopulator: Failed to add hotword file group for 'hotword_model_en-US_okhey' from location: https://www.gstatic.com/android-search/hotword/x_google/975058821313279e27b2c3f04de0beef/hotword.data
+11-18 22:05:28.732  3795  4155 W A       : UiCallbackStub-onGenericEvent[ServiceEvent = 241] task was not run. Callback from Service received after client was disposed.
+11-18 22:05:28.733  3795  4155 W A       : UiCallbackStub-onGenericEvent[ServiceEvent = 241] task was not run. Callback from Service received after client was disposed.
+11-18 22:05:28.734  4783  4825 I TestRunner: finished: links(io.github.avsessisozx.instagramindirici.DeviceVectorsTest)
