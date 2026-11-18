@@ -297,7 +297,7 @@ jobs:
             dist/InstagramIndirici-apk/*.apk
             dist/InstagramIndirici-Chrome/InstagramIndirici-Chrome.zip
           body: |
-            **Bu sürümde (yalnız Windows):** Yeni **Koleksiyonlar** sekmesi. Instagram'da kaydettiğin koleksiyonlar listelenir. Bir koleksiyonun tüm gönderilerini tek klasöre indirebilir ya da koleksiyondaki hesapları listeleyip seçtiklerinin tüm profilini indirebilirsin. Sahte Instagram'la test edildi, gerçek hesapta henüz denenmedi. Instagram doğrudan isteği reddederse program sayfayı kaydırarak okur. Android ve Chrome eklentisinde henüz yok.
+            **Bu sürümde (yalnız Windows):** Koleksiyonlar sekmesi düzeltildi. Instagram doğrudan isteği reddedince kullanıcı adın artık sayfadan okunuyor, kaydedilenler sayfası kaydırılarak okunuyor. Hata olursa raporda hangi sayfanın açıldığı yazar. Gerçek hesapta henüz doğrulanmadı. Android ve Chrome eklentisinde henüz yok.
 
             **Windows:** `InstagramIndirici.exe` dosyasını indir, çift tıklayıp aç. Kurulum gerekmez.
             İlk açılışta Windows "Bilgisayarınız korundu" uyarısı verebilir: **Ek bilgi → Yine de çalıştır**.

@@ -754,6 +754,18 @@ class IntegrationTests(unittest.TestCase):
         real = sorted(c["name"] for c in snap["collections"] if c["name"])
         self.assertEqual(real, ["All posts", "Gezi", "Tarifler"])
 
+    def test_f2b_username_comes_from_page_when_api_is_rate_limited(self):
+        self.ensure_login()
+        self.fake.coll_rest_refused = True
+        self.fake.me_api_429 = True
+        try:
+            snap, _ = self.run_job("", "collections")
+        finally:
+            self.fake.me_api_429 = False
+        self.assertEqual(snap["phase"], "done", snap["summary"])
+        real = sorted(c["name"] for c in snap["collections"] if c["name"])
+        self.assertEqual(real, ["All posts", "Gezi", "Tarifler"])
+
     def test_f3_collection_posts_go_to_one_folder(self):
         self.ensure_login()
         snap, out = self.run_job("", "collection_posts", extra={"id": fi.COLL_RECIPES, "name": "Tarifler"})
